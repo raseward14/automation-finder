@@ -1,0 +1,19 @@
+{
+  "name": "my-coordinates",
+  "version": "1.0.0",
+  "description": "A react app supported by typescript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raseward14/my-coordinates.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raseward14/my-coordinates/issues"
+  },
+  "homepage": "https://github.com/raseward14/my-coordinates#readme"
+}
