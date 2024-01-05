@@ -7,3 +7,9 @@ This could potentially be a task creation app that creates apps that automatical
 - a location service - https://www.w3schools.com/html/html5_geolocation.asp HTML Geolocation API - https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API MDM web docs on Geolocation API - https://developers.google.com/maps/documentation/geocoding/overview Google Geolocation API (I already have cridentials for this one I believe)
 
 So essentially the user authorizes the integration, then can use the app to create tasks that are always geocoded on a Custom Field with their current location.
+
+# potential structure
+
+- LandingPage: could include a general explanation and UI for the OAUTH flow
+- CreateTaskPage: fields for the Create Task request, add the APIs above
+- 404 page 
