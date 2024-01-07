@@ -2,9 +2,13 @@
   "name": "my-coordinates",
   "version": "1.0.0",
   "description": "A react app supported by typescript.",
-  "main": "index.js",
+  "main": "./server/src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "cd server && npm run start",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\" \"cd server && npm run start\"",
+    "client": "cd client && npm run start"
   },
   "repository": {
     "type": "git",
@@ -15,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/raseward14/my-coordinates/issues"
   },
-  "homepage": "https://github.com/raseward14/my-coordinates#readme"
+  "homepage": "https://github.com/raseward14/my-coordinates#readme",
+  "dependencies": {
+    "if-env": "^1.0.4"
+  }
 }
