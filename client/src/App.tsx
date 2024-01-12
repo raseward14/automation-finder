@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import OAuthClickUp from "./components/oauth";
+import Layout from './components/Layout';
 import { io, Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "./models/socket";
 
@@ -17,6 +18,7 @@ const App: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/' index element={<Layout />}></Route>
         <Route path="/oauth" element={<OAuthClickUp />}></Route>
         <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
       </Routes>
