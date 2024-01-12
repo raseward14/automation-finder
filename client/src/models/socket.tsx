@@ -6,14 +6,13 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   hello: () => void;
-  "Getting Authorization Code": () => void;
+  dataRecieved: (data: APIToken) => void;
 }
 
 export interface InterServerEvents {
   ping: () => void;
 }
 
-export interface SocketData {
-  name: string;
-  age: number;
+export interface APIToken {
+  token: string;
 }

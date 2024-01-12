@@ -11,19 +11,6 @@ const socketPort = process.env.SOCKET_PORT || 3002;
 app.use(cors());
 app.use(express.json());
 
-const httpServer = createServer();
-const io = new Server<
-  ClientToServerEvents,
-  ServerToClientEvents,
-  InterServerEvents,
-  SocketData
->(httpServer, {
-  cors: {
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  },
-});
-
 interface ServerToClientEvents {
   noArg: () => void;
   basicEmit: (a: number, b: string, c: Buffer) => void;
@@ -32,16 +19,30 @@ interface ServerToClientEvents {
 
 interface ClientToServerEvents {
   hello: () => void;
+  dataReceieved: (data: APIToken) => void;
 }
 
 interface InterServerEvents {
   ping: () => void;
 }
 
-interface SocketData {
-  name: string;
-  age: number;
+interface APIToken {
+  token: string;
 }
+
+const httpServer = createServer();
+const io = new Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  APIToken
+>(httpServer, {
+  cors: {
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
+});
+
 // server-side
 io.on("connection", (socket: { id: any }) => {
   console.log(socket.id); // x8WIv7-mJelg7on_ALbx

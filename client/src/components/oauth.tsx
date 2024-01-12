@@ -52,6 +52,9 @@ export default function OAuthClickUp() {
       .then((resp) => {
         setAccessToken(JSON.stringify(resp.data.access_token));
         setGotToken(true);
+        socket.emit("dataRecieved", {
+          token: accessToken,
+        });
       })
       .catch((error) => {
         console.log(error);
