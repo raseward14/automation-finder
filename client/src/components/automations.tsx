@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+// import fetch from 'node-fetch';
+// import { HttpsProxyAgent } from 'https-proxy-agent';
 import * as AutomationAPIFunctions from '../utils/AutomationsAPI';
 
 const Automations = () => {
@@ -13,11 +15,23 @@ const Automations = () => {
   let triggerIDArray;
 
   const getShard = async () => {
-    fetch(`https://app.clickup.com/shard/v1/handshake/${workspaceID}`, {
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    // cors error
+    // proxy config
+    // const proxyHost = `localhost`;
+    // const proxyPort = 3000;
+    
+    // target website URL
+    // const targetURL = `https://app.clickup.com/shard/v1/handshake/${workspaceID}`;
+
+    // proxy URL
+    // const proxyURL = `http://${proxyHost}:${proxyPort}`;
+
+    // new proxy agent
+    // const proxyAgent = new HttpsProxyAgent(proxyURL);
+
+    // const response = await fetch(targetURL, { agent: proxyAgent });
+    // const html = await response.text();
+    // console.log(html);
   };
 
   function printBearer(): void {
@@ -65,13 +79,9 @@ const Automations = () => {
     });
   };
 
-  useEffect(() => {
-    console.log('useEffet fired');
-    getShard();
-  });
-
   // useEffect(() => {
-  //   console.log(bearer)
+  //   console.log('useEffet fired');
+  //   // getShard();
   // });
 
   return (
