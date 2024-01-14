@@ -30,6 +30,9 @@ const Nav = () => {
                     <td><Link to='/oauth'>Connect ClickUp</Link></td>
                 </tr>
                 <tr>
+                    <td><Link to='/automations'>Automations</Link></td>
+                </tr>
+                <tr>
                     <td><Link to='/' onClick={logout}>Logout</Link></td>
                 </tr>
             </tbody>
