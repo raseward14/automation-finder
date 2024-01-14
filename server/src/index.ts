@@ -2,7 +2,8 @@ import express, { Request, Response } from "express";
 const cors = require("cors");
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { Axios } from "axios";
+import { WorkspaceRoutes } from "./routes/WorkspaceRoutes";
+export const routes = express.Router();
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -74,6 +75,8 @@ app.post("/token", async (req: Request, res: Response): Promise<any> => {
   console.log(data);
   res.send(data);
 });
+
+routes.use(WorkspaceRoutes);
 
 httpServer.listen(socketPort, () => {
   console.log(`Server running at http://localhost:${socketPort}`);

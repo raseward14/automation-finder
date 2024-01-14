@@ -9,7 +9,7 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3002"
 );
 
-export default function OAuthClickUp({ sendAccessToken }) {
+export default function OAuthClickUp() {
   const [accessCode, setAccessCode] = useState<string>("");
   const [accessToken, setAccessToken] = useState<string>("");
   const [gotCode, setGotCode] = useState<boolean>(false);
@@ -51,7 +51,6 @@ export default function OAuthClickUp({ sendAccessToken }) {
       })
       .then((resp) => {
         setAccessToken(JSON.stringify(resp.data.access_token));
-        sendAccessToken(JSON.stringify(resp.data.access_token));
         setGotToken(true);
       })
       .catch((error) => {

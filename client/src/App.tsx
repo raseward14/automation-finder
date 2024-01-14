@@ -12,27 +12,18 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
 );
 
 const App: React.FC<{}> = () => {
-  const [accessToken, setAcccessToken] = useState();
   // client-side
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
 
-  const OAuthProps = {
-    accessToken: accessToken
-  };
-
-  useEffect(() => {
-    console.log(`the accessToken is ${accessToken}`)
-  })
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' index element={<Layout />}></Route>
-        <Route path="/oauth" element={<OAuthClickUp sendAccessToken={setAcccessToken} />}></Route>
-        <Route path="/oauth/success" element={<OAuthClickUp sendAccessToken={setAcccessToken} />}></Route>
-        <Route path="/automations" element={<Automations accessToken={OAuthProps} />}></Route>
+        <Route path="/oauth" element={<OAuthClickUp />}></Route>
+        <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
+        <Route path="/automations" element={<Automations />}></Route>
       </Routes>
     </BrowserRouter>
   );
