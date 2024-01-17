@@ -1,10 +1,9 @@
-import { Router, Request, Response } from 'express';
-
-export const AutomationRoutes = Router();
+import { Request, Response } from 'express';
+const AutomationRoutes = require('express').Router()
 
 // get shard
 AutomationRoutes.get(
-  '/automation/shard',
+  '/shard',
   async (req: Request, res: Response): Promise<any> => {
     const teamId = req.body.teamId;
     console.log(req.body.teamId);
@@ -26,7 +25,7 @@ AutomationRoutes.get(
 
 // get space automations
 AutomationRoutes.get(
-  '/automation/space',
+  '/space',
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
     const spaceId = req.body.spaceId;
@@ -54,7 +53,7 @@ AutomationRoutes.get(
 
 // get folder automations
 AutomationRoutes.get(
-  '/automation/folder',
+  '/folder',
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
     const folderId = req.body.folderId;
@@ -82,7 +81,7 @@ AutomationRoutes.get(
 
 // get list automations
 AutomationRoutes.get(
-  '/automation/list',
+  '/list',
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
     const listId = req.body.listId;
@@ -107,4 +106,6 @@ AutomationRoutes.get(
     }
   }
 );
+
+export default AutomationRoutes;
 

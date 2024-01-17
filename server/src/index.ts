@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 const cors = require("cors");
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { AutomationRoutes } from "./routes/AutomationRoutes";
-import { WorkspaceRoutes } from "./routes/WorkspaceRoutes";
-export const routes = express.Router();
+import AutomationRoutes from "./routes/AutomationRoutes";
+import WorkspaceRoutes from "./routes/WorkspaceRoutes";
+// export const routes = express.Router();
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -77,29 +77,10 @@ app.post("/token", async (req: Request, res: Response): Promise<any> => {
   res.send(data);
 });
 
-// works here, but not in routes folder
-// app.get(
-//   '/automation/shard',
-//   async (req: Request, res: Response): Promise<any> => {
-//     const teamId = req.body.teamId;
-//     console.log(req.body.teamId);
+// routes.use(WorkspaceRoutes);
+app.use('/workspace', WorkspaceRoutes);
+app.use('/automation', AutomationRoutes);
 
-//     try {
-//       const response = await fetch(
-//         `https://app.clickup.com/shard/v1/handshake/10618731`,
-//         { method: 'GET' }
-//       );
-//       const data = await response.text();
-//       console.log(data);
-//       res.status(200).json(data);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   }
-// );
-
-routes.use(WorkspaceRoutes);
-routes.use(AutomationRoutes);
 
 httpServer.listen(socketPort, () => {
   console.log(`Server running at http://localhost:${socketPort}`);

@@ -1,10 +1,11 @@
 import { Router, Request, Response } from "express";
 
-export const WorkspaceRoutes = Router();
+// export const WorkspaceRoutes = Router();
+const WorkspaceRoutes = require('express').Router()
 
 //get a list of authorized workspaces
 WorkspaceRoutes.get(
-  "/workspace/teams",
+  "/teams",
   async (req: Request, res: Response): Promise<any> => {
     const resp = await fetch(`https://api.clickup.com/api/v2/team`, {
       method: "GET",
@@ -21,7 +22,7 @@ WorkspaceRoutes.get(
 
 //get list of Spaces in a Workspace
 WorkspaceRoutes.get(
-  "/workspace/spaces",
+  "/spaces",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
       archived: "false",
@@ -46,7 +47,7 @@ WorkspaceRoutes.get(
 
 //get list of Folders in a Workspace
 WorkspaceRoutes.get(
-  "/workspace/folders",
+  "/folders",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
       archived: "false",
@@ -71,7 +72,7 @@ WorkspaceRoutes.get(
 
 //get list of folderless lists
 WorkspaceRoutes.get(
-  "/workspace/folderless/lists",
+  "/folderless/lists",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
       archived: "false",
@@ -96,7 +97,7 @@ WorkspaceRoutes.get(
 
 //get list of lists
 WorkspaceRoutes.get(
-  "/workspace/lists",
+  "/lists",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
       archived: "false",
@@ -121,7 +122,7 @@ WorkspaceRoutes.get(
 
 //get list of tasks
 WorkspaceRoutes.get(
-  "/workspace/tasks",
+  "/tasks",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
       archived: "false",
@@ -162,3 +163,5 @@ WorkspaceRoutes.get(
     res.status(200).json(data);
   }
 );
+
+export default WorkspaceRoutes;
