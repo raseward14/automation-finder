@@ -1,10 +1,9 @@
-import { Router, Request, Response } from 'express';
-
-export const AutomationRoutes = Router();
+import { Request, Response } from 'express';
+const AutomationRoutes = require('express').Router()
 
 // get shard
-AutomationRoutes.route('/shard').get(
-  
+AutomationRoutes.get(
+  '/shard',
   async (req: Request, res: Response): Promise<any> => {
     const teamId = req.body.teamId;
     console.log(req.body.teamId);
@@ -107,4 +106,6 @@ AutomationRoutes.get(
     }
   }
 );
+
+export default AutomationRoutes;
 

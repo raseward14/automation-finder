@@ -5,7 +5,7 @@ const Automations = () => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
   const [shard, setShard] = useState('prod-us-east-2-1');
 
-  const [workspaceID, setWorkspaceID] = useState(10618731);
+  const [workspaceID, setWorkspaceID] = useState('10618731');
   const [spaceIDs, setSpaceIDs] = useState([16903372]);
   const [folderIDs, setFolderIDs] = useState([90111363530]);
   const [listIDs, setListIDs] = useState([192288379]);
@@ -20,16 +20,16 @@ const Automations = () => {
       'shard'
     ) as HTMLOutputElement;
     const workspaceInput = workspaceId.value;
-    printValue.textContent = workspaceInput.toString();
-    // setWorkspaceID(workspaceInput)
+    setWorkspaceID(workspaceInput)
     
     const res = await axios.get('/automation/shard', {
       data: {
-        teamId: workspaceID
+        teamId: workspaceId.value
       }
     });
     const data = res.data();
     console.log(data);
+    // printValue.textContent = workspaceInput.toString();
     // setShard(data.shard);
   };
 
