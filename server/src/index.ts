@@ -5,6 +5,8 @@ import { Server } from "socket.io";
 import { AutomationRoutes } from "./routes/AutomationRoutes";
 import { WorkspaceRoutes } from "./routes/WorkspaceRoutes";
 export const routes = express.Router();
+const router = require('express').Router();
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -98,8 +100,9 @@ app.post("/token", async (req: Request, res: Response): Promise<any> => {
 //   }
 // );
 
-routes.use(WorkspaceRoutes);
-routes.use(AutomationRoutes);
+// routes.use(WorkspaceRoutes);
+router.use('/automation/shard', AutomationRoutes);
+
 
 httpServer.listen(socketPort, () => {
   console.log(`Server running at http://localhost:${socketPort}`);
