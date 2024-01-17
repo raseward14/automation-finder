@@ -4,12 +4,15 @@ import { APIConstants } from "../constants"; //object of secret values: export c
 import { Button, Col } from "react-bootstrap";
 import { ClientToServerEvents, ServerToClientEvents } from "../models/socket";
 import { Socket, io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
+import Workspace from "./workspace";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3002"
 );
 
 export default function OAuthClickUp() {
+  const navigate = useNavigate();
   const [accessCode, setAccessCode] = useState<string>("");
   const [accessToken, setAccessToken] = useState<string>("");
   const [gotCode, setGotCode] = useState<boolean>(false);
@@ -50,7 +53,9 @@ export default function OAuthClickUp() {
         code: accessCode,
       })
       .then((resp) => {
-        setAccessToken(JSON.stringify(resp.data.access_token));
+        setAccessToken(
+          JSON.stringify(resp.data.access_token).replace(/^"(.*)"$/, "$1")
+        );
         setGotToken(true);
       })
       .catch((error) => {
@@ -80,6 +85,13 @@ export default function OAuthClickUp() {
           <h1>ClickUp Authorized</h1>
           <h2>Access Code: {accessCode}</h2>
           <h2>Access Token: {accessToken}</h2>
+          <Button
+            variant="dark"
+            onClick={() => {
+              navigate(`/workspace/${accessToken}`);
+            }}>
+            Workspace
+          </Button>
         </Col>
       )}
     </div>
