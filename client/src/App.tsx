@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import OAuthClickUp from "./components/oauth";
 import Layout from "./components/Layout";
-import Automations from "./components/automations";
+import Automations from "./components/Automations/automations";
 import { io, Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "./models/socket";
 import { access } from "fs";

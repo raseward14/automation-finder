@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./style.css";
 
 const Automations = () => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
@@ -22,14 +23,11 @@ const Automations = () => {
     const workspaceInput = workspaceId.value;
     setWorkspaceID(workspaceInput)
     
-    const res = await axios.get('/automation/shard', {
-      data: {
+    const res = await axios.post('http://localhost:3001/automation/shard', {
         teamId: workspaceId.value
-      }
     });
-    const data = res.data();
-    console.log(data);
-    // printValue.textContent = workspaceInput.toString();
+    const shard = res.data;
+    printValue.textContent = shard;
     // setShard(data.shard);
   };
 
@@ -79,7 +77,7 @@ const Automations = () => {
   };
 
   return (
-    <div>
+    <div className="automations-container">
       <h1>The automations page</h1>
       <span>Enter a bearer token</span>
       <br />

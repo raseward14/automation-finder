@@ -78,6 +78,7 @@ app.post("/token", async (req: Request, res: Response): Promise<any> => {
 });
 
 routes.use(WorkspaceRoutes);
+routes.use(AutomationRoutes);
 app.use("/workspace", WorkspaceRoutes);
 app.use("/automation", AutomationRoutes);
 

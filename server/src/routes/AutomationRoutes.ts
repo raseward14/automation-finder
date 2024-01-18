@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 const AutomationRoutes = require('express').Router()
 
 // get shard
-AutomationRoutes.get(
+AutomationRoutes.post(
   '/shard',
   async (req: Request, res: Response): Promise<any> => {
     const teamId = req.body.teamId;
@@ -10,12 +10,12 @@ AutomationRoutes.get(
 
     try {
       const response = await fetch(
-        `https://app.clickup.com/shard/v1/handshake/10618731`,
-        { method: 'GET' }
+        `https://app.clickup.com/shard/v1/handshake/${teamId}`,
+        { method: "GET" }
       );
-      const data = await response.text();
-      console.log(data);
-      res.status(200).json(data);
+      const data = await response.json();
+      const shard = data.shardId;
+      res.status(200).json(shard);
     } catch (err) {
       res.status(500).json(err);
     }
