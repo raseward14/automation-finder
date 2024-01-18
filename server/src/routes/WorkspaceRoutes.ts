@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
 
 // export const WorkspaceRoutes = Router();
-const WorkspaceRoutes = require('express').Router()
+const WorkspaceRoutes = require("express").Router();
 
 //get a list of authorized workspaces
-WorkspaceRoutes.get(
+WorkspaceRoutes.post(
   "/teams",
   async (req: Request, res: Response): Promise<any> => {
     const resp = await fetch(`https://api.clickup.com/api/v2/team`, {
@@ -21,7 +21,7 @@ WorkspaceRoutes.get(
 );
 
 //get list of Spaces in a Workspace
-WorkspaceRoutes.get(
+WorkspaceRoutes.post(
   "/spaces",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
@@ -46,7 +46,7 @@ WorkspaceRoutes.get(
 );
 
 //get list of Folders in a Workspace
-WorkspaceRoutes.get(
+WorkspaceRoutes.post(
   "/folders",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
@@ -71,7 +71,7 @@ WorkspaceRoutes.get(
 );
 
 //get list of folderless lists
-WorkspaceRoutes.get(
+WorkspaceRoutes.post(
   "/folderless/lists",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
@@ -96,7 +96,7 @@ WorkspaceRoutes.get(
 );
 
 //get list of lists
-WorkspaceRoutes.get(
+WorkspaceRoutes.post(
   "/lists",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
@@ -121,7 +121,7 @@ WorkspaceRoutes.get(
 );
 
 //get list of tasks
-WorkspaceRoutes.get(
+WorkspaceRoutes.post(
   "/tasks",
   async (req: Request, res: Response): Promise<any> => {
     const query = new URLSearchParams({
