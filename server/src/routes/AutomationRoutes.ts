@@ -24,7 +24,7 @@ AutomationRoutes.post(
 
 
 // get space automations
-AutomationRoutes.get(
+AutomationRoutes.post(
   '/space',
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
@@ -52,7 +52,7 @@ AutomationRoutes.get(
 );
 
 // get folder automations
-AutomationRoutes.get(
+AutomationRoutes.post(
   '/folder',
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
@@ -80,7 +80,7 @@ AutomationRoutes.get(
 );
 
 // get list automations
-AutomationRoutes.get(
+AutomationRoutes.post(
   '/list',
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
