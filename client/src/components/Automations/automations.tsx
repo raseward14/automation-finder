@@ -28,7 +28,7 @@ const Automations = () => {
     });
     const shard = res.data;
     printValue.textContent = shard;
-    // setShard(data.shard);
+    setShard(shard);
   };
 
   function printBearer(): void {
@@ -86,7 +86,7 @@ const Automations = () => {
       <br />
       <button onClick={() => printBearer()}>Print</button>
       <h3>
-        You entered: <output id="enteredNumber"></output>
+        Your bearer token is: <output id="enteredNumber"></output>
       </h3>
 
       <input type="text" id="workspaceId-input" placeholder="workspaceId" />
