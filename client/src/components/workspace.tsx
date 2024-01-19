@@ -3,7 +3,11 @@ import axios from "axios";
 import { Container, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function Workspace() {
+type workspacePropList = {
+  firstProp: (a: JSON | undefined) => void
+}
+
+export default function Workspace({ firstProp }: workspacePropList) {
   let { token } = useParams();
   const [teamData, setTeamData] = useState<JSON>();
 
@@ -16,7 +20,11 @@ export default function Workspace() {
       .catch((error) => {
         console.log(error);
       });
-  };
+    };
+    
+  useEffect(() => {
+    firstProp(teamData)
+  }, [teamData])
 
   useEffect(() => {
     GetTeams();

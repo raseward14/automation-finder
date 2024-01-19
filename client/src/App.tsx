@@ -19,6 +19,11 @@ const App: React.FC<{}> = () => {
   });
 
   const [token, setToken] = useState<string>("");
+  const [workspaceData, setWorkspaceData] = useState<JSON>();
+
+  const testFunction = (data: JSON | undefined) => {
+    setWorkspaceData(data);
+  };
 
   return (
     <BrowserRouter>
@@ -26,8 +31,8 @@ const App: React.FC<{}> = () => {
         <Route path="/" index element={<Layout />}></Route>
         <Route path="/oauth" element={<OAuthClickUp />}></Route>
         <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-        <Route path="/automations" element={<Automations />}></Route>
-        <Route path="/workspace/:token" element={<Workspace />}></Route>
+        <Route path="/automations" element={<Automations firstProp={workspaceData} />}></Route>
+        <Route path="/workspace/:token" element={<Workspace firstProp={testFunction} />}></Route>
       </Routes>
     </BrowserRouter>
   );
