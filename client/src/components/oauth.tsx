@@ -88,8 +88,7 @@ export default function OAuthClickUp() {
           <Button
             variant="dark"
             onClick={() => {
-              // navigate(`/workspace/${accessToken}`);
-              navigate('/automations')
+              navigate(`/workspace/${accessToken}`);
             }}>
             Workspace
           </Button>

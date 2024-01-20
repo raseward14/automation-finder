@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./style.css";
 
-const Automations = () => {
+type AutomationPropList = {
+  firstProp: JSON | undefined
+}
+
+const Automations = (props: AutomationPropList) => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
   const [shard, setShard] = useState('prod-us-east-2-1');
 
@@ -24,9 +28,10 @@ const Automations = () => {
     setWorkspaceID(workspaceInput)
     
     const res = await axios.post('http://localhost:3001/automation/shard', {
-        teamId: workspaceId.value
+        teamId: props.firstProp
     });
     const shard = res.data;
+    console.log('from Automations page', props.firstProp)
     printValue.textContent = shard;
     setShard(shard);
   };
@@ -75,6 +80,14 @@ const Automations = () => {
       // console.log(`space ${id} workflow: ${workflowLog}`);
     });
   };
+
+  useEffect(() => {
+    printShard();
+    // console.log(yourTeamData)
+    // get Spaces
+    // for each Space, get Folders, get Folderless lists
+    // for each Folder, get lists
+  })
 
   return (
     <div className="automations-container">
