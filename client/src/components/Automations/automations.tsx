@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./style.css";
 
-const Automations = () => {
+type AutomationPropList = {
+  firstProp: JSON | undefined
+}
+
+const Automations = (props: AutomationPropList) => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
   const [shard, setShard] = useState('prod-us-east-2-1');
 
@@ -22,15 +27,13 @@ const Automations = () => {
     const workspaceInput = workspaceId.value;
     setWorkspaceID(workspaceInput)
     
-    const res = await axios.get('/automation/shard', {
-      data: {
-        teamId: workspaceId.value
-      }
+    const res = await axios.post('http://localhost:3001/automation/shard', {
+        teamId: props.firstProp
     });
-    const data = res.data();
-    console.log(data);
-    // printValue.textContent = workspaceInput.toString();
-    // setShard(data.shard);
+    const shard = res.data;
+    console.log('from Automations page', props.firstProp)
+    printValue.textContent = shard;
+    setShard(shard);
   };
 
   function printBearer(): void {
@@ -78,8 +81,16 @@ const Automations = () => {
     });
   };
 
+  useEffect(() => {
+    printShard();
+    // console.log(yourTeamData)
+    // get Spaces
+    // for each Space, get Folders, get Folderless lists
+    // for each Folder, get lists
+  })
+
   return (
-    <div>
+    <div className="automations-container">
       <h1>The automations page</h1>
       <span>Enter a bearer token</span>
       <br />
@@ -88,7 +99,7 @@ const Automations = () => {
       <br />
       <button onClick={() => printBearer()}>Print</button>
       <h3>
-        You entered: <output id="enteredNumber"></output>
+        Your bearer token is: <output id="enteredNumber"></output>
       </h3>
 
       <input type="text" id="workspaceId-input" placeholder="workspaceId" />
