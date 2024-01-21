@@ -4,10 +4,10 @@ import { Button, Container, Col, ContainerProps } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type workspacePropList = {
-  firstProp: (a: string) => void;
+  teamCallback: (a: string) => void;
 };
 
-export default function Workspace({ firstProp }: workspacePropList) {
+export default function Workspace({ teamCallback }: workspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
   const [teamData, setTeamData] = useState<JSON>();
@@ -49,7 +49,7 @@ export default function Workspace({ firstProp }: workspacePropList) {
           return team;
         };
       });
-      firstProp(teamObject);
+      teamCallback(teamObject);
       navigate('/automations');
     }
   };

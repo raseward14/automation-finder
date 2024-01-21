@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "./style.css";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './style.css';
 
 type AutomationPropList = {
-  firstProp: string
-}
+  teamId: string;
+};
 
 const Automations = (props: AutomationPropList) => {
-  const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
-  const [shard, setShard] = useState<string>('');
+  // inputs - manual
+  const [bearer, setBearer] = useState<string>('');
+  const [triggerId, setTriggerId] = useState<string>('');
 
-  const [workspaceID, setWorkspaceID] = useState<string>(props.firstProp);
+  // passed from workspace.tsx - done
+  const [workspaceID, setWorkspaceID] = useState<string>(props.teamId);
+  // sets dynamically by workspaceID on page load
+  const [shard, setShard] = useState<string>('');
+  
+  // still need these, temporary placeholders - in progress
   const [spaceIDs, setSpaceIDs] = useState([16903372]);
   const [folderIDs, setFolderIDs] = useState([90111363530]);
   const [listIDs, setListIDs] = useState([192288379]);
-  // const [triggerId, setTriggerId] = useState<string>();
 
+  // to store all triggerIds from all spaces, folders, lists
   let triggerIDArray;
 
-  const printShard = async () => {
-    const printValue = document.getElementById(
-      'shard'
-    ) as HTMLOutputElement;
-    if(workspaceID.length > 1) {
+  const printShardFromWorkspaceId = async () => {
+    const printValue = document.getElementById('shard') as HTMLOutputElement;
+    if (workspaceID.length > 1) {
       const res = await axios.post('http://localhost:3001/automation/shard', {
-          teamId: workspaceID
+        teamId: workspaceID,
       });
       const shard = res.data;
       printValue.textContent = shard;
@@ -36,18 +40,6 @@ const Automations = (props: AutomationPropList) => {
     // for each Space, get Folders, get Folderless lists
     // for each Folder, get lists
   };
-
-  function printBearer(): void {
-    const bearerValue = document.getElementById(
-      'bearer-input'
-    ) as HTMLInputElement;
-    const printValue = document.getElementById(
-      'enteredNumber'
-    ) as HTMLOutputElement;
-    const bearerInput = bearerValue.value;
-    printValue.textContent = bearerInput.toString();
-    setBearer(bearerInput);
-  }
 
   const getListAutomations = (listIDs: number[]) => {
     listIDs.forEach((id) => {
@@ -82,7 +74,19 @@ const Automations = (props: AutomationPropList) => {
     });
   };
 
-  const findAutomation = () => {
+  function printBearer(): void {
+    const bearerValue = document.getElementById(
+      'bearer-input'
+    ) as HTMLInputElement;
+    const printValue = document.getElementById(
+      'enteredNumber'
+    ) as HTMLOutputElement;
+    const bearerInput = bearerValue.value;
+    printValue.textContent = bearerInput.toString();
+    setBearer(bearerInput);
+  }
+
+  const printTriggerId = () => {
     // use functions above to find automation by trigger_id
     const trigger = document.getElementById(
       'trigger-input'
@@ -92,12 +96,26 @@ const Automations = (props: AutomationPropList) => {
       'trigger-output'
     ) as HTMLOutputElement;
     printValue.textContent = triggerInput.toString();
-    // setTriggerId(triggerInput);
+    setTriggerId(triggerInput);
   };
 
   useEffect(() => {
-      printShard();
-  },[])
+    printShardFromWorkspaceId();
+  }, []);
+
+  // useEffects for what this component has
+  useEffect(() => {
+    console.log(`workspaceID being searched: ${workspaceID}`);
+  }, [workspaceID]);
+  useEffect(() => {
+    console.log(`workspace shard: ${shard}`);
+  }, [shard]);
+  useEffect(() => {
+    console.log(`triggerID being searched: ${triggerId}`);
+  }, [triggerId]);
+  useEffect(() => {
+    console.log(`bearer token for ?workflow endpoint: ${bearer}`);
+  }, [bearer]);
 
   return (
     <div className="automations-container">
@@ -119,12 +137,12 @@ const Automations = (props: AutomationPropList) => {
       <br />
       <input type="text" id="trigger-input" placeholder="triggerId" />
       <br />
-      <button onClick={() => findAutomation()}>Find Automation</button>
+      <button onClick={() => printTriggerId()}>Find Automation</button>
       <h4>
         Your trigger_id: <output id="trigger-output"></output>
       </h4>
       <h4>
-        Your Automation is: <output id="automation"></output>
+        Your Automation is: <output id="automation">placeholder</output>
       </h4>
     </div>
   );
