@@ -82,12 +82,14 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
-    printShard();
+    if(props.firstProp !== undefined) {
+      printShard();
+    }
     // console.log(yourTeamData)
     // get Spaces
     // for each Space, get Folders, get Folderless lists
     // for each Folder, get lists
-  })
+  }, [props.firstProp])
 
   return (
     <div className="automations-container">
