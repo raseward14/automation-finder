@@ -7,20 +7,11 @@ type workspacePropList = {
   firstProp: (a: JSON | undefined) => void;
 };
 
-type WrapperProps = {
-  children: JSX.Element;
-};
-
-function Wrapper (props: WrapperProps) {
-  return <div>{props.children}</div>;
-};
-
 export default function Workspace({ firstProp }: workspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
   const [teamData, setTeamData] = useState<JSON>();
   const [teamArray, setTeamArray] = useState<Object[]>();
-
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -36,18 +27,21 @@ export default function Workspace({ firstProp }: workspacePropList) {
       });
   };
 
-  const listButtons = (data: any) => {
+  const createButtons = (data: any) => {
     if (data !== undefined) {
       let jsonData = JSON.parse(data);
       let teamArr = jsonData.teams;
-      setTeamArray(teamArr);
-      console.log(teamArr);
+
+      const teamNames = teamArr.map((team: any, index: number) => {
+        return team.name;
+      });
+      setTeamArray(teamNames);
     }
   };
 
   useEffect(() => {
     if (teamData !== undefined) {
-      listButtons(teamData);
+      createButtons(teamData);
       firstProp(teamData);
     }
   }, [teamData]);
@@ -58,18 +52,25 @@ export default function Workspace({ firstProp }: workspacePropList) {
 
   return (
     <Container>
-      <>
-      {teamArray?.forEach((team: object) => {
-        console.log(team)
-      })}
-      <Button
-        onClick={() => {
-          navigate('/automations');
-        }}
-      >
-        Automations
-      </Button>
-      </>
+      <table>
+        <tbody>
+          <th>Click Workspace to find Automation</th>
+          {teamArray?.map((team: any, i: number) => (
+            <tr>
+              <td>
+                <Button
+                  key={i}
+                  onClick={() => {
+                    navigate('/automations');
+                  }}
+                >
+                  {`${team}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </Container>
   );
 }
