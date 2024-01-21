@@ -4,7 +4,7 @@ import { Button, Container, Col, ContainerProps } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type workspacePropList = {
-  firstProp: (a: JSON | undefined) => void;
+  firstProp: (a: string) => void;
 };
 
 export default function Workspace({ firstProp }: workspacePropList) {
@@ -12,6 +12,7 @@ export default function Workspace({ firstProp }: workspacePropList) {
   const navigate = useNavigate();
   const [teamData, setTeamData] = useState<JSON>();
   const [teamArray, setTeamArray] = useState<Object[]>();
+  const [clickedTeam, setClickedTeam] = useState<JSON>();
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -39,10 +40,27 @@ export default function Workspace({ firstProp }: workspacePropList) {
     }
   };
 
+  const sendTeam = (data: any) => {
+    if(data !== undefined) {
+      const jsonData = JSON.parse(data);
+      const teamArr = (jsonData.teams);
+      const teamObject = teamArr.filter((team: any, i: number) => {
+        if(team.name === clickedTeam) {
+          return team;
+        };
+      });
+      console.log(teamObject)
+      firstProp(teamObject);
+    }
+  };
+
+  useEffect(()=> {
+    sendTeam(teamData);
+  }, [clickedTeam]);
+
   useEffect(() => {
     if (teamData !== undefined) {
       createButtons(teamData);
-      firstProp(teamData);
     }
   }, [teamData]);
 
@@ -56,12 +74,13 @@ export default function Workspace({ firstProp }: workspacePropList) {
         <tbody>
           <th>Click Workspace to find Automation</th>
           {teamArray?.map((team: any, i: number) => (
-            <tr>
-              <td>
+            <tr key={i}>
+              <td key={i}>
                 <Button
                   key={i}
                   onClick={() => {
-                    navigate('/automations');
+                    setClickedTeam(team);
+                    // navigate('/automations');
                   }}
                 >
                   {`${team}`}

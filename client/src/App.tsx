@@ -19,10 +19,11 @@ const App: React.FC<{}> = () => {
   });
 
   const [token, setToken] = useState<string>("");
-  const [workspaceData, setWorkspaceData] = useState<JSON>();
+  const [workspaceData, setWorkspaceData] = useState<string>("");
 
-  const testFunction = (data: JSON | undefined) => {
-    setWorkspaceData(data);
+  const testFunction = (data: any) => {
+    console.log(data[0].id);
+    setWorkspaceData(data[0].id);
   };
 
   return (

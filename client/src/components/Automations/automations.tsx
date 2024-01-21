@@ -3,37 +3,38 @@ import axios from "axios";
 import "./style.css";
 
 type AutomationPropList = {
-  firstProp: JSON | undefined
+  firstProp: string
 }
 
 const Automations = (props: AutomationPropList) => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
   const [shard, setShard] = useState('prod-us-east-2-1');
 
-  const [workspaceID, setWorkspaceID] = useState('10618731');
+  const [workspaceID, setWorkspaceID] = useState<string>("");
   const [spaceIDs, setSpaceIDs] = useState([16903372]);
   const [folderIDs, setFolderIDs] = useState([90111363530]);
   const [listIDs, setListIDs] = useState([192288379]);
+  // const [triggerId, setTriggerId] = useState<string>();
 
   let triggerIDArray;
 
   const printShard = async () => {
-    const workspaceId = document.getElementById(
-      'workspaceId-input'
-    ) as HTMLInputElement;
     const printValue = document.getElementById(
       'shard'
     ) as HTMLOutputElement;
-    const workspaceInput = workspaceId.value;
-    setWorkspaceID(workspaceInput)
-    
+    console.log(props.firstProp)
+    setWorkspaceID(props.firstProp)
     const res = await axios.post('http://localhost:3001/automation/shard', {
         teamId: props.firstProp
     });
     const shard = res.data;
-    console.log('from Automations page', props.firstProp)
     printValue.textContent = shard;
     setShard(shard);
+
+    // with workspace ID and shard:
+    // get Spaces
+    // for each Space, get Folders, get Folderless lists
+    // for each Folder, get lists
   };
 
   function printBearer(): void {
@@ -81,18 +82,31 @@ const Automations = (props: AutomationPropList) => {
     });
   };
 
+  const findAutomation = () => {
+    // use functions above to find automation by trigger_id
+    const trigger = document.getElementById(
+      'trigger-input'
+    ) as HTMLInputElement;
+    const triggerInput = trigger.value;
+    const printValue = document.getElementById(
+      'trigger-output'
+    ) as HTMLOutputElement;
+    printValue.textContent = triggerInput.toString();
+    // setTriggerId(triggerInput);
+  };
+
   useEffect(() => {
-    if(props.firstProp !== undefined) {
+    console.log(props.firstProp)
+    if(props.firstProp !== undefined || props.firstProp !== "") {
       printShard();
     }
-    // console.log(yourTeamData)
-    // get Spaces
-    // for each Space, get Folders, get Folderless lists
-    // for each Folder, get lists
-  }, [props.firstProp])
+  },[props.firstProp])
 
   return (
     <div className="automations-container">
+      <h3>
+        Your shard is: <output id="shard"></output>
+      </h3>
       <h1>The automations page</h1>
       <span>Enter a bearer token</span>
       <br />
@@ -100,17 +114,21 @@ const Automations = (props: AutomationPropList) => {
       <input type="text" id="bearer-input" placeholder="bearer" />
       <br />
       <button onClick={() => printBearer()}>Print</button>
-      <h3>
+      <h4>
         Your bearer token is: <output id="enteredNumber"></output>
-      </h3>
+      </h4>
 
-      <input type="text" id="workspaceId-input" placeholder="workspaceId" />
+      <span>Enter a trigger_id</span>
       <br />
-      <button onClick={() => printShard()}>Print Shard</button>
-      <h3>
-        Your shard is: <output id="shard"></output>
-      </h3>
-
+      <input type="text" id="trigger-input" placeholder="triggerId" />
+      <br />
+      <button onClick={() => findAutomation()}>Find Automation</button>
+      <h4>
+        Your trigger_id: <output id="trigger-output"></output>
+      </h4>
+      <h4>
+        Your Automation is: <output id="automation"></output>
+      </h4>
     </div>
   );
 };
