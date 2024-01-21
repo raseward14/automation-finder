@@ -10,7 +10,7 @@ const Automations = (props: AutomationPropList) => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
   const [shard, setShard] = useState('prod-us-east-2-1');
 
-  const [workspaceID, setWorkspaceID] = useState<string>("");
+  const [workspaceID, setWorkspaceID] = useState<string>(props.firstProp);
   const [spaceIDs, setSpaceIDs] = useState([16903372]);
   const [folderIDs, setFolderIDs] = useState([90111363530]);
   const [listIDs, setListIDs] = useState([192288379]);
@@ -23,13 +23,15 @@ const Automations = (props: AutomationPropList) => {
       'shard'
     ) as HTMLOutputElement;
     console.log(props.firstProp)
-    setWorkspaceID(props.firstProp)
-    const res = await axios.post('http://localhost:3001/automation/shard', {
-        teamId: props.firstProp
-    });
-    const shard = res.data;
-    printValue.textContent = shard;
-    setShard(shard);
+    console.log(workspaceID)
+    if(workspaceID.length > 1) {
+      const res = await axios.post('http://localhost:3001/automation/shard', {
+          teamId: workspaceID
+      });
+      const shard = res.data;
+      printValue.textContent = shard;
+      setShard(shard);
+    }
 
     // with workspace ID and shard:
     // get Spaces
@@ -97,7 +99,9 @@ const Automations = (props: AutomationPropList) => {
 
   useEffect(() => {
     console.log(props.firstProp)
-    if(props.firstProp !== undefined || props.firstProp !== "") {
+    if(workspaceID !== undefined) {
+      console.log(props.firstProp);
+      console.log(workspaceID);
       printShard();
     }
   },[props.firstProp])

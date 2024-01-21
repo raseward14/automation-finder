@@ -51,6 +51,7 @@ export default function Workspace({ firstProp }: workspacePropList) {
       });
       console.log(teamObject)
       firstProp(teamObject);
+      navigate('/automations');
     }
   };
 
@@ -80,7 +81,6 @@ export default function Workspace({ firstProp }: workspacePropList) {
                   key={i}
                   onClick={() => {
                     setClickedTeam(team);
-                    // navigate('/automations');
                   }}
                 >
                   {`${team}`}
