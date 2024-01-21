@@ -33,7 +33,7 @@ export default function Workspace({ firstProp }: workspacePropList) {
       let jsonData = JSON.parse(data);
       let teamArr = jsonData.teams;
 
-      const teamNames = teamArr.map((team: any, index: number) => {
+      const teamNames = teamArr.map((team: any) => {
         return team.name;
       });
       setTeamArray(teamNames);
@@ -44,12 +44,11 @@ export default function Workspace({ firstProp }: workspacePropList) {
     if(data !== undefined) {
       const jsonData = JSON.parse(data);
       const teamArr = (jsonData.teams);
-      const teamObject = teamArr.filter((team: any, i: number) => {
+      const teamObject = teamArr.filter((team: any) => {
         if(team.name === clickedTeam) {
           return team;
         };
       });
-      console.log(teamObject)
       firstProp(teamObject);
       navigate('/automations');
     }

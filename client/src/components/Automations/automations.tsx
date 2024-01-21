@@ -8,7 +8,7 @@ type AutomationPropList = {
 
 const Automations = (props: AutomationPropList) => {
   const [bearer, setBearer] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJzZXNzaW9uX3Rva2VuIjp0cnVlLCJ3c19rZXkiOjI2MTQ1NTczOTMsImlhdCI6MTcwNTIwODYzMSwiZXhwIjoxNzA1MzgxNDMxfQ.9hnFChSCVfuVSLhxQUtpZrkTH1z_svLbGJMmjYfcPoU');
-  const [shard, setShard] = useState('prod-us-east-2-1');
+  const [shard, setShard] = useState<string>('');
 
   const [workspaceID, setWorkspaceID] = useState<string>(props.firstProp);
   const [spaceIDs, setSpaceIDs] = useState([16903372]);
@@ -22,8 +22,6 @@ const Automations = (props: AutomationPropList) => {
     const printValue = document.getElementById(
       'shard'
     ) as HTMLOutputElement;
-    console.log(props.firstProp)
-    console.log(workspaceID)
     if(workspaceID.length > 1) {
       const res = await axios.post('http://localhost:3001/automation/shard', {
           teamId: workspaceID
@@ -98,13 +96,8 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
-    console.log(props.firstProp)
-    if(workspaceID !== undefined) {
-      console.log(props.firstProp);
-      console.log(workspaceID);
       printShard();
-    }
-  },[props.firstProp])
+  },[])
 
   return (
     <div className="automations-container">

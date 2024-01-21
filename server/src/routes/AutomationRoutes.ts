@@ -6,8 +6,6 @@ AutomationRoutes.post(
   '/shard',
   async (req: Request, res: Response): Promise<any> => {
     const teamId = req.body.teamId;
-    console.log('BE', req.body.teamId);
-
     try {
       const response = await fetch(
         `https://app.clickup.com/shard/v1/handshake/${teamId}`,
