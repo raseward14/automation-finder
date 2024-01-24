@@ -81,6 +81,7 @@ export interface Member {
 }
 
 export interface Space {
+  [x: string]: any;
   id: string;
   name: string;
   private: boolean;
@@ -92,4 +93,38 @@ export interface Space {
   statuses: Status[];
   multiple_assignees: boolean;
   features: Features;
+}
+
+export interface Folder {
+  id: string;
+  name: string;
+  orderindex: number;
+  override_statuses: boolean;
+  hidden: boolean;
+  space: Space;
+  task_count: string;
+  lists: any[]; // Assuming the 'lists' property can contain an array of any type
+}
+
+export interface Priority {
+  priority: string;
+  color: string;
+}
+
+export interface List {
+  id: string;
+  name: string;
+  orderindex: number;
+  content: string;
+  status: Status;
+  priority: Priority;
+  assignee: null | any; // Replace 'any' with the actual type for assignee
+  task_count: null | string;
+  due_date: string;
+  start_date: null | string;
+  folder: Folder;
+  space: Space;
+  archived: boolean;
+  override_statuses: boolean;
+  permission_level: string;
 }

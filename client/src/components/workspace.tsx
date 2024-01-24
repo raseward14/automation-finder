@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Container, Col, ContainerProps, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { Space, Team } from "../models/workspace_interface";
+import { Team, Space, Folder, List } from "../models/workspace_interface";
+import "./component.css";
 
 type workspacePropList = {
   teamCallback: (a: string) => void;
@@ -17,12 +18,14 @@ export default function Workspace({ teamCallback }: workspacePropList) {
   const [folderData, setFolderData] = useState<JSON>();
   const [folderlessListData, setFolderlessListData] = useState<JSON>();
   const [listData, setListData] = useState<JSON>();
+  const [selectedTeam, setSelectedTeam] = useState<string>("");
   //containers for
   const [teamArray, setTeamArray] = useState<Team[]>([]);
   const [spaceArray, setSpaceArray] = useState<Space[]>([]);
-  const [folderArray, setFolderArray] = useState<Object[]>([]);
-  const [folderlessListArray, setFolderlessListArray] = useState<Object[]>([]);
-  const [listArray, setListArray] = useState<Object[]>();
+  const [folderArray, setFolderArray] = useState<Folder[]>([]);
+  const [folderlessListArray, setFolderlessListArray] = useState<List[]>([]);
+  const [listArray, setListArray] = useState<List[]>([]);
+
   //
   const [clickedTeam, setClickedTeam] = useState<JSON>();
 
@@ -39,7 +42,6 @@ export default function Workspace({ teamCallback }: workspacePropList) {
           for (const team of teamsArrayData) {
             individualTeamObjects.push(team); // Add the team object to the new array
           }
-          setSpaceArray([]);
           setTeamArray(individualTeamObjects);
         }
       })
@@ -70,40 +72,68 @@ export default function Workspace({ teamCallback }: workspacePropList) {
       });
   };
 
-  const GetFolders = async (data: any): Promise<void> => {
+  const GetFolders = async (spaceId: string): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folders`, {
         token: token,
+        spaceId: spaceId,
       })
       .then((resp) => {
-        setTeamData(resp.data);
-        console.log(resp.data);
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const folderArrayData: Folder[] = jsonData.folders;
+          const indvidualArray: Folder[] = [];
+          for (var i = 0; i < folderArrayData.length; i++) {
+            indvidualArray.push(folderArrayData[i]);
+          }
+          setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const GetFolderlessLists = async (data: any): Promise<void> => {
+  const GetFolderlessLists = async (spaceId: string): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folderless/lists`, {
         token: token,
+        spaceId: spaceId,
       })
       .then((resp) => {
-        setTeamData(resp.data);
-        console.log(resp.data);
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const folderlessListArrayData: List[] = jsonData.lists;
+          const indvidualArray: List[] = [];
+          for (var i = 0; i < folderlessListArrayData.length; i++) {
+            indvidualArray.push(folderlessListArrayData[i]);
+          }
+          setFolderlessListArray((folderlessListArray) => [
+            ...folderlessListArray,
+            ...indvidualArray,
+          ]);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const GetLists = async (data: any): Promise<void> => {
+
+  const GetLists = async (folderId: string): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/lists`, {
         token: token,
+        folderId: folderId,
       })
       .then((resp) => {
-        setTeamData(resp.data);
-        console.log(resp.data);
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const listArrayData: List[] = jsonData.lists;
+          const indvidualArray: List[] = [];
+          for (var i = 0; i < listArrayData.length; i++) {
+            indvidualArray.push(listArrayData[i]);
+          }
+          setListArray((listArray) => [...listArray, ...indvidualArray]);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -151,66 +181,101 @@ export default function Workspace({ teamCallback }: workspacePropList) {
   }, []);
 
   useEffect(() => {
-    if (teamArray!.length > 0) {
-      for (var i = 0; i < teamArray!.length; i++) {
-        GetSpaces(teamArray![i].id);
-      }
+    for (var i = 0; i < spaceArray.length; i++) {
+      GetFolders(spaceArray[i].id);
+      GetFolderlessLists(spaceArray[i].id);
     }
-  }, [teamArray]);
+  }, [spaceArray]);
+
+  useEffect(() => {
+    for (var i = 0; i < folderArray.length; i++) {
+      GetLists(folderArray[i].id);
+    }
+  }, [folderArray]);
 
   return (
     <Container fluid>
       <Row>
-        <Col xxl={6}>
+        <Button
+          variant="dark"
+          onClick={() => {
+            setSpaceArray([]);
+            setFolderArray([]);
+            setFolderlessListArray([]);
+            setListArray([]);
+          }}>
+          CLEAR
+        </Button>
+      </Row>
+      <Row id="workspace">
+        <Col id="hierarchy_col">
+          <h1>Select a Team</h1>
           {teamArray?.map((team: any, i: number) => (
             <Button
+              variant="dark"
               key={i}
               onClick={() => {
                 setClickedTeam(team);
+                setSpaceArray([]);
+                setFolderArray([]);
+                setFolderlessListArray([]);
+                setListArray([]);
+                GetSpaces(team.id);
               }}>
               {`${team.name} id: ${team.id}`}
             </Button>
           ))}
         </Col>
-        <Col xxl={6}>
+        <Col id="hierarchy_col">
+          <h1>Spaces</h1>
+
           {spaceArray?.map((space: any, i: number) => (
             <tr key={i}>
               <td key={i}>
-                <Button key={i} onClick={() => {}}>
+                <Button variant="dark" key={i} onClick={() => {}}>
                   {`${space.name} id: ${space.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col>
+        <Col id="hierarchy_col">
+          <h1>Folders</h1>
+          {folderArray?.map((folder: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${folder.name} id: ${folder.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col>
+        <Col id="hierarchy_col">
+          <h1>Folderless Lists</h1>
+          {folderlessListArray?.map((list: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${list.name} id: ${list.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col>
+        <Col id="hierarchy_col">
+          <h1>Lists</h1>
+          {listArray?.map((list: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${list.name} id: ${list.id}`}
                 </Button>
               </td>
             </tr>
           ))}
         </Col>
       </Row>
-      {/* <table>
-        <tbody>
-          <th>Click Workspace to find Automation</th>
-          {teamArray?.map((team: any, i: number) => (
-            <tr key={i}>
-              <td key={i}>
-                <Button
-                  key={i}
-                  onClick={() => {
-                    setClickedTeam(team);
-                  }}>
-                  {`${team.name} id: ${team.id}`}
-                </Button>
-              </td>
-            </tr>
-          ))}
-          {spaceArray?.map((space: any, i: number) => (
-            <tr key={i}>
-              <td key={i}>
-                <Button key={i} onClick={() => {}}>
-                  {`${space.name} id: ${space.id}`}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </Container>
   );
 }
