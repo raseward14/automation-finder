@@ -99,14 +99,15 @@ const Automations = (props: AutomationPropList) => {
     setTriggerId(triggerInput);
   };
 
-  useEffect(() => {
-    printShardFromWorkspaceId();
-  }, []);
+  // useEffect(() => {
+  //   printShardFromWorkspaceId();
+  // }, []);
 
   // useEffects for what this component has
   useEffect(() => {
+    printShardFromWorkspaceId();
     console.log(`workspaceID being searched: ${workspaceID}`);
-  }, [workspaceID]);
+  }, [workspaceID, props.teamId]);
   useEffect(() => {
     console.log(`workspace shard: ${shard}`);
   }, [shard]);

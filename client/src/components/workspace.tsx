@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Container, Col, ContainerProps, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { Team, Space, Folder, List } from "../models/workspace_interface";
-import "./component.css";
+// import "./component.css";
 
 type workspacePropList = {
   teamCallback: (a: string) => void;
@@ -153,21 +153,14 @@ export default function Workspace({ teamCallback }: workspacePropList) {
   };
 
   const sendTeam = (data: any) => {
-    if (data !== undefined) {
-      const jsonData = JSON.parse(data);
-      const teamArr = jsonData.teams;
-      const teamObject = teamArr.filter((team: any) => {
-        if (team.name === clickedTeam) {
-          return team;
-        }
-      });
-      teamCallback(teamObject);
+    if(data !== undefined) {
+      teamCallback(data);
       navigate("/automations");
     }
   };
 
   useEffect(() => {
-    sendTeam(teamData);
+    sendTeam(clickedTeam);
   }, [clickedTeam]);
 
   useEffect(() => {

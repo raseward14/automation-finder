@@ -19,11 +19,13 @@ const App: React.FC<{}> = () => {
   });
 
   const [token, setToken] = useState<string>("");
-  const [workspaceData, setWorkspaceData] = useState<string>("");
+  const [workspaceId, setWorkspaceId] = useState<string>("");
 
   const getTeamIdFromObject = (data: any) => {
-    console.log(data[0].id);
-    setWorkspaceData(data[0].id);
+    if(data !== undefined) {
+      console.log('from app', typeof data.id)
+      setWorkspaceId(data.id);
+    }
   };
 
   return (
@@ -32,7 +34,7 @@ const App: React.FC<{}> = () => {
         <Route path="/" index element={<Layout />}></Route>
         <Route path="/oauth" element={<OAuthClickUp />}></Route>
         <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-        <Route path="/automations" element={<Automations teamId={workspaceData} />}></Route>
+        <Route path="/automations" element={<Automations teamId={workspaceId} />}></Route>
         <Route path="/workspace/:token" element={<Workspace teamCallback={getTeamIdFromObject} />}></Route>
       </Routes>
     </BrowserRouter>
