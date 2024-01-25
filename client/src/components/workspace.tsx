@@ -7,9 +7,12 @@ import { Team, Space, Folder, List } from "../models/workspace_interface";
 
 type workspacePropList = {
   teamCallback: (a: string) => void;
+  spaceCallback: (a: string[]) => void;
+  folderCallback: (a: string[]) => void;
+  listCallback: (a: string[]) => void;
 };
 
-export default function Workspace({ teamCallback }: workspacePropList) {
+export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback }: workspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -152,6 +155,18 @@ export default function Workspace({ teamCallback }: workspacePropList) {
     }
   };
 
+  const sendLists = (data: string[]) => {
+
+  }
+
+  const sendFolders = (data: string[]) => {
+
+  }
+
+  const sendSpaces = (data: string[]) => {
+
+  }
+
   const sendTeam = (data: any) => {
     if(data !== undefined) {
       teamCallback(data);
@@ -185,6 +200,18 @@ export default function Workspace({ teamCallback }: workspacePropList) {
       GetLists(folderArray[i].id);
     }
   }, [folderArray]);
+
+  useEffect(() => {
+    console.log('calls complete, Spaces:', spaceArray.map((space: any) => space.id))
+    spaceCallback(spaceArray.map((space: any) => space.id));
+    console.log('calls complete, Folderless lists:', folderArray)
+    folderCallback(folderArray.map((folder: any) => folder.id));
+    console.log('calls complete, Folderless lists:', folderlessListArray)
+    console.log('calls complete, lists:', listArray)
+    let allLists = [...listArray, ...folderlessListArray]
+    listCallback(allLists.map((list: any) => list.id));
+  }, [listArray])
+
 
   return (
     <Container fluid>

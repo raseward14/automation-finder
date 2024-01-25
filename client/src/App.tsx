@@ -20,10 +20,12 @@ const App: React.FC<{}> = () => {
 
   const [token, setToken] = useState<string>("");
   const [workspaceId, setWorkspaceId] = useState<string>("");
+  const [spaceIds, setSpaceIds] = useState<string[]>([]);
+  const [folderIds, setFolderIds] = useState<string[]>([]);
+  const [listIds, setListIds] = useState<string[]>([]);
 
   const getTeamIdFromObject = (data: any) => {
     if(data !== undefined) {
-      console.log('from app', typeof data.id)
       setWorkspaceId(data.id);
     }
   };
@@ -34,8 +36,16 @@ const App: React.FC<{}> = () => {
         <Route path="/" index element={<Layout />}></Route>
         <Route path="/oauth" element={<OAuthClickUp />}></Route>
         <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-        <Route path="/automations" element={<Automations teamId={workspaceId} />}></Route>
-        <Route path="/workspace/:token" element={<Workspace teamCallback={getTeamIdFromObject} />}></Route>
+        <Route path="/automations" element={<Automations 
+        teamId={workspaceId}
+        spaceIds={spaceIds}
+        folderIds={folderIds}
+        listIds={listIds} />}></Route>
+        <Route path="/workspace/:token" element={<Workspace 
+        teamCallback={getTeamIdFromObject}
+        spaceCallback={setSpaceIds}
+        folderCallback={setFolderIds}
+        listCallback={setListIds} />}></Route>
       </Routes>
     </BrowserRouter>
   );

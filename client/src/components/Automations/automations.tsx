@@ -4,6 +4,9 @@ import './style.css';
 
 type AutomationPropList = {
   teamId: string;
+  spaceIds: string[];
+  folderIds: string[];
+  listIds: string[];
 };
 
 const Automations = (props: AutomationPropList) => {
@@ -12,23 +15,23 @@ const Automations = (props: AutomationPropList) => {
   const [triggerId, setTriggerId] = useState<string>('');
 
   // passed from workspace.tsx - done
-  const [workspaceID, setWorkspaceID] = useState<string>(props.teamId);
+  const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
   // sets dynamically by workspaceID on page load
   const [shard, setShard] = useState<string>('');
   
   // still need these, temporary placeholders - in progress
-  const [spaceIDs, setSpaceIDs] = useState([16903372]);
-  const [folderIDs, setFolderIDs] = useState([90111363530]);
-  const [listIDs, setListIDs] = useState([192288379]);
+  const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
+  const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
+  const [listIds, setListIds] = useState<string[]>(props.listIds);
 
   // to store all triggerIds from all spaces, folders, lists
   let triggerIDArray;
 
   const printShardFromWorkspaceId = async () => {
     const printValue = document.getElementById('shard') as HTMLOutputElement;
-    if (workspaceID.length > 1) {
+    if (workspaceId.length > 1) {
       const res = await axios.post('http://localhost:3001/automation/shard', {
-        teamId: workspaceID,
+        teamId: workspaceId,
       });
       const shard = res.data;
       printValue.textContent = shard;
@@ -99,15 +102,15 @@ const Automations = (props: AutomationPropList) => {
     setTriggerId(triggerInput);
   };
 
-  // useEffect(() => {
-  //   printShardFromWorkspaceId();
-  // }, []);
+  useEffect(() => {
+    console.log('from automations.tsx', spaceIds, folderIds, listIds)
+  }, [listIds]);
 
   // useEffects for what this component has
   useEffect(() => {
     printShardFromWorkspaceId();
-    console.log(`workspaceID being searched: ${workspaceID}`);
-  }, [workspaceID, props.teamId]);
+    console.log(`workspaceID being searched: ${workspaceId}`);
+  }, [workspaceId, props.teamId]);
   useEffect(() => {
     console.log(`workspace shard: ${shard}`);
   }, [shard]);
