@@ -44,7 +44,7 @@ const Automations = (props: AutomationPropList) => {
     // for each Folder, get lists
   };
 
-  const getListAutomations = (listIDs: number[]) => {
+  const getListAutomations = (listIDs: string[]) => {
     listIDs.forEach((id) => {
       // const workflowLog = AutomationAPIFunctions.getListAutomations(
       //   shard,
@@ -55,7 +55,7 @@ const Automations = (props: AutomationPropList) => {
     });
   };
 
-  const getFolderAutomations = (folderIDs: number[]) => {
+  const getFolderAutomations = (folderIDs: string[]) => {
     folderIDs.forEach((id) => {
       // const workflowLog = AutomationAPIFunctions.getFolderAutomations(
       //   shard,
@@ -66,7 +66,7 @@ const Automations = (props: AutomationPropList) => {
     });
   };
 
-  const getSpaceAutomations = (spaceIDs: number[]) => {
+  const getSpaceAutomations = (spaceIDs: string[]) => {
     spaceIDs.forEach((id) => {
       // const workflowLog = AutomationAPIFunctions.getSpaceAutomations(
       //   shard,
