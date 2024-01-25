@@ -155,22 +155,13 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
     }
   };
 
-  const sendLists = (data: string[]) => {
-
-  }
-
-  const sendFolders = (data: string[]) => {
-
-  }
-
-  const sendSpaces = (data: string[]) => {
-
-  }
+  // const goToAutomations = () => {
+  //   navigate("/automations");
+  // }
 
   const sendTeam = (data: any) => {
     if(data !== undefined) {
       teamCallback(data);
-      navigate("/automations");
     }
   };
 
@@ -204,12 +195,12 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   useEffect(() => {
     console.log('calls complete, Spaces:', spaceArray.map((space: any) => space.id))
     spaceCallback(spaceArray.map((space: any) => space.id));
-    console.log('calls complete, Folderless lists:', folderArray)
+    console.log('calls complete, Folders:', folderArray.map((folder: any) => folder.id))
     folderCallback(folderArray.map((folder: any) => folder.id));
-    console.log('calls complete, Folderless lists:', folderlessListArray)
-    console.log('calls complete, lists:', listArray)
     let allLists = [...listArray, ...folderlessListArray]
+    console.log('calls complete, lists and Folderless lists:', allLists.map((list: any) => list.id))
     listCallback(allLists.map((list: any) => list.id));
+    // goToAutomations()
   }, [listArray])
 
 

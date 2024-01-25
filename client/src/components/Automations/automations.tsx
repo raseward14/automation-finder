@@ -18,7 +18,7 @@ const Automations = (props: AutomationPropList) => {
   const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
   // sets dynamically by workspaceID on page load
   const [shard, setShard] = useState<string>('');
-  
+
   // still need these, temporary placeholders - in progress
   const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
   const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
@@ -45,7 +45,9 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getListAutomations = (listIDs: string[]) => {
+    console.log(`made it ${listIDs}`)
     listIDs.forEach((id) => {
+      console.log(`api request for ${id} ${shard} ${bearer}`)
       // const workflowLog = AutomationAPIFunctions.getListAutomations(
       //   shard,
       //   id,
@@ -57,6 +59,8 @@ const Automations = (props: AutomationPropList) => {
 
   const getFolderAutomations = (folderIDs: string[]) => {
     folderIDs.forEach((id) => {
+      console.log(`api request for ${id} ${shard} ${bearer}`)
+
       // const workflowLog = AutomationAPIFunctions.getFolderAutomations(
       //   shard,
       //   id,
@@ -68,6 +72,8 @@ const Automations = (props: AutomationPropList) => {
 
   const getSpaceAutomations = (spaceIDs: string[]) => {
     spaceIDs.forEach((id) => {
+      console.log(`api request for ${id} ${shard} ${bearer}`)
+
       // const workflowLog = AutomationAPIFunctions.getSpaceAutomations(
       //   shard,
       //   id,
@@ -132,7 +138,13 @@ const Automations = (props: AutomationPropList) => {
 
       <input type="text" id="bearer-input" placeholder="bearer" />
       <br />
-      <button onClick={() => printBearer()}>Print</button>
+      <button onClick={() => {
+        console.log(spaceIds, folderIds, listIds)
+        getSpaceAutomations(spaceIds);
+        getFolderAutomations(folderIds);
+        getListAutomations(listIds);
+        printBearer()
+      }}>Print</button>
       <h4>
         Your bearer token is: <output id="enteredNumber"></output>
       </h4>
