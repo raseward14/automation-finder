@@ -37,17 +37,12 @@ const Automations = (props: AutomationPropList) => {
       printValue.textContent = shard;
       setShard(shard);
     }
-
-    // with workspace ID and shard:
-    // get Spaces
-    // for each Space, get Folders, get Folderless lists
-    // for each Folder, get lists
   };
 
   const getListAutomations = (listIDs: string[]) => {
     console.log(`made it ${listIDs}`)
     listIDs.forEach((id) => {
-      console.log(`api request for ${id} ${shard} ${bearer}`)
+      console.log(`api request for listId: ${id}, in shard: ${shard} with token: ${bearer}`)
       // const workflowLog = AutomationAPIFunctions.getListAutomations(
       //   shard,
       //   id,
@@ -59,7 +54,7 @@ const Automations = (props: AutomationPropList) => {
 
   const getFolderAutomations = (folderIDs: string[]) => {
     folderIDs.forEach((id) => {
-      console.log(`api request for ${id} ${shard} ${bearer}`)
+      console.log(`api request for folderId: ${id}, in shard: ${shard} with token: ${bearer}`)
 
       // const workflowLog = AutomationAPIFunctions.getFolderAutomations(
       //   shard,
@@ -72,7 +67,7 @@ const Automations = (props: AutomationPropList) => {
 
   const getSpaceAutomations = (spaceIDs: string[]) => {
     spaceIDs.forEach((id) => {
-      console.log(`api request for ${id} ${shard} ${bearer}`)
+      console.log(`api request for SpaceId: ${id}, in shard: ${shard} with token: ${bearer}`)
 
       // const workflowLog = AutomationAPIFunctions.getSpaceAutomations(
       //   shard,
@@ -108,17 +103,18 @@ const Automations = (props: AutomationPropList) => {
     setTriggerId(triggerInput);
   };
 
-  useEffect(() => {
-    console.log('from automations.tsx', spaceIds, folderIds, listIds)
-  }, [listIds]);
-
   // useEffects for what this component has
   useEffect(() => {
     printShardFromWorkspaceId();
     console.log(`workspaceID being searched: ${workspaceId}`);
-  }, [workspaceId, props.teamId]);
+  }, [workspaceId]);
   useEffect(() => {
     console.log(`workspace shard: ${shard}`);
+    if(shard.length > 1) {
+      getListAutomations(listIds);
+      getFolderAutomations(folderIds);
+      getSpaceAutomations(spaceIds);  
+    }
   }, [shard]);
   useEffect(() => {
     console.log(`triggerID being searched: ${triggerId}`);
@@ -140,9 +136,9 @@ const Automations = (props: AutomationPropList) => {
       <br />
       <button onClick={() => {
         console.log(spaceIds, folderIds, listIds)
-        getSpaceAutomations(spaceIds);
-        getFolderAutomations(folderIds);
-        getListAutomations(listIds);
+        // getSpaceAutomations(spaceIds);
+        // getFolderAutomations(folderIds);
+        // getListAutomations(listIds);
         printBearer()
       }}>Print</button>
       <h4>

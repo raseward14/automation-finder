@@ -31,6 +31,7 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
 
   //
   const [clickedTeam, setClickedTeam] = useState<JSON>();
+  const [showNavButton, setShowNavButton] = useState<boolean>(false);
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -136,6 +137,7 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
             indvidualArray.push(listArrayData[i]);
           }
           setListArray((listArray) => [...listArray, ...indvidualArray]);
+          setShowNavButton(true);
         }
       })
       .catch((error) => {
@@ -286,6 +288,19 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
             </tr>
           ))}
         </Col>
+        {showNavButton ? 
+        <Col>
+        <h3>Find Automations</h3>
+        <tr>
+          <td>
+        <Button
+        onClick={() => {navigate('/automations')}}>Automations</Button>
+          </td>
+        </tr>
+        </Col>
+        :
+        <Col></Col>
+}
       </Row>
     </Container>
   );
