@@ -36,11 +36,10 @@ AutomationRoutes.post(
           method: 'GET',
           headers: {
             Authorization: `Bearer: ${token}`,
-            'Content-Type': 'application/json',
           },
         }
       );
-      const data = await response.text();
+      const data = await response.json();
       console.log(data);
       res.status(200).json(data);
     } catch (err) {
@@ -64,7 +63,6 @@ AutomationRoutes.post(
           method: 'GET',
           headers: {
             Authorization: `Bearer: ${token}`,
-            'Content-Type': 'application/json',
           },
         }
       );
@@ -83,16 +81,14 @@ AutomationRoutes.post(
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
     const listId = req.body.listId;
-    const token = req.body.bearer;
-
+    const token = JSON.stringify(req.body.bearer);
     try {
       const response = await fetch(
-        `https://${shard}.clickup.com/automation/filters/category/${listId}/workflow?paging=true`,
+        `https://${shard}.clickup.com/automation/filters/subcategory/${listId}/workflow?paging=true`,
         {
-          method: 'GET',
+          method: "POST",
           headers: {
-            Authorization: `Bearer: ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       );

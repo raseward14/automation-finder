@@ -40,9 +40,18 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getListAutomations = (listIDs: string[]) => {
+    let listAutomations: any = []
     console.log(`made it ${listIDs}`)
-    listIDs.forEach((id) => {
+    listIDs.forEach(async (id) => {
       console.log(`api request for listId: ${id}, in shard: ${shard} with token: ${bearer}`)
+      const res = await axios.post('http://localhost:3001/automation/list', {
+        shard: shard,
+        spaceId: id,
+        bearer: bearer
+      })
+
+      // listAutomations.push(res.data)
+      console.log(`first List workflow request: ${res.data}`)
       // const workflowLog = AutomationAPIFunctions.getListAutomations(
       //   shard,
       //   id,
@@ -53,7 +62,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getFolderAutomations = (folderIDs: string[]) => {
-    folderIDs.forEach((id) => {
+    folderIDs.forEach(async (id) => {
       console.log(`api request for folderId: ${id}, in shard: ${shard} with token: ${bearer}`)
 
       // const workflowLog = AutomationAPIFunctions.getFolderAutomations(
@@ -66,7 +75,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getSpaceAutomations = (spaceIDs: string[]) => {
-    spaceIDs.forEach((id) => {
+    spaceIDs.forEach(async (id) => {
       console.log(`api request for SpaceId: ${id}, in shard: ${shard} with token: ${bearer}`)
 
       // const workflowLog = AutomationAPIFunctions.getSpaceAutomations(
@@ -111,9 +120,10 @@ const Automations = (props: AutomationPropList) => {
   useEffect(() => {
     console.log(`workspace shard: ${shard}`);
     if(shard.length > 1) {
-      getListAutomations(listIds);
-      getFolderAutomations(folderIds);
-      getSpaceAutomations(spaceIds);  
+      // when we have a bearer, we can call get automations functions on page load from here
+      // getListAutomations(listIds);
+      // getFolderAutomations(folderIds);
+      // getSpaceAutomations(spaceIds);  
     }
   }, [shard]);
   useEffect(() => {
@@ -121,6 +131,11 @@ const Automations = (props: AutomationPropList) => {
   }, [triggerId]);
   useEffect(() => {
     console.log(`bearer token for ?workflow endpoint: ${bearer}`);
+    if(bearer !== "") {
+      getSpaceAutomations(spaceIds);
+      getFolderAutomations(folderIds);
+      getListAutomations(listIds);
+    }
   }, [bearer]);
 
   return (
@@ -135,10 +150,6 @@ const Automations = (props: AutomationPropList) => {
       <input type="text" id="bearer-input" placeholder="bearer" />
       <br />
       <button onClick={() => {
-        console.log(spaceIds, folderIds, listIds)
-        // getSpaceAutomations(spaceIds);
-        // getFolderAutomations(folderIds);
-        // getListAutomations(listIds);
         printBearer()
       }}>Print</button>
       <h4>
