@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { APIConstants } from "../constants"; //object of secret values: export const APIConstants = { key: value} hidden by gitignore
-import { Button, Col } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import { ClientToServerEvents, ServerToClientEvents } from "../models/socket";
 import { Socket, io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import Workspace from "./workspace";
+import { Container } from "react-bootstrap";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3002"
@@ -64,12 +65,35 @@ export default function OAuthClickUp() {
     return;
   };
 
+  const style = {
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh", // Optional: Set minimum height for vertical centering
+      maxWidth: "50vw", // Set max-width to 50% of the viewport
+    },
+    row: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      margin: "0 auto", // Center the row horizontally
+    },
+    button: {
+      width: "auto", // Make the button only as wide as needed
+      marginTop: "10px", // Optional: Add margin for spacing
+    },
+  };
+
   return (
-    <div>
+    <Container style={style.container as React.CSSProperties}>
       {gotToken == false ? (
-        <Col>
+        <Row style={style.row as React.CSSProperties}>
           <h1>Integrate with ClickUp?</h1>
           <Button
+            style={style.button}
             variant="dark"
             onClick={() => {
               window.location.href = GetAuthorizationCode(
@@ -79,21 +103,22 @@ export default function OAuthClickUp() {
             }}>
             Authorize
           </Button>
-        </Col>
+        </Row>
       ) : (
-        <Col>
+        <Row style={style.row as React.CSSProperties}>
           <h1>ClickUp Authorized</h1>
-          <h2>Access Code: {accessCode}</h2>
-          <h2>Access Token: {accessToken}</h2>
+          {/* <h2>Access Code: {accessCode}</h2>
+          <h2>Access Token: {accessToken}</h2> */}
           <Button
+            style={style.button}
             variant="dark"
             onClick={() => {
               navigate(`/workspace/${accessToken}`);
             }}>
-            Workspace
+            Explore the Workspace
           </Button>
-        </Col>
+        </Row>
       )}
-    </div>
+    </Container>
   );
 }

@@ -7,6 +7,8 @@ import { io, Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "./models/socket";
 import { access } from "fs";
 import Workspace from "./components/workspace";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { ThemeProvider } from "react-bootstrap";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3002"
@@ -27,15 +29,23 @@ const App: React.FC<{}> = () => {
   };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" index element={<Layout />}></Route>
-        <Route path="/oauth" element={<OAuthClickUp />}></Route>
-        <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-        <Route path="/automations" element={<Automations teamId={workspaceData} />}></Route>
-        <Route path="/workspace/:token" element={<Workspace teamCallback={getTeamIdFromObject} />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider
+      breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
+      minBreakpoint="xxs">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" index element={<Layout />}></Route>
+          <Route path="/oauth" element={<OAuthClickUp />}></Route>
+          <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
+          <Route
+            path="/automations"
+            element={<Automations teamId={workspaceData} />}></Route>
+          <Route
+            path="/workspace/:token"
+            element={<Workspace teamCallback={getTeamIdFromObject} />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 
