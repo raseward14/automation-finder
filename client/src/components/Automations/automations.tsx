@@ -46,12 +46,12 @@ const Automations = (props: AutomationPropList) => {
       console.log(`api request for listId: ${id}, in shard: ${shard} with token: ${bearer}`)
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
-        spaceId: id,
+        listId: id,
         bearer: bearer
       })
 
       // listAutomations.push(res.data)
-      console.log(`first List workflow request: ${res.data}`)
+      console.log(`first List workflow request:`, res.data)
       // const workflowLog = AutomationAPIFunctions.getListAutomations(
       //   shard,
       //   id,

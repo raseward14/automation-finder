@@ -33,9 +33,9 @@ AutomationRoutes.post(
       const response = await fetch(
         `https://${shard}.clickup.com/automation/filters/project/${spaceId}/workflow?paging=true`,
         {
-          method: 'GET',
+          method: "POST",
           headers: {
-            Authorization: `Bearer: ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -60,13 +60,13 @@ AutomationRoutes.post(
       const response = await fetch(
         `https://${shard}.clickup.com/automation/filters/category/${folderId}/workflow?paging=true`,
         {
-          method: 'GET',
+          method: "POST",
           headers: {
-            Authorization: `Bearer: ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await response.text();
+      const data = await response.json();
       console.log(data);
       res.status(200).json(data);
     } catch (err) {
@@ -81,7 +81,8 @@ AutomationRoutes.post(
   async (req: Request, res: Response): Promise<any> => {
     const shard = req.body.shard;
     const listId = req.body.listId;
-    const token = JSON.stringify(req.body.bearer);
+    const token = req.body.bearer;
+
     try {
       const response = await fetch(
         `https://${shard}.clickup.com/automation/filters/subcategory/${listId}/workflow?paging=true`,
@@ -92,8 +93,7 @@ AutomationRoutes.post(
           },
         }
       );
-      const data = await response.text();
-      console.log(data);
+      const data = await response.json();
       res.status(200).json(data);
     } catch (err) {
       res.status(500).json(err);
