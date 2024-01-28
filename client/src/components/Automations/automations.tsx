@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import axios from 'axios';
 import './style.css';
 
@@ -8,13 +9,16 @@ type AutomationPropList = {
   folderIds: string[];
   listIds: string[];
   folderlessListIds: string[];
+  token: string;
 };
 
 const Automations = (props: AutomationPropList) => {
   // inputs - manual
+  const [token, setToken] = useState<string>(props.token)
   const [bearer, setBearer] = useState<string>('');
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
+  const [triggerLocationName, setTriggerLocationName] = useState<string>('');
 
   // passed from workspace.tsx - done
   const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
@@ -131,14 +135,54 @@ const Automations = (props: AutomationPropList) => {
     setBearer(bearerInput);
   }
 
+  const getLocation = async (trigger: any) => {
+    const printLocation = document.getElementById(
+      'trigger-location'
+    ) as HTMLOutputElement;
+
+    let location = trigger.parent_type;
+    let id = trigger.parent_id;
+    console.log(trigger, location);
+    switch (location) {
+      case 6:
+        const listResponse = await axios.post(`http://localhost:3001/workspace/list`, {
+          listId: id,
+          token: token
+        })
+        let listData = JSON.parse(listResponse.data);
+        let listName = listData.name;
+        printLocation.textContent = `List: ${listName}`;
+        break;
+      case 5:
+        const folderResponse = await axios.post(`http://localhost:3001/workspace/folder`, {
+          folderId: id,
+          token: token
+        })
+        let folderData = JSON.parse(folderResponse.data);
+        let folderName = folderData.name;
+        console.log('its a folder', folderResponse);
+        printLocation.textContent = `Folder: ${folderName}`;
+        break;
+      case 4:
+        const spaceResponse = await axios.post(`http://localhost:3001/workspace/space`, {
+          spaceId: id,
+          token: token
+        })
+        let spaceData = JSON.parse(spaceResponse.data);
+        let spaceName = spaceData.name;
+        printLocation.textContent = `Space: ${spaceName}`;
+        break;
+    }
+  };
+
   const searchSpacesForTrigger = () => {
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    const printValue = document.getElementById(
-      'trigger-output'
-    ) as HTMLOutputElement;
+    // const printValue = document.getElementById(
+    //   'trigger-output'
+    // ) as HTMLOutputElement;
 
     let spaceAutoTriggers = spaceTriggers?.automations;
     let spaceShortcutTriggers = spaceTriggers?.shortcuts;
@@ -147,6 +191,7 @@ const Automations = (props: AutomationPropList) => {
       spaceAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
     }
@@ -155,10 +200,10 @@ const Automations = (props: AutomationPropList) => {
       spaceShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === false && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
     }
-
   };
 
   const searchFoldersForTrigger = () => {
@@ -166,9 +211,9 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    const printValue = document.getElementById(
-      'trigger-output'
-    ) as HTMLOutputElement;
+    // const printValue = document.getElementById(
+    //   'trigger-output'
+    // ) as HTMLOutputElement;
 
     let folderAutoTriggers = folderTriggers?.automations;
     let folderShortcutTriggers = folderTriggers?.shortcuts;
@@ -177,19 +222,20 @@ const Automations = (props: AutomationPropList) => {
       folderAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
-    };
+    }
 
     if (foundTrigger === undefined) {
       folderShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === false && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
-    };
-
-    searchSpacesForTrigger()
+    }
+    searchSpacesForTrigger();
   };
 
   const searchFolderlessListsForTrigger = () => {
@@ -197,9 +243,9 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    const printValue = document.getElementById(
-      'trigger-output'
-    ) as HTMLOutputElement;
+    // const printValue = document.getElementById(
+    //   'trigger-output'
+    // ) as HTMLOutputElement;
 
     let folderlessListAutoTriggers = folderlessListTriggers?.automations;
     let folderlessShortcutTriggers = folderlessListTriggers?.shortcuts;
@@ -208,6 +254,7 @@ const Automations = (props: AutomationPropList) => {
       folderlessListAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
     }
@@ -216,12 +263,11 @@ const Automations = (props: AutomationPropList) => {
       folderlessShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === false && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
     }
-
-    searchFoldersForTrigger()
-
+    searchFoldersForTrigger();
   };
 
   const searchListsForTrigger = async () => {
@@ -229,9 +275,9 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    const printValue = document.getElementById(
-      'trigger-output'
-    ) as HTMLOutputElement;
+    // const printValue = document.getElementById(
+    //   'trigger-output'
+    // ) as HTMLOutputElement;
     let listAutoTriggers = listTriggers?.automations;
     let listShortcutTriggers = listTriggers?.shortcuts;
 
@@ -239,6 +285,7 @@ const Automations = (props: AutomationPropList) => {
       listAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
     }
@@ -247,10 +294,10 @@ const Automations = (props: AutomationPropList) => {
       listShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === false && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
+          getLocation(trigger);
         }
       });
     }
-
     searchFolderlessListsForTrigger();
   };
 
@@ -263,16 +310,11 @@ const Automations = (props: AutomationPropList) => {
       const printDescription = document.getElementById(
         'automation'
       ) as HTMLOutputElement;
-      const printLocation = document.getElementById(
-        'trigger-location'
-      ) as HTMLOutputElement;
 
       printTrigger.textContent = foundTrigger.trigger.type;
       printDescription.textContent = foundTrigger.sentence;
-      printLocation.textContent = foundTrigger.parent_id;
     }
   }, [foundTrigger]);
-
 
   // useEffects for what this component has
   useEffect(() => {
@@ -303,11 +345,8 @@ const Automations = (props: AutomationPropList) => {
 
   return (
     <div className="automations-container">
-      <h3>
-        Your shard is: <output id="shard"></output>
-      </h3>
       <h1>The automations page</h1>
-      <span>Enter a bearer token</span>
+      <span>Enter a bearer token to find an automation.</span>
       <br />
 
       <input type="text" id="bearer-input" placeholder="bearer" />
@@ -317,32 +356,38 @@ const Automations = (props: AutomationPropList) => {
           printBearer();
         }}
       >
-        Print
+        Enter
       </button>
       <h4>
         Your bearer token is: <output id="enteredNumber"></output>
       </h4>
-
-      <span>Enter a trigger_id</span>
-      <br />
-      <input type="text" id="trigger-input" placeholder="triggerId" />
-      <br />
-      <button
-        onClick={() => {
-          searchListsForTrigger();
-        }}
-      >
-        Find Automation
-      </button>
-      <h4>
-        Your trigger is: <output id="trigger-output"></output>
-      </h4>
-      <h4>
-        Your Automation is: <output id="automation"></output>
-      </h4>
-      <h4>
-        Your Automation is located in this location: <output id="trigger-location"></output>
-      </h4>
+      {bearer ? (
+        <>
+          <span>Enter a trigger_id</span>
+          <br />
+          <input type="text" id="trigger-input" placeholder="triggerId" />
+          <br />
+          <button
+            onClick={() => {
+              searchListsForTrigger();
+            }}
+          >
+            Find Automation
+          </button>
+          <h4>
+            Your trigger is: <output id="trigger-output"></output>
+          </h4>
+          <h4>
+            Your Automation is: <output id="automation"></output>
+          </h4>
+          <h4>
+            Your Automation is located in this{' '}
+            <output id="trigger-location"></output>
+          </h4>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

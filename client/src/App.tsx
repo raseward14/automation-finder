@@ -69,6 +69,7 @@ const App: React.FC<{}> = () => {
                 folderIds={folderIds}
                 listIds={listIds}
                 folderlessListIds={folderlessListIds}
+                token={token}
               />
             }
           ></Route>
@@ -81,6 +82,7 @@ const App: React.FC<{}> = () => {
                 folderCallback={setFolderIds}
                 listCallback={setListIds}
                 folderlessListCallback={setFolderlessListIds}
+                tokenCallback={setToken}
               />
             }
           ></Route>

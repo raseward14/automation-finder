@@ -11,9 +11,10 @@ type workspacePropList = {
   folderCallback: (a: string[]) => void;
   listCallback: (a: string[]) => void;
   folderlessListCallback: (a: string[]) => void;
+  tokenCallback: (a: any) => void;
 };
 
-export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback }: workspacePropList) {
+export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback, tokenCallback }: workspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -203,10 +204,9 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   useEffect(() => {
     spaceCallback(spaceArray.map((space: any) => space.id));
     folderCallback(folderArray.map((folder: any) => folder.id));
-    let allLists = [...listArray, ...folderlessListArray]
-    // console.log('calls complete, lists and Folderless lists:', allLists.map((list: any) => list.id))
     listCallback(listArray.map((list: any) => list.id));
     folderlessListCallback(folderlessListArray.map((list:any) => list.id))
+    tokenCallback(token)
   }, [listArray])
 
   const style = {
