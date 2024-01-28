@@ -48,13 +48,11 @@ const Automations = (props: AutomationPropList) => {
   }>();
 
   const printShardFromWorkspaceId = async () => {
-    const printValue = document.getElementById('shard') as HTMLOutputElement;
     if (workspaceId.length > 1) {
       const res = await axios.post('http://localhost:3001/automation/shard', {
         teamId: workspaceId,
       });
       const shard = res.data;
-      printValue.textContent = shard;
       setShard(shard);
     }
   };
@@ -254,68 +252,24 @@ const Automations = (props: AutomationPropList) => {
     }
 
     searchFolderlessListsForTrigger();
-
-    // if((listAutoTriggers !== undefined) && (foundTrigger === undefined)) {
-    //   listAutoTriggers.forEach((trigger: any, i: number) => {
-    //     console.log(trigger.id, triggerInput)
-    //     if(trigger.id === triggerInput)
-    //     setFoundTrigger(trigger);
-    //   })
-    // } else if ((listShortcutTriggers !== undefined) && (foundTrigger === undefined)) {
-    //   listShortcutTriggers.forEach((trigger: any, i: number) => {
-    //     console.log(trigger.id, triggerInput)
-    //     if(trigger.id === triggerInput)
-    //     setFoundTrigger(trigger);
-    //   })
-    // } else if ((folderAutoTriggers !== undefined) && (foundTrigger === undefined)) {
-    //   folderAutoTriggers.forEach((trigger: any, i: number) => {
-    //     console.log(trigger.id, triggerInput)
-    //     if(trigger.id === triggerInput)
-    //     setFoundTrigger(trigger);
-    //   })
-    // } else if((folderShortcutTriggers !== undefined) && (foundTrigger === undefined)) {
-    //   folderShortcutTriggers.forEach((trigger: any, i: number) => {
-    //     console.log(trigger.id, triggerInput)
-    //     if(trigger.id === triggerInput)
-    //     setFoundTrigger(trigger);
-    //   })
-    // } else if((spaceAutoTriggers !== undefined) && (foundTrigger === undefined)) {
-    //   spaceAutoTriggers.forEach((trigger: any, i: number) => {
-    //     console.log(trigger.id, triggerInput)
-    //     if(trigger.id === triggerInput)
-    //     setFoundTrigger(trigger);
-    //   })
-    // } else if((spaceShortcutTriggers !== undefined) && (foundTrigger === undefined)) {
-    //   spaceShortcutTriggers.forEach((trigger: any, i: number) => {
-    //     console.log(trigger.id, triggerInput)
-    //     if(trigger.id === triggerInput)
-    //     setFoundTrigger(trigger);
-    //   })
-    // } else {
-    //   console.log('its been deleted or exists in a different workspace')
-    // }
-
-    // console.log('folderless list auto triggers', folderlessListTriggers?.automations);
-    // console.log('folderless list shortcut triggers', folderlessListTriggers?.shortcuts);
-
-    // console.log('folder auto triggers', folderTriggers?.automations);
-    // console.log('folder shortcut triggers', folderTriggers?.shortcuts);
-
-    // console.log('space auto triggers', spaceTriggers?.automations);
-    // console.log('space shortcut triggers', spaceTriggers?.shortcuts);
-
-    // printValue.textContent = triggerInput.toString();
-    // setTriggerId(triggerInput);
   };
 
   useEffect(() => {
     if (foundTrigger !== undefined) {
       console.log('we found it!', foundTrigger);
-      const printValue = document.getElementById(
+      const printTrigger = document.getElementById(
         'trigger-output'
       ) as HTMLOutputElement;
-      printValue.textContent = foundTrigger.toString();
+      const printDescription = document.getElementById(
+        'automation'
+      ) as HTMLOutputElement;
+      const printLocation = document.getElementById(
+        'trigger-location'
+      ) as HTMLOutputElement;
 
+      printTrigger.textContent = foundTrigger.trigger.type;
+      printDescription.textContent = foundTrigger.sentence;
+      printLocation.textContent = foundTrigger.parent_id;
     }
   }, [foundTrigger]);
 
@@ -381,10 +335,13 @@ const Automations = (props: AutomationPropList) => {
         Find Automation
       </button>
       <h4>
-        Your trigger_id: <output id="trigger-output"></output>
+        Your trigger is: <output id="trigger-output"></output>
       </h4>
       <h4>
-        Your Automation is: <output id="automation">placeholder</output>
+        Your Automation is: <output id="automation"></output>
+      </h4>
+      <h4>
+        Your Automation is located in this location: <output id="trigger-location"></output>
       </h4>
     </div>
   );
