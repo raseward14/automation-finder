@@ -10,9 +10,10 @@ type workspacePropList = {
   spaceCallback: (a: string[]) => void;
   folderCallback: (a: string[]) => void;
   listCallback: (a: string[]) => void;
+  folderlessListCallback: (a: string[]) => void;
 };
 
-export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback }: workspacePropList) {
+export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback }: workspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -32,6 +33,11 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   //
   const [clickedTeam, setClickedTeam] = useState<JSON>();
   const [showNavButton, setShowNavButton] = useState<boolean>(false);
+  const [workspacePressed, setWorkspacePressed] = useState<Number>(-1);
+  const [spacePressed, setSpacePressed] = useState<Number>(-1);
+  const [folderlessPressed, setFolderlessPressed] = useState<Number>(-1);
+  const [folderPressed, setFolderPressed] = useState<Number>(-1);
+  const [listPressed, setListPressed] = useState<Number>(-1);
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -195,37 +201,42 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   }, [folderArray]);
 
   useEffect(() => {
-    console.log('calls complete, Spaces:', spaceArray.map((space: any) => space.id))
     spaceCallback(spaceArray.map((space: any) => space.id));
-    console.log('calls complete, Folders:', folderArray.map((folder: any) => folder.id))
     folderCallback(folderArray.map((folder: any) => folder.id));
     let allLists = [...listArray, ...folderlessListArray]
-    console.log('calls complete, lists and Folderless lists:', allLists.map((list: any) => list.id))
-    listCallback(allLists.map((list: any) => list.id));
-    // goToAutomations()
+    // console.log('calls complete, lists and Folderless lists:', allLists.map((list: any) => list.id))
+    listCallback(listArray.map((list: any) => list.id));
+    folderlessListCallback(folderlessListArray.map((list:any) => list.id))
   }, [listArray])
 
+  const style = {
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    row: {
+      justifyContent: "center",
+      width: "100vw",
+      margin: "0 auto",
+    },
+    button: {
+      width: "auto", // Make the button only as wide as needed
+      margin: "5px", // Optional: Add margin for spacing
+    },
+  };
 
   return (
-    <Container fluid>
-      <Row>
-        <Button
-          variant="dark"
-          onClick={() => {
-            setSpaceArray([]);
-            setFolderArray([]);
-            setFolderlessListArray([]);
-            setListArray([]);
-          }}>
-          CLEAR
-        </Button>
-      </Row>
-      <Row id="workspace">
+    <Container fluid style={style.container as React.CSSProperties}>
+      <Row></Row>
+      <Row style={style.row}>
         <Col id="hierarchy_col">
           <h1>Select a Team</h1>
           {teamArray?.map((team: any, i: number) => (
             <Button
-              variant="dark"
+              style={style.button}
+              variant={workspacePressed == i ? "dark" : "outline-dark"}
               key={i}
               onClick={() => {
                 setClickedTeam(team);
@@ -234,12 +245,15 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
                 setFolderlessListArray([]);
                 setListArray([]);
                 GetSpaces(team.id);
+                i === workspacePressed
+                  ? setWorkspacePressed(-1)
+                  : setWorkspacePressed(i);
               }}>
               {`${team.name} id: ${team.id}`}
             </Button>
           ))}
         </Col>
-        <Col id="hierarchy_col">
+        {/* <Col id="hierarchy_col">
           <h1>Spaces</h1>
 
           {spaceArray?.map((space: any, i: number) => (
@@ -287,7 +301,7 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
               </td>
             </tr>
           ))}
-        </Col>
+        </Col> */}
         {showNavButton ? 
         <Col>
         <h3>Find Automations</h3>
@@ -302,6 +316,101 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
         <Col></Col>
 }
       </Row>
+      {workspacePressed === -1 ? (
+        <></>
+      ) : (
+        <Container fluid style={style.container as React.CSSProperties}>
+          <Row style={style.row}>
+            <Col id="hierarchy_col">
+              <h1>Spaces</h1>
+
+              {spaceArray?.map((space: any, i: number) => (
+                <tr key={i}>
+                  <td key={i}>
+                    <Button
+                      style={style.button}
+                      variant={spacePressed == i ? "dark" : "outline-dark"}
+                      key={i}
+                      onClick={() => {
+                        i === spacePressed
+                          ? setSpacePressed(-1)
+                          : setSpacePressed(i);
+                      }}>
+                      {`${space.name} id: ${space.id}`}
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </Col>
+          </Row>
+          <Row style={style.row}>
+            <Col id="hierarchy_col">
+              <h1>Folders</h1>
+              {folderArray?.map((folder: any, i: number) => (
+                <tr key={i}>
+                  <td key={i}>
+                    <Button
+                      style={style.button}
+                      variant={folderPressed == i ? "dark" : "outline-dark"}
+                      key={i}
+                      onClick={() => {
+                        i === folderPressed
+                          ? setFolderPressed(-1)
+                          : setFolderPressed(i);
+                      }}>
+                      {`${folder.name} id: ${folder.id}`}
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </Col>
+          </Row>
+          <Row style={style.row}>
+            <Col id="hierarchy_col">
+              <h1>Folderless Lists</h1>
+              {folderlessListArray?.map((list: any, i: number) => (
+                <tr key={i}>
+                  <td key={i}>
+                    <Button
+                      style={style.button}
+                      variant={folderlessPressed == i ? "dark" : "outline-dark"}
+                      key={i}
+                      onClick={() => {
+                        i === folderlessPressed
+                          ? setFolderlessPressed(-1)
+                          : setFolderlessPressed(i);
+                      }}>
+                      {`${list.name} id: ${list.id}`}
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </Col>
+          </Row>
+          <Row style={style.row}>
+            <Col id="hierarchy_col">
+              <h1>Lists</h1>
+              {listArray?.map((list: any, i: number) => (
+                <tr key={i}>
+                  <td key={i}>
+                    <Button
+                      style={style.button}
+                      variant={listPressed == i ? "dark" : "outline-dark"}
+                      key={i}
+                      onClick={() => {
+                        i === listPressed
+                          ? setListPressed(-1)
+                          : setListPressed(i);
+                      }}>
+                      {`${list.name} id: ${list.id}`}
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </Col>
+          </Row>
+        </Container>
+      )}
     </Container>
   );
 }
