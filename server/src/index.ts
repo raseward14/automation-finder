@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import AutomationRoutes from "./routes/AutomationRoutes";
 import WorkspaceRoutes from "./routes/WorkspaceRoutes";
+import BasicAuth from "./routes/BasicAuthRoutes";
 export const routes = express.Router();
 
 const app = express();
@@ -79,8 +80,10 @@ app.post("/token", async (req: Request, res: Response): Promise<any> => {
 
 routes.use(WorkspaceRoutes);
 routes.use(AutomationRoutes);
+routes.use(BasicAuth);
 app.use("/workspace", WorkspaceRoutes);
 app.use("/automation", AutomationRoutes);
+app.use("/auth", BasicAuth);
 
 httpServer.listen(socketPort, () => {
   console.log(`Server running at http://localhost:${socketPort}`);
