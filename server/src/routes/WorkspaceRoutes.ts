@@ -15,7 +15,7 @@ WorkspaceRoutes.post(
     });
 
     const data = await resp.text();
-    console.log(data);
+    // console.log(data);
     res.status(200).json(data);
   }
 );
@@ -45,6 +45,31 @@ WorkspaceRoutes.post(
   }
 );
 
+//get a Space in a Workspace
+WorkspaceRoutes.post(
+  "/space",
+  async (req: Request, res: Response): Promise<any> => {
+    const query = new URLSearchParams({
+      archived: "false",
+    }).toString();
+
+    const spaceId = req.body.spaceId;
+    const resp = await fetch(
+      `https://api.clickup.com/api/v2/space/${spaceId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${req.body.token}`,
+        },
+      }
+    );
+
+    const data = await resp.json();
+    console.log(data);
+    res.status(200).json(data);
+  }
+);
+
 //get list of Folders in a Workspace
 WorkspaceRoutes.post(
   "/folders",
@@ -65,6 +90,31 @@ WorkspaceRoutes.post(
     );
 
     const data = await resp.text();
+    console.log(data);
+    res.status(200).json(data);
+  }
+);
+
+//get a Folder in a Workspace
+WorkspaceRoutes.post(
+  "/folder",
+  async (req: Request, res: Response): Promise<any> => {
+    const query = new URLSearchParams({
+      archived: "false",
+    }).toString();
+
+    const folderId = req.body.folderId;
+    const resp = await fetch(
+      `https://api.clickup.com/api/v2/folder/${folderId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${req.body.token}`,
+        },
+      }
+    );
+
+    const data = await resp.json();
     console.log(data);
     res.status(200).json(data);
   }
@@ -115,6 +165,31 @@ WorkspaceRoutes.post(
     );
 
     const data = await resp.text();
+    console.log(data);
+    res.status(200).json(data);
+  }
+);
+
+//get single list
+WorkspaceRoutes.post(
+  "/list",
+  async (req: Request, res: Response): Promise<any> => {
+    const query = new URLSearchParams({
+      archived: "false",
+    }).toString();
+
+    const listId = req.body.listId;
+    const resp = await fetch(
+      `https://api.clickup.com/api/v2/list/${listId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${req.body.token}`,
+        },
+      }
+    );
+
+    const data = await resp.json();
     console.log(data);
     res.status(200).json(data);
   }

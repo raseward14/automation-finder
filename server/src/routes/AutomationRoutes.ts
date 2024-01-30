@@ -33,14 +33,13 @@ AutomationRoutes.post(
       const response = await fetch(
         `https://${shard}.clickup.com/automation/filters/project/${spaceId}/workflow?paging=true`,
         {
-          method: 'GET',
+          method: "POST",
           headers: {
-            Authorization: `Bearer: ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await response.text();
+      const data = await response.json();
       console.log(data);
       res.status(200).json(data);
     } catch (err) {
@@ -61,14 +60,13 @@ AutomationRoutes.post(
       const response = await fetch(
         `https://${shard}.clickup.com/automation/filters/category/${folderId}/workflow?paging=true`,
         {
-          method: 'GET',
+          method: "POST",
           headers: {
-            Authorization: `Bearer: ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await response.text();
+      const data = await response.json();
       console.log(data);
       res.status(200).json(data);
     } catch (err) {
@@ -87,17 +85,15 @@ AutomationRoutes.post(
 
     try {
       const response = await fetch(
-        `https://${shard}.clickup.com/automation/filters/category/${listId}/workflow?paging=true`,
+        `https://${shard}.clickup.com/automation/filters/subcategory/${listId}/workflow?paging=true`,
         {
-          method: 'GET',
+          method: "POST",
           headers: {
-            Authorization: `Bearer: ${token}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await response.text();
-      console.log(data);
+      const data = await response.json();
       res.status(200).json(data);
     } catch (err) {
       res.status(500).json(err);

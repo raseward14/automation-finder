@@ -3,12 +3,18 @@ import axios from "axios";
 import { Button, Container, Col, ContainerProps, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { Team, Space, Folder, List } from "../models/workspace_interface";
+// import "./component.css";
 
 type workspacePropList = {
   teamCallback: (a: string) => void;
+  spaceCallback: (a: string[]) => void;
+  folderCallback: (a: string[]) => void;
+  listCallback: (a: string[]) => void;
+  folderlessListCallback: (a: string[]) => void;
+  tokenCallback: (a: any) => void;
 };
 
-export default function Workspace({ teamCallback }: workspacePropList) {
+export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback, tokenCallback }: workspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -27,6 +33,7 @@ export default function Workspace({ teamCallback }: workspacePropList) {
 
   //
   const [clickedTeam, setClickedTeam] = useState<JSON>();
+  const [showNavButton, setShowNavButton] = useState<boolean>(false);
   const [workspacePressed, setWorkspacePressed] = useState<Number>(-1);
   const [spacePressed, setSpacePressed] = useState<Number>(-1);
   const [folderlessPressed, setFolderlessPressed] = useState<Number>(-1);
@@ -137,6 +144,7 @@ export default function Workspace({ teamCallback }: workspacePropList) {
             indvidualArray.push(listArrayData[i]);
           }
           setListArray((listArray) => [...listArray, ...indvidualArray]);
+          setShowNavButton(true);
         }
       })
       .catch((error) => {
@@ -156,22 +164,18 @@ export default function Workspace({ teamCallback }: workspacePropList) {
     }
   };
 
+  // const goToAutomations = () => {
+  //   navigate("/automations");
+  // }
+
   const sendTeam = (data: any) => {
-    if (data !== undefined) {
-      const jsonData = JSON.parse(data);
-      const teamArr = jsonData.teams;
-      const teamObject = teamArr.filter((team: any) => {
-        if (team.name === clickedTeam) {
-          return team;
-        }
-      });
-      teamCallback(teamObject);
-      navigate("/automations");
+    if(data !== undefined) {
+      teamCallback(data);
     }
   };
 
   useEffect(() => {
-    sendTeam(teamData);
+    sendTeam(clickedTeam);
   }, [clickedTeam]);
 
   useEffect(() => {
@@ -196,6 +200,14 @@ export default function Workspace({ teamCallback }: workspacePropList) {
       GetLists(folderArray[i].id);
     }
   }, [folderArray]);
+
+  useEffect(() => {
+    spaceCallback(spaceArray.map((space: any) => space.id));
+    folderCallback(folderArray.map((folder: any) => folder.id));
+    listCallback(listArray.map((list: any) => list.id));
+    folderlessListCallback(folderlessListArray.map((list:any) => list.id))
+    tokenCallback(token)
+  }, [listArray])
 
   const style = {
     container: {
@@ -241,6 +253,68 @@ export default function Workspace({ teamCallback }: workspacePropList) {
             </Button>
           ))}
         </Col>
+        {/* <Col id="hierarchy_col">
+          <h1>Spaces</h1>
+
+          {spaceArray?.map((space: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${space.name} id: ${space.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col>
+        <Col id="hierarchy_col">
+          <h1>Folders</h1>
+          {folderArray?.map((folder: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${folder.name} id: ${folder.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col>
+        <Col id="hierarchy_col">
+          <h1>Folderless Lists</h1>
+          {folderlessListArray?.map((list: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${list.name} id: ${list.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col>
+        <Col id="hierarchy_col">
+          <h1>Lists</h1>
+          {listArray?.map((list: any, i: number) => (
+            <tr key={i}>
+              <td key={i}>
+                <Button variant="dark" key={i} onClick={() => {}}>
+                  {`${list.name} id: ${list.id}`}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </Col> */}
+        {showNavButton ? 
+        <Col>
+        <h3>Find Automations</h3>
+        <tr>
+          <td>
+        <Button
+        onClick={() => {navigate('/automations')}}>Automations</Button>
+          </td>
+        </tr>
+        </Col>
+        :
+        <Col></Col>
+}
       </Row>
       {workspacePressed === -1 ? (
         <></>
