@@ -178,6 +178,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchSpacesForTrigger = () => {
+    console.log('searching Spaces')
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -210,6 +211,8 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchFoldersForTrigger = () => {
+    console.log('searching Folders')
+
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -243,6 +246,8 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchFolderlessListsForTrigger = () => {
+    console.log('searching Folderless lists')
+
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -276,6 +281,8 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchListsForTrigger = async () => {
+    console.log('searching lists')
+
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -307,6 +314,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
+    console.log(foundTrigger)
     if (foundTrigger !== undefined) {
       console.log('we found it!', foundTrigger);
       const printTrigger = document.getElementById(
@@ -348,6 +356,15 @@ const Automations = (props: AutomationPropList) => {
     }
   }, [bearer]);
 
+  const style = {
+    button: {
+      margin: "5px"
+    },
+    input: {
+      width: "320px"
+    }
+  }
+
   return (
     <div className="automations-container">
       <h1>The automations page</h1>
@@ -357,6 +374,7 @@ const Automations = (props: AutomationPropList) => {
       <input type="text" id="bearer-input" placeholder="bearer" />
       <br />
       <Button
+        style={style.button}
         onClick={() => {
           printBearer();
         }}
@@ -370,15 +388,45 @@ const Automations = (props: AutomationPropList) => {
         <>
           <span>Enter a trigger_id</span>
           <br />
-          <input type="text" id="trigger-input" placeholder="triggerId" />
+          <input style={style.input} type="text" id="trigger-input" placeholder="triggerId" />
           <br />
           <Button
+            style={style.button}
             onClick={() => {
               searchListsForTrigger();
             }}
           >
             Find Automation
           </Button>
+          {foundTrigger ?
+            <Button
+              style={style.button}
+              onClick={() => {
+                const trigger = document.getElementById(
+                  'trigger-input'
+                ) as HTMLInputElement;
+                const output = document.getElementById(
+                  'trigger-output'
+                ) as HTMLInputElement;
+                const automation = document.getElementById(
+                  'automation'
+                ) as HTMLInputElement;
+                const location = document.getElementById(
+                  'trigger-location'
+                ) as HTMLInputElement;
+                trigger.value = "";
+                output.textContent = "";
+                automation.textContent = "";
+                location.textContent = "";
+                setShortcut(false);
+                setFoundTrigger(undefined);
+              }}
+            >
+              Clear
+            </Button>
+            :
+            <></>
+          }
           <h4>
             Your trigger is: <output id="trigger-output"></output>
           </h4>
