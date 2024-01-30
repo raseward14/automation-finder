@@ -19,7 +19,7 @@ const Automations = (props: AutomationPropList) => {
   const [bearer, setBearer] = useState<string>('');
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
-  const [triggerLocationName, setTriggerLocationName] = useState<string>('');
+  const [shortcut, setShortcut] = useState<boolean>(false);
 
   // passed from workspace.tsx - done
   const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
@@ -203,6 +203,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
+          setShortcut(true);
         }
       });
     }
@@ -234,6 +235,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
+          setShortcut(true);
         }
       });
     }
@@ -266,6 +268,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
+          setShortcut(true);
         }
       });
     }
@@ -296,6 +299,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
+          setShortcut(true);
         }
       });
     }
@@ -381,10 +385,17 @@ const Automations = (props: AutomationPropList) => {
           <h4>
             Your Automation is: <output id="automation"></output>
           </h4>
-          <h4>
-            Your Automation is located in this{' '}
-            <output id="trigger-location"></output>
-          </h4>
+          {shortcut ?
+            <h4>
+              Your Automation is a shortcut located in this{' '}
+              <output id="trigger-location"></output>
+            </h4>
+            :
+            <h4>
+              Your Automation is located in this{' '}
+              <output id="trigger-location"></output>
+            </h4>
+          }
         </>
       ) : (
         <></>
