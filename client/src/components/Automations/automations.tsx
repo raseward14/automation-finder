@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Button } from "react-bootstrap"
 
 import axios from 'axios';
 import './style.css';
@@ -149,7 +150,7 @@ const Automations = (props: AutomationPropList) => {
           listId: id,
           token: token
         })
-        let listData = JSON.parse(listResponse.data);
+        let listData = listResponse.data;
         let listName = listData.name;
         printLocation.textContent = `List: ${listName}`;
         break;
@@ -158,7 +159,7 @@ const Automations = (props: AutomationPropList) => {
           folderId: id,
           token: token
         })
-        let folderData = JSON.parse(folderResponse.data);
+        let folderData = folderResponse.data;
         let folderName = folderData.name;
         console.log('its a folder', folderResponse);
         printLocation.textContent = `Folder: ${folderName}`;
@@ -168,7 +169,8 @@ const Automations = (props: AutomationPropList) => {
           spaceId: id,
           token: token
         })
-        let spaceData = JSON.parse(spaceResponse.data);
+        console.log(spaceResponse.data)
+        let spaceData = spaceResponse.data;
         let spaceName = spaceData.name;
         printLocation.textContent = `Space: ${spaceName}`;
         break;
@@ -198,7 +200,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       spaceShortcutTriggers?.forEach((trigger: any) => {
-        if (foundTrigger === false && trigger.id === triggerInput) {
+        if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
         }
@@ -229,7 +231,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderShortcutTriggers?.forEach((trigger: any) => {
-        if (foundTrigger === false && trigger.id === triggerInput) {
+        if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
         }
@@ -261,7 +263,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderlessShortcutTriggers?.forEach((trigger: any) => {
-        if (foundTrigger === false && trigger.id === triggerInput) {
+        if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
         }
@@ -280,7 +282,6 @@ const Automations = (props: AutomationPropList) => {
     // ) as HTMLOutputElement;
     let listAutoTriggers = listTriggers?.automations;
     let listShortcutTriggers = listTriggers?.shortcuts;
-
     if (foundTrigger === undefined) {
       listAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
@@ -292,7 +293,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       listShortcutTriggers?.forEach((trigger: any) => {
-        if (foundTrigger === false && trigger.id === triggerInput) {
+        if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
         }
@@ -351,13 +352,13 @@ const Automations = (props: AutomationPropList) => {
 
       <input type="text" id="bearer-input" placeholder="bearer" />
       <br />
-      <button
+      <Button
         onClick={() => {
           printBearer();
         }}
       >
         Enter
-      </button>
+      </Button>
       <h4>
         Your bearer token is: <output id="enteredNumber"></output>
       </h4>
@@ -367,13 +368,13 @@ const Automations = (props: AutomationPropList) => {
           <br />
           <input type="text" id="trigger-input" placeholder="triggerId" />
           <br />
-          <button
+          <Button
             onClick={() => {
               searchListsForTrigger();
             }}
           >
             Find Automation
-          </button>
+          </Button>
           <h4>
             Your trigger is: <output id="trigger-output"></output>
           </h4>
