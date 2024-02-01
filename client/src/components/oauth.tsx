@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { APIConstants } from "../constants"; //object of secret values: export const APIConstants = { key: value} hidden by gitignore
-import { Button, Row } from "react-bootstrap";
+import { Button, Form, Row } from "react-bootstrap";
 import { ClientToServerEvents, ServerToClientEvents } from "../models/socket";
 import { Socket, io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import Workspace from "./workspace";
 import { Container } from "react-bootstrap";
+import BasicAuth from "./basic";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3002"
@@ -103,12 +104,12 @@ export default function OAuthClickUp() {
             }}>
             Authorize
           </Button>
+          <BasicAuth />
         </Row>
       ) : (
         <Row style={style.row as React.CSSProperties}>
           <h1>ClickUp Authorized</h1>
-          {/* <h2>Access Code: {accessCode}</h2>
-          <h2>Access Token: {accessToken}</h2> */}
+
           <Button
             style={style.button}
             variant="dark"
