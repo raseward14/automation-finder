@@ -11,7 +11,7 @@ BasicAuthRoutes.post(
     var encode = base64url(req.body.email + ":" + req.body.password);
     //cGJpc2hvcEBjbGlja3VwLmNvbTpQaSR0aW5lODc4OA==
     console.log(encode);
-    const resp = await fetch(`https://app.clickup.com/auth/v1/login`, {
+    const resp = await fetch(`https://app.clickup.com/auth/v1/login?include_teams=true`, {
       method: "POST",
       headers: {
         Authorization: `Basic ${encode}`,
@@ -23,9 +23,11 @@ BasicAuthRoutes.post(
       }),
     });
     const data = await resp.json();
-    const token = data.token;
+    // console.log(data.teams)
+    const token = data;
     res.status(200).json(token);
   }
 );
+
 
 export default BasicAuthRoutes;

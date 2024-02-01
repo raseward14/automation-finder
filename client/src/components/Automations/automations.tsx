@@ -368,22 +368,6 @@ const Automations = (props: AutomationPropList) => {
   return (
     <div className="automations-container">
       <h1>The automations page</h1>
-      <span>Enter a bearer token to find an automation.</span>
-      <br />
-
-      <input type="text" id="bearer-input" placeholder="bearer" />
-      <br />
-      <Button
-        style={style.button}
-        onClick={() => {
-          printBearer();
-        }}
-      >
-        Enter
-      </Button>
-      <h4>
-        Your bearer token is: <output id="enteredNumber"></output>
-      </h4>
       {bearer ? (
         <>
           <span>Enter a trigger_id</span>

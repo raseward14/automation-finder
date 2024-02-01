@@ -14,7 +14,13 @@ type workspacePropList = {
   tokenCallback: (a: any) => void;
 };
 
+// type WorkspacePropList = {
+//   teams: object[]
+// };
+
 export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback, tokenCallback }: workspacePropList) {
+// export default function Workspace(props: WorkspacePropList) {
+
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -185,7 +191,7 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   }, [teamData]);
 
   useEffect(() => {
-    GetTeams();
+    // GetTeams();
   }, []);
 
   useEffect(() => {
