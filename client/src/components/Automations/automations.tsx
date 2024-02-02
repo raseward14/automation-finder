@@ -14,25 +14,32 @@ type AutomationPropList = {
 };
 
 const Automations = (props: AutomationPropList) => {
-  // inputs - manual
-  const [token, setToken] = useState<string>(props.token)
-  const [bearer, setBearer] = useState<string>('');
+  // sets dynamically by workspaceID on page load
+  const [shard, setShard] = useState<string>('');
+  const yourToken = localStorage.getItem('token');
+  // this token could be passed as a prop
+  // const [token, setToken] = useState<any>(props.token)
+  const [token, setToken] = useState<any>(yourToken)
+
+  // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [shortcut, setShortcut] = useState<boolean>(false);
+  
+  // will be passed from workspace.tsx - IN PROGRESS
+  // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId || '18016766');
+    // location ids
+  // const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds || ['30041784']);
+  // const [folderIds, setFolderIds] = useState<string[]>(props.folderIds || ['90170955336']);
+  // const [listIds, setListIds] = useState<string[]>(props.listIds || ['901701539190']);
+  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds || ['138161873']);
 
-  // passed from workspace.tsx - done
-  const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
-  // sets dynamically by workspaceID on page load
-  const [shard, setShard] = useState<string>('');
+  const [workspaceId, setWorkspaceId] = useState<string>('18016766');
+  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784']);
+  const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
+  const [listIds, setListIds] = useState<string[]>(['901701539190']);
+  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
 
-  // location ids
-  const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
-  const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
-  const [listIds, setListIds] = useState<string[]>(props.listIds);
-  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(
-    props.folderlessListIds
-  );
 
   // location trigger_ids
   const [listTriggers, setListTriggers] = useState<{
@@ -65,10 +72,11 @@ const Automations = (props: AutomationPropList) => {
   const getListAutomations = (listIDs: string[]) => {
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
+      console.log('get list auto call:', id, shard, token)
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
-        bearer: bearer,
+        bearer: token,
       });
       setListTriggers({
         automations: res.data.automations,
@@ -84,7 +92,7 @@ const Automations = (props: AutomationPropList) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
-        bearer: bearer,
+        bearer: token,
       });
       setFolderlessListTriggers({
         automations: res.data.automations,
@@ -99,7 +107,7 @@ const Automations = (props: AutomationPropList) => {
       const res = await axios.post('http://localhost:3001/automation/folder', {
         shard: shard,
         folderId: id,
-        bearer: bearer,
+        bearer: token,
       });
       setFolderTriggers({
         automations: res.data.automations,
@@ -114,7 +122,7 @@ const Automations = (props: AutomationPropList) => {
       const res = await axios.post('http://localhost:3001/automation/space', {
         shard: shard,
         spaceId: id,
-        bearer: bearer,
+        bearer: token,
       });
       setSpaceTriggers({
         automations: res.data.automations,
@@ -124,19 +132,8 @@ const Automations = (props: AutomationPropList) => {
     });
   };
 
-  function printBearer(): void {
-    const bearerValue = document.getElementById(
-      'bearer-input'
-    ) as HTMLInputElement;
-    const printValue = document.getElementById(
-      'enteredNumber'
-    ) as HTMLOutputElement;
-    const bearerInput = bearerValue.value;
-    printValue.textContent = bearerInput.toString();
-    setBearer(bearerInput);
-  }
-
   const getLocation = async (trigger: any) => {
+    console.log('made it here')
     const printLocation = document.getElementById(
       'trigger-location'
     ) as HTMLOutputElement;
@@ -192,6 +189,8 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       spaceAutoTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
+
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -201,6 +200,8 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       spaceShortcutTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
+
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -226,6 +227,8 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderAutoTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
+
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -235,6 +238,8 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderShortcutTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
+
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -261,6 +266,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderlessListAutoTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -270,6 +276,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderlessShortcutTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -294,6 +301,7 @@ const Automations = (props: AutomationPropList) => {
     let listShortcutTriggers = listTriggers?.shortcuts;
     if (foundTrigger === undefined) {
       listAutoTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -303,6 +311,7 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       listShortcutTriggers?.forEach((trigger: any) => {
+        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -336,25 +345,24 @@ const Automations = (props: AutomationPropList) => {
   }, [workspaceId]);
   useEffect(() => {
     console.log(`workspace shard: ${shard}`);
+    console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      // getListAutomations(listIds);
-      // getFolderAutomations(folderIds);
-      // getSpaceAutomations(spaceIds);
+      console.log('on page load, token is:',token)
+      console.log('spaceIds:', spaceIds);
+      console.log('folderIds:', folderIds);
+      console.log('listIds:', listIds);
+      console.log('folderlessListIds:', folderlessListIds);
+
+      getFolderlessListAutomations(folderlessListIds);
+      getListAutomations(listIds);
+      getFolderAutomations(folderIds);
+      getSpaceAutomations(spaceIds);
     }
   }, [shard]);
   useEffect(() => {
     console.log(`triggerID being searched: ${triggerId}`);
   }, [triggerId]);
-  useEffect(() => {
-    console.log(`bearer token for ?workflow endpoint: ${bearer}`);
-    if (bearer !== '') {
-      getSpaceAutomations(spaceIds);
-      getFolderAutomations(folderIds);
-      getListAutomations(listIds);
-      getFolderlessListAutomations(folderlessListIds);
-    }
-  }, [bearer]);
 
   const style = {
     button: {
@@ -368,7 +376,7 @@ const Automations = (props: AutomationPropList) => {
   return (
     <div className="automations-container">
       <h1>The automations page</h1>
-      {bearer ? (
+      {token ? (
         <>
           <span>Enter a trigger_id</span>
           <br />

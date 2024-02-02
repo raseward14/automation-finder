@@ -23,9 +23,8 @@ BasicAuthRoutes.post(
       }),
     });
     const data = await resp.json();
-    // console.log(data.teams)
-    const token = data;
-    res.status(200).json(token);
+    // const token = data.token;
+    res.status(200).json(data);
   }
 );
 
