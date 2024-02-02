@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from "react-bootstrap"
+import { Button } from 'react-bootstrap';
 
 import axios from 'axios';
 import './style.css';
@@ -19,16 +19,16 @@ const Automations = (props: AutomationPropList) => {
   const yourToken = localStorage.getItem('token');
   // this token could be passed as a prop
   // const [token, setToken] = useState<any>(props.token)
-  const [token, setToken] = useState<any>(yourToken)
+  const [token, setToken] = useState<any>(yourToken);
 
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [shortcut, setShortcut] = useState<boolean>(false);
-  
+
   // will be passed from workspace.tsx - IN PROGRESS
   // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId || '18016766');
-    // location ids
+  // location ids
   // const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds || ['30041784']);
   // const [folderIds, setFolderIds] = useState<string[]>(props.folderIds || ['90170955336']);
   // const [listIds, setListIds] = useState<string[]>(props.listIds || ['901701539190']);
@@ -38,8 +38,10 @@ const Automations = (props: AutomationPropList) => {
   const [spaceIds, setSpaceIds] = useState<string[]>(['30041784']);
   const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
   const [listIds, setListIds] = useState<string[]>(['901701539190']);
-  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
-
+  const [folderlessListIds, setFolderlessListIds] = useState<string[]>([
+    '138161873',
+  ]);
+  const [oAuthToken, setOAuthToken] = useState<string>('14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d')
 
   // location trigger_ids
   const [listTriggers, setListTriggers] = useState<{
@@ -72,7 +74,7 @@ const Automations = (props: AutomationPropList) => {
   const getListAutomations = (listIDs: string[]) => {
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
-      console.log('get list auto call:', id, shard, token)
+      console.log('get list auto call:', id, shard, token);
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
@@ -133,7 +135,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getLocation = async (trigger: any) => {
-    console.log('made it here')
+    console.log('made it here');
     const printLocation = document.getElementById(
       'trigger-location'
     ) as HTMLOutputElement;
@@ -143,30 +145,39 @@ const Automations = (props: AutomationPropList) => {
     console.log(trigger, location);
     switch (location) {
       case 6:
-        const listResponse = await axios.post(`http://localhost:3001/workspace/list`, {
-          listId: id,
-          token: token
-        })
+        const listResponse = await axios.post(
+          `http://localhost:3001/workspace/list`,
+          {
+            listId: id,
+            token: oAuthToken,
+          }
+        );
         let listData = listResponse.data;
         let listName = listData.name;
         printLocation.textContent = `List: ${listName}`;
         break;
       case 5:
-        const folderResponse = await axios.post(`http://localhost:3001/workspace/folder`, {
-          folderId: id,
-          token: token
-        })
+        const folderResponse = await axios.post(
+          `http://localhost:3001/workspace/folder`,
+          {
+            folderId: id,
+            token: oAuthToken,
+          }
+        );
         let folderData = folderResponse.data;
         let folderName = folderData.name;
         console.log('its a folder', folderResponse);
         printLocation.textContent = `Folder: ${folderName}`;
         break;
       case 4:
-        const spaceResponse = await axios.post(`http://localhost:3001/workspace/space`, {
-          spaceId: id,
-          token: token
-        })
-        console.log(spaceResponse.data)
+        const spaceResponse = await axios.post(
+          `http://localhost:3001/workspace/space`,
+          {
+            spaceId: id,
+            token: oAuthToken,
+          }
+        );
+        console.log(spaceResponse.data);
         let spaceData = spaceResponse.data;
         let spaceName = spaceData.name;
         printLocation.textContent = `Space: ${spaceName}`;
@@ -175,7 +186,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchSpacesForTrigger = () => {
-    console.log('searching Spaces')
+    console.log('searching Spaces');
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -189,8 +200,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       spaceAutoTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
-
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -200,8 +209,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       spaceShortcutTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
-
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -212,7 +219,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchFoldersForTrigger = () => {
-    console.log('searching Folders')
+    console.log('searching Folders');
 
     const trigger = document.getElementById(
       'trigger-input'
@@ -227,8 +234,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderAutoTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
-
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -238,8 +243,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderShortcutTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
-
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -251,7 +254,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchFolderlessListsForTrigger = () => {
-    console.log('searching Folderless lists')
+    console.log('searching Folderless lists');
 
     const trigger = document.getElementById(
       'trigger-input'
@@ -266,7 +269,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderlessListAutoTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -276,7 +278,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       folderlessShortcutTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -288,7 +289,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchListsForTrigger = async () => {
-    console.log('searching lists')
+    console.log('searching lists');
 
     const trigger = document.getElementById(
       'trigger-input'
@@ -301,7 +302,6 @@ const Automations = (props: AutomationPropList) => {
     let listShortcutTriggers = listTriggers?.shortcuts;
     if (foundTrigger === undefined) {
       listAutoTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -311,7 +311,6 @@ const Automations = (props: AutomationPropList) => {
 
     if (foundTrigger === undefined) {
       listShortcutTriggers?.forEach((trigger: any) => {
-        console.log(trigger.id, triggerInput)
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
@@ -323,7 +322,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
-    console.log(foundTrigger)
+    console.log(foundTrigger);
     if (foundTrigger !== undefined) {
       console.log('we found it!', foundTrigger);
       const printTrigger = document.getElementById(
@@ -343,12 +342,13 @@ const Automations = (props: AutomationPropList) => {
     printShardFromWorkspaceId();
     console.log(`workspaceID being searched: ${workspaceId}`);
   }, [workspaceId]);
+
   useEffect(() => {
     console.log(`workspace shard: ${shard}`);
     console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      console.log('on page load, token is:',token)
+      console.log('on page load, token is:', token);
       console.log('spaceIds:', spaceIds);
       console.log('folderIds:', folderIds);
       console.log('listIds:', listIds);
@@ -366,12 +366,12 @@ const Automations = (props: AutomationPropList) => {
 
   const style = {
     button: {
-      margin: "5px"
+      margin: '5px',
     },
     input: {
-      width: "320px"
-    }
-  }
+      width: '320px',
+    },
+  };
 
   return (
     <div className="automations-container">
@@ -380,17 +380,14 @@ const Automations = (props: AutomationPropList) => {
         <>
           <span>Enter a trigger_id</span>
           <br />
-          <input style={style.input} type="text" id="trigger-input" placeholder="triggerId" />
+          <input
+            style={style.input}
+            type="text"
+            id="trigger-input"
+            placeholder="triggerId"
+          />
           <br />
-          <Button
-            style={style.button}
-            onClick={() => {
-              searchListsForTrigger();
-            }}
-          >
-            Find Automation
-          </Button>
-          {foundTrigger ?
+          {foundTrigger ? (
             <Button
               style={style.button}
               onClick={() => {
@@ -406,36 +403,45 @@ const Automations = (props: AutomationPropList) => {
                 const location = document.getElementById(
                   'trigger-location'
                 ) as HTMLInputElement;
-                trigger.value = "";
-                output.textContent = "";
-                automation.textContent = "";
-                location.textContent = "";
+                trigger.value = '';
+                output.textContent = '';
+                automation.textContent = '';
+                location.textContent = '';
                 setShortcut(false);
                 setFoundTrigger(undefined);
               }}
             >
               Clear
             </Button>
-            :
-            <></>
-          }
+          ) : (
+            <>
+              <Button
+                style={style.button}
+                onClick={() => {
+                  searchListsForTrigger();
+                }}
+              >
+                Find Automation
+              </Button>
+            </>
+          )}
           <h4>
             Your trigger is: <output id="trigger-output"></output>
           </h4>
           <h4>
             Your Automation is: <output id="automation"></output>
           </h4>
-          {shortcut ?
+          {shortcut ? (
             <h4>
               Your Automation is a shortcut located in this{' '}
               <output id="trigger-location"></output>
             </h4>
-            :
+          ) : (
             <h4>
               Your Automation is located in this{' '}
               <output id="trigger-location"></output>
             </h4>
-          }
+          )}
         </>
       ) : (
         <></>
