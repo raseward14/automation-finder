@@ -1,3 +1,28 @@
 .automations-container {
-    margin-left: 10%;
+    margin: 5% 10% 10% 10%;
 }
+
+.search-button {
+    margin-bottom: 3px !important;
+}
+.search-field {
+    width: 340px;
+    margin: 0px 5px 0px 0px;
+    padding: 5px;
+    border-radius: 5px
+}
+.modal-container {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+#modal {
+    font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+#modal td, #modal th {
+    padding: 10px;
+}
+
+#modal tr:nth-child(even){background-color: #f2f2f244;}

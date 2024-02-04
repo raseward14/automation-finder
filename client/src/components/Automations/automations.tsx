@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 
 import axios from 'axios';
 import './style.css';
+import { getParsedCommandLineOfConfigFile } from 'typescript';
 
 type AutomationPropList = {
   teamId: string;
@@ -41,7 +42,9 @@ const Automations = (props: AutomationPropList) => {
   const [folderlessListIds, setFolderlessListIds] = useState<string[]>([
     '138161873',
   ]);
-  const [oAuthToken, setOAuthToken] = useState<string>('14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d')
+  const [oAuthToken, setOAuthToken] = useState<string>(
+    '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
+  );
 
   // location trigger_ids
   const [listTriggers, setListTriggers] = useState<{
@@ -364,59 +367,49 @@ const Automations = (props: AutomationPropList) => {
     console.log(`triggerID being searched: ${triggerId}`);
   }, [triggerId]);
 
-  const style = {
-    button: {
-      margin: '5px',
-    },
-    input: {
-      width: '320px',
-    },
-  };
-
   return (
     <div className="automations-container">
       <h1>The automations page</h1>
       {token ? (
         <>
-          <span>Enter a trigger_id</span>
-          <br />
           <input
-            style={style.input}
+            className="search-field"
             type="text"
             id="trigger-input"
-            placeholder="triggerId"
+            placeholder="Search by a triggerId"
           />
-          <br />
           {foundTrigger ? (
-            <Button
-              style={style.button}
-              onClick={() => {
-                const trigger = document.getElementById(
-                  'trigger-input'
-                ) as HTMLInputElement;
-                const output = document.getElementById(
-                  'trigger-output'
-                ) as HTMLInputElement;
-                const automation = document.getElementById(
-                  'automation'
-                ) as HTMLInputElement;
-                const location = document.getElementById(
-                  'trigger-location'
-                ) as HTMLInputElement;
-                trigger.value = '';
-                output.textContent = '';
-                automation.textContent = '';
-                location.textContent = '';
-                setShortcut(false);
-                setFoundTrigger(undefined);
-              }}
-            >
-              Clear
-            </Button>
+            <>
+              <Button
+                className="search-button"
+                onClick={() => {
+                  const trigger = document.getElementById(
+                    'trigger-input'
+                  ) as HTMLInputElement;
+                  const output = document.getElementById(
+                    'trigger-output'
+                  ) as HTMLInputElement;
+                  const automation = document.getElementById(
+                    'automation'
+                  ) as HTMLInputElement;
+                  const location = document.getElementById(
+                    'trigger-location'
+                  ) as HTMLInputElement;
+                  trigger.value = '';
+                  output.textContent = '';
+                  automation.textContent = '';
+                  location.textContent = '';
+                  setShortcut(false);
+                  setFoundTrigger(undefined);
+                }}
+              >
+                Clear
+              </Button>
+            </>
           ) : (
             <>
               <Button
-                style={style.button}
+                className="search-button"
                 onClick={() => {
                   searchListsForTrigger();
                 }}
@@ -425,23 +418,29 @@ const Automations = (props: AutomationPropList) => {
               </Button>
             </>
           )}
-          <h4>
-            Your trigger is: <output id="trigger-output"></output>
-          </h4>
-          <h4>
-            Your Automation is: <output id="automation"></output>
-          </h4>
-          {shortcut ? (
-            <h4>
-              Your Automation is a shortcut located in this{' '}
-              <output id="trigger-location"></output>
-            </h4>
-          ) : (
-            <h4>
-              Your Automation is located in this{' '}
-              <output id="trigger-location"></output>
-            </h4>
-          )}
+          <div className="modal-container">
+            <table id='modal'>
+              <tr>
+                {shortcut ? (
+                  <th>
+                    Shortcut located in this{' '}
+                    <output id="trigger-location"></output>
+                  </th>
+                ) : (
+                  <th>
+                    Automation located in this{' '}
+                    <output id="trigger-location"></output>
+                  </th>
+                )}
+              </tr>
+              <tr>
+                <td>Your trigger is: <output id="trigger-output"></output></td>
+              </tr>
+              <tr>
+              <td>Your Automation is: <output id="automation"></output></td>
+              </tr>
+            </table>
+          </div>
         </>
       ) : (
         <></>
