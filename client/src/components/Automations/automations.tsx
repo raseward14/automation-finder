@@ -160,12 +160,8 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let listId = listResponse.data.id;
-        
-        console.log(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
-
-        let listData = listResponse.data;
-        let listName = listData.name;
+        let listName = listResponse.data.name;
         setLocationName(`List: ${listName}`);
         break;
       case 5:
@@ -177,13 +173,10 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let folderId = folderResponse.data.id;
-        let foldersSpace = '';
-        console.log(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${foldersSpace}`)
-        setFoundLink(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${foldersSpace}`);
-        let folderData = folderResponse.data;
-        let folderName = folderData.name;
+        let folderSpaceId = folderResponse.data.space.id;
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`);
+        let folderName = folderResponse.data.name;
         setLocationName(`Folder: ${folderName}`);
-        console.log('its a folder', folderResponse);
         break;
       case 4:
         const spaceResponse = await axios.post(
@@ -194,10 +187,8 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let spaceId = spaceResponse.data.id;
-        console.log(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
-        let spaceData = spaceResponse.data;
-        let spaceName = spaceData.name;
+        let spaceName = spaceResponse.data.name;
         setLocationName(`Space: ${spaceName}`);
         break;
     }
@@ -455,15 +446,11 @@ const Automations = (props: AutomationPropList) => {
                   const automation = document.getElementById(
                     'automation'
                   ) as HTMLInputElement;
-                  // const location = document.getElementById(
-                  //   'trigger-location'
-                  // ) as HTMLInputElement;
                   trigger.value = '';
                   output.textContent = '';
                   if (automation !== null) {
                     automation.textContent = '';
                   }
-                  // location.textContent = '';
                   setLocationName(undefined);
                   setShortcut(undefined);
                   setFoundTrigger(undefined);
