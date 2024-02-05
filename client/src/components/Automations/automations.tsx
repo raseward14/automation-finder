@@ -195,9 +195,6 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    // const printValue = document.getElementById(
-    //   'trigger-output'
-    // ) as HTMLOutputElement;
 
     let spaceAutoTriggers = spaceTriggers?.automations;
     let spaceShortcutTriggers = spaceTriggers?.shortcuts;
@@ -265,7 +262,23 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          // setShortcut(true);
+          let shortType = '';
+          let shortUsers = [];
+          if(trigger.shortcut === 'assignee') {
+            shortType = 'assign tasks to ';
+            shortUsers = trigger.actions[0].input.add_assignees;
+            console.log(shortUsers);
+          } else {
+            shortType = 'watch tasks ';
+            shortUsers = trigger.actions[0].input.followers;
+            console.log(shortUsers);
+          }
+          console.log(shortType);
+          setShortcut({
+            type: shortType,
+            users: shortUsers
+          });
+
         }
       });
     }
@@ -279,9 +292,6 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    // const printValue = document.getElementById(
-    //   'trigger-output'
-    // ) as HTMLOutputElement;
 
     let folderlessListAutoTriggers = folderlessListTriggers?.automations;
     let folderlessShortcutTriggers = folderlessListTriggers?.shortcuts;
@@ -300,7 +310,23 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          // setShortcut(true);
+          let shortType = '';
+          let shortUsers = [];
+          if(trigger.shortcut === 'assignee') {
+            shortType = 'assign tasks to ';
+            shortUsers = trigger.actions[0].input.add_assignees;
+            console.log(shortUsers);
+          } else {
+            shortType = 'watch tasks ';
+            shortUsers = trigger.actions[0].input.followers;
+            console.log(shortUsers);
+          }
+          console.log(shortType);
+          setShortcut({
+            type: shortType,
+            users: shortUsers
+          });
+
         }
       });
     }
@@ -314,9 +340,7 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    // const printValue = document.getElementById(
-    //   'trigger-output'
-    // ) as HTMLOutputElement;
+
     let listAutoTriggers = listTriggers?.automations;
     let listShortcutTriggers = listTriggers?.shortcuts;
     if (foundTrigger === undefined) {
@@ -333,7 +357,23 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          // setShortcut(true);
+          let shortType = '';
+          let shortUsers = [];
+          if(trigger.shortcut === 'assignee') {
+            shortType = 'assign tasks to ';
+            shortUsers = trigger.actions[0].input.add_assignees;
+            console.log(shortUsers);
+          } else {
+            shortType = 'watch tasks ';
+            shortUsers = trigger.actions[0].input.followers;
+            console.log(shortUsers);
+          }
+          console.log(shortType);
+          setShortcut({
+            type: shortType,
+            users: shortUsers
+          });
+
         }
       });
     }
@@ -419,10 +459,7 @@ const Automations = (props: AutomationPropList) => {
                     automation.textContent = '';
                   }
                   location.textContent = '';
-                  setShortcut({
-                    type: '',
-                    users: []
-                  });
+                  setShortcut(undefined);
                   setFoundTrigger(undefined);
                 }}
               >
@@ -444,7 +481,7 @@ const Automations = (props: AutomationPropList) => {
           <div className="modal-container">
             <table id="modal">
               <tr>
-                {shortcut ? (
+                {shortcut !== undefined ? (
                   <th>
                     Shortcut located in this{' '}
                     <output id="trigger-location"></output>
@@ -462,15 +499,13 @@ const Automations = (props: AutomationPropList) => {
                 </td>
               </tr>
               <tr>
-                {shortcut ? (
+                {shortcut !== undefined ? (
                   <td>
                     <Badge pill bg="info">
                       SHORTCUT
-                    {/* </Badge> Always {shortcut.type} tasks to {shortcut.users} */}
                     </Badge> Always {shortcut.type}{shortcut.users.map((user => (
                     ` ${user}`
                     )))}
-
                   </td>
                 ) : (
                   <td>
