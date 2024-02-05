@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import Badge from 'react-bootstrap/Badge';
 
 import axios from 'axios';
 import './style.css';
-import { getParsedCommandLineOfConfigFile } from 'typescript';
 
 type AutomationPropList = {
   teamId: string;
@@ -25,7 +25,7 @@ const Automations = (props: AutomationPropList) => {
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
-  const [shortcut, setShortcut] = useState<boolean>(false);
+  const [shortcut, setShortcut] = useState<{type: string; users: string[]}>();
 
   // will be passed from workspace.tsx - IN PROGRESS
   // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId || '18016766');
@@ -34,6 +34,7 @@ const Automations = (props: AutomationPropList) => {
   // const [folderIds, setFolderIds] = useState<string[]>(props.folderIds || ['90170955336']);
   // const [listIds, setListIds] = useState<string[]>(props.listIds || ['901701539190']);
   // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds || ['138161873']);
+  // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
   const [workspaceId, setWorkspaceId] = useState<string>('18016766');
   const [spaceIds, setSpaceIds] = useState<string[]>(['30041784']);
@@ -215,7 +216,22 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          setShortcut(true);
+          let shortType = '';
+          let shortUsers = [];
+          if(trigger.shortcut === 'assignee') {
+            shortType = 'assign tasks to ';
+            shortUsers = trigger.actions[0].input.add_assignees;
+            console.log(shortUsers);
+          } else {
+            shortType = 'watch tasks ';
+            shortUsers = trigger.actions[0].input.followers;
+            console.log(shortUsers);
+          }
+          console.log(shortType);
+          setShortcut({
+            type: shortType,
+            users: shortUsers
+          });
         }
       });
     }
@@ -249,7 +265,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          setShortcut(true);
+          // setShortcut(true);
         }
       });
     }
@@ -284,7 +300,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          setShortcut(true);
+          // setShortcut(true);
         }
       });
     }
@@ -317,7 +333,7 @@ const Automations = (props: AutomationPropList) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
           getLocation(trigger);
-          setShortcut(true);
+          // setShortcut(true);
         }
       });
     }
@@ -336,7 +352,9 @@ const Automations = (props: AutomationPropList) => {
       ) as HTMLOutputElement;
 
       printTrigger.textContent = foundTrigger.trigger.type;
-      printDescription.textContent = foundTrigger.sentence;
+      if(printDescription !== null) {
+        printDescription.textContent = foundTrigger.sentence;
+      }
     }
   }, [foundTrigger]);
 
@@ -397,9 +415,14 @@ const Automations = (props: AutomationPropList) => {
                   ) as HTMLInputElement;
                   trigger.value = '';
                   output.textContent = '';
-                  automation.textContent = '';
+                  if(automation !== null) {
+                    automation.textContent = '';
+                  }
                   location.textContent = '';
-                  setShortcut(false);
+                  setShortcut({
+                    type: '',
+                    users: []
+                  });
                   setFoundTrigger(undefined);
                 }}
               >
@@ -419,7 +442,7 @@ const Automations = (props: AutomationPropList) => {
             </>
           )}
           <div className="modal-container">
-            <table id='modal'>
+            <table id="modal">
               <tr>
                 {shortcut ? (
                   <th>
@@ -434,10 +457,27 @@ const Automations = (props: AutomationPropList) => {
                 )}
               </tr>
               <tr>
-                <td>Your trigger is: <output id="trigger-output"></output></td>
+                <td>
+                  Your trigger is: <output id="trigger-output"></output>
+                </td>
               </tr>
               <tr>
-              <td>Your Automation is: <output id="automation"></output></td>
+                {shortcut ? (
+                  <td>
+                    <Badge pill bg="info">
+                      SHORTCUT
+                    {/* </Badge> Always {shortcut.type} tasks to {shortcut.users} */}
+                    </Badge> Always {shortcut.type}{shortcut.users.map((user => (
+                    ` ${user}`
+                    )))}
+
+                  </td>
+                ) : (
+                  <td>
+                    Your Automation is: 
+                    <output id="automation"></output>
+                  </td>
+                )}
               </tr>
             </table>
           </div>
