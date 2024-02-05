@@ -160,6 +160,7 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let listId = listResponse.data.id;
+        console.log(`https://app.clickup.com/${workspaceId}/v/li/${listId}`)
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
         let listName = listResponse.data.name;
         setLocationName(`List: ${listName}`);
@@ -174,7 +175,10 @@ const Automations = (props: AutomationPropList) => {
         );
         let folderId = folderResponse.data.id;
         let folderSpaceId = folderResponse.data.space.id;
-        setFoundLink(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`);
+        console.log(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`)
+        setFoundLink(
+          `https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`
+        );
         let folderName = folderResponse.data.name;
         setLocationName(`Folder: ${folderName}`);
         break;
@@ -187,6 +191,7 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let spaceId = spaceResponse.data.id;
+        console.log(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`)
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
         let spaceName = spaceResponse.data.name;
         setLocationName(`Space: ${spaceName}`);
@@ -434,6 +439,8 @@ const Automations = (props: AutomationPropList) => {
           />
           {foundTrigger ? (
             <>
+              {' '}
+              {/*find button*/}
               <Button
                 className="search-button"
                 onClick={() => {
@@ -454,7 +461,7 @@ const Automations = (props: AutomationPropList) => {
                   setLocationName(undefined);
                   setShortcut(undefined);
                   setFoundTrigger(undefined);
-                  setFoundLink(undefined)
+                  setFoundLink(undefined);
                 }}
               >
                 Clear
@@ -462,6 +469,8 @@ const Automations = (props: AutomationPropList) => {
             </>
           ) : (
             <>
+              {' '}
+              {/*clear button*/}
               <Button
                 className="search-button"
                 onClick={() => {
@@ -475,21 +484,29 @@ const Automations = (props: AutomationPropList) => {
           <div className="modal-container">
             <table id="modal">
               <tr>
+                {/*location row*/}
                 {shortcut !== undefined ? (
-                    <th>
-                      Shortcut located in this{' '}
-                      <output id="trigger-location"></output>
-                      {locationName}
-                      <a 
-                      href={foundLink}>Link</a>
-                    </th>
+                  <th>
+                    Shortcut located in this {locationName}.
+                    {foundTrigger ? (
+                      <a className="location-link" href={foundLink}>
+                        Link
+                      </a>
+                    ) : (
+                      <></>
+                    )}
+                  </th>
                 ) : (
-                    <th>
-                      Automation located in this{' '}
-                      <output id="trigger-location"></output>
-                      {locationName}
-                      <a href={foundLink}>Link</a>
-                    </th>
+                  <th>
+                    Automation located in this {locationName}.
+                    {foundTrigger ? (
+                      <a className="location-link" href={foundLink}>
+                        Link
+                      </a>
+                    ) : (
+                      <></>
+                    )}
+                  </th>
                 )}
               </tr>
               <tr>

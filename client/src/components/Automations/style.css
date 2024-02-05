@@ -26,3 +26,7 @@
 }
 
 #modal tr:nth-child(even){background-color: #f2f2f244;}
+
+.location-link {
+    margin-left: 20%;
+}
