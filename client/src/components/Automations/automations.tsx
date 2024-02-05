@@ -25,7 +25,13 @@ const Automations = (props: AutomationPropList) => {
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
-  const [shortcut, setShortcut] = useState<{type: string; users: string[]}>();
+  const [foundLink, setFoundLink] = useState<any>();
+  const [locationName, setLocationName] = useState<string>();
+  const [shortcut, setShortcut] = useState<{
+    type: string;
+    users: string[];
+    description: string;
+  }>();
 
   // will be passed from workspace.tsx - IN PROGRESS
   // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId || '18016766');
@@ -140,9 +146,6 @@ const Automations = (props: AutomationPropList) => {
 
   const getLocation = async (trigger: any) => {
     console.log('made it here');
-    const printLocation = document.getElementById(
-      'trigger-location'
-    ) as HTMLOutputElement;
 
     let location = trigger.parent_type;
     let id = trigger.parent_id;
@@ -156,9 +159,14 @@ const Automations = (props: AutomationPropList) => {
             token: oAuthToken,
           }
         );
+        let listId = listResponse.data.id;
+        
+        console.log(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
+
         let listData = listResponse.data;
         let listName = listData.name;
-        printLocation.textContent = `List: ${listName}`;
+        setLocationName(`List: ${listName}`);
         break;
       case 5:
         const folderResponse = await axios.post(
@@ -168,10 +176,14 @@ const Automations = (props: AutomationPropList) => {
             token: oAuthToken,
           }
         );
+        let folderId = folderResponse.data.id;
+        let foldersSpace = '';
+        console.log(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${foldersSpace}`)
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${foldersSpace}`);
         let folderData = folderResponse.data;
         let folderName = folderData.name;
+        setLocationName(`Folder: ${folderName}`);
         console.log('its a folder', folderResponse);
-        printLocation.textContent = `Folder: ${folderName}`;
         break;
       case 4:
         const spaceResponse = await axios.post(
@@ -181,10 +193,12 @@ const Automations = (props: AutomationPropList) => {
             token: oAuthToken,
           }
         );
-        console.log(spaceResponse.data);
+        let spaceId = spaceResponse.data.id;
+        console.log(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
         let spaceData = spaceResponse.data;
         let spaceName = spaceData.name;
-        printLocation.textContent = `Space: ${spaceName}`;
+        setLocationName(`Space: ${spaceName}`);
         break;
     }
   };
@@ -215,19 +229,19 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
           let shortType = '';
           let shortUsers = [];
-          if(trigger.shortcut === 'assignee') {
+          let shortDescription = trigger.description;
+          console.log(trigger.description);
+          if (trigger.shortcut === 'assignee') {
             shortType = 'assign tasks to ';
             shortUsers = trigger.actions[0].input.add_assignees;
-            console.log(shortUsers);
           } else {
             shortType = 'watch tasks ';
             shortUsers = trigger.actions[0].input.followers;
-            console.log(shortUsers);
           }
-          console.log(shortType);
           setShortcut({
             type: shortType,
-            users: shortUsers
+            users: shortUsers,
+            description: shortDescription,
           });
         }
       });
@@ -241,9 +255,6 @@ const Automations = (props: AutomationPropList) => {
       'trigger-input'
     ) as HTMLInputElement;
     const triggerInput = trigger.value;
-    // const printValue = document.getElementById(
-    //   'trigger-output'
-    // ) as HTMLOutputElement;
 
     let folderAutoTriggers = folderTriggers?.automations;
     let folderShortcutTriggers = folderTriggers?.shortcuts;
@@ -264,21 +275,19 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
           let shortType = '';
           let shortUsers = [];
-          if(trigger.shortcut === 'assignee') {
+          let shortDescription = trigger.description;
+          if (trigger.shortcut === 'assignee') {
             shortType = 'assign tasks to ';
             shortUsers = trigger.actions[0].input.add_assignees;
-            console.log(shortUsers);
           } else {
             shortType = 'watch tasks ';
             shortUsers = trigger.actions[0].input.followers;
-            console.log(shortUsers);
           }
-          console.log(shortType);
           setShortcut({
             type: shortType,
-            users: shortUsers
+            users: shortUsers,
+            description: shortDescription,
           });
-
         }
       });
     }
@@ -312,21 +321,19 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
           let shortType = '';
           let shortUsers = [];
-          if(trigger.shortcut === 'assignee') {
+          let shortDescription = trigger.description;
+          if (trigger.shortcut === 'assignee') {
             shortType = 'assign tasks to ';
             shortUsers = trigger.actions[0].input.add_assignees;
-            console.log(shortUsers);
           } else {
             shortType = 'watch tasks ';
             shortUsers = trigger.actions[0].input.followers;
-            console.log(shortUsers);
           }
-          console.log(shortType);
           setShortcut({
             type: shortType,
-            users: shortUsers
+            users: shortUsers,
+            description: shortDescription,
           });
-
         }
       });
     }
@@ -359,21 +366,19 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
           let shortType = '';
           let shortUsers = [];
-          if(trigger.shortcut === 'assignee') {
+          let shortDescription = trigger.description;
+          if (trigger.shortcut === 'assignee') {
             shortType = 'assign tasks to ';
             shortUsers = trigger.actions[0].input.add_assignees;
-            console.log(shortUsers);
           } else {
             shortType = 'watch tasks ';
             shortUsers = trigger.actions[0].input.followers;
-            console.log(shortUsers);
           }
-          console.log(shortType);
           setShortcut({
             type: shortType,
-            users: shortUsers
+            users: shortUsers,
+            description: shortDescription,
           });
-
         }
       });
     }
@@ -392,7 +397,7 @@ const Automations = (props: AutomationPropList) => {
       ) as HTMLOutputElement;
 
       printTrigger.textContent = foundTrigger.trigger.type;
-      if(printDescription !== null) {
+      if (printDescription !== null) {
         printDescription.textContent = foundTrigger.sentence;
       }
     }
@@ -450,17 +455,19 @@ const Automations = (props: AutomationPropList) => {
                   const automation = document.getElementById(
                     'automation'
                   ) as HTMLInputElement;
-                  const location = document.getElementById(
-                    'trigger-location'
-                  ) as HTMLInputElement;
+                  // const location = document.getElementById(
+                  //   'trigger-location'
+                  // ) as HTMLInputElement;
                   trigger.value = '';
                   output.textContent = '';
-                  if(automation !== null) {
+                  if (automation !== null) {
                     automation.textContent = '';
                   }
-                  location.textContent = '';
+                  // location.textContent = '';
+                  setLocationName(undefined);
                   setShortcut(undefined);
                   setFoundTrigger(undefined);
+                  setFoundLink(undefined)
                 }}
               >
                 Clear
@@ -482,15 +489,20 @@ const Automations = (props: AutomationPropList) => {
             <table id="modal">
               <tr>
                 {shortcut !== undefined ? (
-                  <th>
-                    Shortcut located in this{' '}
-                    <output id="trigger-location"></output>
-                  </th>
+                    <th>
+                      Shortcut located in this{' '}
+                      <output id="trigger-location"></output>
+                      {locationName}
+                      <a 
+                      href={foundLink}>Link</a>
+                    </th>
                 ) : (
-                  <th>
-                    Automation located in this{' '}
-                    <output id="trigger-location"></output>
-                  </th>
+                    <th>
+                      Automation located in this{' '}
+                      <output id="trigger-location"></output>
+                      {locationName}
+                      <a href={foundLink}>Link</a>
+                    </th>
                 )}
               </tr>
               <tr>
@@ -503,13 +515,16 @@ const Automations = (props: AutomationPropList) => {
                   <td>
                     <Badge pill bg="info">
                       SHORTCUT
-                    </Badge> Always {shortcut.type}{shortcut.users.map((user => (
-                    ` ${user}`
-                    )))}
+                    </Badge>{' '}
+                    Always {shortcut.type}
+                    {shortcut.users.map((user) => ` ${user}`)}
+                    <br />
+                    <br />
+                    {shortcut.description}
                   </td>
                 ) : (
                   <td>
-                    Your Automation is: 
+                    Your Automation is:
                     <output id="automation"></output>
                   </td>
                 )}

@@ -22,7 +22,7 @@
   width: 100%;
 }
 #modal td, #modal th {
-    padding: 10px;
+    padding: 30px;
 }
 
 #modal tr:nth-child(even){background-color: #f2f2f244;}
