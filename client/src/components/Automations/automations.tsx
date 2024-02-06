@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Breadcrumb } from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 import axios from 'axios';
 import './style.css';
@@ -26,6 +28,7 @@ const Automations = (props: AutomationPropList) => {
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [foundLink, setFoundLink] = useState<any>();
+  const [locationType, setLocationType] = useState<string>();
   const [locationName, setLocationName] = useState<string>();
   const [shortcut, setShortcut] = useState<{
     type: string;
@@ -163,7 +166,8 @@ const Automations = (props: AutomationPropList) => {
         console.log(`https://app.clickup.com/${workspaceId}/v/li/${listId}`)
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
         let listName = listResponse.data.name;
-        setLocationName(`List: ${listName}`);
+        setLocationType("List: ");
+        setLocationName(`${listName}`);
         break;
       case 5:
         const folderResponse = await axios.post(
@@ -180,7 +184,8 @@ const Automations = (props: AutomationPropList) => {
           `https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`
         );
         let folderName = folderResponse.data.name;
-        setLocationName(`Folder: ${folderName}`);
+        setLocationType("Folder: ");
+        setLocationName(`${folderName}`);
         break;
       case 4:
         const spaceResponse = await axios.post(
@@ -194,7 +199,8 @@ const Automations = (props: AutomationPropList) => {
         console.log(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`)
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
         let spaceName = spaceResponse.data.name;
-        setLocationName(`Space: ${spaceName}`);
+        setLocationType("Space: ")
+        setLocationName(`${spaceName}`);
         break;
     }
   };
@@ -428,7 +434,7 @@ const Automations = (props: AutomationPropList) => {
 
   return (
     <div className="automations-container">
-      <h1>The automations page</h1>
+      <h1>Find Automation</h1>
       {token ? (
         <>
           <input
@@ -439,7 +445,6 @@ const Automations = (props: AutomationPropList) => {
           />
           {foundTrigger ? (
             <>
-              {' '}
               {/*find button*/}
               <Button
                 className="search-button"
@@ -466,6 +471,94 @@ const Automations = (props: AutomationPropList) => {
               >
                 Clear
               </Button>
+              <div className="modal-container">
+                <table id="modal">
+                  <tbody>
+                    <tr>
+                      {/*location row*/}
+                      {shortcut !== undefined ? (
+                        <th>
+                          {foundTrigger ? (
+                            <Breadcrumb>
+                              {locationType === "Space: " ?
+                                <>
+                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square"})} /> {locationName}</Breadcrumb.Item>
+                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
+                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                </> : (locationType === "Folder: " ?
+                                  <>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder"})} /> {locationName}</Breadcrumb.Item>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                  </> :
+                                  <>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list"})} /> {locationName}</Breadcrumb.Item>
+                                  </>
+                                )}
+                            </Breadcrumb>
+                          ) : (
+                            <></>
+                          )}
+                          Shortcut located in this {locationType} {locationName}.
+                        </th>
+                      ) : (
+                        <th>
+                          {foundTrigger ? (
+                            <Breadcrumb>
+                              {locationType === "Space: " ?
+                                <>
+                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square"})} /> {locationName}</Breadcrumb.Item>
+                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
+                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                </> : (locationType === "Folder: " ?
+                                  <>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder"})} /> {locationName}</Breadcrumb.Item>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                  </> :
+                                  <>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list"})} /> {locationName}</Breadcrumb.Item>
+                                  </>
+                                )}
+                            </Breadcrumb>
+                          ) : (
+                            <></>
+                          )}
+                          Automation located in this {locationType} {locationName}.
+                        </th>
+                      )}
+                    </tr>
+                    <tr>
+                      <td>
+                        Your trigger is: <output id="trigger-output"></output>
+                      </td>
+                    </tr>
+                    <tr>
+                      {shortcut !== undefined ? (
+                        <td>
+                          <Badge pill bg="info">
+                            SHORTCUT
+                          </Badge>{' '}
+                          Always {shortcut.type}
+                          {shortcut.users.map((user) => ` ${user}`)}
+                          <br />
+                          <br />
+                          {shortcut.description}
+                        </td>
+                      ) : (
+                        <td>
+                          Your Automation is:
+                          <output id="automation"></output>
+                        </td>
+                      )}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </>
           ) : (
             <>
@@ -481,60 +574,6 @@ const Automations = (props: AutomationPropList) => {
               </Button>
             </>
           )}
-          <div className="modal-container">
-            <table id="modal">
-              <tr>
-                {/*location row*/}
-                {shortcut !== undefined ? (
-                  <th>
-                    Shortcut located in this {locationName}.
-                    {foundTrigger ? (
-                      <a className="location-link" href={foundLink}>
-                        Link
-                      </a>
-                    ) : (
-                      <></>
-                    )}
-                  </th>
-                ) : (
-                  <th>
-                    Automation located in this {locationName}.
-                    {foundTrigger ? (
-                      <a className="location-link" href={foundLink}>
-                        Link
-                      </a>
-                    ) : (
-                      <></>
-                    )}
-                  </th>
-                )}
-              </tr>
-              <tr>
-                <td>
-                  Your trigger is: <output id="trigger-output"></output>
-                </td>
-              </tr>
-              <tr>
-                {shortcut !== undefined ? (
-                  <td>
-                    <Badge pill bg="info">
-                      SHORTCUT
-                    </Badge>{' '}
-                    Always {shortcut.type}
-                    {shortcut.users.map((user) => ` ${user}`)}
-                    <br />
-                    <br />
-                    {shortcut.description}
-                  </td>
-                ) : (
-                  <td>
-                    Your Automation is:
-                    <output id="automation"></output>
-                  </td>
-                )}
-              </tr>
-            </table>
-          </div>
         </>
       ) : (
         <></>

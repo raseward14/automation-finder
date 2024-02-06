@@ -12,7 +12,7 @@
     border-radius: 5px
 }
 .modal-container {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.887);
     color: white;
     border-radius: 5px;
 }
@@ -29,4 +29,8 @@
 
 .location-link {
     margin-left: 20%;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #f8f9fa !important;
 }

@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/raseward14/my-coordinates#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "https-proxy-agent": "^7.0.2",
     "if-env": "^1.0.4",
     "net": "^1.0.2",
