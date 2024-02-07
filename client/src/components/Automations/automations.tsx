@@ -490,8 +490,8 @@ const Automations = (props: AutomationPropList) => {
                   setShortcut(undefined);
                   setFoundTrigger(undefined);
                   setFoundLink(undefined);
-                  setParentFolder({link: '', name: ''})
-                  setParentSpace({link: '', name: ''})
+                  setParentFolder({ link: '', name: '' })
+                  setParentSpace({ link: '', name: '' })
                 }}
               >
                 Clear
@@ -510,17 +510,17 @@ const Automations = (props: AutomationPropList) => {
                                   <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square" })} /> {locationName}</Breadcrumb.Item>
                                 </> : (locationType === "Folder: " ?
                                   <>
-                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {locationName}</Breadcrumb.Item>
                                   </> : (parentFolder?.name ?
                                     <>
-                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder ? parentFolder.name : "NA"}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder?.name}</Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
                                     </>
                                     :
                                     <>
-                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
                                     </>
                                   )
@@ -540,14 +540,20 @@ const Automations = (props: AutomationPropList) => {
                                   <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square" })} /> {locationName}</Breadcrumb.Item>
                                 </> : (locationType === "Folder: " ?
                                   <>
-                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {locationName}</Breadcrumb.Item>
-                                  </> :
-                                  <>
-                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder ? parentFolder.name : "NA"}</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
-                                  </>
+                                  </> : (parentFolder?.name ?
+                                    <>
+                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder?.name}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
+                                    </>
+                                    :
+                                    <>
+                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
+                                    </>
+                                  )
                                 )}
                             </Breadcrumb>
                           ) : (
