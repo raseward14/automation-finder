@@ -30,6 +30,8 @@ const Automations = (props: AutomationPropList) => {
   const [foundLink, setFoundLink] = useState<any>();
   const [locationType, setLocationType] = useState<string>();
   const [locationName, setLocationName] = useState<string>();
+  const [parentFolder, setParentFolder] = useState<{ link: string; name: string }>();
+  const [parentSpace, setParentSpace] = useState<{ link: string; name: string }>();
   const [shortcut, setShortcut] = useState<{
     type: string;
     users: string[];
@@ -163,11 +165,21 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let listId = listResponse.data.id;
-        console.log(`https://app.clickup.com/${workspaceId}/v/li/${listId}`)
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
         let listName = listResponse.data.name;
         setLocationType("List: ");
         setLocationName(`${listName}`);
+        // check for a parent Folder and Space
+        if (listResponse.data?.folder.name !== "hidden") {
+          setParentFolder({
+            link: `https://app.clickup.com/${workspaceId}/v/o/f/${listResponse.data?.folder.id}/${listResponse.data?.space.id}`,
+            name: listResponse.data?.folder.name
+          })
+        }
+        setParentSpace({
+          link: `https://app.clickup.com/${workspaceId}/v/o/s/${listResponse.data?.space.id}`,
+          name: listResponse.data?.space.name
+        })
         break;
       case 5:
         const folderResponse = await axios.post(
@@ -179,13 +191,17 @@ const Automations = (props: AutomationPropList) => {
         );
         let folderId = folderResponse.data.id;
         let folderSpaceId = folderResponse.data.space.id;
-        console.log(`https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`)
         setFoundLink(
-          `https://app.clickup.com/${workspaceId}/v/f/${folderId}/${folderSpaceId}`
+          `https://app.clickup.com/${workspaceId}/v/o/f/${folderId}/${folderSpaceId}`
         );
         let folderName = folderResponse.data.name;
+        // check for a parent Space
         setLocationType("Folder: ");
-        setLocationName(`${folderName}`);
+        setLocationName(`${folderName}`)
+        setParentSpace({
+          link: `https://app.clickup.com/${workspaceId}/v/o/s/${folderResponse.data?.space.id}`,
+          name: folderResponse.data?.space.name
+        })
         break;
       case 4:
         const spaceResponse = await axios.post(
@@ -196,8 +212,7 @@ const Automations = (props: AutomationPropList) => {
           }
         );
         let spaceId = spaceResponse.data.id;
-        console.log(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`)
-        setFoundLink(`https://app.clickup.com/${workspaceId}/v/s/${spaceId}`);
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/o/s/${spaceId}`);
         let spaceName = spaceResponse.data.name;
         setLocationType("Space: ")
         setLocationName(`${spaceName}`);
@@ -388,6 +403,14 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
+    console.log('parent Space: ', parentSpace?.link)
+  }, [parentSpace])
+
+  useEffect(() => {
+    console.log('parent Folder: ', parentFolder?.link)
+  }, [parentFolder])
+
+  useEffect(() => {
     console.log(foundTrigger);
     if (foundTrigger !== undefined) {
       console.log('we found it!', foundTrigger);
@@ -412,15 +435,15 @@ const Automations = (props: AutomationPropList) => {
   }, [workspaceId]);
 
   useEffect(() => {
-    console.log(`workspace shard: ${shard}`);
-    console.log(`workspace token: ${token}`);
+    // console.log(`workspace shard: ${shard}`);
+    // console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      console.log('on page load, token is:', token);
-      console.log('spaceIds:', spaceIds);
-      console.log('folderIds:', folderIds);
-      console.log('listIds:', listIds);
-      console.log('folderlessListIds:', folderlessListIds);
+      // console.log('on page load, token is:', token);
+      // console.log('spaceIds:', spaceIds);
+      // console.log('folderIds:', folderIds);
+      // console.log('listIds:', listIds);
+      // console.log('folderlessListIds:', folderlessListIds);
 
       getFolderlessListAutomations(folderlessListIds);
       getListAutomations(listIds);
@@ -467,6 +490,8 @@ const Automations = (props: AutomationPropList) => {
                   setShortcut(undefined);
                   setFoundTrigger(undefined);
                   setFoundLink(undefined);
+                  setParentFolder({link: '', name: ''})
+                  setParentSpace({link: '', name: ''})
                 }}
               >
                 Clear
@@ -482,20 +507,23 @@ const Automations = (props: AutomationPropList) => {
                             <Breadcrumb>
                               {locationType === "Space: " ?
                                 <>
-                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square"})} /> {locationName}</Breadcrumb.Item>
-                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
-                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square" })} /> {locationName}</Breadcrumb.Item>
                                 </> : (locationType === "Folder: " ?
                                   <>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder"})} /> {locationName}</Breadcrumb.Item>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
-                                  </> :
-                                  <>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list"})} /> {locationName}</Breadcrumb.Item>
-                                  </>
+                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {locationName}</Breadcrumb.Item>
+                                  </> : (parentFolder?.name ?
+                                    <>
+                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder ? parentFolder.name : "NA"}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
+                                    </>
+                                    :
+                                    <>
+                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
+                                    </>
+                                  )
                                 )}
                             </Breadcrumb>
                           ) : (
@@ -509,19 +537,16 @@ const Automations = (props: AutomationPropList) => {
                             <Breadcrumb>
                               {locationType === "Space: " ?
                                 <>
-                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square"})} /> {locationName}</Breadcrumb.Item>
-                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
-                                  <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square" })} /> {locationName}</Breadcrumb.Item>
                                 </> : (locationType === "Folder: " ?
                                   <>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder"})} /> {locationName}</Breadcrumb.Item>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "list"})} /> NA</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {locationName}</Breadcrumb.Item>
                                   </> :
                                   <>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "square"})} /> NA</Breadcrumb.Item>
-                                    <Breadcrumb.Item><FontAwesomeIcon icon={icon({ name: "folder"})} /> NA</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list"})} /> {locationName}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace ? parentSpace.name : "NA"}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder ? parentFolder.name : "NA"}</Breadcrumb.Item>
+                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
                                   </>
                                 )}
                             </Breadcrumb>
