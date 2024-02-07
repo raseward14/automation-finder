@@ -48,9 +48,9 @@ const Automations = (props: AutomationPropList) => {
   // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
   const [workspaceId, setWorkspaceId] = useState<string>('18016766');
-  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784']);
+  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
   const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
-  const [listIds, setListIds] = useState<string[]>(['901701539190']);
+  const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
   const [folderlessListIds, setFolderlessListIds] = useState<string[]>([
     '138161873',
   ]);
@@ -136,16 +136,31 @@ const Automations = (props: AutomationPropList) => {
 
   const getSpaceAutomations = (spaceIDs: string[]) => {
     spaceIDs.forEach(async (id) => {
+
       const res = await axios.post('http://localhost:3001/automation/space', {
         shard: shard,
         spaceId: id,
         bearer: token,
       });
-      setSpaceTriggers({
-        automations: res.data.automations,
-        shortcuts: res.data.shortcuts,
-      });
+
+      // not currently combining all space arrays in state variable
+      // let autoArr = spaceTriggers?.automations;
+      // let shortArr = spaceTriggers?.shortcuts;
+      // let newAutoArr = res.data.automations;
+      // let newShortArr = res.data.shortcuts;
+      // console.log(autoArr, shortArr, newAutoArr, newShortArr)
+      // setSpaceTriggers({
+      //   automations: autoArr?.concat(newAutoArr),
+      //   shortcuts: shortArr?.concat(newShortArr),
+      // });
+
+      // setSpaceTriggers({
+      //   automations: res.data.automations,
+      //   shortcuts: res.data.shortcuts,
+      // });
+
       console.log(`space ${id} workflow request:`, res.data);
+      console.log('array of space triggers', spaceTriggers)
     });
   };
 
