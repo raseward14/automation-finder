@@ -22,7 +22,9 @@ const Automations = (props: AutomationPropList) => {
   const yourToken = localStorage.getItem('token');
   // this token could be passed as a prop
   // const [token, setToken] = useState<any>(props.token)
-  const [token, setToken] = useState<any>(yourToken);
+  // this is no longer being returned from basic.tsx
+  // const [token, setToken] = useState<any>(yourToken);
+  const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
 
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
@@ -48,9 +50,9 @@ const Automations = (props: AutomationPropList) => {
   // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
   const [workspaceId, setWorkspaceId] = useState<string>('18016766');
-  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784']);
+  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
   const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
-  const [listIds, setListIds] = useState<string[]>(['901701539190']);
+  const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
   const [folderlessListIds, setFolderlessListIds] = useState<string[]>([
     '138161873',
   ]);
@@ -72,8 +74,8 @@ const Automations = (props: AutomationPropList) => {
     shortcuts: [];
   }>();
   const [spaceTriggers, setSpaceTriggers] = useState<{
-    automations: [];
-    shortcuts: [];
+    automations: any[];
+    shortcuts: any[];
   }>();
 
   const printShardFromWorkspaceId = async () => {
@@ -87,6 +89,9 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getListAutomations = (listIDs: string[]) => {
+    let allAutoTriggers: any = [];
+    let allShortTriggers: any = [];
+
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
       console.log('get list auto call:', id, shard, token);
@@ -95,15 +100,19 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      setListTriggers({
-        automations: res.data.automations,
-        shortcuts: res.data.shortcuts,
-      });
-      console.log(`List workflow request:`, res.data);
+      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
+      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      // console.log(`List workflow request:`, res.data);
+    });
+    setListTriggers({
+      automations: allAutoTriggers,
+      shortcuts: allShortTriggers,
     });
   };
 
   const getFolderlessListAutomations = (listIDs: string[]) => {
+    let allAutoTriggers: any = [];
+    let allShortTriggers: any = [];
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
@@ -111,41 +120,50 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      setFolderlessListTriggers({
-        automations: res.data.automations,
-        shortcuts: res.data.shortcuts,
-      });
-      console.log(`folderless list workflow request:`, res.data);
+      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
+      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      // console.log(`folderless list workflow request:`, res.data);
+    });
+    setFolderlessListTriggers({
+      automations: allAutoTriggers,
+      shortcuts: allShortTriggers,
     });
   };
 
   const getFolderAutomations = (folderIDs: string[]) => {
+    let allAutoTriggers: any = [];
+    let allShortTriggers: any = [];
     folderIDs.forEach(async (id) => {
       const res = await axios.post('http://localhost:3001/automation/folder', {
         shard: shard,
         folderId: id,
         bearer: token,
       });
-      setFolderTriggers({
-        automations: res.data.automations,
-        shortcuts: res.data.shortcuts,
-      });
-      console.log(`folder ${id} workflow request`, res.data);
+      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
+      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      // console.log(`folder ${id} workflow request`, res.data);
+    });
+    setFolderTriggers({
+      automations: allAutoTriggers,
+      shortcuts: allShortTriggers,
     });
   };
 
-  const getSpaceAutomations = (spaceIDs: string[]) => {
-    spaceIDs.forEach(async (id) => {
+  const getSpaceAutomations = async (spaceIDs: string[]) => {
+    let allAutoTriggers: any = [];
+    let allShortTriggers: any = [];
+    await spaceIDs.forEach(async (id) => {
       const res = await axios.post('http://localhost:3001/automation/space', {
         shard: shard,
         spaceId: id,
         bearer: token,
       });
-      setSpaceTriggers({
-        automations: res.data.automations,
-        shortcuts: res.data.shortcuts,
-      });
-      console.log(`space ${id} workflow request:`, res.data);
+      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
+      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+    });
+    setSpaceTriggers({
+      automations: allAutoTriggers,
+      shortcuts: allShortTriggers,
     });
   };
 
@@ -403,12 +421,8 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
-    console.log('parent Space: ', parentSpace?.link)
-  }, [parentSpace])
-
-  useEffect(() => {
-    console.log('parent Folder: ', parentFolder?.link)
-  }, [parentFolder])
+    console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts)
+  }, [spaceTriggers])
 
   useEffect(() => {
     console.log(foundTrigger);
