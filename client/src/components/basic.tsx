@@ -41,11 +41,15 @@ export default function BasicAuth() {
   useEffect(() => {
     if (token !== '') {
       localStorage.setItem('token', token);
-      navigate('/automations')
+      navigate('/oauth')
+      // console.log('show connect clickup OAuth button')
     }
   }, [token]);
 
   const style = {
+    container: {
+        margin: "5% 10% 10% 10%"
+    },
     button: {
       width: 'auto', // Make the button only as wide as needed
       marginTop: '10px', // Optional: Add margin for spacing
@@ -53,7 +57,7 @@ export default function BasicAuth() {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form style={style.container} onSubmit={handleSubmit}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control
@@ -79,7 +83,7 @@ export default function BasicAuth() {
       <Button variant="primary" type="submit">
         Submit
       </Button>
-      <h1>{token}</h1>
+      {/* <h1>{token}</h1> */}
     </Form>
   );
 }

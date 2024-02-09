@@ -135,6 +135,7 @@ export default function Workspace(props: WorkspacePropList) {
   };
 
   const GetLists = async (folderId: string): Promise<void> => {
+    console.log('get lists')
     await axios
       .post(`http://localhost:3001/workspace/lists`, {
         token: token,
@@ -169,10 +170,6 @@ export default function Workspace(props: WorkspacePropList) {
     }
   };
 
-  // const goToAutomations = () => {
-  //   navigate("/automations");
-  // }
-
   const sendTeam = (data: any) => {
     if(data !== undefined) {
       props.teamCallback(data);
@@ -204,6 +201,9 @@ export default function Workspace(props: WorkspacePropList) {
     for (var i = 0; i < folderArray.length; i++) {
       GetLists(folderArray[i].id);
     }
+    if(clickedTeam && (folderArray.length === 0)) {
+      setShowNavButton(true)
+    }
   }, [folderArray]);
 
   useEffect(() => {
@@ -216,6 +216,7 @@ export default function Workspace(props: WorkspacePropList) {
 
   const style = {
     container: {
+      margin: "5% 10% 10% 10%",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -237,13 +238,14 @@ export default function Workspace(props: WorkspacePropList) {
       <Row></Row>
       <Row style={style.row}>
         <Col id="hierarchy_col">
-          <h1>Select a Team</h1>
+          <h1>Select a Workspace</h1>
           {teamArray?.map((team: any, i: number) => (
             <Button
               style={style.button}
               variant={workspacePressed == i ? "dark" : "outline-dark"}
               key={i}
               onClick={() => {
+                console.log(team)
                 setClickedTeam(team);
                 setSpaceArray([]);
                 setFolderArray([]);
@@ -321,7 +323,7 @@ export default function Workspace(props: WorkspacePropList) {
         <Col></Col>
 }
       </Row>
-      {workspacePressed === -1 ? (
+      {/* {workspacePressed === -1 ? (
         <></>
       ) : (
         <Container fluid style={style.container as React.CSSProperties}>
@@ -415,7 +417,7 @@ export default function Workspace(props: WorkspacePropList) {
             </Col>
           </Row>
         </Container>
-      )}
+      )} */}
     </Container>
   );
 }

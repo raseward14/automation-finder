@@ -3,6 +3,7 @@ import { Button, Breadcrumb } from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+// import Nav from "../Nav";
 
 import axios from 'axios';
 import './style.css';
@@ -46,25 +47,25 @@ const Automations = (props: AutomationPropList) => {
   }>();
 
   // will be passed from workspace.tsx - IN PROGRESS
-  // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
+  const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
   // location ids
-  // const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
-  // const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
-  // const [listIds, setListIds] = useState<string[]>(props.listIds);
-  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds);
+  const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
+  const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
+  const [listIds, setListIds] = useState<string[]>(props.listIds);
+  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds);
   // token passed from OAUTH - for workflow requests  
-  // const [oAuthToken, setOAuthToken] = useState<string>(props.token);
+  const [oAuthToken, setOAuthToken] = useState<string>(props.token);
   
   // for us to manually hard code in locationIds
-  const [workspaceId, setWorkspaceId] = useState<string>('18016766');
-  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
-  const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
-  const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
-  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
+  // const [workspaceId, setWorkspaceId] = useState<string>('18016766');
+  // const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
+  // const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
+  // const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
+  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
   // same value, hard coded in in case we bypass OAUTH, and auth public api requests in some other way
-  const [oAuthToken, setOAuthToken] = useState<string>(
-      '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
-  );
+  // const [oAuthToken, setOAuthToken] = useState<string>(
+  //     '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
+  // );
   
   // this is in progress based on resolving the above
   // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
@@ -124,6 +125,7 @@ const Automations = (props: AutomationPropList) => {
     let allShortTriggers: any = [];
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
+      console.log(shard, id, token)
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
@@ -167,6 +169,7 @@ const Automations = (props: AutomationPropList) => {
         spaceId: id,
         bearer: token,
       });
+      console.log('space automations: ', res.data)
       res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
       res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
     });
@@ -340,24 +343,24 @@ const Automations = (props: AutomationPropList) => {
 
   const searchFolderlessListsForTrigger = () => {
     console.log('searching Folderless lists');
-
+    
     const trigger = document.getElementById(
       'trigger-input'
-    ) as HTMLInputElement;
-    const triggerInput = trigger.value;
-
-    let folderlessListAutoTriggers = folderlessListTriggers?.automations;
-    let folderlessShortcutTriggers = folderlessListTriggers?.shortcuts;
-
-    if (foundTrigger === undefined) {
-      folderlessListAutoTriggers?.forEach((trigger: any) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-        }
-      });
-    }
-
+      ) as HTMLInputElement;
+      const triggerInput = trigger.value;
+      
+      let folderlessListAutoTriggers = folderlessListTriggers?.automations;
+      let folderlessShortcutTriggers = folderlessListTriggers?.shortcuts;
+      
+      if (foundTrigger === undefined) {
+        folderlessListAutoTriggers?.forEach((trigger: any) => {
+          if (foundTrigger === undefined && trigger.id === triggerInput) {
+            setFoundTrigger(trigger);
+            getLocation(trigger);
+          }
+        });
+      }
+      
     if (foundTrigger === undefined) {
       folderlessShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
@@ -385,23 +388,22 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchListsForTrigger = async () => {
-    console.log('searching lists');
-
+    console.log('searching Lists')
     const trigger = document.getElementById(
       'trigger-input'
-    ) as HTMLInputElement;
-    const triggerInput = trigger.value;
-
-    let listAutoTriggers = listTriggers?.automations;
-    let listShortcutTriggers = listTriggers?.shortcuts;
-    if (foundTrigger === undefined) {
-      listAutoTriggers?.forEach((trigger: any) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-        }
-      });
-    }
+      ) as HTMLInputElement;
+      const triggerInput = trigger.value;
+      
+      let listAutoTriggers = listTriggers?.automations;
+      let listShortcutTriggers = listTriggers?.shortcuts;
+      if (foundTrigger === undefined) {
+        listAutoTriggers?.forEach((trigger: any) => {
+          if (foundTrigger === undefined && trigger.id === triggerInput) {
+            setFoundTrigger(trigger);
+            getLocation(trigger);
+          }
+        });
+      }
 
     if (foundTrigger === undefined) {
       listShortcutTriggers?.forEach((trigger: any) => {
@@ -428,6 +430,10 @@ const Automations = (props: AutomationPropList) => {
     }
     searchFolderlessListsForTrigger();
   };
+
+  useEffect(() => {
+    console.log(token)
+  }, [token])
 
   useEffect(() => {
     console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts)
@@ -480,6 +486,7 @@ const Automations = (props: AutomationPropList) => {
 
   return (
     <div className="automations-container">
+      <br/>
       <h1>Find Automation</h1>
       {token ? (
         <>

@@ -9,6 +9,7 @@ import { access } from 'fs';
 import Workspace from './components/workspace';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider } from 'react-bootstrap';
+import BasicAuth from './components/basic';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
@@ -34,23 +35,6 @@ const App: React.FC<{}> = () => {
   };
 
   return (
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" index element={<Layout />}></Route>
-    //     <Route path="/oauth" element={<OAuthClickUp />}></Route>
-    //     <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-    //     <Route path="/automations" element={<Automations
-    //     teamId={workspaceId}
-    //     spaceIds={spaceIds}
-    //     folderIds={folderIds}
-    //     listIds={listIds} />}></Route>
-    //     <Route path="/workspace/:token" element={<Workspace
-    //     teamCallback={getTeamIdFromObject}
-    //     spaceCallback={setSpaceIds}
-    //     folderCallback={setFolderIds}
-    //     listCallback={setListIds} />}></Route>
-    //   </Routes>
-    // </BrowserRouter>
     <ThemeProvider
       breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
       minBreakpoint="xxs"
@@ -58,21 +42,9 @@ const App: React.FC<{}> = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" index element={<Layout />}></Route>
+          <Route path="/basic" element={<BasicAuth />}></Route>
           <Route path="/oauth" element={<OAuthClickUp />}></Route>
           <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-          <Route
-            path="/automations"
-            element={
-              <Automations
-                teamId={workspaceId}
-                spaceIds={spaceIds}
-                folderIds={folderIds}
-                listIds={listIds}
-                folderlessListIds={folderlessListIds}
-                token={token}
-              />
-            }
-          ></Route>
           <Route
             path="/workspace/:token"
             element={
@@ -83,6 +55,19 @@ const App: React.FC<{}> = () => {
                 listCallback={setListIds}
                 folderlessListCallback={setFolderlessListIds}
                 tokenCallback={setToken}
+              />
+            }
+          ></Route>
+          <Route
+            path="/automations"
+            element={
+              <Automations
+                teamId={workspaceId}
+                spaceIds={spaceIds}
+                folderIds={folderIds}
+                listIds={listIds}
+                folderlessListIds={folderlessListIds}
+                token={token}
               />
             }
           ></Route>

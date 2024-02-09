@@ -7,7 +7,7 @@ import { Socket, io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import Workspace from "./workspace";
 import { Container } from "react-bootstrap";
-import BasicAuth from "./basic";
+// import BasicAuth from "./basic";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3002"
@@ -92,7 +92,7 @@ export default function OAuthClickUp() {
     <Container style={style.container as React.CSSProperties}>
       {gotToken == false ? (
         <Row style={style.row as React.CSSProperties}>
-          <h1>Integrate with ClickUp?</h1>
+          <h1>Connect ClickUp Workspaces</h1>
           <Button
             style={style.button}
             variant="dark"
@@ -104,7 +104,7 @@ export default function OAuthClickUp() {
             }}>
             Authorize
           </Button>
-          <BasicAuth />
+          {/* <BasicAuth /> */}
         </Row>
       ) : (
         <Row style={style.row as React.CSSProperties}>
@@ -116,7 +116,7 @@ export default function OAuthClickUp() {
             onClick={() => {
               navigate(`/workspace/${accessToken}`);
             }}>
-            Explore the Workspace
+            Explore Workspaces
           </Button>
         </Row>
       )}
