@@ -190,7 +190,7 @@ export default function Workspace(props: WorkspacePropList) {
   }, [teamData]);
 
   useEffect(() => {
-    // GetTeams();
+    GetTeams();
   }, []);
 
   useEffect(() => {
@@ -207,10 +207,11 @@ export default function Workspace(props: WorkspacePropList) {
   }, [folderArray]);
 
   useEffect(() => {
+    props.tokenCallback(token)
     props.spaceCallback(spaceArray.map((space: any) => space.id));
     props.folderCallback(folderArray.map((folder: any) => folder.id));
     props.listCallback(listArray.map((list: any) => list.id));
-    props.folderlessListCallback(folderlessListArray.map((list:any) => list.id))
+    props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
   }, [listArray])
 
   const style = {

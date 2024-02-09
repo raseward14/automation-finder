@@ -19,21 +19,26 @@ type AutomationPropList = {
 const Automations = (props: AutomationPropList) => {
   // sets dynamically by workspaceID on page load
   const [shard, setShard] = useState<string>('');
-  const yourToken = localStorage.getItem('token');
-  // this token could be passed as a prop
-  // const [token, setToken] = useState<any>(props.token)
-  // this is no longer being returned from basic.tsx
-  // const [token, setToken] = useState<any>(yourToken);
-  const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
 
+  // this is no longer being returned from basic.tsx - token is now returned as undefined
+  // const yourToken = localStorage.getItem('token');
+  // const [token, setToken] = useState<any>(yourToken);
+  // we could also retrieve the token via prop passing
+  // const [token, setToken] = useState<any>(props.token)
+
+  // hard coded token, copy paste from ?workflow network request - working
+  const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
+  
+  // taken from a login link - not working
+  // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNNeFNOYkYvU1lNPSJ9.eyJpZCI6IjE0OTE3Mjg3IiwibG9naW5Ub2tlbiI6dHJ1ZSwiYWRtaW4iOnRydWUsImJ5cGFzcyI6dHJ1ZSwiaWF0IjoxNzA3NDM5MjY3LCJleHAiOjE3MDc2OTg0Njd9.IHsnjqSn4-Ay34GAbn6j4TeTknyPy-njSj-eq6SV_OU')
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [foundLink, setFoundLink] = useState<any>();
   const [locationType, setLocationType] = useState<string>();
   const [locationName, setLocationName] = useState<string>();
-  const [parentFolder, setParentFolder] = useState<{ link: string; name: string }>();
-  const [parentSpace, setParentSpace] = useState<{ link: string; name: string }>();
+  const [parentFolder, setParentFolder] = useState<{link: string; name: string}>();
+  const [parentSpace, setParentSpace] = useState<{link: string; name: string}>();
   const [shortcut, setShortcut] = useState<{
     type: string;
     users: string[];
@@ -41,24 +46,28 @@ const Automations = (props: AutomationPropList) => {
   }>();
 
   // will be passed from workspace.tsx - IN PROGRESS
-  // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId || '18016766');
+  const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
   // location ids
-  // const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds || ['30041784']);
-  // const [folderIds, setFolderIds] = useState<string[]>(props.folderIds || ['90170955336']);
-  // const [listIds, setListIds] = useState<string[]>(props.listIds || ['901701539190']);
-  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds || ['138161873']);
-  // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
+  const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
+  const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
+  const [listIds, setListIds] = useState<string[]>(props.listIds);
+  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds);
+  // token passed from OAUTH - for workflow requests  
+  const [oAuthToken, setOAuthToken] = useState<string>(props.token);
+  // same value, hard coded in in case we bypass OAUTH, and auth public api requests in some other way
+  // const [oAuthToken, setOAuthToken] = useState<string>(
+    //   '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
+    // );
 
-  const [workspaceId, setWorkspaceId] = useState<string>('18016766');
-  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
-  const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
-  const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
-  const [folderlessListIds, setFolderlessListIds] = useState<string[]>([
-    '138161873',
-  ]);
-  const [oAuthToken, setOAuthToken] = useState<string>(
-    '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
-  );
+  // for us to manually hard code in locationIds
+  // const [workspaceId, setWorkspaceId] = useState<string>('18016766');
+  // const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
+  // const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
+  // const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
+  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
+  
+  // this is in progress based on resolving the above
+  // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
   // location trigger_ids
   const [listTriggers, setListTriggers] = useState<{
