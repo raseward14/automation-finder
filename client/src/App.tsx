@@ -10,6 +10,7 @@ import Workspace from './components/workspace';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider } from 'react-bootstrap';
 import BasicAuth from './components/basic';
+import TokenAuth from './components/token';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
@@ -71,6 +72,7 @@ const App: React.FC<{}> = () => {
               />
             }
           ></Route>
+        <Route path="/token" element={<TokenAuth/>}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

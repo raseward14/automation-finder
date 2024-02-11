@@ -28,5 +28,28 @@ BasicAuthRoutes.post(
   }
 );
 
+//get JWT token login
+BasicAuthRoutes.post(
+  "/token",
+  async (req: Request, res: Response): Promise<any> => {
+    var JWT = req.body.token;
+    console.log(JWT);
+    const resp = await fetch(`https://app.clickup.com/auth/v1/tokenLogin?include_teams=true`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${JWT}`,
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        cu_jwt: `Bearer ${JWT}`,
+      }),
+    });
+    const data = await resp.json();
+    console.log('token login: ', data);
+    // const token = data.token;
+    res.status(200).json(data);
+  }
+);
+
 
 export default BasicAuthRoutes;

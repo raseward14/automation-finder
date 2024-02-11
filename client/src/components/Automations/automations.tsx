@@ -491,11 +491,11 @@ const Automations = (props: AutomationPropList) => {
     // console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      // console.log('on page load, token is:', token);
-      // console.log('spaceIds:', spaceIds);
-      // console.log('folderIds:', folderIds);
-      // console.log('listIds:', listIds);
-      // console.log('folderlessListIds:', folderlessListIds);
+      console.log('on page load, token is:', token);
+      console.log('spaceIds:', spaceIds, props.spaceIds);
+      console.log('folderIds:', folderIds, props.folderIds);
+      console.log('listIds:', listIds, props.listIds);
+      console.log('folderlessListIds:', folderlessListIds, props.folderlessListIds);
 
       getFolderlessListAutomations(folderlessListIds);
       getListAutomations(listIds);

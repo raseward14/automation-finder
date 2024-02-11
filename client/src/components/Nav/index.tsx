@@ -25,7 +25,7 @@ const Nav = () => {
   return (
     <>
       <Row style={style.row}>
-        <Button href={"/basic"} style={style.button} variant="dark">
+        <Button href={"/token"} style={style.button} variant="dark">
           Sign in
         </Button>
       </Row>

@@ -201,6 +201,8 @@ export default function Workspace(props: WorkspacePropList) {
       GetLists(folderArray[i].id);
     }
     if(clickedTeam && (folderArray.length === 0)) {
+      props.spaceCallback(spaceArray.map((space: any) => space.id));
+      props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
       setShowNavButton(true)
     }
   }, [folderArray]);

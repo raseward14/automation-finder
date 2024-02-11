@@ -80,7 +80,7 @@ export default function BasicAuth() {
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button style={style.button} variant="primary" type="submit">
         Submit
       </Button>
       {/* <h1>{token}</h1> */}
