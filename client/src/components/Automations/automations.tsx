@@ -4,7 +4,7 @@ import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-// import Nav from "../Nav";
+import Nav from "../Nav";
 
 import axios from 'axios';
 import './style.css';
@@ -509,6 +509,7 @@ const Automations = (props: AutomationPropList) => {
 
   return (
     <div className="automations-container">
+      <Nav/>
       <br />
       <h1>Find Automation</h1>
       {token ? (
@@ -748,8 +749,10 @@ const Automations = (props: AutomationPropList) => {
                         </td>
                       ) : (
                         <td colSpan={2}>
-                          Your Automation description is:
+                          Automation:
                           <output id="automation"></output>
+                          <br/>
+                          <span>Description: {foundTrigger.description}</span>
                         </td>
                       )}
                     </tr>
