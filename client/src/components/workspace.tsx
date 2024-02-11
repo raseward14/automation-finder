@@ -135,7 +135,6 @@ export default function Workspace(props: WorkspacePropList) {
   };
 
   const GetLists = async (folderId: string): Promise<void> => {
-    console.log('get lists')
     await axios
       .post(`http://localhost:3001/workspace/lists`, {
         token: token,
@@ -212,7 +211,7 @@ export default function Workspace(props: WorkspacePropList) {
     props.folderCallback(folderArray.map((folder: any) => folder.id));
     props.listCallback(listArray.map((list: any) => list.id));
     props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
-  }, [listArray])
+  }, [listArray, folderlessListArray])
 
   const style = {
     container: {

@@ -259,7 +259,7 @@ const Automations = (props: AutomationPropList) => {
 
     let spaceAutoTriggers = spaceTriggers?.automations;
     let spaceShortcutTriggers = spaceTriggers?.shortcuts;
-
+    console.log(spaceTriggers)
     if (foundTrigger === undefined) {
       spaceAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
@@ -396,6 +396,7 @@ const Automations = (props: AutomationPropList) => {
       
       let listAutoTriggers = listTriggers?.automations;
       let listShortcutTriggers = listTriggers?.shortcuts;
+      console.log(listTriggers)
       if (foundTrigger === undefined) {
         listAutoTriggers?.forEach((trigger: any) => {
           if (foundTrigger === undefined && trigger.id === triggerInput) {
@@ -468,11 +469,11 @@ const Automations = (props: AutomationPropList) => {
     // console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      // console.log('on page load, token is:', token);
-      // console.log('spaceIds:', spaceIds);
-      // console.log('folderIds:', folderIds);
-      // console.log('listIds:', listIds);
-      // console.log('folderlessListIds:', folderlessListIds);
+      console.log('on page load, token is:', token);
+      console.log('spaceIds:', spaceIds);
+      console.log('folderIds:', folderIds);
+      console.log('listIds:', listIds);
+      console.log('folderlessListIds:', folderlessListIds);
 
       getFolderlessListAutomations(folderlessListIds);
       getListAutomations(listIds);
