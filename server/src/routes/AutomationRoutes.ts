@@ -82,7 +82,6 @@ AutomationRoutes.post(
     const shard = req.body.shard;
     const listId = req.body.listId;
     const token = req.body.bearer;
-
     try {
       const response = await fetch(
         `https://${shard}.clickup.com/automation/filters/subcategory/${listId}/workflow?paging=true`,

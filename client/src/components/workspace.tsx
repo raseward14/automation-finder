@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Team, Space, Folder, List } from "../models/workspace_interface";
 // import "./component.css";
 
-type workspacePropList = {
+type WorkspacePropList = {
   teamCallback: (a: string) => void;
   spaceCallback: (a: string[]) => void;
   folderCallback: (a: string[]) => void;
@@ -14,7 +14,12 @@ type workspacePropList = {
   tokenCallback: (a: any) => void;
 };
 
-export default function Workspace({ teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback, tokenCallback }: workspacePropList) {
+// type WorkspacePropList = {
+//   teams: object[]
+// };
+
+export default function Workspace(props: WorkspacePropList) {
+
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -170,7 +175,7 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
 
   const sendTeam = (data: any) => {
     if(data !== undefined) {
-      teamCallback(data);
+      props.teamCallback(data);
     }
   };
 
@@ -185,7 +190,7 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   }, [teamData]);
 
   useEffect(() => {
-    GetTeams();
+    // GetTeams();
   }, []);
 
   useEffect(() => {
@@ -202,11 +207,10 @@ export default function Workspace({ teamCallback, spaceCallback, folderCallback,
   }, [folderArray]);
 
   useEffect(() => {
-    spaceCallback(spaceArray.map((space: any) => space.id));
-    folderCallback(folderArray.map((folder: any) => folder.id));
-    listCallback(listArray.map((list: any) => list.id));
-    folderlessListCallback(folderlessListArray.map((list:any) => list.id))
-    tokenCallback(token)
+    props.spaceCallback(spaceArray.map((space: any) => space.id));
+    props.folderCallback(folderArray.map((folder: any) => folder.id));
+    props.listCallback(listArray.map((list: any) => list.id));
+    props.folderlessListCallback(folderlessListArray.map((list:any) => list.id))
   }, [listArray])
 
   const style = {
