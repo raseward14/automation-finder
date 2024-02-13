@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button, Breadcrumb } from 'react-bootstrap';
+import { Button, Breadcrumb, CardBody } from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+import Card from 'react-bootstrap/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Nav from "../Nav";
 
 import axios from 'axios';
 import './style.css';
@@ -19,21 +21,32 @@ type AutomationPropList = {
 const Automations = (props: AutomationPropList) => {
   // sets dynamically by workspaceID on page load
   const [shard, setShard] = useState<string>('');
-  const yourToken = localStorage.getItem('token');
-  // this token could be passed as a prop
-  // const [token, setToken] = useState<any>(props.token)
-  // this is no longer being returned from basic.tsx
-  // const [token, setToken] = useState<any>(yourToken);
-  const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
 
+  // this is no longer being returned from basic.tsx - token is now returned as undefined
+  const yourToken = localStorage.getItem('token');
+  const [token, setToken] = useState<any>(yourToken);
+  // we could also retrieve the token via prop passing
+  // const [token, setToken] = useState<any>(props.token)
+
+  // hard coded token, copy paste from ?workflow network request - working
+  // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
+
+  // taken from a login link - not working
+  // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNNeFNOYkYvU1lNPSJ9.eyJpZCI6IjE0OTE3Mjg3IiwibG9naW5Ub2tlbiI6dHJ1ZSwiYWRtaW4iOnRydWUsImJ5cGFzcyI6dHJ1ZSwiaWF0IjoxNzA3NDM5MjY3LCJleHAiOjE3MDc2OTg0Njd9.IHsnjqSn4-Ay34GAbn6j4TeTknyPy-njSj-eq6SV_OU')
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [foundLink, setFoundLink] = useState<any>();
   const [locationType, setLocationType] = useState<string>();
   const [locationName, setLocationName] = useState<string>();
-  const [parentFolder, setParentFolder] = useState<{ link: string; name: string }>();
-  const [parentSpace, setParentSpace] = useState<{ link: string; name: string }>();
+  const [parentFolder, setParentFolder] = useState<{
+    link: string;
+    name: string;
+  }>();
+  const [parentSpace, setParentSpace] = useState<{
+    link: string;
+    name: string;
+  }>();
   const [shortcut, setShortcut] = useState<{
     type: string;
     users: string[];
@@ -41,24 +54,30 @@ const Automations = (props: AutomationPropList) => {
   }>();
 
   // will be passed from workspace.tsx - IN PROGRESS
-  // const [workspaceId, setWorkspaceId] = useState<string>(props.teamId || '18016766');
+  const [workspaceId, setWorkspaceId] = useState<string>(props.teamId);
   // location ids
-  // const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds || ['30041784']);
-  // const [folderIds, setFolderIds] = useState<string[]>(props.folderIds || ['90170955336']);
-  // const [listIds, setListIds] = useState<string[]>(props.listIds || ['901701539190']);
-  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds || ['138161873']);
-  // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
-
-  const [workspaceId, setWorkspaceId] = useState<string>('18016766');
-  const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
-  const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
-  const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
-  const [folderlessListIds, setFolderlessListIds] = useState<string[]>([
-    '138161873',
-  ]);
-  const [oAuthToken, setOAuthToken] = useState<string>(
-    '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
+  const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
+  const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
+  const [listIds, setListIds] = useState<string[]>(props.listIds);
+  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(
+    props.folderlessListIds
   );
+  // token passed from OAUTH - for workflow requests
+  const [oAuthToken, setOAuthToken] = useState<string>(props.token);
+
+  // for us to manually hard code in locationIds
+  // const [workspaceId, setWorkspaceId] = useState<string>('18016766');
+  // const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
+  // const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
+  // const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
+  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
+  // same value, hard coded in in case we bypass OAUTH, and auth public api requests in some other way
+  // const [oAuthToken, setOAuthToken] = useState<string>(
+  //     '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
+  // );
+
+  // this is in progress based on resolving the above
+  // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
   // location trigger_ids
   const [listTriggers, setListTriggers] = useState<{
@@ -100,8 +119,12 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
-      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      res.data.automations.forEach(async (triggerObject: any) =>
+        allAutoTriggers.push(triggerObject)
+      );
+      res.data.shortcuts.forEach(async (shortcutObject: any) =>
+        allShortTriggers.push(shortcutObject)
+      );
       // console.log(`List workflow request:`, res.data);
     });
     setListTriggers({
@@ -115,13 +138,18 @@ const Automations = (props: AutomationPropList) => {
     let allShortTriggers: any = [];
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
+      console.log(shard, id, token);
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
         bearer: token,
       });
-      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
-      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      res.data.automations.forEach(async (triggerObject: any) =>
+        allAutoTriggers.push(triggerObject)
+      );
+      res.data.shortcuts.forEach(async (shortcutObject: any) =>
+        allShortTriggers.push(shortcutObject)
+      );
       // console.log(`folderless list workflow request:`, res.data);
     });
     setFolderlessListTriggers({
@@ -139,8 +167,12 @@ const Automations = (props: AutomationPropList) => {
         folderId: id,
         bearer: token,
       });
-      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
-      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      res.data.automations.forEach(async (triggerObject: any) =>
+        allAutoTriggers.push(triggerObject)
+      );
+      res.data.shortcuts.forEach(async (shortcutObject: any) =>
+        allShortTriggers.push(shortcutObject)
+      );
       // console.log(`folder ${id} workflow request`, res.data);
     });
     setFolderTriggers({
@@ -158,8 +190,13 @@ const Automations = (props: AutomationPropList) => {
         spaceId: id,
         bearer: token,
       });
-      res.data.automations.forEach(async (triggerObject: any) => allAutoTriggers.push(triggerObject));
-      res.data.shortcuts.forEach(async (shortcutObject: any) => allShortTriggers.push(shortcutObject));
+      console.log('space automations: ', res.data);
+      res.data.automations.forEach(async (triggerObject: any) =>
+        allAutoTriggers.push(triggerObject)
+      );
+      res.data.shortcuts.forEach(async (shortcutObject: any) =>
+        allShortTriggers.push(shortcutObject)
+      );
     });
     setSpaceTriggers({
       automations: allAutoTriggers,
@@ -185,19 +222,19 @@ const Automations = (props: AutomationPropList) => {
         let listId = listResponse.data.id;
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
         let listName = listResponse.data.name;
-        setLocationType("List: ");
+        setLocationType('List: ');
         setLocationName(`${listName}`);
         // check for a parent Folder and Space
-        if (listResponse.data?.folder.name !== "hidden") {
+        if (listResponse.data?.folder.name !== 'hidden') {
           setParentFolder({
             link: `https://app.clickup.com/${workspaceId}/v/o/f/${listResponse.data?.folder.id}/${listResponse.data?.space.id}`,
-            name: listResponse.data?.folder.name
-          })
+            name: listResponse.data?.folder.name,
+          });
         }
         setParentSpace({
           link: `https://app.clickup.com/${workspaceId}/v/o/s/${listResponse.data?.space.id}`,
-          name: listResponse.data?.space.name
-        })
+          name: listResponse.data?.space.name,
+        });
         break;
       case 5:
         const folderResponse = await axios.post(
@@ -214,12 +251,12 @@ const Automations = (props: AutomationPropList) => {
         );
         let folderName = folderResponse.data.name;
         // check for a parent Space
-        setLocationType("Folder: ");
-        setLocationName(`${folderName}`)
+        setLocationType('Folder: ');
+        setLocationName(`${folderName}`);
         setParentSpace({
           link: `https://app.clickup.com/${workspaceId}/v/o/s/${folderResponse.data?.space.id}`,
-          name: folderResponse.data?.space.name
-        })
+          name: folderResponse.data?.space.name,
+        });
         break;
       case 4:
         const spaceResponse = await axios.post(
@@ -232,7 +269,7 @@ const Automations = (props: AutomationPropList) => {
         let spaceId = spaceResponse.data.id;
         setFoundLink(`https://app.clickup.com/${workspaceId}/v/o/s/${spaceId}`);
         let spaceName = spaceResponse.data.name;
-        setLocationType("Space: ")
+        setLocationType('Space: ');
         setLocationName(`${spaceName}`);
         break;
     }
@@ -247,7 +284,7 @@ const Automations = (props: AutomationPropList) => {
 
     let spaceAutoTriggers = spaceTriggers?.automations;
     let spaceShortcutTriggers = spaceTriggers?.shortcuts;
-
+    console.log(spaceTriggers);
     if (foundTrigger === undefined) {
       spaceAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
@@ -376,8 +413,7 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchListsForTrigger = async () => {
-    console.log('searching lists');
-
+    console.log('searching Lists');
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -385,6 +421,7 @@ const Automations = (props: AutomationPropList) => {
 
     let listAutoTriggers = listTriggers?.automations;
     let listShortcutTriggers = listTriggers?.shortcuts;
+    console.log(listTriggers);
     if (foundTrigger === undefined) {
       listAutoTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
@@ -421,21 +458,22 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
-    console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts)
-  }, [spaceTriggers])
+    console.log(token);
+  }, [token]);
+
+  useEffect(() => {
+    console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts);
+  }, [spaceTriggers]);
 
   useEffect(() => {
     console.log(foundTrigger);
     if (foundTrigger !== undefined) {
       console.log('we found it!', foundTrigger);
-      const printTrigger = document.getElementById(
-        'trigger-output'
-      ) as HTMLOutputElement;
       const printDescription = document.getElementById(
         'automation'
       ) as HTMLOutputElement;
 
-      printTrigger.textContent = foundTrigger.trigger.type;
+      // printTrigger.textContent = foundTrigger.trigger.type;
       if (printDescription !== null) {
         printDescription.textContent = foundTrigger.sentence;
       }
@@ -453,11 +491,11 @@ const Automations = (props: AutomationPropList) => {
     // console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      // console.log('on page load, token is:', token);
-      // console.log('spaceIds:', spaceIds);
-      // console.log('folderIds:', folderIds);
-      // console.log('listIds:', listIds);
-      // console.log('folderlessListIds:', folderlessListIds);
+      console.log('on page load, token is:', token);
+      console.log('spaceIds:', spaceIds, props.spaceIds);
+      console.log('folderIds:', folderIds, props.folderIds);
+      console.log('listIds:', listIds, props.listIds);
+      console.log('folderlessListIds:', folderlessListIds, props.folderlessListIds);
 
       getFolderlessListAutomations(folderlessListIds);
       getListAutomations(listIds);
@@ -471,6 +509,8 @@ const Automations = (props: AutomationPropList) => {
 
   return (
     <div className="automations-container">
+      <Nav/>
+      <br />
       <h1>Find Automation</h1>
       {token ? (
         <>
@@ -489,14 +529,10 @@ const Automations = (props: AutomationPropList) => {
                   const trigger = document.getElementById(
                     'trigger-input'
                   ) as HTMLInputElement;
-                  const output = document.getElementById(
-                    'trigger-output'
-                  ) as HTMLInputElement;
                   const automation = document.getElementById(
                     'automation'
                   ) as HTMLInputElement;
                   trigger.value = '';
-                  output.textContent = '';
                   if (automation !== null) {
                     automation.textContent = '';
                   }
@@ -504,8 +540,8 @@ const Automations = (props: AutomationPropList) => {
                   setShortcut(undefined);
                   setFoundTrigger(undefined);
                   setFoundLink(undefined);
-                  setParentFolder({ link: '', name: '' })
-                  setParentSpace({ link: '', name: '' })
+                  setParentFolder({ link: '', name: '' });
+                  setParentSpace({ link: '', name: '' });
                 }}
               >
                 Clear
@@ -516,75 +552,192 @@ const Automations = (props: AutomationPropList) => {
                     <tr>
                       {/*location row*/}
                       {shortcut !== undefined ? (
-                        <th>
+                        <th colSpan={2}>
                           {foundTrigger ? (
                             <Breadcrumb>
-                              {locationType === "Space: " ?
+                              {locationType === 'Space: ' ? (
                                 <>
-                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square" })} /> {locationName}</Breadcrumb.Item>
-                                </> : (locationType === "Folder: " ?
-                                  <>
-                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {locationName}</Breadcrumb.Item>
-                                  </> : (parentFolder?.name ?
-                                    <>
-                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder?.name}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
-                                    </>
-                                    :
-                                    <>
-                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
-                                    </>
-                                  )
-                                )}
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              ) : locationType === 'Folder: ' ? (
+                                <>
+                                  <Breadcrumb.Item
+                                    href={`${parentSpace?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {parentSpace?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'folder' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              ) : parentFolder?.name ? (
+                                <>
+                                  <Breadcrumb.Item
+                                    href={`${parentSpace?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {parentSpace?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item
+                                    href={`${parentFolder?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'folder' })}
+                                    />{' '}
+                                    {parentFolder?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'list' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              ) : (
+                                <>
+                                  <Breadcrumb.Item
+                                    href={`${parentSpace?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {parentSpace?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'list' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              )}
                             </Breadcrumb>
                           ) : (
                             <></>
                           )}
-                          Shortcut located in this {locationType} {locationName}.
+                          Shortcut located in this {locationType} {locationName}
+                          .
                         </th>
                       ) : (
-                        <th>
+                        <th colSpan={2}>
                           {foundTrigger ? (
                             <Breadcrumb>
-                              {locationType === "Space: " ?
+                              {locationType === 'Space: ' ? (
                                 <>
-                                  <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "square" })} /> {locationName}</Breadcrumb.Item>
-                                </> : (locationType === "Folder: " ?
-                                  <>
-                                    <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
-                                    <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {locationName}</Breadcrumb.Item>
-                                  </> : (parentFolder?.name ?
-                                    <>
-                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={`${parentFolder?.link}`}><FontAwesomeIcon icon={icon({ name: "folder" })} /> {parentFolder?.name}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
-                                    </>
-                                    :
-                                    <>
-                                      <Breadcrumb.Item href={`${parentSpace?.link}`}><FontAwesomeIcon icon={icon({ name: "square" })} /> {parentSpace?.name}</Breadcrumb.Item>
-                                      <Breadcrumb.Item href={foundLink}><FontAwesomeIcon icon={icon({ name: "list" })} /> {locationName}</Breadcrumb.Item>
-                                    </>
-                                  )
-                                )}
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              ) : locationType === 'Folder: ' ? (
+                                <>
+                                  <Breadcrumb.Item
+                                    href={`${parentSpace?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {parentSpace?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'folder' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              ) : parentFolder?.name ? (
+                                <>
+                                  <Breadcrumb.Item
+                                    href={`${parentSpace?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {parentSpace?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item
+                                    href={`${parentFolder?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'folder' })}
+                                    />{' '}
+                                    {parentFolder?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'list' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              ) : (
+                                <>
+                                  <Breadcrumb.Item
+                                    href={`${parentSpace?.link}`}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'square' })}
+                                    />{' '}
+                                    {parentSpace?.name}
+                                  </Breadcrumb.Item>
+                                  <Breadcrumb.Item href={foundLink}>
+                                    <FontAwesomeIcon
+                                      icon={icon({ name: 'list' })}
+                                    />{' '}
+                                    {locationName}
+                                  </Breadcrumb.Item>
+                                </>
+                              )}
                             </Breadcrumb>
                           ) : (
                             <></>
                           )}
-                          Automation located in this {locationType} {locationName}.
+                          Automation located in this {locationType}{' '}
+                          {locationName}.
                         </th>
                       )}
                     </tr>
                     <tr>
-                      <td>
-                        Your trigger is: <output id="trigger-output"></output>
+                      <td style={{"width": "50%"}}>
+                        <h4>When</h4> 
+                        this happens:
+                        <Card>
+                          <Card.Body>
+                            <Card.Title>{foundTrigger.trigger.type}</Card.Title>
+                          </Card.Body>
+                        </Card>
                       </td>
+                      {foundTrigger.actions.map((action: any) => (
+                        <td>
+                          <h4>Then</h4>
+                          Do this action:
+                          <Card>
+                            <Card.Body>
+                              <Card.Title>{action.type}</Card.Title>
+                            </Card.Body>
+                          </Card>
+                        </td>
+                      ))}
                     </tr>
                     <tr>
                       {shortcut !== undefined ? (
-                        <td>
+                        <td colSpan={2}>
                           <Badge pill bg="info">
                             SHORTCUT
                           </Badge>{' '}
@@ -595,9 +748,11 @@ const Automations = (props: AutomationPropList) => {
                           {shortcut.description}
                         </td>
                       ) : (
-                        <td>
-                          Your Automation is:
+                        <td colSpan={2}>
+                          Automation:
                           <output id="automation"></output>
+                          <br/>
+                          <span>Description: {foundTrigger.description}</span>
                         </td>
                       )}
                     </tr>

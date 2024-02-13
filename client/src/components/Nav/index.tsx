@@ -4,23 +4,7 @@ import { Button, Row, ButtonGroup } from "react-bootstrap";
 
 const Nav = () => {
   const logout = async () => {
-    console.log("clicked");
-    try {
-      // an api request to logout
-      // possibly clear creds from session storage if there
-      // window.location.reload(false);
-      // console.log(response.data)
-      console.log("try block executed");
-    } catch (err) {
-      console.log(`got an error ${err}`);
-      // if(!err.response) {
-      //     setErrMsg('No server response...')
-      // } else if (err?.response) {
-      //     console.log(err.response)
-      // } else {
-      //     console.log('you are logged out!')
-      // }
-    }
+      localStorage.removeItem('token');
   };
 
   const style = {
@@ -41,15 +25,15 @@ const Nav = () => {
   return (
     <>
       <Row style={style.row}>
-        <Button href={"/oauth"} style={style.button} variant="dark">
-          Connect ClickUp
+        <Button href={"/token"} style={style.button} variant="dark">
+          Sign in
         </Button>
       </Row>
-      <Row style={style.row}>
+      {/* <Row style={style.row}>
         <Button href={"/automations"} style={style.button} variant="dark">
           Automations
         </Button>
-      </Row>
+      </Row> */}
       <Row style={style.row}>
         <Button href={"/logout"} style={style.button} variant="danger">
           Logout
