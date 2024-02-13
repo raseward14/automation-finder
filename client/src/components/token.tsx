@@ -60,7 +60,7 @@ export default function BasicAuth() {
   return (
     <Form style={style.container} onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>Password</Form.Label>
+        <Form.Label>CRM Login Link</Form.Label>
         <Form.Control
           type="text"
           placeholder="login link"
