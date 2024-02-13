@@ -63,7 +63,7 @@ export default function BasicAuth() {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="text"
-          placeholder="jwt"
+          placeholder="login link"
           value={loginURL}
           onChange={(e) => setLoginURL(e.target.value)}
           required
