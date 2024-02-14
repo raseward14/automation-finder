@@ -35,7 +35,11 @@ const Nav = () => {
         </Button>
       </Row> */}
       <Row style={style.row}>
-        <Button href={"/logout"} style={style.button} variant="danger">
+        <Button 
+        href={"/"} 
+        style={style.button} 
+        variant="danger"
+        onClick={logout}>
           Logout
         </Button>
       </Row>
