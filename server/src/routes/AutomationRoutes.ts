@@ -31,7 +31,7 @@ AutomationRoutes.post(
 
     try {
       const response = await fetch(
-        `https://${shard}.clickup.com/automation/filters/project/${spaceId}/workflow?paging=true`,
+        `https://${shard}.clickup.com/automation/filters/project/${spaceId}/workflow`,
         {
           method: "POST",
           headers: {
@@ -58,7 +58,7 @@ AutomationRoutes.post(
 
     try {
       const response = await fetch(
-        `https://${shard}.clickup.com/automation/filters/category/${folderId}/workflow?paging=true`,
+        `https://${shard}.clickup.com/automation/filters/category/${folderId}/workflow`,
         {
           method: "POST",
           headers: {
@@ -84,7 +84,7 @@ AutomationRoutes.post(
     const token = req.body.bearer;
     try {
       const response = await fetch(
-        `https://${shard}.clickup.com/automation/filters/subcategory/${listId}/workflow?paging=true`,
+        `https://${shard}.clickup.com/automation/filters/subcategory/${listId}/workflow`,
         {
           method: "POST",
           headers: {
