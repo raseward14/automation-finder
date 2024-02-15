@@ -65,17 +65,6 @@ const Automations = (props: AutomationPropList) => {
   // token passed from OAUTH - for workflow requests
   const [oAuthToken, setOAuthToken] = useState<string>(props.token);
 
-  // for us to manually hard code in locationIds
-  // const [workspaceId, setWorkspaceId] = useState<string>('18016766');
-  // const [spaceIds, setSpaceIds] = useState<string[]>(['30041784', '90170727133']);
-  // const [folderIds, setFolderIds] = useState<string[]>(['90170955336']);
-  // const [listIds, setListIds] = useState<string[]>(['901701539190', '901701699023', '901701699026']);
-  // const [folderlessListIds, setFolderlessListIds] = useState<string[]>(['138161873']);
-  // same value, hard coded in in case we bypass OAUTH, and auth public api requests in some other way
-  // const [oAuthToken, setOAuthToken] = useState<string>(
-  //     '14917287_c9ca7ed4005e10458372ffb5fea33f476c79aaf5260c30b0af339d89028d698d'
-  // );
-
   // this is in progress based on resolving the above
   // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
@@ -144,6 +133,8 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
+      console.log('folderlessList automations: ', res.data);
+
       res.data.automations.forEach(async (triggerObject: any) =>
         allAutoTriggers.push(triggerObject)
       );
