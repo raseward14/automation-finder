@@ -714,17 +714,17 @@ const Automations = (props: AutomationPropList) => {
                           </Card.Body>
                         </Card>
                       </td>
-                      {foundTrigger.actions.map((action: any) => (
                         <td>
                           <h4>Then</h4>
                           Do this action:
+                      {foundTrigger.actions.map((action: any) => (
                           <Card>
                             <Card.Body>
                               <Card.Title>{action.type}</Card.Title>
                             </Card.Body>
                           </Card>
-                        </td>
                       ))}
+                        </td>
                     </tr>
                     <tr>
                       {shortcut !== undefined ? (
