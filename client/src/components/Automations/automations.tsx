@@ -35,6 +35,7 @@ const Automations = (props: AutomationPropList) => {
   // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNNeFNOYkYvU1lNPSJ9.eyJpZCI6IjE0OTE3Mjg3IiwibG9naW5Ub2tlbiI6dHJ1ZSwiYWRtaW4iOnRydWUsImJ5cGFzcyI6dHJ1ZSwiaWF0IjoxNzA3NDM5MjY3LCJleHAiOjE3MDc2OTg0Njd9.IHsnjqSn4-Ay34GAbn6j4TeTknyPy-njSj-eq6SV_OU')
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
+  const [notFound, setNotFound] = useState<number>(0);
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [foundLink, setFoundLink] = useState<any>();
   const [locationType, setLocationType] = useState<string>();
@@ -102,14 +103,17 @@ const Automations = (props: AutomationPropList) => {
 
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
-      console.log('get list auto call:', id, shard, token);
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
         bearer: token,
       });
-      res.data.automations.forEach(async (triggerObject: any) =>
-        allAutoTriggers.push(triggerObject)
+      res.data.automations.forEach(async (triggerObject: any) => {
+        // we only want to search active triggers
+        if (triggerObject.active !== false) {
+          allAutoTriggers.push(triggerObject)
+        }
+      }
       );
       res.data.shortcuts.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
@@ -133,11 +137,14 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      console.log('folderlessList automations: ', res.data);
+      // console.log('folderlessList automations: ', res.data);
 
-      res.data.automations.forEach(async (triggerObject: any) =>
-        allAutoTriggers.push(triggerObject)
-      );
+      res.data.automations.forEach(async (triggerObject: any) => {
+        // we only want to search active triggers
+        if (triggerObject.active !== false) {
+          allAutoTriggers.push(triggerObject)
+        }
+      });
       res.data.shortcuts.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
@@ -158,8 +165,12 @@ const Automations = (props: AutomationPropList) => {
         folderId: id,
         bearer: token,
       });
-      res.data.automations.forEach(async (triggerObject: any) =>
-        allAutoTriggers.push(triggerObject)
+      res.data.automations.forEach(async (triggerObject: any) => {
+        // we only want to search active triggers
+        if (triggerObject.active !== false) {
+          allAutoTriggers.push(triggerObject)
+        }
+      }
       );
       res.data.shortcuts.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
@@ -181,9 +192,13 @@ const Automations = (props: AutomationPropList) => {
         spaceId: id,
         bearer: token,
       });
-      console.log('space automations: ', res.data);
-      res.data.automations.forEach(async (triggerObject: any) =>
-        allAutoTriggers.push(triggerObject)
+      // console.log('space automations: ', res.data);
+      res.data.automations.forEach(async (triggerObject: any) => {
+        // we only want to search active triggers
+        if (triggerObject.active !== false) {
+          allAutoTriggers.push(triggerObject)
+        }
+      }
       );
       res.data.shortcuts.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
@@ -283,9 +298,7 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
         }
       });
-    }
 
-    if (foundTrigger === undefined) {
       spaceShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
@@ -308,7 +321,35 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+    } else {
+      let newNf = notFound + 1;
+      setNotFound(newNf);
     }
+
+    // if (foundTrigger === undefined) {
+    //   spaceShortcutTriggers?.forEach((trigger: any) => {
+    //     if (foundTrigger === undefined && trigger.id === triggerInput) {
+    //       setFoundTrigger(trigger);
+    //       getLocation(trigger);
+    //       let shortType = '';
+    //       let shortUsers = [];
+    //       let shortDescription = trigger.description;
+    //       console.log(trigger.description);
+    //       if (trigger.shortcut === 'assignee') {
+    //         shortType = 'assign tasks to ';
+    //         shortUsers = trigger.actions[0].input.add_assignees;
+    //       } else {
+    //         shortType = 'watch tasks ';
+    //         shortUsers = trigger.actions[0].input.followers;
+    //       }
+    //       setShortcut({
+    //         type: shortType,
+    //         users: shortUsers,
+    //         description: shortDescription,
+    //       });
+    //     }
+    //   });
+    // }
   };
 
   const searchFoldersForTrigger = () => {
@@ -329,9 +370,7 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
         }
       });
-    }
 
-    if (foundTrigger === undefined) {
       folderShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
@@ -353,8 +392,36 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+    } else {
+      let newNf = notFound + 1;
+      setNotFound(newNf);
+
     }
-    searchSpacesForTrigger();
+
+    // if (foundTrigger === undefined) {
+    //   folderShortcutTriggers?.forEach((trigger: any) => {
+    //     if (foundTrigger === undefined && trigger.id === triggerInput) {
+    //       setFoundTrigger(trigger);
+    //       getLocation(trigger);
+    //       let shortType = '';
+    //       let shortUsers = [];
+    //       let shortDescription = trigger.description;
+    //       if (trigger.shortcut === 'assignee') {
+    //         shortType = 'assign tasks to ';
+    //         shortUsers = trigger.actions[0].input.add_assignees;
+    //       } else {
+    //         shortType = 'watch tasks ';
+    //         shortUsers = trigger.actions[0].input.followers;
+    //       }
+    //       setShortcut({
+    //         type: shortType,
+    //         users: shortUsers,
+    //         description: shortDescription,
+    //       });
+    //     }
+    //   });
+    // }
+    // searchSpacesForTrigger();
   };
 
   const searchFolderlessListsForTrigger = () => {
@@ -375,9 +442,7 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
         }
       });
-    }
 
-    if (foundTrigger === undefined) {
       folderlessShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
@@ -399,8 +464,35 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+    } else {
+      let newNf = notFound + 1;
+      setNotFound(newNf);
     }
-    searchFoldersForTrigger();
+
+    // if (foundTrigger === undefined) {
+    //   folderlessShortcutTriggers?.forEach((trigger: any) => {
+    //     if (foundTrigger === undefined && trigger.id === triggerInput) {
+    //       setFoundTrigger(trigger);
+    //       getLocation(trigger);
+    //       let shortType = '';
+    //       let shortUsers = [];
+    //       let shortDescription = trigger.description;
+    //       if (trigger.shortcut === 'assignee') {
+    //         shortType = 'assign tasks to ';
+    //         shortUsers = trigger.actions[0].input.add_assignees;
+    //       } else {
+    //         shortType = 'watch tasks ';
+    //         shortUsers = trigger.actions[0].input.followers;
+    //       }
+    //       setShortcut({
+    //         type: shortType,
+    //         users: shortUsers,
+    //         description: shortDescription,
+    //       });
+    //     }
+    //   });
+    // }
+    // searchFoldersForTrigger();
   };
 
   const searchListsForTrigger = async () => {
@@ -420,9 +512,7 @@ const Automations = (props: AutomationPropList) => {
           getLocation(trigger);
         }
       });
-    }
 
-    if (foundTrigger === undefined) {
       listShortcutTriggers?.forEach((trigger: any) => {
         if (foundTrigger === undefined && trigger.id === triggerInput) {
           setFoundTrigger(trigger);
@@ -444,9 +534,40 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+    } else {
+      let newNf = notFound + 1;
+      setNotFound(newNf);
     }
-    searchFolderlessListsForTrigger();
+
+    // if (foundTrigger === undefined) {
+    //   listShortcutTriggers?.forEach((trigger: any) => {
+    //     if (foundTrigger === undefined && trigger.id === triggerInput) {
+    //       setFoundTrigger(trigger);
+    //       getLocation(trigger);
+    //       let shortType = '';
+    //       let shortUsers = [];
+    //       let shortDescription = trigger.description;
+    //       if (trigger.shortcut === 'assignee') {
+    //         shortType = 'assign tasks to ';
+    //         shortUsers = trigger.actions[0].input.add_assignees;
+    //       } else {
+    //         shortType = 'watch tasks ';
+    //         shortUsers = trigger.actions[0].input.followers;
+    //       }
+    //       setShortcut({
+    //         type: shortType,
+    //         users: shortUsers,
+    //         description: shortDescription,
+    //       });
+    //     }
+    //   });
+    // }
+    // searchFolderlessListsForTrigger();
   };
+
+  useEffect(() => {
+    console.log(`not found ${notFound}`)
+  }, [notFound])
 
   useEffect(() => {
     console.log(token);
@@ -487,11 +608,18 @@ const Automations = (props: AutomationPropList) => {
       console.log('folderIds:', folderIds, props.folderIds);
       console.log('listIds:', listIds, props.listIds);
       console.log('folderlessListIds:', folderlessListIds, props.folderlessListIds);
-
-      getFolderlessListAutomations(folderlessListIds);
-      getListAutomations(listIds);
-      getFolderAutomations(folderIds);
-      getSpaceAutomations(spaceIds);
+      if (folderlessListIds?.length) {
+        getFolderlessListAutomations(folderlessListIds);
+      }
+      if (listIds?.length) {
+        getListAutomations(listIds);
+      }
+      if (folderIds?.length) {
+        getFolderAutomations(folderIds);
+      }
+      if (spaceIds?.length) {
+        getSpaceAutomations(spaceIds);
+      }
     }
   }, [shard]);
   useEffect(() => {
@@ -500,7 +628,7 @@ const Automations = (props: AutomationPropList) => {
 
   return (
     <div className="automations-container">
-      <Nav/>
+      <Nav />
       <br />
       <h1>Find Automation</h1>
       {token ? (
@@ -511,7 +639,7 @@ const Automations = (props: AutomationPropList) => {
             id="trigger-input"
             placeholder="Search by a triggerId"
           />
-          {foundTrigger ? (
+          {foundTrigger || (notFound >= 4) ? (
             <>
               {/*find button*/}
               <Button
@@ -705,8 +833,8 @@ const Automations = (props: AutomationPropList) => {
                       )}
                     </tr>
                     <tr>
-                      <td style={{"width": "50%"}}>
-                        <h4>When</h4> 
+                      <td style={{ "width": "50%" }}>
+                        <h4>When</h4>
                         this happens:
                         <Card>
                           <Card.Body>
@@ -714,17 +842,17 @@ const Automations = (props: AutomationPropList) => {
                           </Card.Body>
                         </Card>
                       </td>
-                        <td>
-                          <h4>Then</h4>
-                          Do this action:
-                      {foundTrigger.actions.map((action: any) => (
+                      <td>
+                        <h4>Then</h4>
+                        Do this action:
+                        {foundTrigger.actions.map((action: any) => (
                           <Card>
                             <Card.Body>
                               <Card.Title>{action.type}</Card.Title>
                             </Card.Body>
                           </Card>
-                      ))}
-                        </td>
+                        ))}
+                      </td>
                     </tr>
                     <tr>
                       {shortcut !== undefined ? (
@@ -742,7 +870,7 @@ const Automations = (props: AutomationPropList) => {
                         <td colSpan={2}>
                           Automation:
                           <output id="automation"></output>
-                          <br/>
+                          <br />
                           <span>Description: {foundTrigger.description}</span>
                         </td>
                       )}
@@ -758,7 +886,34 @@ const Automations = (props: AutomationPropList) => {
               <Button
                 className="search-button"
                 onClick={() => {
-                  searchListsForTrigger();
+                  console.log('list auto/short', listTriggers?.automations.length, listTriggers?.shortcuts.length)
+                  if ((listTriggers?.automations.length !== 0) || (listTriggers?.shortcuts.length !== 0)) {
+                    searchListsForTrigger();
+                  } else {
+                    let newNf = notFound + 1;
+                    setNotFound(newNf);
+                  }
+                  console.log('folderless auto/short', folderlessListTriggers?.automations.length, folderlessListTriggers?.shortcuts.length)
+                  if ((folderlessListTriggers?.automations.length !== 0) || (folderlessListTriggers?.shortcuts.length !== 0)) {
+                    searchFolderlessListsForTrigger();
+                  } else {
+                    let newNf = notFound + 1;
+                    setNotFound(newNf);
+                  }
+                  console.log('folder auto/short', folderTriggers?.automations.length, spaceTriggers?.shortcuts.length)
+                  if ((folderTriggers?.automations.length !== 0) || (spaceTriggers?.shortcuts.length !== 0)) {
+                    searchFoldersForTrigger();
+                  } else {
+                    let newNf = notFound + 1;
+                    setNotFound(newNf);
+                  }
+                  console.log('space auto/short', spaceTriggers?.automations.length, spaceTriggers?.shortcuts.length)
+                  if ((spaceTriggers?.automations.length !== 0) || (spaceTriggers?.shortcuts.length !== 0)) {
+                    searchSpacesForTrigger();
+                  } else {
+                    let newNf = notFound + 1;
+                    setNotFound(newNf);
+                  }
                 }}
               >
                 Find Automation

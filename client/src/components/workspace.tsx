@@ -129,6 +129,11 @@ export default function Workspace(props: WorkspacePropList) {
           ]);
         }
       })
+      .then(() => {
+        if(folderArray.length === 0) {
+          setShowNavButton(true)
+        }
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -149,8 +154,10 @@ export default function Workspace(props: WorkspacePropList) {
             indvidualArray.push(listArrayData[i]);
           }
           setListArray((listArray) => [...listArray, ...indvidualArray]);
-          setShowNavButton(true);
         }
+      })
+      .then(() => {
+        setShowNavButton(true);
       })
       .catch((error) => {
         console.log(error);
@@ -203,7 +210,7 @@ export default function Workspace(props: WorkspacePropList) {
     if(clickedTeam && (folderArray.length === 0)) {
       props.spaceCallback(spaceArray.map((space: any) => space.id));
       props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
-      setShowNavButton(true)
+      // setShowNavButton(true)
     }
   }, [folderArray]);
 
@@ -213,6 +220,7 @@ export default function Workspace(props: WorkspacePropList) {
     props.folderCallback(folderArray.map((folder: any) => folder.id));
     props.listCallback(listArray.map((list: any) => list.id));
     props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
+    
   }, [listArray, folderlessListArray])
 
   const style = {
