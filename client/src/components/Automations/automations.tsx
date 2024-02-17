@@ -845,8 +845,8 @@ const Automations = (props: AutomationPropList) => {
                       <td>
                         <h4>Then</h4>
                         Do this action:
-                        {foundTrigger.actions.map((action: any) => (
-                          <Card>
+                        {foundTrigger.actions.map((action: any, i: number) => (
+                          <Card key={i}>
                             <Card.Body>
                               <Card.Title>{action.type}</Card.Title>
                             </Card.Body>
@@ -886,13 +886,6 @@ const Automations = (props: AutomationPropList) => {
               <Button
                 className="search-button"
                 onClick={() => {
-                  console.log('list auto/short', listTriggers?.automations.length, listTriggers?.shortcuts.length)
-                  if ((listTriggers?.automations.length !== 0) || (listTriggers?.shortcuts.length !== 0)) {
-                    searchListsForTrigger();
-                  } else {
-                    let newNf = notFound + 1;
-                    setNotFound(newNf);
-                  }
                   console.log('folderless auto/short', folderlessListTriggers?.automations.length, folderlessListTriggers?.shortcuts.length)
                   if ((folderlessListTriggers?.automations.length !== 0) || (folderlessListTriggers?.shortcuts.length !== 0)) {
                     searchFolderlessListsForTrigger();
@@ -910,6 +903,13 @@ const Automations = (props: AutomationPropList) => {
                   console.log('space auto/short', spaceTriggers?.automations.length, spaceTriggers?.shortcuts.length)
                   if ((spaceTriggers?.automations.length !== 0) || (spaceTriggers?.shortcuts.length !== 0)) {
                     searchSpacesForTrigger();
+                  } else {
+                    let newNf = notFound + 1;
+                    setNotFound(newNf);
+                  }
+                  console.log('list auto/short', listTriggers?.automations.length, listTriggers?.shortcuts.length)
+                  if ((listTriggers?.automations.length !== 0) || (listTriggers?.shortcuts.length !== 0)) {
+                    searchListsForTrigger();
                   } else {
                     let newNf = notFound + 1;
                     setNotFound(newNf);
