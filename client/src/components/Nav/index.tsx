@@ -26,14 +26,14 @@ const Nav = () => {
     <>
       <Row style={style.row}>
         <Button href={"/token"} style={style.button} variant="dark">
-          Sign in
+          CRM Link
         </Button>
       </Row>
-      {/* <Row style={style.row}>
-        <Button href={"/automations"} style={style.button} variant="dark">
-          Automations
+      <Row style={style.row}>
+        <Button href={"/basic"} style={style.button} variant="dark">
+          Password
         </Button>
-      </Row> */}
+      </Row>
       <Row style={style.row}>
         <Button 
         href={"/"} 

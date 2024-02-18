@@ -44,6 +44,7 @@ const App: React.FC<{}> = () => {
         <Routes>
           <Route path="/" index element={<Layout />}></Route>
           <Route path="/basic" element={<BasicAuth />}></Route>
+          <Route path="/token" element={<TokenAuth/>}></Route>
           <Route path="/oauth" element={<OAuthClickUp />}></Route>
           <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
           <Route
@@ -72,7 +73,6 @@ const App: React.FC<{}> = () => {
               />
             }
           ></Route>
-        <Route path="/token" element={<TokenAuth/>}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
