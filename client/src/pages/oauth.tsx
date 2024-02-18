@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { APIConstants } from "../constants"; //object of secret values: export const APIConstants = { key: value} hidden by gitignore
-import { Button, Form, Row } from "react-bootstrap";
-import { ClientToServerEvents, ServerToClientEvents } from "../models/socket";
-import { Socket, io } from "socket.io-client";
-import { useNavigate } from "react-router-dom";
-import Workspace from "./workspace";
-import { Container } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { APIConstants } from '../constants'; //object of secret values: export const APIConstants = { key: value} hidden by gitignore
+import { Button, Form, Row } from 'react-bootstrap';
+import { ClientToServerEvents, ServerToClientEvents } from '../models/socket';
+import { Socket, io } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
+import Workspace from './workspace';
+import { Container } from 'react-bootstrap';
 // import BasicAuth from "./basic";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:3002"
+  'http://localhost:3002'
 );
 
 export default function OAuthClickUp() {
   const navigate = useNavigate();
-  const [accessCode, setAccessCode] = useState<string>("");
-  const [accessToken, setAccessToken] = useState<string>("");
+  const [accessCode, setAccessCode] = useState<string>('');
+  const [accessToken, setAccessToken] = useState<string>('');
   const [gotCode, setGotCode] = useState<boolean>(false);
   const [gotToken, setGotToken] = useState<boolean>(false);
 
   useEffect(() => {
-    if (window.location.pathname === "/oauth/success" && gotCode === false) {
+    if (window.location.pathname === '/oauth/success' && gotCode === false) {
       SetAuthorizationCode();
     }
   }, []);
@@ -43,7 +43,7 @@ export default function OAuthClickUp() {
 
   const SetAuthorizationCode = (): void => {
     let url = window.location.search;
-    setAccessCode(url.replace("?code=", ""));
+    setAccessCode(url.replace('?code=', ''));
     setGotCode(true);
   };
 
@@ -56,7 +56,7 @@ export default function OAuthClickUp() {
       })
       .then((resp) => {
         setAccessToken(
-          JSON.stringify(resp.data.access_token).replace(/^"(.*)"$/, "$1")
+          JSON.stringify(resp.data.access_token).replace(/^"(.*)"$/, '$1')
         );
         setGotToken(true);
       })
@@ -68,23 +68,23 @@ export default function OAuthClickUp() {
 
   const style = {
     container: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh", // Optional: Set minimum height for vertical centering
-      maxWidth: "50vw", // Set max-width to 50% of the viewport
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh', // Optional: Set minimum height for vertical centering
+      maxWidth: '50vw', // Set max-width to 50% of the viewport
     },
     row: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      margin: "0 auto", // Center the row horizontally
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '0 auto', // Center the row horizontally
     },
     button: {
-      width: "auto", // Make the button only as wide as needed
-      marginTop: "10px", // Optional: Add margin for spacing
+      width: 'auto', // Make the button only as wide as needed
+      marginTop: '10px', // Optional: Add margin for spacing
     },
   };
 
@@ -101,7 +101,8 @@ export default function OAuthClickUp() {
                 APIConstants.client_id,
                 APIConstants.redirect_uri
               );
-            }}>
+            }}
+          >
             Authorize
           </Button>
           {/* <BasicAuth /> */}
@@ -115,7 +116,8 @@ export default function OAuthClickUp() {
             variant="dark"
             onClick={() => {
               navigate(`/workspace/${accessToken}`);
-            }}>
+            }}
+          >
             Explore Workspaces
           </Button>
         </Row>

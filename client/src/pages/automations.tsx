@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import Nav from '../Nav';
+import Nav from '../components/Nav';
 
 import axios from 'axios';
 import './style.css';
@@ -841,7 +841,7 @@ const Automations = (props: AutomationPropList) => {
                 </>
               ) : (
                 <>
-                  <br/>
+                  <br />
                   <Badge pill bg="warning" text="dark">
                     Not found.
                   </Badge>
@@ -864,22 +864,22 @@ const Automations = (props: AutomationPropList) => {
                         searchListsForTrigger();
                       } else {
                         setNotFoundList(true);
-                      };
+                      }
                       if (folderlessListTriggers) {
                         searchFolderlessListsForTrigger();
                       } else {
                         setNotFoundFolderlessList(true);
-                      };
+                      }
                       if (folderTriggers) {
-                        searchFoldersForTrigger()
+                        searchFoldersForTrigger();
                       } else {
                         setNotFoundFolder(true);
-                      };
+                      }
                       if (spaceTriggers) {
                         searchSpacesForTrigger();
                       } else {
-                        setNotFoundSpace(true)
-                      };
+                        setNotFoundSpace(true);
+                      }
                       setFindClicked(true);
                     }}
                   >
