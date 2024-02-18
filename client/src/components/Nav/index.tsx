@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button, Row, ButtonGroup } from "react-bootstrap";
 
 const Nav = () => {
+  const [workflowToken, setWorkflowToken] = useState<boolean>();
+
   const logout = async () => {
       localStorage.removeItem('token');
   };
