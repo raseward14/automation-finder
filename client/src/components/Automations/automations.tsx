@@ -35,7 +35,11 @@ const Automations = (props: AutomationPropList) => {
   // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNNeFNOYkYvU1lNPSJ9.eyJpZCI6IjE0OTE3Mjg3IiwibG9naW5Ub2tlbiI6dHJ1ZSwiYWRtaW4iOnRydWUsImJ5cGFzcyI6dHJ1ZSwiaWF0IjoxNzA3NDM5MjY3LCJleHAiOjE3MDc2OTg0Njd9.IHsnjqSn4-Ay34GAbn6j4TeTknyPy-njSj-eq6SV_OU')
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
-  const [notFound, setNotFound] = useState<number[]>([]);
+  const [notFoundList, setNotFoundList] = useState<boolean>(false);
+  const [notFoundFolderlessList, setNotFoundFolderlessList] = useState<boolean>(false);
+  const [notFoundFolder, setNotFoundFolder] = useState<boolean>(false);
+  const [notFoundSpace, setNotFoundSpace] = useState<boolean>(false);
+
   const [foundTrigger, setFoundTrigger] = useState<any>();
   const [foundLink, setFoundLink] = useState<any>();
   const [locationType, setLocationType] = useState<string>();
@@ -324,11 +328,13 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+      if(foundTrigger === undefined) {
+        console.log('space triggers exist, but the input trigger isnt one of them')
+        setNotFoundSpace(true)
+      };
     } else {
       console.log('not found Space search')
-      let newArr = [...notFound, 3];
-      console.log(newArr);
-      setNotFound(newArr);
+      setNotFoundSpace(true);
     }
   };
 
@@ -374,11 +380,13 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+      if(foundTrigger === undefined) {
+        console.log('folder triggers exist, but the input trigger isnt one of them')
+        setNotFoundFolder(true)
+      };
     } else {
       console.log('not found Folder search')
-      let newArr = [...notFound, 2];
-      console.log(newArr);
-      setNotFound(newArr);
+      setNotFoundFolder(true);
     }
   };
 
@@ -424,11 +432,14 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+      if(foundTrigger === undefined) {
+        console.log('folderless list triggers exist, but this isnt one of them')
+        setNotFoundFolderlessList(true)
+      }
+
     } else {
       console.log('not found Folderless list search')
-      let newArr = [...notFound, 1];
-      console.log(newArr);
-      setNotFound(newArr);
+      setNotFoundFolderlessList(true);
     }
   };
 
@@ -473,17 +484,19 @@ const Automations = (props: AutomationPropList) => {
           });
         }
       });
+      if(foundTrigger === undefined) {
+        console.log('list triggers exist, but this isnt one of them')
+        setNotFoundList(true)
+      }
     } else {
       console.log('not found list search')
-      let newArr = [...notFound, 0];
-      console.log(newArr)
-      setNotFound(newArr);
+      setNotFoundList(true);
     }
   };
 
   useEffect(() => {
-    console.log(`not found: ${notFound}`)
-  }, [notFound])
+    console.log(`not found on List: ${notFoundList}`)
+  }, [notFoundList])
 
   useEffect(() => {
     console.log(token);
@@ -519,11 +532,6 @@ const Automations = (props: AutomationPropList) => {
     // console.log(`workspace token: ${token}`);
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
-      // console.log('on page load, token is:', token);
-      // console.log('spaceIds:', spaceIds, props.spaceIds);
-      // console.log('folderIds:', folderIds, props.folderIds);
-      // console.log('listIds:', listIds, props.listIds);
-      // console.log('folderlessListIds:', folderlessListIds, props.folderlessListIds);
       if (folderlessListIds?.length) {
         getFolderlessListAutomations(folderlessListIds);
       }
@@ -555,7 +563,7 @@ const Automations = (props: AutomationPropList) => {
             id="trigger-input"
             placeholder="Search by a triggerId"
           />
-          {foundTrigger || (notFound?.length === 4) ? (
+          {foundTrigger || (notFoundList === true && notFoundFolderlessList === true && notFoundFolder === true && notFoundSpace === true) ? (
             <>
               {/*find button*/}
               <Button
@@ -577,7 +585,10 @@ const Automations = (props: AutomationPropList) => {
                   setFoundLink(undefined);
                   setParentFolder({ link: '', name: '' });
                   setParentSpace({ link: '', name: '' });
-                  setNotFound([])
+                  setNotFoundList(false);
+                  setNotFoundFolderlessList(false);
+                  setNotFoundFolder(false);
+                  setNotFoundSpace(false)
                 }}
               >
                 Clear
@@ -803,10 +814,10 @@ const Automations = (props: AutomationPropList) => {
               <Button
                 className="search-button"
                 onClick={() => {
-                  searchListsForTrigger();
-                  searchFolderlessListsForTrigger();
-                  searchFoldersForTrigger();
-                  searchSpacesForTrigger();
+                  if(listTriggers)searchListsForTrigger();
+                  if(folderlessListTriggers)searchFolderlessListsForTrigger();
+                  if(folderTriggers)searchFoldersForTrigger();
+                  if(spaceTriggers)searchSpacesForTrigger();
                 }}
               >
                 Find Automation
