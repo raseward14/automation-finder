@@ -35,7 +35,8 @@ const Automations = (props: AutomationPropList) => {
   // variables for the trigger being searched
   const [triggerId, setTriggerId] = useState<string>('');
   const [notFoundList, setNotFoundList] = useState<boolean>(false);
-  const [notFoundFolderlessList, setNotFoundFolderlessList] = useState<boolean>(false);
+  const [notFoundFolderlessList, setNotFoundFolderlessList] =
+    useState<boolean>(false);
   const [notFoundFolder, setNotFoundFolder] = useState<boolean>(false);
   const [notFoundSpace, setNotFoundSpace] = useState<boolean>(false);
   const [findClicked, setFindClicked] = useState<boolean>(false);
@@ -64,7 +65,9 @@ const Automations = (props: AutomationPropList) => {
   const [spaceIds, setSpaceIds] = useState<string[]>(props.spaceIds);
   const [folderIds, setFolderIds] = useState<string[]>(props.folderIds);
   const [listIds, setListIds] = useState<string[]>(props.listIds);
-  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(props.folderlessListIds);
+  const [folderlessListIds, setFolderlessListIds] = useState<string[]>(
+    props.folderlessListIds
+  );
   // token passed from OAUTH - for workflow requests
   const [oAuthToken, setOAuthToken] = useState<string>(props.token);
 
@@ -614,247 +617,277 @@ const Automations = (props: AutomationPropList) => {
               >
                 Clear
               </Button>
-              <div className="modal-container">
-                <table id="modal">
-                  <tbody>
-                    <tr>
-                      {/*location row*/}
-                      {shortcut !== undefined ? (
-                        <th colSpan={2}>
-                          {foundTrigger ? (
-                            <Breadcrumb>
-                              {locationType === 'Space: ' ? (
-                                <>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
-                              ) : locationType === 'Folder: ' ? (
-                                <>
-                                  <Breadcrumb.Item
-                                    href={`${parentSpace?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {parentSpace?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'folder' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
-                              ) : parentFolder?.name ? (
-                                <>
-                                  <Breadcrumb.Item
-                                    href={`${parentSpace?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {parentSpace?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item
-                                    href={`${parentFolder?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'folder' })}
-                                    />{' '}
-                                    {parentFolder?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'list' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
+
+              {foundTrigger ? (
+                <>
+                  <div className="modal-container">
+                    <table id="modal">
+                      <tbody>
+                        <tr>
+                          {/*location row*/}
+                          {shortcut !== undefined ? (
+                            <th colSpan={2}>
+                              {foundTrigger ? (
+                                <Breadcrumb>
+                                  {locationType === 'Space: ' ? (
+                                    <>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  ) : locationType === 'Folder: ' ? (
+                                    <>
+                                      <Breadcrumb.Item
+                                        href={`${parentSpace?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {parentSpace?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'folder' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  ) : parentFolder?.name ? (
+                                    <>
+                                      <Breadcrumb.Item
+                                        href={`${parentSpace?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {parentSpace?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item
+                                        href={`${parentFolder?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'folder' })}
+                                        />{' '}
+                                        {parentFolder?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'list' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Breadcrumb.Item
+                                        href={`${parentSpace?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {parentSpace?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'list' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  )}
+                                </Breadcrumb>
                               ) : (
-                                <>
-                                  <Breadcrumb.Item
-                                    href={`${parentSpace?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {parentSpace?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'list' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
+                                <></>
                               )}
-                            </Breadcrumb>
+                              Shortcut located in this {locationType}{' '}
+                              {locationName}.
+                            </th>
                           ) : (
-                            <></>
-                          )}
-                          Shortcut located in this {locationType} {locationName}
-                          .
-                        </th>
-                      ) : (
-                        <th colSpan={2}>
-                          {foundTrigger ? (
-                            <Breadcrumb>
-                              {locationType === 'Space: ' ? (
-                                <>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
-                              ) : locationType === 'Folder: ' ? (
-                                <>
-                                  <Breadcrumb.Item
-                                    href={`${parentSpace?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {parentSpace?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'folder' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
-                              ) : parentFolder?.name ? (
-                                <>
-                                  <Breadcrumb.Item
-                                    href={`${parentSpace?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {parentSpace?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item
-                                    href={`${parentFolder?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'folder' })}
-                                    />{' '}
-                                    {parentFolder?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'list' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
+                            <th colSpan={2}>
+                              {foundTrigger ? (
+                                <Breadcrumb>
+                                  {locationType === 'Space: ' ? (
+                                    <>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  ) : locationType === 'Folder: ' ? (
+                                    <>
+                                      <Breadcrumb.Item
+                                        href={`${parentSpace?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {parentSpace?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'folder' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  ) : parentFolder?.name ? (
+                                    <>
+                                      <Breadcrumb.Item
+                                        href={`${parentSpace?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {parentSpace?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item
+                                        href={`${parentFolder?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'folder' })}
+                                        />{' '}
+                                        {parentFolder?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'list' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Breadcrumb.Item
+                                        href={`${parentSpace?.link}`}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'square' })}
+                                        />{' '}
+                                        {parentSpace?.name}
+                                      </Breadcrumb.Item>
+                                      <Breadcrumb.Item href={foundLink}>
+                                        <FontAwesomeIcon
+                                          icon={icon({ name: 'list' })}
+                                        />{' '}
+                                        {locationName}
+                                      </Breadcrumb.Item>
+                                    </>
+                                  )}
+                                </Breadcrumb>
                               ) : (
-                                <>
-                                  <Breadcrumb.Item
-                                    href={`${parentSpace?.link}`}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'square' })}
-                                    />{' '}
-                                    {parentSpace?.name}
-                                  </Breadcrumb.Item>
-                                  <Breadcrumb.Item href={foundLink}>
-                                    <FontAwesomeIcon
-                                      icon={icon({ name: 'list' })}
-                                    />{' '}
-                                    {locationName}
-                                  </Breadcrumb.Item>
-                                </>
+                                <></>
                               )}
-                            </Breadcrumb>
-                          ) : (
-                            <></>
+                              Automation located in this {locationType}{' '}
+                              {locationName}.
+                            </th>
                           )}
-                          Automation located in this {locationType}{' '}
-                          {locationName}.
-                        </th>
-                      )}
-                    </tr>
-                    <tr>
-                      <td style={{ width: '50%' }}>
-                        <h4>When</h4>
-                        this happens:
-                        <Card>
-                          <Card.Body>
-                            <Card.Title>{foundTrigger?.trigger.type}</Card.Title>
-                          </Card.Body>
-                        </Card>
-                      </td>
-                      <td>
-                        <h4>Then</h4>
-                        Do this action:
-                        {foundTrigger?.actions.map((action: any, i: number) => (
-                          <Card key={i}>
-                            <Card.Body>
-                              <Card.Title>{action.type}</Card.Title>
-                            </Card.Body>
-                          </Card>
-                        ))}
-                      </td>
-                    </tr>
-                    <tr>
-                      {shortcut !== undefined ? (
-                        <td colSpan={2}>
-                          <Badge pill bg="info">
-                            SHORTCUT
-                          </Badge>{' '}
-                          Always {shortcut.type}
-                          {shortcut.users.map((user) => ` ${user}`)}
-                          <br />
-                          <br />
-                          {shortcut.description}
-                        </td>
-                      ) : (
-                        <td colSpan={2}>
-                          <span>Automation: {foundTrigger?.sentence}</span>
-                          <br />
-                          <span>Description: {foundTrigger?.description}</span>
-                        </td>
-                      )}
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                        </tr>
+                        <tr>
+                          <td style={{ width: '50%' }}>
+                            <h4>When</h4>
+                            this happens:
+                            <Card>
+                              <Card.Body>
+                                <Card.Title>
+                                  {foundTrigger?.trigger.type}
+                                </Card.Title>
+                              </Card.Body>
+                            </Card>
+                          </td>
+                          <td>
+                            <h4>Then</h4>
+                            Do this action:
+                            {foundTrigger?.actions.map(
+                              (action: any, i: number) => (
+                                <Card key={i}>
+                                  <Card.Body>
+                                    <Card.Title>{action.type}</Card.Title>
+                                  </Card.Body>
+                                </Card>
+                              )
+                            )}
+                          </td>
+                        </tr>
+                        <tr>
+                          {shortcut !== undefined ? (
+                            <td colSpan={2}>
+                              <Badge pill bg="info">
+                                SHORTCUT
+                              </Badge>{' '}
+                              Always {shortcut.type}
+                              {shortcut.users.map((user) => ` ${user}`)}
+                              <br />
+                              <br />
+                              {shortcut.description}
+                            </td>
+                          ) : (
+                            <td colSpan={2}>
+                              <span>Automation: {foundTrigger?.sentence}</span>
+                              <br />
+                              <span>
+                                Description: {foundTrigger?.description}
+                              </span>
+                            </td>
+                          )}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <br/>
+                  <Badge pill bg="warning" text="dark">
+                    Not found.
+                  </Badge>
+                </>
+              )}
             </>
           ) : (
             <>
-                {foundTrigger === undefined && findClicked ? (
-                  <>
+              {foundTrigger === undefined && findClicked ? (
+                <>
                   <Spinner animation="border" variant="info" />
-                  </>
-                ) : (
-                  
-                    <>
-                      {' '}
-                      {/*find button*/}
-                      <Button
-                        className="search-button"
-                        onClick={() => {
-                          if (listTriggers) searchListsForTrigger();
-                          if (folderlessListTriggers) searchFolderlessListsForTrigger();
-                          if (folderTriggers) searchFoldersForTrigger();
-                          if (spaceTriggers) searchSpacesForTrigger();
-                          setFindClicked(true);
-                        }}
-                      >
-                        Find Automation
-                      </Button>
-                    </>
-                )}
-            
+                </>
+              ) : (
+                <>
+                  {/*find button*/}
+                  <Button
+                    className="search-button"
+                    onClick={() => {
+                      if (listTriggers) {
+                        searchListsForTrigger();
+                      } else {
+                        setNotFoundList(true);
+                      };
+                      if (folderlessListTriggers) {
+                        searchFolderlessListsForTrigger();
+                      } else {
+                        setNotFoundFolderlessList(true);
+                      };
+                      if (folderTriggers) {
+                        searchFoldersForTrigger()
+                      } else {
+                        setNotFoundFolder(true);
+                      };
+                      if (spaceTriggers) {
+                        searchSpacesForTrigger();
+                      } else {
+                        setNotFoundSpace(true)
+                      };
+                      setFindClicked(true);
+                    }}
+                  >
+                    Find Automation
+                  </Button>
+                </>
+              )}
             </>
-
           )}
         </>
       ) : (
