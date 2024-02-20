@@ -65,6 +65,14 @@ const NavComponent = () => {
           CRM Link
         </Button>
       </Row>
+<<<<<<< HEAD
+=======
+      <Row style={style.row}>
+        <Button href={"/basic"} style={style.button} variant="dark">
+          Password
+        </Button>
+      </Row>
+>>>>>>> d0d66999bbfb44ad1b6d4345f9b23e727c795955
       <Row style={style.row}>
         <Button href={"/basic"} style={style.button} variant="dark">
           Password
