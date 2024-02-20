@@ -11,9 +11,11 @@ export default function BasicAuth() {
 
   const GetToken = async (): Promise<void> => {
     console.log(loginURL)
+    var loginURLTrimmed = loginURL.replace('&ngsw-bypass=1', '');
+    var extractedToken = loginURLTrimmed.replace('https://app.clickup.com/?login_token=', '');
     await axios
     .post(`http://localhost:3001/auth/token`, {
-      token: loginURL.substring(37),
+      token: extractedToken
     })
     .then((resp) => {
       console.log('from basic.tsx', resp.data);
