@@ -50,8 +50,8 @@ export default function BasicAuth() {
   }, [JWT]);
 
   const style = {
-    container: {
-        margin: "5% 10% 10% 10%"
+    input: {
+     width: "100%"
     },
     button: {
       width: 'auto', // Make the button only as wide as needed
@@ -60,10 +60,11 @@ export default function BasicAuth() {
   };
 
   return (
-    <Form style={style.container} onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>CRM Login Link</Form.Label>
         <Form.Control
+          style={style.input}
           type="text"
           placeholder="login link"
           value={loginURL}
@@ -74,8 +75,6 @@ export default function BasicAuth() {
       <Button style={style.button} variant="primary" type="submit">
         Submit
       </Button>
-
-
     </Form>
   );
 }

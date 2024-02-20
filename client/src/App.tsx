@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider } from 'react-bootstrap';
 import BasicAuth from './pages/basic';
 import TokenAuth from './pages/token';
+import Home from './pages/Home'
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
@@ -42,37 +43,39 @@ const App: React.FC<{}> = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" index element={<Layout />}></Route>
-          <Route path="/basic" element={<BasicAuth />}></Route>
-          <Route path="/token" element={<TokenAuth />}></Route>
-          <Route path="/oauth" element={<OAuthClickUp />}></Route>
-          <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-          <Route
-            path="/workspace/:token"
-            element={
-              <Workspace
-                teamCallback={getTeamIdFromObject}
-                spaceCallback={setSpaceIds}
-                folderCallback={setFolderIds}
-                listCallback={setListIds}
-                folderlessListCallback={setFolderlessListIds}
-                tokenCallback={setToken}
-              />
-            }
-          ></Route>
-          <Route
-            path="/automations"
-            element={
-              <Automations
-                teamId={workspaceId}
-                spaceIds={spaceIds}
-                folderIds={folderIds}
-                listIds={listIds}
-                folderlessListIds={folderlessListIds}
-                token={token}
-              />
-            }
-          ></Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home/>}></Route>
+            <Route path="token" element={<TokenAuth />}></Route>
+            <Route path="basic" element={<BasicAuth />}></Route>
+            <Route path="oauth" element={<OAuthClickUp />}></Route>
+            <Route path="oauth/success" element={<OAuthClickUp />}></Route>
+            <Route
+              path="workspace/:token"
+              element={
+                <Workspace
+                  teamCallback={getTeamIdFromObject}
+                  spaceCallback={setSpaceIds}
+                  folderCallback={setFolderIds}
+                  listCallback={setListIds}
+                  folderlessListCallback={setFolderlessListIds}
+                  tokenCallback={setToken}
+                />
+              }
+            ></Route>
+            <Route
+              path="automations"
+              element={
+                <Automations
+                  teamId={workspaceId}
+                  spaceIds={spaceIds}
+                  folderIds={folderIds}
+                  listIds={listIds}
+                  folderlessListIds={folderlessListIds}
+                  token={token}
+                />
+              }
+            ></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

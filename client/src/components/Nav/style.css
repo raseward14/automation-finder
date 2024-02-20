@@ -1,0 +1,8 @@
+.navBar {
+    position: relative;
+    left: 0px;
+    margin-top: 20px;
+    width: 100%;
+    border: lime solid 1px;
+    border-radius: 10px;
+}
