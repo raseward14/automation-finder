@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import ClickUpIcon from '../images/clickup.jpeg';
 import './style.css';
 
 
@@ -36,7 +37,7 @@ const NavComponent = () => {
 
       <Navbar expand="lg" className="navBar bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="/">Automation Finder</Navbar.Brand>
+          <Navbar.Brand href="/"><img className="clickup-icon-dark" src={ClickUpIcon}></img>Automation Finder</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
