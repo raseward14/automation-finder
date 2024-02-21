@@ -41,14 +41,13 @@ const NavComponent = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               {yourToken ? (
-              <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
+                <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
 
               ) : (
                 <>
-                <Nav.Link href={"/token"}>CRM Link</Nav.Link>
-                <Nav.Link href={"/basic"}>Password</Nav.Link>
+                  <Nav.Link href={"/token"}>CRM Link</Nav.Link>
+                  <Nav.Link href={"/basic"}>Password</Nav.Link>
                 </>
-  
               )}
               {/* <Nav.Link href={"/token"}>CRM Link</Nav.Link>
               <Nav.Link href={"/basic"}>Password</Nav.Link>
@@ -69,27 +68,6 @@ const NavComponent = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-
-      {/* <Row style={style.row}>
-        <Button href={"/token"} style={style.button} variant="dark">
-          CRM Link
-        </Button>
-      </Row>
-      <Row style={style.row}>
-        <Button href={"/basic"} style={style.button} variant="dark">
-          Password
-        </Button>
-      </Row>
-      <Row style={style.row}>
-        <Button
-          href={"/"}
-          style={style.button}
-          variant="danger"
-          onClick={logout}>
-          Logout
-        </Button>
-      </Row> */}
     </>
   );
 };
