@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Breadcrumb, CardBody } from 'react-bootstrap';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
@@ -581,10 +583,10 @@ const Automations = (props: AutomationPropList) => {
             placeholder="Search by a triggerId"
           />
           {foundTrigger ||
-          (notFoundList === true &&
-            notFoundFolderlessList === true &&
-            notFoundFolder === true &&
-            notFoundSpace === true) ? (
+            (notFoundList === true &&
+              notFoundFolderlessList === true &&
+              notFoundFolder === true &&
+              notFoundSpace === true) ? (
             <>
               {/*clear button*/}
               <Button
@@ -855,8 +857,9 @@ const Automations = (props: AutomationPropList) => {
               ) : (
                 <>
                   {/*find button*/}
-                  <Button
-                    className="search-button"
+                  <Dropdown as={ButtonGroup} autoClose="outside">
+                    <Button 
+                    variant="primary"
                     onClick={() => {
                       if (listTriggers) {
                         searchListsForTrigger();
@@ -879,10 +882,19 @@ const Automations = (props: AutomationPropList) => {
                         setNotFoundSpace(true);
                       }
                       setFindClicked(true);
-                    }}
-                  >
-                    Find Automation
-                  </Button>
+                    }}>Find Automation</Button>
+
+                    <Dropdown.Toggle split variant="info" id="dropdown-autoclose-outside" />
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="#/action-1">View Inactive triggers<br />
+                        <label className="switch">
+                          <input type="checkbox" />
+                          <span className="slider round"></span>
+                        </label>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </>
               )}
             </>
