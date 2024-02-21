@@ -5,7 +5,6 @@ import { Container, Col, Row, Card } from "react-bootstrap";
 import { Button } from "react-bootstrap/lib/InputGroup";
 import './style.css';
 
-
 const Layout = () => {
   const style = {
     container: {
@@ -19,7 +18,7 @@ const Layout = () => {
 
   return (
     <Container style={style.container as React.CSSProperties}>
-      <Nav />
+      <Nav/>
       <div className={"page-container"}>
         <Outlet />
       </div>
