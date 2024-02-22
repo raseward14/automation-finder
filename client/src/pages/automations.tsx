@@ -34,6 +34,7 @@ const Automations = (props: AutomationPropList) => {
   // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
 
   // variables for the trigger being searched
+  const [includeInactive, setIncludeInactive] = useState<boolean>(false);
   const [triggerId, setTriggerId] = useState<string>('');
   const [notFoundList, setNotFoundList] = useState<boolean>(false);
   const [notFoundFolderlessList, setNotFoundFolderlessList] =
@@ -115,10 +116,22 @@ const Automations = (props: AutomationPropList) => {
         bearer: token,
       });
       res?.data?.automations.forEach(async (triggerObject: any) => {
+        // at this point, we would have already not included inactive triggers
+        // we need to retrieve 
         // we only want to search active triggers
-        if (triggerObject.active !== false) {
-          allAutoTriggers.push(triggerObject);
-        }
+        // if (triggerObject.active !== false) {
+        //   allAutoTriggers.push(triggerObject);
+        // }
+
+
+        // push the trigger if includeInactive is toggled on, otherwise check its active before pushing
+        // if(includeInactive) {
+        //   allAutoTriggers.push(triggerObject);
+        // } else if (triggerObject.active !== false) {
+        //   allAutoTriggers.push(triggerObject);
+        // }
+
+
       });
       res?.data?.shortcuts.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
@@ -530,6 +543,10 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
+    console.log(`include inactive is: ${includeInactive}`)
+  }, [includeInactive])
+
+  useEffect(() => {
     console.log(`not found on List: ${notFoundList}`);
   }, [notFoundList]);
 
@@ -890,7 +907,14 @@ const Automations = (props: AutomationPropList) => {
                       <Dropdown.Item href="#/action-1">View Inactive triggers<br />
                         <label className="switch">
                           <input type="checkbox" />
-                          <span className="slider round"></span>
+                          <span 
+                          onClick={()=> {
+                            if(includeInactive) {
+                              setIncludeInactive(false)
+                            } else {
+                              setIncludeInactive(true)
+                            }}}
+                          className="slider round"></span>
                         </label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
