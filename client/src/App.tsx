@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import OAuthClickUp from './components/oauth';
+import OAuthClickUp from './pages/oauth';
 import Layout from './components/Layout';
-import Automations from './components/Automations/automations';
+import Automations from './pages/automations';
 import { io, Socket } from 'socket.io-client';
 import { ClientToServerEvents, ServerToClientEvents } from './models/socket';
 import { access } from 'fs';
-import Workspace from './components/workspace';
+import Workspace from './pages/workspace';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider } from 'react-bootstrap';
-import BasicAuth from './components/basic';
-import TokenAuth from './components/token';
+import BasicAuth from './pages/basic';
+import TokenAuth from './pages/token';
+import Home from './pages/Home'
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
@@ -42,37 +43,39 @@ const App: React.FC<{}> = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" index element={<Layout />}></Route>
-          <Route path="/basic" element={<BasicAuth />}></Route>
-          <Route path="/oauth" element={<OAuthClickUp />}></Route>
-          <Route path="/oauth/success" element={<OAuthClickUp />}></Route>
-          <Route
-            path="/workspace/:token"
-            element={
-              <Workspace
-                teamCallback={getTeamIdFromObject}
-                spaceCallback={setSpaceIds}
-                folderCallback={setFolderIds}
-                listCallback={setListIds}
-                folderlessListCallback={setFolderlessListIds}
-                tokenCallback={setToken}
-              />
-            }
-          ></Route>
-          <Route
-            path="/automations"
-            element={
-              <Automations
-                teamId={workspaceId}
-                spaceIds={spaceIds}
-                folderIds={folderIds}
-                listIds={listIds}
-                folderlessListIds={folderlessListIds}
-                token={token}
-              />
-            }
-          ></Route>
-        <Route path="/token" element={<TokenAuth/>}></Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home/>}></Route>
+            <Route path="token" element={<TokenAuth />}></Route>
+            <Route path="basic" element={<BasicAuth />}></Route>
+            <Route path="oauth" element={<OAuthClickUp />}></Route>
+            <Route path="oauth/success" element={<OAuthClickUp />}></Route>
+            <Route
+              path="workspace/:token"
+              element={
+                <Workspace
+                  teamCallback={getTeamIdFromObject}
+                  spaceCallback={setSpaceIds}
+                  folderCallback={setFolderIds}
+                  listCallback={setListIds}
+                  folderlessListCallback={setFolderlessListIds}
+                  tokenCallback={setToken}
+                />
+              }
+            ></Route>
+            <Route
+              path="automations"
+              element={
+                <Automations
+                  teamId={workspaceId}
+                  spaceIds={spaceIds}
+                  folderIds={folderIds}
+                  listIds={listIds}
+                  folderlessListIds={folderlessListIds}
+                  token={token}
+                />
+              }
+            ></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

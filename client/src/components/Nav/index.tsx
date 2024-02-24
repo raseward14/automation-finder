@@ -1,10 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Row, ButtonGroup } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import './style.css';
 
-const Nav = () => {
+
+const NavComponent = () => {
+  const [workflowToken, setWorkflowToken] = useState<boolean>();
+
   const logout = async () => {
-      localStorage.removeItem('token');
+    localStorage.removeItem('token');
   };
 
   const style = {
@@ -19,32 +27,68 @@ const Nav = () => {
       border: "none", // Remove button border
       borderRadius: "5px", // Optional: Add border-radius for rounded corners
       cursor: "pointer",
-    },
+    }
   };
 
   return (
     <>
-      <Row style={style.row}>
+
+      <Navbar expand="lg" className="navBar bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="/">Automation Finder</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href={"/token"}>CRM Link</Nav.Link>
+              <Nav.Link href={"/basic"}>Password</Nav.Link>
+              <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
+
+              {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  Another action
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">
+                  Separated link
+                </NavDropdown.Item>
+              </NavDropdown> */}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+
+      {/* <Row style={style.row}>
         <Button href={"/token"} style={style.button} variant="dark">
-          Sign in
+          CRM Link
         </Button>
       </Row>
-      {/* <Row style={style.row}>
-        <Button href={"/automations"} style={style.button} variant="dark">
-          Automations
-        </Button>
-      </Row> */}
+<<<<<<< HEAD
+=======
       <Row style={style.row}>
-        <Button 
-        href={"/"} 
-        style={style.button} 
-        variant="danger"
-        onClick={logout}>
+        <Button href={"/basic"} style={style.button} variant="dark">
+          Password
+        </Button>
+      </Row>
+>>>>>>> d0d66999bbfb44ad1b6d4345f9b23e727c795955
+      <Row style={style.row}>
+        <Button href={"/basic"} style={style.button} variant="dark">
+          Password
+        </Button>
+      </Row>
+      <Row style={style.row}>
+        <Button
+          href={"/"}
+          style={style.button}
+          variant="danger"
+          onClick={logout}>
           Logout
         </Button>
-      </Row>
+      </Row> */}
     </>
   );
 };
 
-export default Nav;
+export default NavComponent;
