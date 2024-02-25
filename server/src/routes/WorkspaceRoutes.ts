@@ -63,9 +63,7 @@ WorkspaceRoutes.post(
         },
       }
     );
-
     const data = await resp.json();
-    console.log(data);
     res.status(200).json(data);
   }
 );

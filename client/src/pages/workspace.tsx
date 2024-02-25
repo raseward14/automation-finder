@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Button, Container, Col, ContainerProps, Row } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
-import { Team, Space, Folder, List } from "../models/workspace_interface";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Button, Container, Col, ContainerProps, Row } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Team, Space, Folder, List } from '../models/workspace_interface';
 // import "./component.css";
 
 type WorkspacePropList = {
@@ -19,7 +19,6 @@ type WorkspacePropList = {
 // };
 
 export default function Workspace(props: WorkspacePropList) {
-
   let { token } = useParams();
   const navigate = useNavigate();
   //containers for response object
@@ -28,7 +27,7 @@ export default function Workspace(props: WorkspacePropList) {
   const [folderData, setFolderData] = useState<JSON>();
   const [folderlessListData, setFolderlessListData] = useState<JSON>();
   const [listData, setListData] = useState<JSON>();
-  const [selectedTeam, setSelectedTeam] = useState<string>("");
+  const [selectedTeam, setSelectedTeam] = useState<string>('');
   //containers for
   const [teamArray, setTeamArray] = useState<Team[]>([]);
   const [spaceArray, setSpaceArray] = useState<Space[]>([]);
@@ -76,11 +75,23 @@ export default function Workspace(props: WorkspacePropList) {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const spaceArrayData: Space[] = jsonData.spaces;
+          console.log('team clicked, the spaces are:', spaceArrayData);
           const indvidualArray: Space[] = [];
           for (var i = 0; i < spaceArrayData.length; i++) {
             indvidualArray.push(spaceArrayData[i]);
           }
           setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
+        }
+      })
+      .then(() => {
+        for (var i = 0; i < spaceArray.length; i++) {
+          GetFolders(spaceArray[i].id);
+          GetFolderlessLists(spaceArray[i].id);
+        }
+      })
+      .then(() => {
+        for (var i = 0; i < folderArray.length; i++) {
+          GetLists(folderArray[i].id);
         }
       })
       .catch((error) => {
@@ -98,6 +109,7 @@ export default function Workspace(props: WorkspacePropList) {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const folderArrayData: Folder[] = jsonData.folders;
+          console.log('spaces found, the folders are:', folderArrayData);
           const indvidualArray: Folder[] = [];
           for (var i = 0; i < folderArrayData.length; i++) {
             indvidualArray.push(folderArrayData[i]);
@@ -119,6 +131,10 @@ export default function Workspace(props: WorkspacePropList) {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const folderlessListArrayData: List[] = jsonData.lists;
+          console.log(
+            'spaces found, the folderless Lists are:',
+            folderlessListArrayData
+          );
           const indvidualArray: List[] = [];
           for (var i = 0; i < folderlessListArrayData.length; i++) {
             indvidualArray.push(folderlessListArrayData[i]);
@@ -130,8 +146,8 @@ export default function Workspace(props: WorkspacePropList) {
         }
       })
       .then(() => {
-        if(folderArray.length === 0) {
-          setShowNavButton(true)
+        if (folderArray.length === 0) {
+          setShowNavButton(true);
         }
       })
       .catch((error) => {
@@ -177,10 +193,14 @@ export default function Workspace(props: WorkspacePropList) {
   };
 
   const sendTeam = (data: any) => {
-    if(data !== undefined) {
+    if (data !== undefined) {
       props.teamCallback(data);
     }
   };
+  
+  useEffect(() => {
+    GetTeams();
+  }, []);
 
   useEffect(() => {
     sendTeam(clickedTeam);
@@ -192,9 +212,6 @@ export default function Workspace(props: WorkspacePropList) {
     }
   }, [teamData]);
 
-  useEffect(() => {
-    GetTeams();
-  }, []);
 
   useEffect(() => {
     for (var i = 0; i < spaceArray.length; i++) {
@@ -204,41 +221,38 @@ export default function Workspace(props: WorkspacePropList) {
   }, [spaceArray]);
 
   useEffect(() => {
-    for (var i = 0; i < folderArray.length; i++) {
-      GetLists(folderArray[i].id);
-    }
     if(clickedTeam && (folderArray.length === 0)) {
       props.spaceCallback(spaceArray.map((space: any) => space.id));
       props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
-      // setShowNavButton(true)
     }
   }, [folderArray]);
 
   useEffect(() => {
-    props.tokenCallback(token)
+    props.tokenCallback(token);
     props.spaceCallback(spaceArray.map((space: any) => space.id));
     props.folderCallback(folderArray.map((folder: any) => folder.id));
     props.listCallback(listArray.map((list: any) => list.id));
-    props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
-    
-  }, [listArray, folderlessListArray])
+    props.folderlessListCallback(
+      folderlessListArray.map((list: any) => list.id)
+    );
+  }, [listArray, folderlessListArray]);
 
   const style = {
     container: {
-      margin: "5% 10% 10% 10%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
+      margin: '5% 10% 10% 10%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     row: {
-      justifyContent: "center",
-      width: "100vw",
-      margin: "0 auto",
+      justifyContent: 'center',
+      width: '100vw',
+      margin: '0 auto',
     },
     button: {
-      width: "auto", // Make the button only as wide as needed
-      margin: "5px", // Optional: Add margin for spacing
+      width: 'auto', // Make the button only as wide as needed
+      margin: '5px', // Optional: Add margin for spacing
     },
   };
 
@@ -251,10 +265,10 @@ export default function Workspace(props: WorkspacePropList) {
           {teamArray?.map((team: any, i: number) => (
             <Button
               style={style.button}
-              variant={workspacePressed == i ? "dark" : "outline-dark"}
+              variant={workspacePressed == i ? 'dark' : 'outline-dark'}
               key={i}
               onClick={() => {
-                console.log(team)
+                console.log(team);
                 setClickedTeam(team);
                 setSpaceArray([]);
                 setFolderArray([]);
@@ -264,7 +278,8 @@ export default function Workspace(props: WorkspacePropList) {
                 i === workspacePressed
                   ? setWorkspacePressed(-1)
                   : setWorkspacePressed(i);
-              }}>
+              }}
+            >
               {`${team.name} id: ${team.id}`}
             </Button>
           ))}
@@ -318,19 +333,24 @@ export default function Workspace(props: WorkspacePropList) {
             </tr>
           ))}
         </Col> */}
-        {showNavButton ? 
-        <Col>
-        <h3>Find Automations</h3>
-        <tr>
-          <td>
-        <Button
-        onClick={() => {navigate('/automations')}}>Automations</Button>
-          </td>
-        </tr>
-        </Col>
-        :
-        <Col></Col>
-}
+        {showNavButton ? (
+          <Col>
+            <h3>Find Automations</h3>
+            <tr>
+              <td>
+                <Button
+                  onClick={() => {
+                    navigate('/automations');
+                  }}
+                >
+                  Automations
+                </Button>
+              </td>
+            </tr>
+          </Col>
+        ) : (
+          <Col></Col>
+        )}
       </Row>
       {/* {workspacePressed === -1 ? (
         <></>
