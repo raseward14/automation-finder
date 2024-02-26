@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Container, Col, ContainerProps, Row } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Team, Space, Folder, List } from '../models/workspace_interface';
 // import "./component.css";
@@ -34,6 +35,11 @@ export default function Workspace(props: WorkspacePropList) {
   const [folderArray, setFolderArray] = useState<Folder[]>([]);
   const [folderlessListArray, setFolderlessListArray] = useState<List[]>([]);
   const [listArray, setListArray] = useState<List[]>([]);
+
+  const [spacePending, setSpacePending] = useState<boolean>(true);
+  const [folderPending, setFolderPending] = useState<boolean>(true);
+  const [folderlessListPending, setFolderlessListPending] = useState<boolean>(true);
+  const [listPending, setListPending] = useState<boolean>(true);
 
   //
   const [clickedTeam, setClickedTeam] = useState<JSON>();
@@ -71,29 +77,28 @@ export default function Workspace(props: WorkspacePropList) {
         token: token,
         teamId: teamId,
       })
-      .then((resp) => {
+      .then(async (resp) => {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const spaceArrayData: Space[] = jsonData.spaces;
-          console.log('team clicked, the spaces are:', spaceArrayData);
           const indvidualArray: Space[] = [];
           for (var i = 0; i < spaceArrayData.length; i++) {
+            // console.log('how many spaces in this workspace', spaceArrayData.length)
+            // console.log('space number', i + 1)
             indvidualArray.push(spaceArrayData[i]);
+            await GetFolders(spaceArrayData[i].id);
+            await GetFolderlessLists(spaceArrayData[i].id);  
+            if((i + 1) === spaceArrayData.length) {
+              setSpacePending(false);
+            };
           }
           setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
         }
       })
-      .then(() => {
-        for (var i = 0; i < spaceArray.length; i++) {
-          GetFolders(spaceArray[i].id);
-          GetFolderlessLists(spaceArray[i].id);
-        }
-      })
-      .then(() => {
-        for (var i = 0; i < folderArray.length; i++) {
-          GetLists(folderArray[i].id);
-        }
-      })
+      // .then(() => {
+      //   console.log('last then')
+      //   setShowNavButton(true);
+      // })
       .catch((error) => {
         console.log(error);
       });
@@ -105,18 +110,29 @@ export default function Workspace(props: WorkspacePropList) {
         token: token,
         spaceId: spaceId,
       })
-      .then((resp) => {
+      .then(async(resp) => {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const folderArrayData: Folder[] = jsonData.folders;
-          console.log('spaces found, the folders are:', folderArrayData);
           const indvidualArray: Folder[] = [];
           for (var i = 0; i < folderArrayData.length; i++) {
+            console.log('how many lists in this folder', folderArrayData.length)
+            console.log('list number', i + 1)
             indvidualArray.push(folderArrayData[i]);
+            await GetLists(folderArrayData[i].id);
+            if((i + 1) === folderArrayData.length) {
+              setFolderPending(false);
+            };
           }
           setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
         }
       })
+      // .then(async(resp) => {
+      //   for (var i = 0; i < folderArray.length; i++) {
+      //     console.log('made it here')
+      //     await GetLists(folderArray[i].id, i);
+      //   }
+      // })
       .catch((error) => {
         console.log(error);
       });
@@ -131,23 +147,18 @@ export default function Workspace(props: WorkspacePropList) {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const folderlessListArrayData: List[] = jsonData.lists;
-          console.log(
-            'spaces found, the folderless Lists are:',
-            folderlessListArrayData
-          );
           const indvidualArray: List[] = [];
           for (var i = 0; i < folderlessListArrayData.length; i++) {
             indvidualArray.push(folderlessListArrayData[i]);
+            if((i + 1) === folderlessListArrayData.length) {
+              setFolderlessListPending(false);
+            };
+
           }
           setFolderlessListArray((folderlessListArray) => [
             ...folderlessListArray,
             ...indvidualArray,
           ]);
-        }
-      })
-      .then(() => {
-        if (folderArray.length === 0) {
-          setShowNavButton(true);
         }
       })
       .catch((error) => {
@@ -156,6 +167,7 @@ export default function Workspace(props: WorkspacePropList) {
   };
 
   const GetLists = async (folderId: string): Promise<void> => {
+    console.log('made it here')
     await axios
       .post(`http://localhost:3001/workspace/lists`, {
         token: token,
@@ -168,12 +180,12 @@ export default function Workspace(props: WorkspacePropList) {
           const indvidualArray: List[] = [];
           for (var i = 0; i < listArrayData.length; i++) {
             indvidualArray.push(listArrayData[i]);
+            if((i + 1) === listArrayData.length) {
+              setListPending(false);
+            };
           }
           setListArray((listArray) => [...listArray, ...indvidualArray]);
         }
-      })
-      .then(() => {
-        setShowNavButton(true);
       })
       .catch((error) => {
         console.log(error);
@@ -197,7 +209,7 @@ export default function Workspace(props: WorkspacePropList) {
       props.teamCallback(data);
     }
   };
-  
+
   useEffect(() => {
     GetTeams();
   }, []);
@@ -212,7 +224,6 @@ export default function Workspace(props: WorkspacePropList) {
     }
   }, [teamData]);
 
-
   useEffect(() => {
     for (var i = 0; i < spaceArray.length; i++) {
       GetFolders(spaceArray[i].id);
@@ -221,11 +232,19 @@ export default function Workspace(props: WorkspacePropList) {
   }, [spaceArray]);
 
   useEffect(() => {
-    if(clickedTeam && (folderArray.length === 0)) {
+    if (clickedTeam && folderArray.length === 0) {
       props.spaceCallback(spaceArray.map((space: any) => space.id));
-      props.folderlessListCallback(folderlessListArray.map((list: any) => list.id))
+      props.folderlessListCallback(
+        folderlessListArray.map((list: any) => list.id)
+      );
     }
   }, [folderArray]);
+
+  useEffect(() => {
+    if(!spacePending && !folderPending && !folderlessListPending && !listPending) {
+      setShowNavButton(true)
+    }
+  }, [spacePending, folderPending, folderlessListPending, listPending]);
 
   useEffect(() => {
     props.tokenCallback(token);
@@ -349,9 +368,17 @@ export default function Workspace(props: WorkspacePropList) {
             </tr>
           </Col>
         ) : (
-          <Col></Col>
+          <Row>
+            {clickedTeam ? (
+              <>
+                <Spinner animation="border" variant="info" />
+              </>
+            ) : (
+              <Col></Col>
+              )}
+          </Row>
         )}
-      </Row>
+        </Row>
       {/* {workspacePressed === -1 ? (
         <></>
       ) : (
