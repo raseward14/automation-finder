@@ -115,13 +115,13 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      res?.data?.automations.forEach(async (triggerObject: any) => {
+      res?.data?.automations?.forEach(async (triggerObject: any) => {
         // at this point, we would have already not included inactive triggers
         // we need to retrieve 
         // we only want to search active triggers
-        // if (triggerObject.active !== false) {
-        //   allAutoTriggers.push(triggerObject);
-        // }
+        if (triggerObject.active !== false) {
+          allAutoTriggers.push(triggerObject);
+        }
 
 
         // push the trigger if includeInactive is toggled on, otherwise check its active before pushing
@@ -133,7 +133,7 @@ const Automations = (props: AutomationPropList) => {
 
 
       });
-      res?.data?.shortcuts.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`List workflow request:`, res.data);
@@ -149,21 +149,19 @@ const Automations = (props: AutomationPropList) => {
     let allShortTriggers: any = [];
     console.log(`made it ${listIDs}`);
     listIDs.forEach(async (id) => {
-      console.log(shard, id, token);
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
         bearer: token,
       });
-      // console.log('folderlessList automations: ', res.data);
 
-      res?.data?.automations.forEach(async (triggerObject: any) => {
+      res?.data?.automations?.forEach(async (triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
       });
-      res?.data?.shortcuts.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`folderless list workflow request:`, res.data);
@@ -183,13 +181,13 @@ const Automations = (props: AutomationPropList) => {
         folderId: id,
         bearer: token,
       });
-      res?.data?.automations.forEach(async (triggerObject: any) => {
+      res?.data?.automations?.forEach(async (triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
       });
-      res?.data?.shortcuts.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`folder ${id} workflow request`, res.data);
@@ -210,13 +208,13 @@ const Automations = (props: AutomationPropList) => {
         bearer: token,
       });
       // console.log('space automations: ', res.data);
-      res?.data?.automations.forEach(async (triggerObject: any) => {
+      res?.data?.automations?.forEach(async (triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
       });
-      res?.data?.shortcuts.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
     });
