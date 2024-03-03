@@ -27,11 +27,6 @@ const Automations = (props: AutomationPropList) => {
   // this is no longer being returned from basic.tsx - token is now returned as undefined
   const yourToken = localStorage.getItem('token');
   const [token, setToken] = useState<any>(yourToken);
-  // we could also retrieve the token via prop passing
-  // const [token, setToken] = useState<any>(props.token)
-
-  // hard coded token, copy paste from ?workflow network request - working
-  // const [token, setToken] = useState<any>('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNiVkFxWkNGdVJBPSJ9.eyJ1c2VyIjoxNDkxNzI4NywidmFsaWRhdGVkIjp0cnVlLCJ3c19rZXkiOiI4MDAxMTg2MTg0Iiwic2Vzc2lvbl90b2tlbiI6dHJ1ZSwiaWF0IjoxNzA3MzUxNzA0LCJleHAiOjE3MDc1MjQ1MDR9._-SkWnDVyVcYg_VgUC_50Cxa9B-Cus4x6gXUJU0Z3GA');
 
   // variables for the trigger being searched
   const [includeInactive, setIncludeInactive] = useState<boolean>(false);
@@ -70,6 +65,13 @@ const Automations = (props: AutomationPropList) => {
   const [folderlessListIds, setFolderlessListIds] = useState<string[]>(
     props.folderlessListIds
   );
+  const [spacePending, setSpacePending] = useState<boolean>(true);
+  const [folderPending, setFolderPending] = useState<boolean>(true);
+  const [folderlessListPending, setFolderlessListPending] =
+    useState<boolean>(true);
+  const [listPending, setListPending] = useState<boolean>(true);
+  const [showFindButton, setShowFindButton] = useState<boolean>(false);
+
   // token passed from OAUTH - for workflow requests
   const [oAuthToken, setOAuthToken] = useState<string>(props.token);
 
@@ -107,9 +109,8 @@ const Automations = (props: AutomationPropList) => {
   const getListAutomations = (listIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-
-    console.log(`made it ${listIDs}`);
-    listIDs.forEach(async (id) => {
+    console.log(`made it ${listIDs.length} lists being looped`);
+    listIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
@@ -117,12 +118,11 @@ const Automations = (props: AutomationPropList) => {
       });
       res?.data?.automations?.forEach(async (triggerObject: any) => {
         // at this point, we would have already not included inactive triggers
-        // we need to retrieve 
+        // we need to retrieve
         // we only want to search active triggers
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
-
 
         // push the trigger if includeInactive is toggled on, otherwise check its active before pushing
         // if(includeInactive) {
@@ -130,13 +130,14 @@ const Automations = (props: AutomationPropList) => {
         // } else if (triggerObject.active !== false) {
         //   allAutoTriggers.push(triggerObject);
         // }
-
-
       });
       res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`List workflow request:`, res.data);
+      if((i + 1) === listIDs.length) {
+        setListPending(false)
+      }
     });
     setListTriggers({
       automations: allAutoTriggers,
@@ -147,8 +148,8 @@ const Automations = (props: AutomationPropList) => {
   const getFolderlessListAutomations = (listIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    console.log(`made it ${listIDs}`);
-    listIDs.forEach(async (id) => {
+    console.log(`made it ${listIDs.length} folderless lists being looped`);
+    listIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
@@ -165,6 +166,9 @@ const Automations = (props: AutomationPropList) => {
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`folderless list workflow request:`, res.data);
+      if((i + 1) === listIDs.length) {
+        setFolderlessListPending(false);
+      };
     });
     setFolderlessListTriggers({
       automations: allAutoTriggers,
@@ -175,7 +179,8 @@ const Automations = (props: AutomationPropList) => {
   const getFolderAutomations = (folderIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    folderIDs.forEach(async (id) => {
+    console.log(`made it ${folderIDs.length} folders being looped`);
+    folderIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/folder', {
         shard: shard,
         folderId: id,
@@ -191,6 +196,9 @@ const Automations = (props: AutomationPropList) => {
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`folder ${id} workflow request`, res.data);
+      if((i + 1) === folderIDs.length) {
+        setFolderPending(false);
+      };
     });
     setFolderTriggers({
       automations: allAutoTriggers,
@@ -201,7 +209,8 @@ const Automations = (props: AutomationPropList) => {
   const getSpaceAutomations = async (spaceIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    await spaceIDs.forEach(async (id) => {
+    console.log(`made it ${spaceIDs.length} spaces being looped`);
+    await spaceIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/space', {
         shard: shard,
         spaceId: id,
@@ -217,6 +226,9 @@ const Automations = (props: AutomationPropList) => {
       res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
+      if((i + 1) === spaceIDs.length) {
+        setSpacePending(false);
+      };
     });
     setSpaceTriggers({
       automations: allAutoTriggers,
@@ -300,7 +312,7 @@ const Automations = (props: AutomationPropList) => {
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
-    const triggerInput = trigger.value;
+    const triggerInput = trigger.value.trim();
 
     let spaceAutoTriggers: any[] | undefined = spaceTriggers?.automations;
     let spaceShortcutTriggers: any[] | undefined = spaceTriggers?.shortcuts;
@@ -363,16 +375,16 @@ const Automations = (props: AutomationPropList) => {
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
-    const triggerInput = trigger.value;
+    const triggerInput = trigger.value.trim();
 
     let folderAutoTriggers: any[] | undefined = folderTriggers?.automations;
     let folderShortcutTriggers: any[] | undefined = folderTriggers?.shortcuts;
 
-    console.log(
-      'folder auto/short',
-      folderTriggers?.automations.length,
-      spaceTriggers?.shortcuts.length
-    );
+    // console.log(
+    //   'folder auto/short',
+    //   folderTriggers?.automations.length,
+    //   spaceTriggers?.shortcuts.length
+    // );
     if (
       foundTrigger === undefined &&
       (folderAutoTriggers?.length !== 0 || folderShortcutTriggers?.length !== 0)
@@ -424,7 +436,7 @@ const Automations = (props: AutomationPropList) => {
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
-    const triggerInput = trigger.value;
+    const triggerInput = trigger.value.trim();
 
     let folderlessListAutoTriggers: any[] | undefined =
       folderlessListTriggers?.automations;
@@ -487,7 +499,7 @@ const Automations = (props: AutomationPropList) => {
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
-    const triggerInput = trigger.value;
+    const triggerInput = trigger.value.trim();
 
     let listAutoTriggers: any[] | undefined = listTriggers?.automations;
     let listShortcutTriggers: any[] | undefined = listTriggers?.shortcuts;
@@ -541,8 +553,8 @@ const Automations = (props: AutomationPropList) => {
   };
 
   useEffect(() => {
-    console.log(`include inactive is: ${includeInactive}`)
-  }, [includeInactive])
+    console.log(`include inactive is: ${includeInactive}`);
+  }, [includeInactive]);
 
   useEffect(() => {
     console.log(`not found on List: ${notFoundList}`);
@@ -556,6 +568,22 @@ const Automations = (props: AutomationPropList) => {
     console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts);
   }, [spaceTriggers]);
 
+  useEffect(() => {
+    console.log(`pending spaces: ${spacePending}`);
+    console.log(`pending folders: ${folderPending}`);
+    console.log(`pending folderlessLists: ${folderlessListPending}`);
+    console.log(`pending lists: ${listPending}`);
+
+    if (
+      !spacePending &&
+      !folderPending &&
+      !folderlessListPending &&
+      !listPending
+    ) {
+      setShowFindButton(true);
+    }
+  }, [spacePending, folderPending, folderlessListPending, listPending]);
+
   // useEffects for what this component has
   useEffect(() => {
     printShardFromWorkspaceId();
@@ -568,19 +596,24 @@ const Automations = (props: AutomationPropList) => {
     if (shard.length > 1) {
       // when we have a bearer, we can call get automations functions on page load from here
       if (folderlessListIds?.length) {
+        console.log('folderlessLists being searched', folderlessListIds.length);
         getFolderlessListAutomations(folderlessListIds);
       }
       if (listIds?.length) {
+        console.log('lists being searched', listIds.length);
         getListAutomations(listIds);
       }
       if (folderIds?.length) {
+        console.log('folders being searched', folderIds.length);
         getFolderAutomations(folderIds);
       }
       if (spaceIds?.length) {
+        console.log('spaces being searched', spaceIds.length);
         getSpaceAutomations(spaceIds);
       }
     }
   }, [shard]);
+
   useEffect(() => {
     console.log(`triggerID being searched: ${triggerId}`);
   }, [triggerId]);
@@ -598,10 +631,10 @@ const Automations = (props: AutomationPropList) => {
             placeholder="Search by a triggerId"
           />
           {foundTrigger ||
-            (notFoundList === true &&
-              notFoundFolderlessList === true &&
-              notFoundFolder === true &&
-              notFoundSpace === true) ? (
+          (notFoundList === true &&
+            notFoundFolderlessList === true &&
+            notFoundFolder === true &&
+            notFoundSpace === true) ? (
             <>
               {/*clear button*/}
               <Button
@@ -869,54 +902,69 @@ const Automations = (props: AutomationPropList) => {
                 <>
                   <Spinner animation="border" variant="info" />
                 </>
-              ) : (
+              ) : showFindButton ? (
                 <>
                   {/*find button*/}
                   <Dropdown as={ButtonGroup} autoClose="outside">
-                    <Button 
-                    variant="primary"
-                    onClick={() => {
-                      if (listTriggers) {
-                        searchListsForTrigger();
-                      } else {
-                        setNotFoundList(true);
-                      }
-                      if (folderlessListTriggers) {
-                        searchFolderlessListsForTrigger();
-                      } else {
-                        setNotFoundFolderlessList(true);
-                      }
-                      if (folderTriggers) {
-                        searchFoldersForTrigger();
-                      } else {
-                        setNotFoundFolder(true);
-                      }
-                      if (spaceTriggers) {
-                        searchSpacesForTrigger();
-                      } else {
-                        setNotFoundSpace(true);
-                      }
-                      setFindClicked(true);
-                    }}>Find Automation</Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        if (listTriggers) {
+                          searchListsForTrigger();
+                        } else {
+                          setNotFoundList(true);
+                        }
+                        if (folderlessListTriggers) {
+                          searchFolderlessListsForTrigger();
+                        } else {
+                          setNotFoundFolderlessList(true);
+                        }
+                        if (folderTriggers) {
+                          searchFoldersForTrigger();
+                        } else {
+                          setNotFoundFolder(true);
+                        }
+                        if (spaceTriggers) {
+                          searchSpacesForTrigger();
+                        } else {
+                          setNotFoundSpace(true);
+                        }
+                        setFindClicked(true);
+                      }}
+                    >
+                      Find Automation
+                    </Button>
 
-                    <Dropdown.Toggle split variant="info" id="dropdown-autoclose-outside" />
+                    <Dropdown.Toggle
+                      split
+                      variant="info"
+                      id="dropdown-autoclose-outside"
+                    />
 
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">View Inactive triggers<br />
+                      <Dropdown.Item href="#/action-1">
+                        View Inactive triggers
+                        <br />
                         <label className="switch">
                           <input type="checkbox" />
-                          <span 
-                          onClick={()=> {
-                            if(includeInactive) {
-                              setIncludeInactive(false)
-                            } else {
-                              setIncludeInactive(true)
-                            }}}
-                          className="slider round"></span>
+                          <span
+                            onClick={() => {
+                              if (includeInactive) {
+                                setIncludeInactive(false);
+                              } else {
+                                setIncludeInactive(true);
+                              }
+                            }}
+                            className="slider round"
+                          ></span>
                         </label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
+                </>
+              ) : (
+                <>
+                  <Spinner animation="border" variant="info" />
                 </>
               )}
             </>
