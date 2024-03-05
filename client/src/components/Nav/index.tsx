@@ -5,11 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import ClickUpIcon from '../images/clickup.jpeg';
 import './style.css';
 
 
 const NavComponent = () => {
-  const [workflowToken, setWorkflowToken] = useState<boolean>();
+  const yourToken = localStorage.getItem('token');
+
 
   const logout = async () => {
     localStorage.removeItem('token');
@@ -35,13 +37,22 @@ const NavComponent = () => {
 
       <Navbar expand="lg" className="navBar bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="/">Automation Finder</Navbar.Brand>
+          <Navbar.Brand href="/"><img className="clickup-icon-dark" src={ClickUpIcon}></img>Automation Finder</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href={"/token"}>CRM Link</Nav.Link>
+              {yourToken ? (
+                <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
+
+              ) : (
+                <>
+                  <Nav.Link href={"/token"}>CRM Link</Nav.Link>
+                  <Nav.Link href={"/basic"}>Password</Nav.Link>
+                </>
+              )}
+              {/* <Nav.Link href={"/token"}>CRM Link</Nav.Link>
               <Nav.Link href={"/basic"}>Password</Nav.Link>
-              <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
+              <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link> */}
 
               {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -58,35 +69,6 @@ const NavComponent = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-
-      {/* <Row style={style.row}>
-        <Button href={"/token"} style={style.button} variant="dark">
-          CRM Link
-        </Button>
-      </Row>
-<<<<<<< HEAD
-=======
-      <Row style={style.row}>
-        <Button href={"/basic"} style={style.button} variant="dark">
-          Password
-        </Button>
-      </Row>
->>>>>>> d0d66999bbfb44ad1b6d4345f9b23e727c795955
-      <Row style={style.row}>
-        <Button href={"/basic"} style={style.button} variant="dark">
-          Password
-        </Button>
-      </Row>
-      <Row style={style.row}>
-        <Button
-          href={"/"}
-          style={style.button}
-          variant="danger"
-          onClick={logout}>
-          Logout
-        </Button>
-      </Row> */}
     </>
   );
 };

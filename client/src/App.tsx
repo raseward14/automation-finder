@@ -43,10 +43,12 @@ const App: React.FC<{}> = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home/>}></Route>
-            <Route path="token" element={<TokenAuth />}></Route>
-            <Route path="basic" element={<BasicAuth />}></Route>
+          <Route path="/" element={<Layout/>}>
+            <Route index element={<Home />}></Route>
+            <Route path="token" element={<TokenAuth/>}
+            ></Route>
+            <Route path="basic" element={<BasicAuth/>}
+            ></Route>
             <Route path="oauth" element={<OAuthClickUp />}></Route>
             <Route path="oauth/success" element={<OAuthClickUp />}></Route>
             <Route

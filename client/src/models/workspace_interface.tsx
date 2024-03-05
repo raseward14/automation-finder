@@ -128,3 +128,20 @@ export interface List {
   override_statuses: boolean;
   permission_level: string;
 }
+
+export interface ListObject {
+  archived: boolean;
+  assignee: null | any; // Replace 'any' with the actual type for assignee
+  content: string;
+  due_date: string;
+  id: string;
+  name: string;
+  orderindex: number;
+  override_statuses: boolean;
+  permission_level: string;
+  priority: Priority;
+  space: Space;
+  start_date: null | string;
+  status: Status;
+  task_count: null | number;
+}
