@@ -109,14 +109,17 @@ const Automations = (props: AutomationPropList) => {
   const getListAutomations = (listIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    console.log(`made it ${listIDs.length} lists being looped`);
-    listIDs.forEach(async (id, i) => {
+    
+    listIDs.forEach(async (id, i) => {    
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
         bearer: token,
       });
-      res?.data?.automations?.forEach(async (triggerObject: any) => {
+      console.log(`getting Automations for this list: ${i}. total is ${listIDs.length}`)
+      console.log('list automations: ', res.data);
+
+      res?.data?.automations?.forEach((triggerObject: any) => {
         // at this point, we would have already not included inactive triggers
         // we need to retrieve
         // we only want to search active triggers
@@ -131,7 +134,7 @@ const Automations = (props: AutomationPropList) => {
         //   allAutoTriggers.push(triggerObject);
         // }
       });
-      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
       // console.log(`List workflow request:`, res.data);
@@ -148,24 +151,25 @@ const Automations = (props: AutomationPropList) => {
   const getFolderlessListAutomations = (listIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    console.log(`made it ${listIDs.length} folderless lists being looped`);
+    
     listIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
         bearer: token,
       });
+      console.log(`getting Automations for this Folderless list: ${i}. total is ${listIDs.length}`)
+      console.log('Folderless list automations: ', res.data);
 
-      res?.data?.automations?.forEach(async (triggerObject: any) => {
+      res?.data?.automations?.forEach((triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
       });
-      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
-      // console.log(`folderless list workflow request:`, res.data);
       if((i + 1) === listIDs.length) {
         setFolderlessListPending(false);
       };
@@ -179,13 +183,15 @@ const Automations = (props: AutomationPropList) => {
   const getFolderAutomations = (folderIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    console.log(`made it ${folderIDs.length} folders being looped`);
     folderIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/folder', {
         shard: shard,
         folderId: id,
         bearer: token,
       });
+      console.log(`getting Automations for this Folder: ${i}. total is ${folderIDs.length}`)
+      console.log('Folder automations: ', res.data);
+
       res?.data?.automations?.forEach(async (triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
@@ -193,9 +199,8 @@ const Automations = (props: AutomationPropList) => {
         }
       });
       res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
-        allShortTriggers.push(shortcutObject)
+      allShortTriggers.push(shortcutObject)
       );
-      // console.log(`folder ${id} workflow request`, res.data);
       if((i + 1) === folderIDs.length) {
         setFolderPending(false);
       };
@@ -209,21 +214,21 @@ const Automations = (props: AutomationPropList) => {
   const getSpaceAutomations = async (spaceIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    console.log(`made it ${spaceIDs.length} spaces being looped`);
     await spaceIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/space', {
         shard: shard,
         spaceId: id,
         bearer: token,
       });
-      // console.log('space automations: ', res.data);
-      res?.data?.automations?.forEach(async (triggerObject: any) => {
+      console.log(`getting Automations for this Space: ${i}. total is ${spaceIDs.length}`)
+      console.log('space automations: ', res.data);
+      res?.data?.automations?.forEach((triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
       });
-      res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
+      res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
       if((i + 1) === spaceIDs.length) {
