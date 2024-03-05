@@ -83,7 +83,6 @@ export default function Workspace(props: WorkspacePropList) {
           const spaceArrayData: Space[] = jsonData.spaces;
           const indvidualArray: Space[] = [];
           let spaceCount = spaceArrayData.length;
-          // console.log('returned Spaces', spaceArrayData);
           for (var i = 0; i < spaceArrayData.length; i++) {
             let spaceIndex = i + 1;
             indvidualArray.push(spaceArrayData[i]);
@@ -120,7 +119,6 @@ export default function Workspace(props: WorkspacePropList) {
             // if its the last Space in the Space array, and this Space doesn't have any Folders
             setFolderPending(false);
           } else {
-
             for (var i = 0; i < folderArrayData.length; i++) {
               let folderIndex = i + 1;
               indvidualArray.push(folderArrayData[i]);
@@ -133,9 +131,7 @@ export default function Workspace(props: WorkspacePropList) {
               } 
             }
             setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
-
           }
-
         }
       })
       .catch((error) => {
@@ -152,14 +148,12 @@ export default function Workspace(props: WorkspacePropList) {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const folderlessListArrayData: List[] = jsonData.lists;
-          console.log('GetFolderlessList if response is not undefined', spaceIndex, spaceCount, folderlessListArrayData.length)
           const indvidualArray: List[] = [];
           let folderlessListCount = folderlessListArrayData.length;
           if ((spaceIndex === spaceCount) && (folderlessListArrayData.length === 0)) {
             // if its the last Space in the Space array, and this Space does not have any Folderless lists
             setFolderlessListPending(false);
           } else {
-
             for (var i = 0; i < folderlessListArrayData.length; i++) {
               let folderlessListIndex = i + 1;
               indvidualArray.push(folderlessListArrayData[i]);
@@ -174,7 +168,6 @@ export default function Workspace(props: WorkspacePropList) {
               ...folderlessListArray,
               ...indvidualArray,
             ]);
-
           }
         }
       })
@@ -187,7 +180,6 @@ export default function Workspace(props: WorkspacePropList) {
     const listArrayData: ListObject[] = listArray;
     const indvidualArray: ListObject[] = [];
     let listCount = listArrayData.length;
-
     for (var i = 0; i < listArrayData.length; i++) {
       let listIndex = i + 1;
       indvidualArray.push(listArrayData[i]);

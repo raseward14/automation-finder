@@ -116,9 +116,6 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      console.log(`getting Automations for this list: ${i}. total is ${listIDs.length}`)
-      console.log('list automations: ', res.data);
-
       res?.data?.automations?.forEach((triggerObject: any) => {
         // at this point, we would have already not included inactive triggers
         // we need to retrieve
@@ -126,7 +123,6 @@ const Automations = (props: AutomationPropList) => {
         if (triggerObject.active !== false) {
           allAutoTriggers.push(triggerObject);
         }
-
         // push the trigger if includeInactive is toggled on, otherwise check its active before pushing
         // if(includeInactive) {
         //   allAutoTriggers.push(triggerObject);
@@ -137,9 +133,8 @@ const Automations = (props: AutomationPropList) => {
       res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
-      // console.log(`List workflow request:`, res.data);
       if((i + 1) === listIDs.length) {
-        setListPending(false)
+        setListPending(false);
       }
     });
     setListTriggers({
@@ -158,9 +153,6 @@ const Automations = (props: AutomationPropList) => {
         listId: id,
         bearer: token,
       });
-      console.log(`getting Automations for this Folderless list: ${i}. total is ${listIDs.length}`)
-      console.log('Folderless list automations: ', res.data);
-
       res?.data?.automations?.forEach((triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
@@ -189,9 +181,6 @@ const Automations = (props: AutomationPropList) => {
         folderId: id,
         bearer: token,
       });
-      console.log(`getting Automations for this Folder: ${i}. total is ${folderIDs.length}`)
-      console.log('Folder automations: ', res.data);
-
       res?.data?.automations?.forEach(async (triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
@@ -220,8 +209,6 @@ const Automations = (props: AutomationPropList) => {
         spaceId: id,
         bearer: token,
       });
-      console.log(`getting Automations for this Space: ${i}. total is ${spaceIDs.length}`)
-      console.log('space automations: ', res.data);
       res?.data?.automations?.forEach((triggerObject: any) => {
         // we only want to search active triggers
         if (triggerObject.active !== false) {
@@ -242,8 +229,6 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const getLocation = async (trigger: any) => {
-    console.log('made it here');
-
     let location = trigger.parent_type;
     let id = trigger.parent_id;
     console.log(trigger, location);
@@ -313,7 +298,6 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchSpacesForTrigger = () => {
-    console.log('called Space triggers');
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -323,11 +307,6 @@ const Automations = (props: AutomationPropList) => {
     let spaceShortcutTriggers: any[] | undefined = spaceTriggers?.shortcuts;
     console.log(spaceTriggers);
 
-    console.log(
-      'space auto/short',
-      spaceTriggers?.automations.length,
-      spaceTriggers?.shortcuts.length
-    );
     if (
       foundTrigger === undefined &&
       (spaceAutoTriggers?.length !== 0 || spaceShortcutTriggers?.length !== 0)
@@ -385,11 +364,6 @@ const Automations = (props: AutomationPropList) => {
     let folderAutoTriggers: any[] | undefined = folderTriggers?.automations;
     let folderShortcutTriggers: any[] | undefined = folderTriggers?.shortcuts;
 
-    // console.log(
-    //   'folder auto/short',
-    //   folderTriggers?.automations.length,
-    //   spaceTriggers?.shortcuts.length
-    // );
     if (
       foundTrigger === undefined &&
       (folderAutoTriggers?.length !== 0 || folderShortcutTriggers?.length !== 0)
@@ -500,7 +474,6 @@ const Automations = (props: AutomationPropList) => {
   };
 
   const searchListsForTrigger = async () => {
-    console.log('called List triggers');
     const trigger = document.getElementById(
       'trigger-input'
     ) as HTMLInputElement;
@@ -508,12 +481,6 @@ const Automations = (props: AutomationPropList) => {
 
     let listAutoTriggers: any[] | undefined = listTriggers?.automations;
     let listShortcutTriggers: any[] | undefined = listTriggers?.shortcuts;
-
-    console.log(
-      'list auto/short',
-      listTriggers?.automations.length,
-      listTriggers?.shortcuts.length
-    );
     if (
       foundTrigger === undefined &&
       (listAutoTriggers?.length !== 0 || listShortcutTriggers?.length !== 0)
