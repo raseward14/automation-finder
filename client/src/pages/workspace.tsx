@@ -87,11 +87,10 @@ export default function Workspace(props: WorkspacePropList) {
           for (var i = 0; i < spaceArrayData.length; i++) {
             let spaceIndex = i + 1;
             indvidualArray.push(spaceArrayData[i]);
-            // console.log(spaceArrayData[i]);
             GetFolders(spaceArrayData[i].id, spaceIndex, spaceCount);
-            GetFolderlessLists(spaceArrayData[i].id, spaceIndex, spaceCount); 
+            GetFolderlessLists(spaceArrayData[i].id, spaceIndex, spaceCount);
             // if its the last Space in the Space array
-            if(spaceIndex === spaceCount) {
+            if (spaceIndex === spaceCount) {
               console.log(`this Spaces index: ${spaceIndex}, and total Space count: ${spaceCount}`)
               setSpacePending(false);
             };
@@ -116,20 +115,27 @@ export default function Workspace(props: WorkspacePropList) {
           const folderArrayData: Folder[] = jsonData.folders;
           const indvidualArray: Folder[] = [];
           let folderCount = folderArrayData.length;
-          for (var i = 0; i < folderArrayData.length; i++) {
-            let folderIndex = i + 1;
-            indvidualArray.push(folderArrayData[i]);
 
-            let folderLists: ListObject[] = (folderArrayData[i].lists);
-            storeLists(folderLists, folderIndex, folderCount);
+          if ((spaceIndex === spaceCount) && (folderArrayData.length === 0)) {
+            // if its the last Space in the Space array, and this Space doesn't have any Folders
+            setFolderPending(false);
+          } else {
 
-            // if its the last Space in the Space array, and this is the last Folder in that Space
-            if((spaceIndex === spaceCount) && (folderIndex === folderCount)) {
-              console.log(`this Folders index: ${folderIndex}, and total Folder count: ${folderCount}`);
-              setFolderPending(false);
-            };
+            for (var i = 0; i < folderArrayData.length; i++) {
+              let folderIndex = i + 1;
+              indvidualArray.push(folderArrayData[i]);
+              let folderLists: ListObject[] = (folderArrayData[i].lists);
+              storeLists(folderLists, folderIndex, folderCount, spaceIndex, spaceCount);
+              // if its the last Space in the Space array, and this is the last Folder in that Space
+              if ((spaceIndex === spaceCount) && (folderIndex === folderCount)) {
+                console.log(`this Folders index: ${folderIndex}, and total Folder count: ${folderCount}`);
+                setFolderPending(false);
+              } 
+            }
+            setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
+
           }
-          setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
+
         }
       })
       .catch((error) => {
@@ -146,22 +152,30 @@ export default function Workspace(props: WorkspacePropList) {
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const folderlessListArrayData: List[] = jsonData.lists;
+          console.log('GetFolderlessList if response is not undefined', spaceIndex, spaceCount, folderlessListArrayData.length)
           const indvidualArray: List[] = [];
           let folderlessListCount = folderlessListArrayData.length;
-          for (var i = 0; i < folderlessListArrayData.length; i++) {
-            let folderlessListIndex = i + 1;
-            indvidualArray.push(folderlessListArrayData[i]);
-            console.log(spaceIndex, spaceCount, folderlessListIndex, folderlessListCount);
-            // if its the last Space in the Space array, and this is the last list in that Space
-            if((spaceIndex === spaceCount) && (folderlessListIndex === folderlessListCount)) {
-              console.log(`this Folderless list index: ${folderlessListIndex}, and total Folderless list count: ${folderlessListCount}`)
-              setFolderlessListPending(false);
-            };
+          if ((spaceIndex === spaceCount) && (folderlessListArrayData.length === 0)) {
+            // if its the last Space in the Space array, and this Space does not have any Folderless lists
+            setFolderlessListPending(false);
+          } else {
+
+            for (var i = 0; i < folderlessListArrayData.length; i++) {
+              let folderlessListIndex = i + 1;
+              indvidualArray.push(folderlessListArrayData[i]);
+              console.log(spaceIndex, spaceCount, folderlessListIndex, folderlessListCount);
+              // if its the last Space in the Space array, and this is the last list in that Space
+              if ((spaceIndex === spaceCount) && (folderlessListIndex === folderlessListCount)) {
+                console.log(`this Folderless list index: ${folderlessListIndex}, and total Folderless list count: ${folderlessListCount}`)
+                setFolderlessListPending(false);
+              }
+            }
+            setFolderlessListArray((folderlessListArray) => [
+              ...folderlessListArray,
+              ...indvidualArray,
+            ]);
+
           }
-          setFolderlessListArray((folderlessListArray) => [
-            ...folderlessListArray,
-            ...indvidualArray,
-          ]);
         }
       })
       .catch((error) => {
@@ -169,7 +183,7 @@ export default function Workspace(props: WorkspacePropList) {
       });
   };
 
-  const storeLists = (listArray: ListObject[], folderIndex: number, folderCount: number) => {
+  const storeLists = (listArray: ListObject[], folderIndex: number, folderCount: number, spaceIndex: number, spaceCount: number) => {
     const listArrayData: ListObject[] = listArray;
     const indvidualArray: ListObject[] = [];
     let listCount = listArrayData.length;
@@ -177,10 +191,8 @@ export default function Workspace(props: WorkspacePropList) {
     for (var i = 0; i < listArrayData.length; i++) {
       let listIndex = i + 1;
       indvidualArray.push(listArrayData[i]);
-      console.log(folderIndex, folderCount, listIndex, listCount);
-
-      // if its the last Folder in the Folder array, and this is the last list in that Folder
-      if((folderIndex === folderCount) && (listIndex === listCount)) {
+      // if its the last Folder in the Folder array, and this is the last Space in the Space array, and this is the last list in that Folder
+      if ((folderIndex === folderCount) && (spaceIndex === spaceCount) && (listIndex === listCount)) {
         console.log(`this lists index: ${listIndex}, and total list count: ${listCount}`)
         setListPending(false);
       };
@@ -226,7 +238,7 @@ export default function Workspace(props: WorkspacePropList) {
     console.log(`pending folderlessLists: ${folderlessListPending}`)
     console.log(`pending lists: ${listPending}`)
 
-    if(!spacePending && !folderPending && !folderlessListPending && !listPending) {
+    if (!spacePending && !folderPending && !folderlessListPending && !listPending) {
       setShowNavButton(true)
     }
   }, [spacePending, folderPending, folderlessListPending, listPending]);
@@ -360,10 +372,10 @@ export default function Workspace(props: WorkspacePropList) {
               </>
             ) : (
               <Col></Col>
-              )}
+            )}
           </Row>
         )}
-        </Row>
+      </Row>
       {/* {workspacePressed === -1 ? (
         <></>
       ) : (
