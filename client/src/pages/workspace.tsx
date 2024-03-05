@@ -82,11 +82,17 @@ export default function Workspace(props: WorkspacePropList) {
           let jsonData = JSON.parse(resp.data);
           const spaceArrayData: Space[] = jsonData.spaces;
           const indvidualArray: Space[] = [];
+          let spaceCount = spaceArrayData.length;
+          // console.log('returned Spaces', spaceArrayData);
           for (var i = 0; i < spaceArrayData.length; i++) {
+            let spaceIndex = i + 1;
             indvidualArray.push(spaceArrayData[i]);
-            GetFolders(spaceArrayData[i].id);
-            GetFolderlessLists(spaceArrayData[i].id);  
-            if((i + 1) === spaceArrayData.length) {
+            // console.log(spaceArrayData[i]);
+            GetFolders(spaceArrayData[i].id, spaceIndex, spaceCount);
+            GetFolderlessLists(spaceArrayData[i].id, spaceIndex, spaceCount); 
+            // if its the last Space in the Space array
+            if(spaceIndex === spaceCount) {
+              console.log(`this Spaces index: ${spaceIndex}, and total Space count: ${spaceCount}`)
               setSpacePending(false);
             };
           }
@@ -98,7 +104,7 @@ export default function Workspace(props: WorkspacePropList) {
       });
   };
 
-  const GetFolders = async (spaceId: string): Promise<void> => {
+  const GetFolders = async (spaceId: string, spaceIndex: number, spaceCount: number): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folders`, {
         token: token,
@@ -109,12 +115,17 @@ export default function Workspace(props: WorkspacePropList) {
           let jsonData = JSON.parse(resp.data);
           const folderArrayData: Folder[] = jsonData.folders;
           const indvidualArray: Folder[] = [];
+          let folderCount = folderArrayData.length;
           for (var i = 0; i < folderArrayData.length; i++) {
+            let folderIndex = i + 1;
             indvidualArray.push(folderArrayData[i]);
-            let folderLists: ListObject[] = (folderArrayData[i].lists)
-            // GetLists(folderArrayData[i].id);
-            storeLists(folderLists)
-            if(((i + 1) === folderArrayData.length)) {
+
+            let folderLists: ListObject[] = (folderArrayData[i].lists);
+            storeLists(folderLists, folderIndex, folderCount);
+
+            // if its the last Space in the Space array, and this is the last Folder in that Space
+            if((spaceIndex === spaceCount) && (folderIndex === folderCount)) {
+              console.log(`this Folders index: ${folderIndex}, and total Folder count: ${folderCount}`);
               setFolderPending(false);
             };
           }
@@ -125,7 +136,7 @@ export default function Workspace(props: WorkspacePropList) {
         console.log(error);
       });
   };
-  const GetFolderlessLists = async (spaceId: string): Promise<void> => {
+  const GetFolderlessLists = async (spaceId: string, spaceIndex: number, spaceCount: number): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folderless/lists`, {
         token: token,
@@ -136,12 +147,16 @@ export default function Workspace(props: WorkspacePropList) {
           let jsonData = JSON.parse(resp.data);
           const folderlessListArrayData: List[] = jsonData.lists;
           const indvidualArray: List[] = [];
+          let folderlessListCount = folderlessListArrayData.length;
           for (var i = 0; i < folderlessListArrayData.length; i++) {
+            let folderlessListIndex = i + 1;
             indvidualArray.push(folderlessListArrayData[i]);
-            if((i + 1) === folderlessListArrayData.length) {
+            console.log(spaceIndex, spaceCount, folderlessListIndex, folderlessListCount);
+            // if its the last Space in the Space array, and this is the last list in that Space
+            if((spaceIndex === spaceCount) && (folderlessListIndex === folderlessListCount)) {
+              console.log(`this Folderless list index: ${folderlessListIndex}, and total Folderless list count: ${folderlessListCount}`)
               setFolderlessListPending(false);
             };
-
           }
           setFolderlessListArray((folderlessListArray) => [
             ...folderlessListArray,
@@ -154,43 +169,24 @@ export default function Workspace(props: WorkspacePropList) {
       });
   };
 
-  const storeLists = (listArray: ListObject[]) => {
+  const storeLists = (listArray: ListObject[], folderIndex: number, folderCount: number) => {
     const listArrayData: ListObject[] = listArray;
     const indvidualArray: ListObject[] = [];
+    let listCount = listArrayData.length;
+
     for (var i = 0; i < listArrayData.length; i++) {
+      let listIndex = i + 1;
       indvidualArray.push(listArrayData[i]);
-      if((i + 1) === listArrayData.length) {
+      console.log(folderIndex, folderCount, listIndex, listCount);
+
+      // if its the last Folder in the Folder array, and this is the last list in that Folder
+      if((folderIndex === folderCount) && (listIndex === listCount)) {
+        console.log(`this lists index: ${listIndex}, and total list count: ${listCount}`)
         setListPending(false);
       };
     }
     setListArray((listArray) => [...listArray, ...indvidualArray]);
   }
-
-  // const GetLists = async (folderId: string): Promise<void> => {
-  //   console.log('made it here')
-  //   await axios
-  //     .post(`http://localhost:3001/workspace/lists`, {
-  //       token: token,
-  //       folderId: folderId,
-  //     })
-  //     .then((resp) => {
-  //       if (resp.data != undefined) {
-  //         let jsonData = JSON.parse(resp.data);
-  //         const listArrayData: List[] = jsonData.lists;
-  //         const indvidualArray: List[] = [];
-  //         for (var i = 0; i < listArrayData.length; i++) {
-  //           indvidualArray.push(listArrayData[i]);
-  //           if((i + 1) === listArrayData.length) {
-  //             setListPending(false);
-  //           };
-  //         }
-  //         setListArray((listArray) => [...listArray, ...indvidualArray]);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   const createButtons = (data: any) => {
     if (data !== undefined) {
