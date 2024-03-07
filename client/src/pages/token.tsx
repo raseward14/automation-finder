@@ -68,6 +68,7 @@ export default function BasicAuth() {
           style={style.input}
           type="text"
           placeholder="login link"
+          className="form-input"
           value={loginURL}
           onChange={(e) => setLoginURL(e.target.value)}
           required

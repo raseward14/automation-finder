@@ -91,6 +91,11 @@
     border-radius: 50%;
   }
 
-h1.oauth-header {
+/* h1.oauth-header {
   margin: auto;
+} */
+
+.form-input {
+  display: unset !important;
+  /* width: 20vw !important; */
 }

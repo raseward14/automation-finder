@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './style.css';
 
 export default function BasicAuth() {
   const [email, setEmail] = useState<string>('');
@@ -63,6 +64,7 @@ export default function BasicAuth() {
         <Form.Control
           type="email"
           placeholder="Enter email"
+          className="form-input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -74,6 +76,7 @@ export default function BasicAuth() {
         <Form.Control
           type="password"
           placeholder="Password"
+          className="form-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required

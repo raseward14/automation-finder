@@ -18,10 +18,8 @@ const NavComponent = () => {
   };
 
   useEffect(() => {
-    console.log('nav useEffect fired')
     localStorage.removeItem('token');
   }, []);
-
 
   const style = {
     row: {
