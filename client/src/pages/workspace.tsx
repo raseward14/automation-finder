@@ -2,8 +2,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Container, Col, ContainerProps, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Team, Space, Folder, List, ListObject } from '../models/workspace_interface';
+import {
+  Team,
+  Space,
+  Folder,
+  List,
+  ListObject,
+} from '../models/workspace_interface';
 // import "./component.css";
 
 type WorkspacePropList = {
@@ -38,7 +45,8 @@ export default function Workspace(props: WorkspacePropList) {
 
   const [spacePending, setSpacePending] = useState<boolean>(true);
   const [folderPending, setFolderPending] = useState<boolean>(true);
-  const [folderlessListPending, setFolderlessListPending] = useState<boolean>(true);
+  const [folderlessListPending, setFolderlessListPending] =
+    useState<boolean>(true);
   const [listPending, setListPending] = useState<boolean>(true);
 
   //
@@ -49,6 +57,8 @@ export default function Workspace(props: WorkspacePropList) {
   // const [folderlessPressed, setFolderlessPressed] = useState<Number>(-1);
   // const [folderPressed, setFolderPressed] = useState<Number>(-1);
   // const [listPressed, setListPressed] = useState<Number>(-1);
+  // for progress bar
+  // const [spaceIndex, setSpaceIndex] = useState<any>(0);
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -85,14 +95,17 @@ export default function Workspace(props: WorkspacePropList) {
           let spaceCount = spaceArrayData.length;
           for (var i = 0; i < spaceArrayData.length; i++) {
             let spaceIndex = i + 1;
+            // setSpaceIndex(spaceIndex);
             indvidualArray.push(spaceArrayData[i]);
             GetFolders(spaceArrayData[i].id, spaceIndex, spaceCount);
             GetFolderlessLists(spaceArrayData[i].id, spaceIndex, spaceCount);
             // if its the last Space in the Space array
             if (spaceIndex === spaceCount) {
-              console.log(`this Spaces index: ${spaceIndex}, and total Space count: ${spaceCount}`)
+              console.log(
+                `this Spaces index: ${spaceIndex}, and total Space count: ${spaceCount}`
+              );
               setSpacePending(false);
-            };
+            }
           }
           setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
         }
@@ -102,7 +115,11 @@ export default function Workspace(props: WorkspacePropList) {
       });
   };
 
-  const GetFolders = async (spaceId: string, spaceIndex: number, spaceCount: number): Promise<void> => {
+  const GetFolders = async (
+    spaceId: string,
+    spaceIndex: number,
+    spaceCount: number
+  ): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folders`, {
         token: token,
@@ -115,22 +132,33 @@ export default function Workspace(props: WorkspacePropList) {
           const indvidualArray: Folder[] = [];
           let folderCount = folderArrayData.length;
 
-          if ((spaceIndex === spaceCount) && (folderArrayData.length === 0)) {
+          if (spaceIndex === spaceCount && folderArrayData.length === 0) {
             // if its the last Space in the Space array, and this Space doesn't have any Folders
             setFolderPending(false);
           } else {
             for (var i = 0; i < folderArrayData.length; i++) {
               let folderIndex = i + 1;
               indvidualArray.push(folderArrayData[i]);
-              let folderLists: ListObject[] = (folderArrayData[i].lists);
-              storeLists(folderLists, folderIndex, folderCount, spaceIndex, spaceCount);
+              let folderLists: ListObject[] = folderArrayData[i].lists;
+              storeLists(
+                folderLists,
+                folderIndex,
+                folderCount,
+                spaceIndex,
+                spaceCount
+              );
               // if its the last Space in the Space array, and this is the last Folder in that Space
-              if ((spaceIndex === spaceCount) && (folderIndex === folderCount)) {
-                console.log(`this Folders index: ${folderIndex}, and total Folder count: ${folderCount}`);
+              if (spaceIndex === spaceCount && folderIndex === folderCount) {
+                console.log(
+                  `this Folders index: ${folderIndex}, and total Folder count: ${folderCount}`
+                );
                 setFolderPending(false);
-              } 
+              }
             }
-            setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
+            setFolderArray((folderArray) => [
+              ...folderArray,
+              ...indvidualArray,
+            ]);
           }
         }
       })
@@ -138,7 +166,11 @@ export default function Workspace(props: WorkspacePropList) {
         console.log(error);
       });
   };
-  const GetFolderlessLists = async (spaceId: string, spaceIndex: number, spaceCount: number): Promise<void> => {
+  const GetFolderlessLists = async (
+    spaceId: string,
+    spaceIndex: number,
+    spaceCount: number
+  ): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folderless/lists`, {
         token: token,
@@ -150,17 +182,30 @@ export default function Workspace(props: WorkspacePropList) {
           const folderlessListArrayData: List[] = jsonData.lists;
           const indvidualArray: List[] = [];
           let folderlessListCount = folderlessListArrayData.length;
-          if ((spaceIndex === spaceCount) && (folderlessListArrayData.length === 0)) {
+          if (
+            spaceIndex === spaceCount &&
+            folderlessListArrayData.length === 0
+          ) {
             // if its the last Space in the Space array, and this Space does not have any Folderless lists
             setFolderlessListPending(false);
           } else {
             for (var i = 0; i < folderlessListArrayData.length; i++) {
               let folderlessListIndex = i + 1;
               indvidualArray.push(folderlessListArrayData[i]);
-              console.log(spaceIndex, spaceCount, folderlessListIndex, folderlessListCount);
+              console.log(
+                spaceIndex,
+                spaceCount,
+                folderlessListIndex,
+                folderlessListCount
+              );
               // if its the last Space in the Space array, and this is the last list in that Space
-              if ((spaceIndex === spaceCount) && (folderlessListIndex === folderlessListCount)) {
-                console.log(`this Folderless list index: ${folderlessListIndex}, and total Folderless list count: ${folderlessListCount}`)
+              if (
+                spaceIndex === spaceCount &&
+                folderlessListIndex === folderlessListCount
+              ) {
+                console.log(
+                  `this Folderless list index: ${folderlessListIndex}, and total Folderless list count: ${folderlessListCount}`
+                );
                 setFolderlessListPending(false);
               }
             }
@@ -176,7 +221,13 @@ export default function Workspace(props: WorkspacePropList) {
       });
   };
 
-  const storeLists = (listArray: ListObject[], folderIndex: number, folderCount: number, spaceIndex: number, spaceCount: number) => {
+  const storeLists = (
+    listArray: ListObject[],
+    folderIndex: number,
+    folderCount: number,
+    spaceIndex: number,
+    spaceCount: number
+  ) => {
     const listArrayData: ListObject[] = listArray;
     const indvidualArray: ListObject[] = [];
     let listCount = listArrayData.length;
@@ -184,13 +235,19 @@ export default function Workspace(props: WorkspacePropList) {
       let listIndex = i + 1;
       indvidualArray.push(listArrayData[i]);
       // if its the last Folder in the Folder array, and this is the last Space in the Space array, and this is the last list in that Folder
-      if ((folderIndex === folderCount) && (spaceIndex === spaceCount) && (listIndex === listCount)) {
-        console.log(`this lists index: ${listIndex}, and total list count: ${listCount}`)
+      if (
+        folderIndex === folderCount &&
+        spaceIndex === spaceCount &&
+        listIndex === listCount
+      ) {
+        console.log(
+          `this lists index: ${listIndex}, and total list count: ${listCount}`
+        );
         setListPending(false);
-      };
+      }
     }
     setListArray((listArray) => [...listArray, ...indvidualArray]);
-  }
+  };
 
   const createButtons = (data: any) => {
     if (data !== undefined) {
@@ -225,13 +282,18 @@ export default function Workspace(props: WorkspacePropList) {
   }, [teamData]);
 
   useEffect(() => {
-    console.log(`pending spaces: ${spacePending}`)
-    console.log(`pending folders: ${folderPending}`)
-    console.log(`pending folderlessLists: ${folderlessListPending}`)
-    console.log(`pending lists: ${listPending}`)
+    console.log(`pending spaces: ${spacePending}`);
+    console.log(`pending folders: ${folderPending}`);
+    console.log(`pending folderlessLists: ${folderlessListPending}`);
+    console.log(`pending lists: ${listPending}`);
 
-    if (!spacePending && !folderPending && !folderlessListPending && !listPending) {
-      setShowNavButton(true)
+    if (
+      !spacePending &&
+      !folderPending &&
+      !folderlessListPending &&
+      !listPending
+    ) {
+      setShowNavButton(true);
     }
   }, [spacePending, folderPending, folderlessListPending, listPending]);
 
@@ -359,8 +421,14 @@ export default function Workspace(props: WorkspacePropList) {
         ) : (
           <Row>
             {clickedTeam ? (
-              <>
-                <Spinner animation="border" variant="info" />
+              <><br/><br/>
+                <span className="spinner-text">Collecting workspace details...</span><br/><br/>
+                <Spinner
+                  className="spinner"
+                  animation="border"
+                  variant="info"
+                />
+                {/* <ProgressBar now={spaceIndex/spaceArray.length} /> */}
               </>
             ) : (
               <Col></Col>

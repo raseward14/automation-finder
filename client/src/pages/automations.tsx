@@ -109,8 +109,8 @@ const Automations = (props: AutomationPropList) => {
   const getListAutomations = (listIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    
-    listIDs.forEach(async (id, i) => {    
+
+    listIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
         listId: id,
@@ -133,7 +133,7 @@ const Automations = (props: AutomationPropList) => {
       res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
-      if((i + 1) === listIDs.length) {
+      if (i + 1 === listIDs.length) {
         setListPending(false);
       }
     });
@@ -146,7 +146,7 @@ const Automations = (props: AutomationPropList) => {
   const getFolderlessListAutomations = (listIDs: string[]) => {
     let allAutoTriggers: any = [];
     let allShortTriggers: any = [];
-    
+
     listIDs.forEach(async (id, i) => {
       const res = await axios.post('http://localhost:3001/automation/list', {
         shard: shard,
@@ -162,9 +162,9 @@ const Automations = (props: AutomationPropList) => {
       res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
-      if((i + 1) === listIDs.length) {
+      if (i + 1 === listIDs.length) {
         setFolderlessListPending(false);
-      };
+      }
     });
     setFolderlessListTriggers({
       automations: allAutoTriggers,
@@ -188,11 +188,11 @@ const Automations = (props: AutomationPropList) => {
         }
       });
       res?.data?.shortcuts?.forEach(async (shortcutObject: any) =>
-      allShortTriggers.push(shortcutObject)
+        allShortTriggers.push(shortcutObject)
       );
-      if((i + 1) === folderIDs.length) {
+      if (i + 1 === folderIDs.length) {
         setFolderPending(false);
-      };
+      }
     });
     setFolderTriggers({
       automations: allAutoTriggers,
@@ -218,9 +218,9 @@ const Automations = (props: AutomationPropList) => {
       res?.data?.shortcuts?.forEach((shortcutObject: any) =>
         allShortTriggers.push(shortcutObject)
       );
-      if((i + 1) === spaceIDs.length) {
+      if (i + 1 === spaceIDs.length) {
         setSpacePending(false);
-      };
+      }
     });
     setSpaceTriggers({
       automations: allAutoTriggers,
@@ -872,7 +872,16 @@ const Automations = (props: AutomationPropList) => {
             <>
               {foundTrigger === undefined && findClicked ? (
                 <>
-                  <Spinner animation="border" variant="info" />
+                  <br />
+                  <span className="spinner-text">
+                    loading...
+                  </span>
+                  <br />
+                  <Spinner
+                    className="spinner"
+                    animation="border"
+                    variant="info"
+                  />
                 </>
               ) : showFindButton ? (
                 <>
@@ -935,8 +944,14 @@ const Automations = (props: AutomationPropList) => {
                   </Dropdown>
                 </>
               ) : (
-                <>
-                  <Spinner animation="border" variant="info" />
+                <><br /><br />
+                  <span className="spinner-text">Collecting automation details...</span>
+                  <br /><br />
+                  <Spinner
+                    className="auto-spinner"
+                    animation="border"
+                    variant="info"
+                  />
                 </>
               )}
             </>

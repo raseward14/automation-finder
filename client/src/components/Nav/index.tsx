@@ -17,9 +17,9 @@ const NavComponent = () => {
     localStorage.removeItem('token');
   };
 
-  useEffect(() => {
-    localStorage.removeItem('token');
-  }, []);
+  // useEffect(() => {
+  //   localStorage.removeItem('token');
+  // }, []);
 
   const style = {
     row: {

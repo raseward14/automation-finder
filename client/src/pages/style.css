@@ -91,11 +91,18 @@
     border-radius: 50%;
   }
 
-/* h1.oauth-header {
-  margin: auto;
-} */
-
 .form-input {
   display: unset !important;
-  /* width: 20vw !important; */
+}
+
+.spinner-text {
+margin-left: 40%;
+}
+
+.spinner {
+  margin: auto;
+}
+
+.auto-spinner {
+  margin-left: 35vw;
 }
