@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Workspace from './workspace';
 import { Container } from 'react-bootstrap';
 // import BasicAuth from "./basic";
+import './style.css'
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
@@ -73,7 +74,6 @@ export default function OAuthClickUp() {
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh', // Optional: Set minimum height for vertical centering
-      maxWidth: '50vw', // Set max-width to 50% of the viewport
     },
     row: {
       display: 'flex',
@@ -85,14 +85,14 @@ export default function OAuthClickUp() {
     button: {
       width: 'auto', // Make the button only as wide as needed
       marginTop: '10px', // Optional: Add margin for spacing
-    },
+    }
   };
 
   return (
     <Container style={style.container as React.CSSProperties}>
       {gotToken == false ? (
         <Row style={style.row as React.CSSProperties}>
-          <h1>Connect ClickUp Workspaces</h1>
+          <h1 className="oauth-header">Connect ClickUp Workspaces</h1>
           <Button
             style={style.button}
             variant="dark"
