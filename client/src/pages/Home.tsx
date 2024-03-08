@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { APIConstants } from '../constants'; 
 
 export default function Home() {
+
   useEffect(() => {
-    localStorage.removeItem('token');
+    console.log('LocalStorage.clear() running...');
+    localStorage.clear();
+    console.log('LocalStorage cleared!');    
   }, []);
 
   return (

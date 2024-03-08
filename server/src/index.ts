@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import AutomationRoutes from "./routes/AutomationRoutes";
 import WorkspaceRoutes from "./routes/WorkspaceRoutes";
 import BasicAuth from "./routes/BasicAuthRoutes";
+import { URLSearchParams } from "url";
 export const routes = express.Router();
 
 const app = express();
@@ -47,7 +48,7 @@ interface SocketData {
 }
 // server-side
 io.on("connection", (socket: { id: any }) => {
-  console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  console.log(socket.id + " is connected"); // x8WIv7-mJelg7on_ALbx
 });
 
 app.use(
@@ -77,6 +78,24 @@ app.post("/token", async (req: Request, res: Response): Promise<any> => {
   console.log(data);
   res.send(data);
 });
+
+app.delete("/clear", async (req: Request, res: Response): Promise<any> => {
+  
+    const shard = req.body.shard;
+    const client_id = req.body.client_id;
+    const token = req.body.bearer;
+  
+
+  const resp = await fetch(
+    `https://${shard}.clickup.com/auth/v1/oauthClientAuth/${client_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  )
+})
 
 routes.use(WorkspaceRoutes);
 routes.use(AutomationRoutes);
