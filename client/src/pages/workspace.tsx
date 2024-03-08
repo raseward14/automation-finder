@@ -135,6 +135,7 @@ export default function Workspace(props: WorkspacePropList) {
           if (spaceIndex === spaceCount && folderArrayData.length === 0) {
             // if its the last Space in the Space array, and this Space doesn't have any Folders
             setFolderPending(false);
+            setListPending(false);
           } else {
             for (var i = 0; i < folderArrayData.length; i++) {
               let folderIndex = i + 1;
