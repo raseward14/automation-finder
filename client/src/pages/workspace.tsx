@@ -58,7 +58,7 @@ export default function Workspace(props: WorkspacePropList) {
   // const [folderPressed, setFolderPressed] = useState<Number>(-1);
   // const [listPressed, setListPressed] = useState<Number>(-1);
   // for progress bar
-  // const [spaceIndex, setSpaceIndex] = useState<any>(0);
+  // const [progress, setProgress] = useState<any>(0);
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -95,7 +95,9 @@ export default function Workspace(props: WorkspacePropList) {
           let spaceCount = spaceArrayData.length;
           for (var i = 0; i < spaceArrayData.length; i++) {
             let spaceIndex = i + 1;
-            // setSpaceIndex(spaceIndex);
+            // let percent = (spaceIndex/spaceCount);
+            // let integer = percent * 100;
+            // setProgress(integer);
             indvidualArray.push(spaceArrayData[i]);
             GetFolders(spaceArrayData[i].id, spaceIndex, spaceCount);
             GetFolderlessLists(spaceArrayData[i].id, spaceIndex, spaceCount);
@@ -429,7 +431,7 @@ export default function Workspace(props: WorkspacePropList) {
                   animation="border"
                   variant="info"
                 />
-                {/* <ProgressBar now={spaceIndex/spaceArray.length} /> */}
+                {/* <ProgressBar className="progress" now={progress} /> */}
               </>
             ) : (
               <Col></Col>

@@ -106,3 +106,8 @@ margin-left: 40%;
 .auto-spinner {
   margin-left: 35vw;
 }
+
+.progress {
+  margin: auto;
+  max-width: 40vw !important;
+}
