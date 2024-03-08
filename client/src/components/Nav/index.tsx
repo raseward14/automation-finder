@@ -11,11 +11,15 @@ import './style.css';
 
 const NavComponent = () => {
   const yourToken = localStorage.getItem('token');
-
+  // const [jwt, setJwt] = useState(yourToken);
 
   const logout = async () => {
     localStorage.removeItem('token');
   };
+
+  // useEffect(() => {
+  //   localStorage.removeItem('token');
+  // }, []);
 
   const style = {
     row: {

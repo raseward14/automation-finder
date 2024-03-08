@@ -91,6 +91,23 @@
     border-radius: 50%;
   }
 
-.round {
+.form-input {
+  display: unset !important;
+}
 
+.spinner-text {
+margin-left: 40%;
+}
+
+.spinner {
+  margin: auto;
+}
+
+.auto-spinner {
+  margin-left: 35vw;
+}
+
+.progress {
+  margin: auto;
+  max-width: 40vw !important;
 }
