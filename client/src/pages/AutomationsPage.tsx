@@ -25,7 +25,7 @@ const Automations = (props: AutomationPropList) => {
   const [shard, setShard] = useState<string>('');
 
   // this is no longer being returned from basic.tsx - token is now returned as undefined
-  const yourToken = localStorage.getItem('token');
+  const yourToken = localStorage.getItem('jwt');
   const [token, setToken] = useState<any>(yourToken);
 
   // variables for the trigger being searched

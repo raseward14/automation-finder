@@ -20,6 +20,7 @@ type WorkspacePropList = {
   listCallback: (a: string[]) => void;
   folderlessListCallback: (a: string[]) => void;
   tokenCallback: (a: any) => void;
+  JWTCallback: (a: string) => void;
 };
 
 // type WorkspacePropList = {
@@ -29,6 +30,7 @@ type WorkspacePropList = {
 export default function Workspace(props: WorkspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
+  const [JWT, setJWT] = useState<any>(localStorage.getItem('jwt'))
   //containers for response object
   const [teamData, setTeamData] = useState<JSON>();
   // const [spaceData, setSpaceData] = useState<JSON>();
@@ -273,6 +275,14 @@ export default function Workspace(props: WorkspacePropList) {
   useEffect(() => {
     GetTeams();
   }, []);
+
+  // pass the token we just stored back to app.tsx if it exists
+  // useEffect(() => {
+  //   console.log('from workspace.tsx: ', JWT)
+  //  if(JWT) {
+  //   props.JWTCallback(JWT);
+  //  }
+  // }, [JWT])
 
   useEffect(() => {
     sendTeam(clickedTeam);

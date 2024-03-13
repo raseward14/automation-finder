@@ -5,21 +5,33 @@ import { Button, Form, Row } from 'react-bootstrap';
 import { ClientToServerEvents, ServerToClientEvents } from '../models/socket';
 import { Socket, io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import Workspace from './workspace';
+import Workspace from './WorkspacePage';
 import { Container } from 'react-bootstrap';
 // import BasicAuth from "./basic";
-import './style.css'
+import './style.css';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
 );
 
-export default function OAuthClickUp() {
+type OAuthPropList = {
+  JWTCallback: (a: string) => void;
+}
+
+export default function OAuthClickUp(props: OAuthPropList) {
   const navigate = useNavigate();
+  const [JWT, setJWT] = useState<any>(localStorage.getItem('jwt'))
   const [accessCode, setAccessCode] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
   const [gotCode, setGotCode] = useState<boolean>(false);
   const [gotToken, setGotToken] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   if(JWT) {
+  //     console.log(`from oauth jwt: ${JWT}`)
+  //     props.JWTCallback(JWT);
+  //   }
+  // }, [JWT])
 
   useEffect(() => {
     if (window.location.pathname === '/oauth/success' && gotCode === false) {
@@ -85,7 +97,7 @@ export default function OAuthClickUp() {
     button: {
       width: 'auto', // Make the button only as wide as needed
       marginTop: '10px', // Optional: Add margin for spacing
-    }
+    },
   };
 
   return (

@@ -8,18 +8,37 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ClickUpIcon from '../images/clickup.jpeg';
 import './style.css';
 
+type NavPropList = {
+  JWT: string;
+}
 
-const NavComponent = () => {
-  const yourToken = localStorage.getItem('token');
-  // const [jwt, setJwt] = useState(yourToken);
+const NavComponent = (props: NavPropList) => {
+  const yourToken = localStorage.getItem('jwt');
+  const [storedToken, setStoredToken] = useState<any>(localStorage.getItem('jwt'))
+  const [JWT, setJWT] = useState(props.JWT);
 
   const logout = async () => {
     localStorage.removeItem('token');
   };
 
   // useEffect(() => {
-  //   localStorage.removeItem('token');
-  // }, []);
+    // this doesnt work, bc when we load the workspace.tsx page, the nav component re-loads, and this runs removing the token
+    // we need to set something to true, in a location that only loads when the app starts
+    // if(storedToken) {
+      // console.log('stored token exists:', storedToken);
+      // localStorage.removeItem('jwt');
+      // setJWT(storedToken);
+  //   } else {
+  //     console.log(`no stored token: ${storedToken}`)
+  //   }
+  //   console.log(`jwt from nav: ${JWT}`)
+  // }, [JWT, storedToken]);
+
+  useEffect(() => {
+    console.log(`nav component loaded`);
+    console.log(`jwt value: ${JWT}`);
+    console.log(`this is in local storage: ${localStorage.getItem('jwt')}`)
+  }, [])
 
   const style = {
     row: {
@@ -45,9 +64,8 @@ const NavComponent = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {yourToken ? (
+              {(JWT.length > 1) ? (
                 <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
-
               ) : (
                 <>
                   <Nav.Link href={"/token"}>CRM Link</Nav.Link>

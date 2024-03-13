@@ -4,7 +4,7 @@ import { APIConstants } from '../constants';
 export default function Home() {
 
   useEffect(() => {
-    console.log('LocalStorage.clear() running...');
+    // console.log('LocalStorage.clear() running...');
     localStorage.clear();
     console.log('LocalStorage cleared!');    
   }, []);

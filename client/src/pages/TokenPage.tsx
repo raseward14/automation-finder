@@ -3,8 +3,11 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+type TokenPropList = {
+  JWTCallback: (a: string) => void;
+}
 
-export default function BasicAuth() {
+export default function TokenAuth(props: TokenPropList) {
   const [JWT, setJWT] = useState<string>('');
   const [loginURL, setLoginURL] = useState<string>('');
   const [teams, setTeams] = useState<any>();
@@ -21,6 +24,7 @@ export default function BasicAuth() {
     .then((resp) => {
       console.log('from basic.tsx', resp.data);
       setJWT(resp.data.token);
+      props.JWTCallback(resp.data.token);
     })
     .catch((error) => {
       console.log(error);
@@ -45,7 +49,8 @@ export default function BasicAuth() {
 
   useEffect(() => {
     if (JWT !== '') {
-      localStorage.setItem('token', JWT);
+      console.log('jwt set', JWT)
+      localStorage.setItem('jwt', JWT);
       navigate('/oauth')
     }
   }, [JWT]);
