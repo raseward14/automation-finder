@@ -4,11 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './style.css';
 
-type BasicPropList = {
-  JWTCallback: (a: string) => void;
-}
-
-export default function BasicAuth(props: BasicPropList) {
+export default function BasicAuth() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [JWT, setJWT] = useState<string>('');
@@ -24,7 +20,6 @@ export default function BasicAuth(props: BasicPropList) {
       .then((resp) => {
         console.log('from basic.tsx', resp.data);
         setJWT(resp.data.token);
-        props.JWTCallback(resp.data.token);
         setTeams(resp.data.teams);
       })
       .catch((error) => {
@@ -46,7 +41,6 @@ export default function BasicAuth(props: BasicPropList) {
 
   useEffect(() => {
     if (JWT !== '') {
-      console.log('jwt set', JWT)
       localStorage.setItem('jwt', JWT);
       navigate('/oauth')
       // console.log('show connect clickup OAuth button')

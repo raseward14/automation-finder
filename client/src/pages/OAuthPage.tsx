@@ -14,24 +14,14 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
 );
 
-type OAuthPropList = {
-  JWTCallback: (a: string) => void;
-}
 
-export default function OAuthClickUp(props: OAuthPropList) {
+
+export default function OAuthClickUp() {
   const navigate = useNavigate();
-  const [JWT, setJWT] = useState<any>(localStorage.getItem('jwt'))
   const [accessCode, setAccessCode] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
   const [gotCode, setGotCode] = useState<boolean>(false);
   const [gotToken, setGotToken] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if(JWT) {
-  //     console.log(`from oauth jwt: ${JWT}`)
-  //     props.JWTCallback(JWT);
-  //   }
-  // }, [JWT])
 
   useEffect(() => {
     if (window.location.pathname === '/oauth/success' && gotCode === false) {

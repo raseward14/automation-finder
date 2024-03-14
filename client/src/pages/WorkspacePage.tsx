@@ -20,7 +20,6 @@ type WorkspacePropList = {
   listCallback: (a: string[]) => void;
   folderlessListCallback: (a: string[]) => void;
   tokenCallback: (a: any) => void;
-  JWTCallback: (a: string) => void;
 };
 
 // type WorkspacePropList = {
@@ -276,13 +275,6 @@ export default function Workspace(props: WorkspacePropList) {
     GetTeams();
   }, []);
 
-  // pass the token we just stored back to app.tsx if it exists
-  // useEffect(() => {
-  //   console.log('from workspace.tsx: ', JWT)
-  //  if(JWT) {
-  //   props.JWTCallback(JWT);
-  //  }
-  // }, [JWT])
 
   useEffect(() => {
     sendTeam(clickedTeam);

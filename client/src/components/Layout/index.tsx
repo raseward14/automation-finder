@@ -5,17 +5,7 @@ import { Container, Col, Row, Card } from 'react-bootstrap';
 import { Button } from 'react-bootstrap/lib/InputGroup';
 import './style.css';
 
-type LayoutPropList = {
-  JWT: string;
-};
-
-const Layout = (props: LayoutPropList) => {
-  const [JWT, setJWT] = useState<string>(props.JWT);
-
-  // useEffect(() => {
-  //   console.log(`from layout.tsx jwt is: ${JWT}`)
-  // }, [JWT])
-
+const Layout = () => {
 
   const style = {
     container: {
@@ -29,7 +19,7 @@ const Layout = (props: LayoutPropList) => {
 
   return (
     <Container style={style.container as React.CSSProperties}>
-      <Nav JWT={JWT} />
+      <Nav />
       <div className={'page-container'}>
         <Outlet />
       </div>

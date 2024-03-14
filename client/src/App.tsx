@@ -23,7 +23,6 @@ const App: React.FC<{}> = () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
 
-  const [JWT, setJWT] = useState<string>('');
   const [token, setToken] = useState<string>('');
   const [workspaceId, setWorkspaceId] = useState<string>('');
   const [spaceIds, setSpaceIds] = useState<string[]>([]);
@@ -37,10 +36,6 @@ const App: React.FC<{}> = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(`from app.tsx jwt is: ${JWT}`);
-  // }, [JWT]);
-
   return (
     <ThemeProvider
       breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
@@ -48,23 +43,23 @@ const App: React.FC<{}> = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout JWT={JWT} />}>
+          <Route path="/" element={<Layout />}>
             <Route index element={<Home />}></Route>
             <Route
               path="token"
-              element={<TokenAuth JWTCallback={setJWT} />}
+              element={<TokenAuth />}
             ></Route>
             <Route
               path="basic"
-              element={<BasicAuth JWTCallback={setJWT} />}
+              element={<BasicAuth />}
             ></Route>
             <Route
               path="oauth"
-              element={<OAuthClickUp JWTCallback={setJWT} />}
+              element={<OAuthClickUp />}
             ></Route>
             <Route
               path="oauth/success"
-              element={<OAuthClickUp JWTCallback={setJWT} />}
+              element={<OAuthClickUp />}
             ></Route>
             <Route
               path="workspace/:token"
@@ -76,7 +71,6 @@ const App: React.FC<{}> = () => {
                   listCallback={setListIds}
                   folderlessListCallback={setFolderlessListIds}
                   tokenCallback={setToken}
-                  JWTCallback={setJWT}
                 />
               }
             ></Route>

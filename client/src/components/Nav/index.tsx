@@ -8,36 +8,19 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ClickUpIcon from '../images/clickup.jpeg';
 import './style.css';
 
-type NavPropList = {
-  JWT: string;
-}
-
-const NavComponent = (props: NavPropList) => {
-  const yourToken = localStorage.getItem('jwt');
-  const [storedToken, setStoredToken] = useState<any>(localStorage.getItem('jwt'))
-  const [JWT, setJWT] = useState(props.JWT);
+const NavComponent = () => {
+  const [JWTPresent, setJWTPresent] = useState<boolean>(false)
 
   const logout = async () => {
     localStorage.removeItem('token');
   };
 
-  // useEffect(() => {
-    // this doesnt work, bc when we load the workspace.tsx page, the nav component re-loads, and this runs removing the token
-    // we need to set something to true, in a location that only loads when the app starts
-    // if(storedToken) {
-      // console.log('stored token exists:', storedToken);
-      // localStorage.removeItem('jwt');
-      // setJWT(storedToken);
-  //   } else {
-  //     console.log(`no stored token: ${storedToken}`)
-  //   }
-  //   console.log(`jwt from nav: ${JWT}`)
-  // }, [JWT, storedToken]);
-
   useEffect(() => {
-    console.log(`nav component loaded`);
-    console.log(`jwt value: ${JWT}`);
-    console.log(`this is in local storage: ${localStorage.getItem('jwt')}`)
+   const currentLocation = window.location.href;
+   if(currentLocation.includes('oauth')){
+    setJWTPresent(true)
+   }
+    console.log('current location', currentLocation);
   }, [])
 
   const style = {
@@ -64,7 +47,7 @@ const NavComponent = (props: NavPropList) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {(JWT.length > 1) ? (
+              {JWTPresent ? (
                 <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
               ) : (
                 <>
