@@ -4,29 +4,32 @@ import io from "socket.io-client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
+import HOME from './components/home'
+import OAUTH from './components/oauth'
+import Container from 'react-bootstrap/Container'
 
 const socket = io.connect("http://localhost:8080/");
 
 
-function App() {
+export default function App() {
+  const style = {
+    container: {},
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider
+      breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
+      minBreakpoint="xxs"
+    >
+      <Container style={style.container}>
+        <BrowserRouter>
+          <Routes>
+            <Route exact path="/" element={<HOME socket={socket} />}></Route>
+            <Route exact path="/oauth" element={<OAUTH socket={socket} />}></Route>
+            <Route exact path="/oauth/success" element={<OAUTH socket={socket} />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </Container>
+    </ThemeProvider>
   );
 }
-
-export default App;

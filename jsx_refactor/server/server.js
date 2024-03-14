@@ -7,20 +7,24 @@ const socketIo = require("socket.io"); // Require the socket.io module
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3001;
+const socket_port = process.env.SOCKET_PORT;
+const react_port = process.env.REACT_PORT;
+
 app.use(cors());
 app.use(express.json());
 
 const WorkspaceRouter = require("./routes/workspace_routes");
+const AuthRouter = require("./routes/auth_routes")
 
 app.use("/workspace", WorkspaceRouter);
+app.use("/auth", AuthRouter)
 
 
 
 const server = http.createServer(app); // Create an HTTP server
 const io = socketIo(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: [`http://localhost:${react_port}`],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 }); // Initialize Socket.IO with the server
@@ -28,7 +32,7 @@ const io = socketIo(server, {
 const online = [];
 // Socket.IO setup
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("Socket.io: React app connected.");
 
   //notify of user login
   socket.on("Login", function (data) {
@@ -54,13 +58,14 @@ io.on("connection", (socket) => {
 
 app.use(
   cors({
-    origin: [`http://localhost:8080`],
+    origin: [`http://localhost:${socket_port}`],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
-server.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+server.listen(socket_port, () => {
+  console.log(`Server is listening on port: ${socket_port}`);
+  console.log(`React app is running on port: ${react_port}`)
 });
 
