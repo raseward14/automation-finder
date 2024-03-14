@@ -11,7 +11,6 @@ import {
   List,
   ListObject,
 } from '../models/workspace_interface';
-// import "./component.css";
 
 type WorkspacePropList = {
   teamCallback: (a: string) => void;
@@ -32,11 +31,6 @@ export default function Workspace(props: WorkspacePropList) {
   const [JWT, setJWT] = useState<any>(localStorage.getItem('jwt'))
   //containers for response object
   const [teamData, setTeamData] = useState<JSON>();
-  // const [spaceData, setSpaceData] = useState<JSON>();
-  // const [folderData, setFolderData] = useState<JSON>();
-  // const [folderlessListData, setFolderlessListData] = useState<JSON>();
-  // const [listData, setListData] = useState<JSON>();
-  // const [selectedTeam, setSelectedTeam] = useState<string>('');
   //containers for
   const [teamArray, setTeamArray] = useState<Team[]>([]);
   const [spaceArray, setSpaceArray] = useState<Space[]>([]);
@@ -44,22 +38,16 @@ export default function Workspace(props: WorkspacePropList) {
   const [folderlessListArray, setFolderlessListArray] = useState<List[]>([]);
   const [listArray, setListArray] = useState<ListObject[]>([]);
 
+  // pending state variables for location searching
   const [spacePending, setSpacePending] = useState<boolean>(true);
   const [folderPending, setFolderPending] = useState<boolean>(true);
   const [folderlessListPending, setFolderlessListPending] =
     useState<boolean>(true);
   const [listPending, setListPending] = useState<boolean>(true);
 
-  //
   const [clickedTeam, setClickedTeam] = useState<JSON>();
   const [showNavButton, setShowNavButton] = useState<boolean>(false);
   const [workspacePressed, setWorkspacePressed] = useState<Number>(-1);
-  // const [spacePressed, setSpacePressed] = useState<Number>(-1);
-  // const [folderlessPressed, setFolderlessPressed] = useState<Number>(-1);
-  // const [folderPressed, setFolderPressed] = useState<Number>(-1);
-  // const [listPressed, setListPressed] = useState<Number>(-1);
-  // for progress bar
-  // const [progress, setProgress] = useState<any>(0);
 
   const GetTeams = async (): Promise<void> => {
     await axios
@@ -359,55 +347,6 @@ export default function Workspace(props: WorkspacePropList) {
             </Button>
           ))}
         </Col>
-        {/* <Col id="hierarchy_col">
-          <h1>Spaces</h1>
-
-          {spaceArray?.map((space: any, i: number) => (
-            <tr key={i}>
-              <td key={i}>
-                <Button variant="dark" key={i} onClick={() => {}}>
-                  {`${space.name} id: ${space.id}`}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </Col>
-        <Col id="hierarchy_col">
-          <h1>Folders</h1>
-          {folderArray?.map((folder: any, i: number) => (
-            <tr key={i}>
-              <td key={i}>
-                <Button variant="dark" key={i} onClick={() => {}}>
-                  {`${folder.name} id: ${folder.id}`}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </Col>
-        <Col id="hierarchy_col">
-          <h1>Folderless Lists</h1>
-          {folderlessListArray?.map((list: any, i: number) => (
-            <tr key={i}>
-              <td key={i}>
-                <Button variant="dark" key={i} onClick={() => {}}>
-                  {`${list.name} id: ${list.id}`}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </Col>
-        <Col id="hierarchy_col">
-          <h1>Lists</h1>
-          {listArray?.map((list: any, i: number) => (
-            <tr key={i}>
-              <td key={i}>
-                <Button variant="dark" key={i} onClick={() => {}}>
-                  {`${list.name} id: ${list.id}`}
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </Col> */}
         {showNavButton ? (
           <Col>
             <h3>Find Automations</h3>
@@ -426,8 +365,8 @@ export default function Workspace(props: WorkspacePropList) {
         ) : (
           <Row>
             {clickedTeam ? (
-              <><br/><br/>
-                <span className="spinner-text">Collecting workspace details...</span><br/><br/>
+              <><br /><br />
+                <span className="spinner-text">Collecting workspace details...</span><br /><br />
                 <Spinner
                   className="spinner"
                   animation="border"
