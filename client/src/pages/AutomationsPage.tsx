@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Trigger from '../components/Auto-Trigger'
 
 import axios from 'axios';
 import './style.css';
@@ -570,18 +571,26 @@ const Automations = (props: AutomationPropList) => {
       if (folderlessListIds?.length) {
         console.log('folderlessLists being searched', folderlessListIds.length);
         getFolderlessListAutomations(folderlessListIds);
+      } else {
+        setFolderlessListPending(false);
       }
       if (listIds?.length) {
         console.log('lists being searched', listIds.length);
         getListAutomations(listIds);
+      } else {
+        setListPending(false);
       }
       if (folderIds?.length) {
         console.log('folders being searched', folderIds.length);
         getFolderAutomations(folderIds);
+      } else {
+        setFolderPending(false);
       }
       if (spaceIds?.length) {
         console.log('spaces being searched', spaceIds.length);
         getSpaceAutomations(spaceIds);
+      } else {
+        setSpacePending(false);
       }
     }
   }, [shard]);
@@ -811,13 +820,14 @@ const Automations = (props: AutomationPropList) => {
                           <td style={{ width: '50%' }}>
                             <h4>When</h4>
                             this happens:
-                            <Card>
+                            <Trigger triggerObject={foundTrigger} />
+                            {/* <Card>
                               <Card.Body>
                                 <Card.Title>
                                   {foundTrigger?.trigger.type}
                                 </Card.Title>
                               </Card.Body>
-                            </Card>
+                            </Card> */}
                           </td>
                           <td>
                             <h4>Then</h4>
@@ -960,6 +970,11 @@ const Automations = (props: AutomationPropList) => {
       ) : (
         <></>
       )}
+      {/* {foundTrigger ? 
+      <Trigger triggerObject={foundTrigger} />
+      : 
+      <></>
+      } */}
     </div>
   );
 };
