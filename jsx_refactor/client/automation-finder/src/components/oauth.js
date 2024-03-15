@@ -62,9 +62,9 @@ export default function Oauth({ socket }) {
         }
     });
 
-    // useEffect(()=>{
-    //     GetAuthorizationCode()
-    // })
+    useEffect(()=>{
+        GetAuthorizationCode()
+    })
 
     const style = {
         container: {

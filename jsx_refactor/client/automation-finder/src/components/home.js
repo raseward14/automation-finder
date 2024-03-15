@@ -11,6 +11,7 @@ export default function Home({ socket }) {
     const navigate = useNavigate();
 
     const GetToken = async () => {
+        socket.emit("message", {message: "Trying to login with bypass..."});
         var loginURLTrimmed = loginURL.replace('&ngsw-bypass=1', '');
         var extractedToken = loginURLTrimmed.replace('https://app.clickup.com/?login_token=', '');
         await axios
@@ -18,8 +19,8 @@ export default function Home({ socket }) {
           token: extractedToken
         })
         .then((resp) => {
-          console.log('from basic.tsx', resp.data);
           setJWT(resp.data.token);
+
         })
         .catch((error) => {
           console.log(error);
@@ -34,7 +35,8 @@ export default function Home({ socket }) {
 
     useEffect(() => {
         if (JWT !== '') {
-          localStorage.setItem('token', JWT);
+          socket.emit("loginBypassSucessful", {jwt: JWT})
+          // localStorage.setItem('token', JWT);
           navigate('/oauth')
         }
       }, [JWT]);
