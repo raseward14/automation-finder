@@ -8,6 +8,7 @@ import ThemeProvider from "react-bootstrap/ThemeProvider";
 import HOME from './components/home'
 import OAUTH from './components/oauth'
 import WORKSPACE from './components/workspace'
+import AUTOMATIONS from './components/automations'
 import Container from 'react-bootstrap/Container'
 
 const socket = io.connect("http://localhost:8080/");
@@ -49,11 +50,17 @@ const getTeamIdFromObject = (data) => {
                   folderCallback={()=>setFolderIds}
                   listCallback={()=>setListIds}
                   folderlessListCallback={()=>setFolderlessListIds}
-                  tokenCallback={()=>setToken}
-
-                  />}></Route>
-
-
+                  tokenCallback={()=>setToken}/>}></Route>
+            <Route path="automations" element={<AUTOMATIONS
+                  
+                  socket={socket}
+                  workspaceId={workspaceId}
+                  spaceIds={spaceIds}
+                  folderIds={folderIds}
+                  folderlessListIds={folderlessListIds}
+                  listIds={listIds}
+                  
+                />}></Route>
           </Routes>
         </BrowserRouter>
       </Container>
