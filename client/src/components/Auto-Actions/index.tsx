@@ -18,6 +18,7 @@ const Actions = (props: ActionPropList) => {
     let newArr = [...actionArray];
     switch (true) {
       case /assignee/.test(type):
+        // consider calling funciton here to create object for this card
         let assigneeCard = {
           name: "Change assignees"
         }
@@ -120,6 +121,7 @@ const Actions = (props: ActionPropList) => {
         </div>
       </Card><br />
       {actionCardArray.map((card: any) => (
+        // consider dynamic rendering by card type
         card.name ?  
         <Card>
           <Card.Body>
