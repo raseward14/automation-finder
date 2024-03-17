@@ -57,29 +57,29 @@ const Trigger = (props: TriggerPropList) => {
         setTriggerName('Tag removed');
         break;
       case /task_created/.test(type):
-        if (triggerObject?.input?.trigger_on === "ALL") {
+        if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           setTriggerName('Task or subtask created');
-        } else if (triggerObject?.input?.trigger_on === "TASK") {
+        } else if (triggerObject?.trigger?.input?.trigger_on === "TASK") {
           setTriggerName('Task created');
-        } else if (triggerObject?.input?.trigger_on === "SUBTASK") {
+        } else if (triggerObject?.trigger?.input?.trigger_on === "SUBTASK") {
           setTriggerName('Subtask created');
         }
         break;
       case /linked_task/.test(type):
-        if (triggerObject?.input?.trigger_on === "ALL") {
+        if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           setTriggerName('Task or subtask linked');
-        } else if (triggerObject?.input?.trigger_on === "TASK") {
+        } else if (triggerObject?.trigger?.input?.trigger_on === "TASK") {
           setTriggerName('Task linked');
-        } else if (triggerObject?.input?.trigger_on === "SUBTASK") {
+        } else if (triggerObject?.trigger?.input?.trigger_on === "SUBTASK") {
           setTriggerName('Subtask linked');
         }
         break;
       case /unblocked/.test(type):
-        if (triggerObject?.input?.trigger_on === "ALL") {
+        if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           setTriggerName('Task or subtask unblocked');
-        } else if (triggerObject?.input?.trigger_on === "TASK") {
+        } else if (triggerObject?.trigger?.input?.trigger_on === "TASK") {
           setTriggerName('Task unblocked');
-        } else if (triggerObject?.input?.trigger_on === "SUBTASK") {
+        } else if (triggerObject?.trigger?.input?.trigger_on === "SUBTASK") {
           setTriggerName('Subtask unblocked');
         }
         break;
@@ -97,10 +97,15 @@ const Trigger = (props: TriggerPropList) => {
 
   useEffect(() => {
     console.log('trigger object', triggerObject)
+    if (triggerObject) {
+      printAutomationTrigger(triggerObject?.trigger?.type);
+    }
   }, [triggerObject])
 
   return (
     <>
+      <h4>When</h4>
+      this happens:
       <Card>
         <Card.Body>
           <Card.Title>
