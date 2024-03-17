@@ -46,15 +46,6 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
     description: '',
   });
 
-//   // will be passed from workspace.tsx - IN PROGRESS
-//   const [teamId, setteamId] = useState(teamId);
-//   // location ids
-//   const [spaceIds, setSpaceIds] = useState(spaceIds);
-//   const [folderIds, setFolderIds] = useState(folderIds);
-//   const [listIds, setListIds] = useState(listIds);
-//   const [folderlessListIds, setFolderlessListIds] = useState(
-//     folderlessListIds
-//   );
   const [spacePending, setSpacePending] = useState(true);
   const [folderPending, setFolderPending] = useState(true);
   const [folderlessListPending, setFolderlessListPending] = useState(true);
@@ -545,12 +536,11 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
     }
   }, [spacePending, folderPending, folderlessListPending, listPending]);
 
-  // useEffects for what this component has
+  
   useEffect(() => {
-    printShardFromteamId();
-    console.log(`teamId being searched: ${teamId}`);
-  }, [teamId]);
-
+    console.log(`triggerID being searched: ${triggerId}`);
+  }, [triggerId]);
+  
   useEffect(() => {
     // console.log(`workspace shard: ${shard}`);
     // console.log(`workspace token: ${token}`);
@@ -574,11 +564,14 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
       }
     }
   }, [shard]);
-
+  
+  // useEffects for what this component has
   useEffect(() => {
-    console.log(`triggerID being searched: ${triggerId}`);
-  }, [triggerId]);
-
+    printShardFromteamId();
+    console.log(`teamId being searched: ${teamId}`);
+  }, [teamId]);
+  
+  
   return (
     <div className="automations-container">
       <br />

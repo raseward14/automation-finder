@@ -4,22 +4,29 @@ import { Button, Container, Col, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function Workspace({ socket, teamCallback, spaceCallback, folderCallback, listCallback, folderlessListCallback, tokenCallback}) {
+export default function Workspace({
+  socket,
+  teamCallback,
+  spaceCallback,
+  folderCallback,
+  listCallback,
+  folderlessListCallback,
+  tokenCallback,
+}) {
   let { token } = useParams();
-
 
   const navigate = useNavigate();
   const [teamData, setTeamData] = useState();
   const [teamArray, setTeamArray] = useState([]);
   const [spaceArray, setSpaceArray] = useState([]);
-  const [folderArray, setFolderArray] =useState([]);
+  const [folderArray, setFolderArray] = useState([]);
   const [folderlessListArray, setFolderlessListArray] = useState([]);
   const [listArray, setListArray] = useState([]);
   const [clickedTeam, setClickedTeam] = useState();
   const [showNavButton, setShowNavButton] = useState(false);
   const [workspacePressed, setWorkspacePressed] = useState(-1);
 
-    const GetTeams = async ()=> {
+  const GetTeams = async () => {
     await axios
       .post(`http://localhost:8080/workspace/teams`, {
         token: token,
@@ -30,7 +37,7 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
           const teamsArrayData = jsonData.teams;
           const individualTeamObjects = [];
           for (const team of teamsArrayData) {
-            individualTeamObjects.push(team); 
+            individualTeamObjects.push(team);
           }
           setTeamArray(individualTeamObjects);
         }
@@ -40,153 +47,132 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
       });
   };
 
-    const GetSpaces = async (teamId)=> {
+  const GetSpaces = async (teamId) => {
     await axios
       .post(`http://localhost:8080/workspace/spaces`, {
         token: token,
         teamId: teamId,
       })
-      .then(  (resp) => {
-
-       
-          if (resp.data != undefined) {
-            let jsonData = JSON.parse(resp.data);
-            const spaceArrayData = jsonData.spaces;
-            const indvidualArray = [];
-           for (var i = 0; i < spaceArrayData.length; i++) {
-              indvidualArray.push(spaceArrayData[i]);
-            }
-             setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
+      .then((resp) => {
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const spaceArrayData = jsonData.spaces;
+          const indvidualArray = [];
+          for (var i = 0; i < spaceArrayData.length; i++) {
+            indvidualArray.push(spaceArrayData[i]);
           }
-        
-
-         
-        
+          setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const GetFolders = async (spaceId)=> {
-        await axios
-          .post(`http://localhost:8080/workspace/folders`, {
-            token: token,
-            spaceId: spaceId,
-          })
-          .then((resp) => {
-            if (resp.data != undefined) {
-              let jsonData = JSON.parse(resp.data);
-              const folderArrayData = jsonData.folders;
-              const indvidualArray = [];
-                for (var i = 0; i < folderArrayData.length; i++) {
-                  indvidualArray.push(folderArrayData[i]);
-                }
-                setFolderArray((folderArray) => [
-                  ...folderArray,
-                  ...indvidualArray,
-                ]);
-              }
-            }
-          )
-          .catch((error) => {
-            console.log(error);
-          });
-      };
+  const GetFolders = async (spaceId) => {
+    await axios
+      .post(`http://localhost:8080/workspace/folders`, {
+        token: token,
+        spaceId: spaceId,
+      })
+      .then((resp) => {
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const folderArrayData = jsonData.folders;
+          const indvidualArray = [];
+          for (var i = 0; i < folderArrayData.length; i++) {
+            indvidualArray.push(folderArrayData[i]);
+          }
+          setFolderArray((folderArray) => [...folderArray, ...indvidualArray]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-      const GetFolderlessLists = async (spaceId)=> {
-            await axios
-              .post(`http://localhost:8080/workspace/folderless/lists`, {
-                token: token,
-                spaceId: spaceId,
-              })
-              .then((resp) => {
-                if (resp.data != undefined) {
-                  let jsonData = JSON.parse(resp.data);
-                  const folderlessListArrayData = jsonData.lists;
-                  const indvidualArray = [];
-                    for (var i = 0; i < folderlessListArrayData.length; i++) {
-                      indvidualArray.push(folderlessListArrayData[i]);
-                    }
-                    setFolderlessListArray((folderlessListArray) => [
-                      ...folderlessListArray,
-                      ...indvidualArray,
-                    ]);
-                  }
-                }
-              )
-              .catch((error) => {
-                console.log(error);
-              });
-          };
+  const GetFolderlessLists = async (spaceId) => {
+    await axios
+      .post(`http://localhost:8080/workspace/folderless/lists`, {
+        token: token,
+        spaceId: spaceId,
+      })
+      .then((resp) => {
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const folderlessListArrayData = jsonData.lists;
+          const indvidualArray = [];
+          for (var i = 0; i < folderlessListArrayData.length; i++) {
+            indvidualArray.push(folderlessListArrayData[i]);
+          }
+          setFolderlessListArray((folderlessListArray) => [
+            ...folderlessListArray,
+            ...indvidualArray,
+          ]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-      
-          const GetLists = async (folderId)=> {
-            await axios
-              .post(`http://localhost:8080/workspace/lists`, {
-                token: token,
-                folderId: folderId,
-              })
-              .then((resp) => {
-                if (resp.data != undefined) {
-                  let jsonData = JSON.parse(resp.data);
-                  const listArrayData = jsonData.lists;
-                  const indvidualArray = [];
-                    for (var i = 0; i < listArrayData.length; i++) {
-                      indvidualArray.push(listArrayData[i]);
-                    }
-                    setListArray((listArray) => [
-                      ...listArray,
-                      ...indvidualArray,
-                    ]);
-                  }
-                }
-              )
-              .catch((error) => {
-                console.log(error);
-              });
-          };
+  const GetLists = async (folderId) => {
+    await axios
+      .post(`http://localhost:8080/workspace/lists`, {
+        token: token,
+        folderId: folderId,
+      })
+      .then((resp) => {
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const listArrayData = jsonData.lists;
+          const indvidualArray = [];
+          for (var i = 0; i < listArrayData.length; i++) {
+            indvidualArray.push(listArrayData[i]);
+          }
+          setListArray((listArray) => [...listArray, ...indvidualArray]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const getIds = async (teamId) => {
-
     await GetSpaces(teamId);
-    
 
     const setFolderIds = async () => {
       for (var i = 0; i < spaceArray.length; i++) {
-        GetFolders(spaceArray[i].id)
+        GetFolders(spaceArray[i].id);
       }
     };
-    
+
     await setFolderIds();
 
-     const setFolderlessIds = async () => {
+    const setFolderlessIds = async () => {
       for (var i = 0; i < spaceArray.length; i++) {
-        GetFolderlessLists(spaceArray[i].id)
+        GetFolderlessLists(spaceArray[i].id);
       }
     };
-    
+
     await setFolderlessIds();
 
-     const setListIds = async () => {
+    const setListIds = async () => {
       for (var i = 0; i < folderArray.length; i++) {
-        GetLists(folderArray[i].id)
+        GetLists(folderArray[i].id);
       }
     };
 
     await setListIds();
-    
+
     tokenCallback(token);
     spaceCallback(spaceArray.map((space) => space.id));
     folderCallback(folderArray.map((folder) => folder.id));
     folderlessListCallback(folderlessListArray.map((list) => list.id));
     listCallback(listArray.map((list) => list.id));
-    
-    
-      setShowNavButton(true);
-    
 
-  }
+    setShowNavButton(true);
+  };
 
   const createButtons = (data) => {
     if (data !== undefined) {
@@ -211,7 +197,7 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
   }, [clickedTeam]);
 
   useEffect(() => {
-    GetTeams()
+    GetTeams();
   }, []);
 
   useEffect(() => {
@@ -285,8 +271,14 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
         ) : (
           <Row>
             {clickedTeam ? (
-              <><br/><br/>
-                <span className="spinner-text">Collecting workspace details...</span><br/><br/>
+              <>
+                <br />
+                <br />
+                <span className="spinner-text">
+                  Collecting workspace details...
+                </span>
+                <br />
+                <br />
                 <Spinner
                   className="spinner"
                   animation="border"
@@ -303,9 +295,13 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
         <h1>STATUS</h1>
       </Row>
       <Row>
-        <h5 style={{ fontSize: "x-small"}}> {spaceArray.length} Spaces | {folderArray.length} Folders | {folderlessListArray.length} Folderless Lists | {listArray.length} Lists</h5>
+        <h5 style={{ fontSize: 'x-small' }}>
+          {' '}
+          {spaceArray.length} Spaces | {folderArray.length} Folders |{' '}
+          {folderlessListArray.length} Folderless Lists | {listArray.length}{' '}
+          Lists
+        </h5>
       </Row>
-    
     </Container>
   );
 }

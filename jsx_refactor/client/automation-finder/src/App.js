@@ -24,6 +24,7 @@ const [folderlessListIds, setFolderlessListIds] = useState([]);
 
 const getTeamIdFromObject = (data) => {
   if (data !== undefined) {
+    console.log('team id from app.js: ', data.id);
     setWorkspaceId(data.id);
   }
 };
