@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
+import ClickUpLogo from '../images/clickup-logo.jpeg';
+import './style.css';
 
 type TriggerPropList = {
   triggerObject: any
@@ -8,6 +10,7 @@ type TriggerPropList = {
 const Trigger = (props: TriggerPropList) => {
   const [triggerObject, setTriggerObject] = useState<any>(props.triggerObject);
   const [triggerName, setTriggerName] = useState<string>('');
+  const [triggeredOn, setTriggeredOn] = useState<string>('tasks or subtasks')
 
   const printAutomationTrigger = (type: string) => {
     switch (true) {
@@ -60,8 +63,10 @@ const Trigger = (props: TriggerPropList) => {
         if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           setTriggerName('Task or subtask created');
         } else if (triggerObject?.trigger?.input?.trigger_on === "TASK") {
+          setTriggeredOn('a task');
           setTriggerName('Task created');
         } else if (triggerObject?.trigger?.input?.trigger_on === "SUBTASK") {
+          setTriggeredOn('a subtask');
           setTriggerName('Subtask created');
         }
         break;
@@ -69,17 +74,21 @@ const Trigger = (props: TriggerPropList) => {
         if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           setTriggerName('Task or subtask linked');
         } else if (triggerObject?.trigger?.input?.trigger_on === "TASK") {
+          setTriggeredOn('a task');
           setTriggerName('Task linked');
         } else if (triggerObject?.trigger?.input?.trigger_on === "SUBTASK") {
           setTriggerName('Subtask linked');
+          setTriggeredOn('a subtask');
         }
         break;
       case /unblocked/.test(type):
         if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           setTriggerName('Task or subtask unblocked');
         } else if (triggerObject?.trigger?.input?.trigger_on === "TASK") {
+          setTriggeredOn('a task');
           setTriggerName('Task unblocked');
         } else if (triggerObject?.trigger?.input?.trigger_on === "SUBTASK") {
+          setTriggeredOn('a subtask');
           setTriggerName('Subtask unblocked');
         }
         break;
@@ -104,8 +113,19 @@ const Trigger = (props: TriggerPropList) => {
 
   return (
     <>
-      <h4>When</h4>
-      this happens:
+      <Card>
+        <div className="trigger-header-container">
+          <img
+            src={ClickUpLogo}
+            className="clickup-icon-light" />
+          <div className="trigger-text-container">
+            <h4>When</h4>
+            <span className="trigger-text">
+              {`this happens on ${triggeredOn}`}
+            </span>
+          </div>
+        </div>
+      </Card><br />
       <Card>
         <Card.Body>
           <Card.Title>

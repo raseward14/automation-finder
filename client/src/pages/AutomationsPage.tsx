@@ -818,15 +818,7 @@ const Automations = (props: AutomationPropList) => {
                         </tr>
                         <tr>
                           <td style={{ width: '50%' }}>
-                            
                             <Trigger triggerObject={foundTrigger} />
-                            {/* <Card>
-                              <Card.Body>
-                                <Card.Title>
-                                  {foundTrigger?.trigger.type}
-                                </Card.Title>
-                              </Card.Body>
-                            </Card> */}
                           </td>
                           <td>
                             <h4>Then</h4>
