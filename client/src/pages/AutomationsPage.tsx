@@ -7,7 +7,9 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import Trigger from '../components/Auto-Trigger'
+import Trigger from '../components/Auto-Trigger';
+import Actions from '../components/Auto-Actions';
+
 
 import axios from 'axios';
 import './style.css';
@@ -821,17 +823,7 @@ const Automations = (props: AutomationPropList) => {
                             <Trigger triggerObject={foundTrigger} />
                           </td>
                           <td>
-                            <h4>Then</h4>
-                            Do this action:
-                            {foundTrigger?.actions.map(
-                              (action: any, i: number) => (
-                                <Card key={i}>
-                                  <Card.Body>
-                                    <Card.Title>{action.type}</Card.Title>
-                                  </Card.Body>
-                                </Card>
-                              )
-                            )}
+                            <Actions triggerObject={foundTrigger}/>
                           </td>
                         </tr>
                         <tr>
