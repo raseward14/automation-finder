@@ -251,11 +251,12 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
               variant={workspacePressed == i ? 'dark' : 'outline-dark'}
               key={i}
               onClick={ async () => {
+                sendTeam(team.id)
                 setShowNavButton(false);
                 setSpaceArray([]);
                 setFolderArray([]);
                 setFolderlessListArray([]);
-                setListArray([]);
+                setListArray
                 await getIds(team.id);
                 i === workspacePressed
                   ? setWorkspacePressed(-1)
