@@ -29,26 +29,13 @@ const io = socketIo(server, {
   },
 }); // Initialize Socket.IO with the server
 
-const online = [];
+var jwt = "";
 // Socket.IO setup
 io.on("connection", (socket) => {
   console.log("Socket.io: React app connected.");
 
-  //notify of user login
-  socket.on("Login", function (data) {
-    console.log("a user logged on");
-    online.push(data.username);
-    io.emit("Notify_Login", online);
-  });
-
-  //notify of user logout
-  socket.on("Logout", function (data) {
-    console.log("a user logged off");
-    const index = online.indexOf(data.username);
-    if (index > -1) {
-      online.splice(index, 1);
-    }
-    io.emit("Notify_Logout", online);
+  socket.on("message", function (data) {
+    console.log(data.message);
   });
 
   socket.on("disconnect", (data) => {
