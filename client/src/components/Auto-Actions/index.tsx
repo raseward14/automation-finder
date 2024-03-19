@@ -3,15 +3,15 @@ import Card from 'react-bootstrap/Card';
 import ClickUpLogo from '../images/clickup-logo.jpeg';
 import './style.css';
 
-
 type CardPropList = {
   cardDetails: any
+  key: any
 }
 
 export function CommentCard(props: CardPropList) {
   return (
     <>
-      <Card>
+      <Card key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -25,7 +25,7 @@ export function CommentCard(props: CardPropList) {
 export function AssigneeCard(props: CardPropList) {
   return (
     <>
-      <Card>
+      <Card key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -183,7 +183,8 @@ const Actions = (props: ActionPropList) => {
       </Card><br />
 
       {actionCardArray.map((card: any, i: any) => (
-        <div id="card-container">
+        <>
+       
           {(() => {
             switch (card.name) {
               case "Change assignees":
@@ -194,7 +195,8 @@ const Actions = (props: ActionPropList) => {
                 break;
             }
           })()}
-        </div>
+     
+        </> 
 
 
 
