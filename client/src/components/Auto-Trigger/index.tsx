@@ -121,7 +121,7 @@ const Trigger = (props: TriggerPropList) => {
           <div className="trigger-text-container">
             <h4>When</h4>
             <span className="trigger-text">
-              {`this happens on ${triggeredOn}`}
+              {`This happens on ${triggeredOn}`}
             </span>
           </div>
         </div>

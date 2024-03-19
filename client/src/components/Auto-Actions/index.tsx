@@ -1,7 +1,68 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Card from 'react-bootstrap/Card';
 import ClickUpLogo from '../images/clickup-logo.jpeg';
 import './style.css';
+
+
+type CardPropList = {
+  cardDetails: any
+}
+
+export function CommentCard(props: CardPropList) {
+  return (
+    <>
+      <Card>
+        <Card.Body>
+          <Card.Title>
+            {props.cardDetails.name}
+          </Card.Title>
+        </Card.Body>
+      </Card>
+    </>
+  )
+}
+
+export function AssigneeCard(props: CardPropList) {
+  return (
+    <>
+      <Card>
+        <Card.Body>
+          <Card.Title>
+            {props.cardDetails.name}
+          </Card.Title>
+        </Card.Body>
+      </Card>
+    </>
+  )
+}
+
+export function StatusCard(props: CardPropList) {
+  return (
+    <>
+      <Card>
+        <Card.Body>
+          <Card.Title>
+            {props.cardDetails.name}
+          </Card.Title>
+        </Card.Body>
+      </Card>
+    </>
+  )
+}
+
+export function DefaultCard(props: CardPropList) {
+  return (
+    <>
+      <Card>
+        <Card.Body>
+          <Card.Title>
+            {props.cardDetails.name}
+          </Card.Title>
+        </Card.Body>
+      </Card>
+    </>
+  )
+}
 
 type ActionPropList = {
   triggerObject: any
@@ -10,7 +71,6 @@ type ActionPropList = {
 const Actions = (props: ActionPropList) => {
   const [triggerObject, setTriggerObject] = useState<any>(props.triggerObject);
   const [actionArray, setActionArray] = useState<any>([]);
-  const [ActionName, setActionName] = useState<string>('');
   const [actionCardArray, setActionCardArray] = useState<any>([]);
 
   const createActionObject = (action: any) => {
@@ -20,14 +80,16 @@ const Actions = (props: ActionPropList) => {
       case /assignee/.test(type):
         // consider calling funciton here to create object for this card
         let assigneeCard = {
-          name: "Change assignees"
+          name: "Change assignees",
+          action: action
         }
         newArr.push(assigneeCard);
         setActionCardArray(newArr);
         break;
       case /comment/.test(type):
         let commentCard = {
-          name: "Add a comment"
+          name: "Add a comment",
+          action: action
         }
         newArr.push(commentCard);
         setActionCardArray(newArr);
@@ -84,7 +146,6 @@ const Actions = (props: ActionPropList) => {
       //   setActionName('Time tracked');
       //   break;
       default:
-        setActionName('');
     }
   }
 
@@ -120,19 +181,40 @@ const Actions = (props: ActionPropList) => {
           </div>
         </div>
       </Card><br />
-      {actionCardArray.map((card: any) => (
+
+      {actionCardArray.map((card: any, i: any) => (
+        <div id="card-container">
+          {(() => {
+            switch (card.name) {
+              case "Change assignees":
+                return <AssigneeCard cardDetails={card} key={i} />
+                break;
+              case "Add a comment":
+                return <CommentCard cardDetails={card} key={i} />
+                break;
+            }
+          })()}
+        </div>
+
+
+
+
         // consider dynamic rendering by card type
-        card.name ?  
-        <Card>
-          <Card.Body>
-            <Card.Title>
-              {card.name}
-            </Card.Title>
-          </Card.Body>
-        </Card>
-        :
-        <></>
+        // card.name ?
+        //   <Card>
+        //     <Card.Body>
+        //       <Card.Title>
+        //         {card.name}
+        //       </Card.Title>
+        //     </Card.Body>
+        //   </Card>
+        //   :
+        //   <></>
+
+
       ))}
+
+
     </>
   )
 };
