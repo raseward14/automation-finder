@@ -105,7 +105,6 @@ const Trigger = (props: TriggerPropList) => {
   }, [triggerName])
 
   useEffect(() => {
-    console.log('trigger object', triggerObject)
     if (triggerObject) {
       printAutomationTrigger(triggerObject?.trigger?.type);
     }

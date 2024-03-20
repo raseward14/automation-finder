@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ClickUpLogo from '../images/clickup-logo.jpeg';
 import './style.css';
@@ -39,7 +39,7 @@ export function AssigneeCard(props: CardPropList) {
 export function StatusCard(props: CardPropList) {
   return (
     <>
-      <Card>
+      <Card key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -53,7 +53,7 @@ export function StatusCard(props: CardPropList) {
 export function DefaultCard(props: CardPropList) {
   return (
     <>
-      <Card>
+      <Card key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -64,18 +64,20 @@ export function DefaultCard(props: CardPropList) {
   )
 }
 
+
+
 type ActionPropList = {
   triggerObject: any
 }
 
 const Actions = (props: ActionPropList) => {
   const [triggerObject, setTriggerObject] = useState<any>(props.triggerObject);
-  const [actionArray, setActionArray] = useState<any>([]);
   const [actionCardArray, setActionCardArray] = useState<any>([]);
+  let emptyArr: any = [];
 
-  const createActionObject = (action: any) => {
+  const createActionObject = (action: any, i: any) => {
     let type = action.type;
-    let newArr = [...actionArray];
+    console.log(type);
     switch (true) {
       case /assignee/.test(type):
         // consider calling funciton here to create object for this card
@@ -83,16 +85,14 @@ const Actions = (props: ActionPropList) => {
           name: "Change assignees",
           action: action
         }
-        newArr.push(assigneeCard);
-        setActionCardArray(newArr);
+        emptyArr?.push(assigneeCard);
         break;
       case /comment/.test(type):
         let commentCard = {
           name: "Add a comment",
           action: action
         }
-        newArr.push(commentCard);
-        setActionCardArray(newArr);
+        emptyArr?.push(commentCard);
         break;
       // case /assignee/.test(type):
       //   setActionName('Assignee added');
@@ -150,21 +150,19 @@ const Actions = (props: ActionPropList) => {
   }
 
   useEffect(() => {
-    console.log('action array', actionArray)
-    if (actionArray) {
+    // cleanup is used so that in StrictMode, when the component re-mounts, the array is empty, and populates actions once
+    emptyArr = [];
+    if (triggerObject?.actions) {
+      let actionArray = triggerObject?.actions
       for (var i = 0; i < actionArray.length; i++) {
         // call functions to create different kinds of action cards
-        createActionObject(actionArray[i])
+        createActionObject(actionArray[i], i)
+        if ((i + 1) === actionArray.length) {
+          setActionCardArray(emptyArr);
+        }
       }
     }
-  }, [actionArray])
-
-  useEffect(() => {
-    console.log('trigger object', triggerObject)
-    if (triggerObject) {
-      setActionArray(triggerObject?.actions)
-    }
-  }, [triggerObject])
+  }, []);
 
   return (
     <>
@@ -180,42 +178,48 @@ const Actions = (props: ActionPropList) => {
             </span>
           </div>
         </div>
-      </Card><br />
+      </Card><br id="action-header" />
 
-      {actionCardArray.map((card: any, i: any) => (
-        <>
-       
-          {(() => {
-            switch (card.name) {
-              case "Change assignees":
-                return <AssigneeCard cardDetails={card} key={i} />
-                break;
-              case "Add a comment":
-                return <CommentCard cardDetails={card} key={i} />
-                break;
+      <>
+        {actionCardArray.map((card: any, i: any) => (
+          (
+            () => {
+              console.log('looped through an action', card, i)
+              let actionHeader = document.getElementById("action-header")
+
+              switch (card.name) {
+                case "Change assignees":
+                  return <AssigneeCard cardDetails={card} key={`${i}`} />
+                  break;
+                case "Add a comment":
+                  return <CommentCard cardDetails={card} key={`${i}`} />
+                  break;
+              }
+
+              let newCard = document.getElementById(`${i}`)
+
+              if (newCard) {
+                actionHeader?.append(newCard);
+              }
+
             }
-          })()}
-     
-        </> 
+          )()
 
+          // consider dynamic rendering by card type
+          // card.name ?
+          //   <Card>
+          //     <Card.Body>
+          //       <Card.Title>
+          //         {card.name}
+          //       </Card.Title>
+          //     </Card.Body>
+          //   </Card>
+          //   :
+          //   <></>
 
+        ))}
 
-
-        // consider dynamic rendering by card type
-        // card.name ?
-        //   <Card>
-        //     <Card.Body>
-        //       <Card.Title>
-        //         {card.name}
-        //       </Card.Title>
-        //     </Card.Body>
-        //   </Card>
-        //   :
-        //   <></>
-
-
-      ))}
-
+      </>
 
     </>
   )
