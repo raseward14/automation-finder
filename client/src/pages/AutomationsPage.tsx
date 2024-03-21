@@ -7,8 +7,8 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import Trigger from '../components/Auto-Trigger';
-import Actions from '../components/Auto-Actions';
+import Trigger from '../components/AutoTrigger';
+import Actions from '../components/AutoActions';
 
 
 import axios from 'axios';
