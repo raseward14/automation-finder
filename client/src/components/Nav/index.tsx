@@ -8,18 +8,20 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ClickUpIcon from '../images/clickup.jpeg';
 import './style.css';
 
-
 const NavComponent = () => {
-  const yourToken = localStorage.getItem('token');
-  // const [jwt, setJwt] = useState(yourToken);
+  const [JWTPresent, setJWTPresent] = useState<boolean>(false)
 
   const logout = async () => {
     localStorage.removeItem('token');
   };
 
-  // useEffect(() => {
-  //   localStorage.removeItem('token');
-  // }, []);
+  useEffect(() => {
+   const currentLocation = window.location.href;
+   if(currentLocation.includes('oauth')){
+    setJWTPresent(true)
+   }
+    console.log('current location', currentLocation);
+  }, [])
 
   const style = {
     row: {
@@ -45,9 +47,8 @@ const NavComponent = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {yourToken ? (
+              {JWTPresent ? (
                 <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
-
               ) : (
                 <>
                   <Nav.Link href={"/token"}>CRM Link</Nav.Link>

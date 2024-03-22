@@ -7,7 +7,7 @@ import './style.css';
 export default function BasicAuth() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [token, setToken] = useState<string>('');
+  const [JWT, setJWT] = useState<string>('');
   const [teams, setTeams] = useState<any>();
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function BasicAuth() {
       })
       .then((resp) => {
         console.log('from basic.tsx', resp.data);
-        setToken(resp.data.token);
+        setJWT(resp.data.token);
         setTeams(resp.data.teams);
       })
       .catch((error) => {
@@ -40,12 +40,12 @@ export default function BasicAuth() {
   }, [teams]);
 
   useEffect(() => {
-    if (token !== '') {
-      localStorage.setItem('token', token);
+    if (JWT !== '') {
+      localStorage.setItem('jwt', JWT);
       navigate('/oauth')
       // console.log('show connect clickup OAuth button')
     }
-  }, [token]);
+  }, [JWT]);
 
   const style = {
     container: {

@@ -7,6 +7,9 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Trigger from '../components/AutoTrigger';
+import Actions from '../components/AutoActions';
+
 
 import axios from 'axios';
 import './style.css';
@@ -25,7 +28,7 @@ const Automations = (props: AutomationPropList) => {
   const [shard, setShard] = useState<string>('');
 
   // this is no longer being returned from basic.tsx - token is now returned as undefined
-  const yourToken = localStorage.getItem('token');
+  const yourToken = localStorage.getItem('jwt');
   const [token, setToken] = useState<any>(yourToken);
 
   // variables for the trigger being searched
@@ -570,18 +573,26 @@ const Automations = (props: AutomationPropList) => {
       if (folderlessListIds?.length) {
         console.log('folderlessLists being searched', folderlessListIds.length);
         getFolderlessListAutomations(folderlessListIds);
+      } else {
+        setFolderlessListPending(false);
       }
       if (listIds?.length) {
         console.log('lists being searched', listIds.length);
         getListAutomations(listIds);
+      } else {
+        setListPending(false);
       }
       if (folderIds?.length) {
         console.log('folders being searched', folderIds.length);
         getFolderAutomations(folderIds);
+      } else {
+        setFolderPending(false);
       }
       if (spaceIds?.length) {
         console.log('spaces being searched', spaceIds.length);
         getSpaceAutomations(spaceIds);
+      } else {
+        setSpacePending(false);
       }
     }
   }, [shard]);
@@ -807,30 +818,12 @@ const Automations = (props: AutomationPropList) => {
                             </th>
                           )}
                         </tr>
-                        <tr>
-                          <td style={{ width: '50%' }}>
-                            <h4>When</h4>
-                            this happens:
-                            <Card>
-                              <Card.Body>
-                                <Card.Title>
-                                  {foundTrigger?.trigger.type}
-                                </Card.Title>
-                              </Card.Body>
-                            </Card>
+                        <tr className="modal-body">
+                          <td className="modal-body-column" >
+                            <Trigger triggerObject={foundTrigger} />
                           </td>
-                          <td>
-                            <h4>Then</h4>
-                            Do this action:
-                            {foundTrigger?.actions.map(
-                              (action: any, i: number) => (
-                                <Card key={i}>
-                                  <Card.Body>
-                                    <Card.Title>{action.type}</Card.Title>
-                                  </Card.Body>
-                                </Card>
-                              )
-                            )}
+                          <td className="modal-body-column" >
+                            <Actions triggerObject={foundTrigger}/>
                           </td>
                         </tr>
                         <tr>
@@ -846,7 +839,7 @@ const Automations = (props: AutomationPropList) => {
                               {shortcut.description}
                             </td>
                           ) : (
-                            <td colSpan={2}>
+                            <td className="footer" colSpan={2}>
                               <span>Automation: {foundTrigger?.sentence}</span>
                               <br />
                               <span>
@@ -960,6 +953,11 @@ const Automations = (props: AutomationPropList) => {
       ) : (
         <></>
       )}
+      {/* {foundTrigger ? 
+      <Trigger triggerObject={foundTrigger} />
+      : 
+      <></>
+      } */}
     </div>
   );
 };

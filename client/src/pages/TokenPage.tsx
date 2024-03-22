@@ -3,8 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
-export default function BasicAuth() {
+export default function TokenAuth() {
   const [JWT, setJWT] = useState<string>('');
   const [loginURL, setLoginURL] = useState<string>('');
   const [teams, setTeams] = useState<any>();
@@ -45,7 +44,7 @@ export default function BasicAuth() {
 
   useEffect(() => {
     if (JWT !== '') {
-      localStorage.setItem('token', JWT);
+      localStorage.setItem('jwt', JWT);
       navigate('/oauth')
     }
   }, [JWT]);

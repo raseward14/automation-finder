@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import OAuthClickUp from './pages/oauth';
+import OAuthClickUp from './pages/OAuthPage';
 import Layout from './components/Layout';
-import Automations from './pages/automations';
+import Automations from './pages/AutomationsPage';
 import { io, Socket } from 'socket.io-client';
 import { ClientToServerEvents, ServerToClientEvents } from './models/socket';
 import { access } from 'fs';
-import Workspace from './pages/workspace';
+import Workspace from './pages/WorkspacePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider } from 'react-bootstrap';
-import BasicAuth from './pages/basic';
-import TokenAuth from './pages/token';
-import Home from './pages/Home'
+import BasicAuth from './pages/BasicPage';
+import TokenAuth from './pages/TokenPage';
+import Home from './pages/HomePage';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   'http://localhost:3002'
@@ -43,14 +43,24 @@ const App: React.FC<{}> = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout/>}>
+          <Route path="/" element={<Layout />}>
             <Route index element={<Home />}></Route>
-            <Route path="token" element={<TokenAuth/>}
+            <Route
+              path="token"
+              element={<TokenAuth />}
             ></Route>
-            <Route path="basic" element={<BasicAuth/>}
+            <Route
+              path="basic"
+              element={<BasicAuth />}
             ></Route>
-            <Route path="oauth" element={<OAuthClickUp />}></Route>
-            <Route path="oauth/success" element={<OAuthClickUp />}></Route>
+            <Route
+              path="oauth"
+              element={<OAuthClickUp />}
+            ></Route>
+            <Route
+              path="oauth/success"
+              element={<OAuthClickUp />}
+            ></Route>
             <Route
               path="workspace/:token"
               element={

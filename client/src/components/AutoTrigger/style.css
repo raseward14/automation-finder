@@ -1,0 +1,31 @@
+.clickup-icon-light {
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+    display: flex;
+    align-content: center;
+}
+.trigger-header-container {
+    flex-direction: row;
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.887);
+    color: white;
+    border-radius: 5px;
+    height: 100px;
+
+}
+.trigger-text {
+    color: grey;
+}
+
+/* .trigger-text-container {
+    display: flex;
+    
+} */
+/*to undo react bootstrap defaults*/
+.card {
+    border: unset !important;
+}
