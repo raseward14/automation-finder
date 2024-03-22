@@ -11,7 +11,7 @@ type CardPropList = {
 export function ApplyTemplateCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -25,7 +25,7 @@ export function ApplyTemplateCard(props: CardPropList) {
 export function CallWebhookCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -39,7 +39,7 @@ export function CallWebhookCard(props: CardPropList) {
 export function ChangePriorityCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -55,7 +55,7 @@ export function ChangePriorityCard(props: CardPropList) {
 export function ChangeDateCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -69,7 +69,7 @@ export function ChangeDateCard(props: CardPropList) {
 export function ChangeTagsCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -83,7 +83,7 @@ export function ChangeTagsCard(props: CardPropList) {
 export function ChangeTaskTypeCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -97,7 +97,7 @@ export function ChangeTaskTypeCard(props: CardPropList) {
 export function ChangeWatchersCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -111,7 +111,7 @@ export function ChangeWatchersCard(props: CardPropList) {
 export function CreateAListCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -125,7 +125,7 @@ export function CreateAListCard(props: CardPropList) {
 export function CreateATaskCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -139,7 +139,7 @@ export function CreateATaskCard(props: CardPropList) {
 export function CreateASubtaskCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -153,7 +153,7 @@ export function CreateASubtaskCard(props: CardPropList) {
 export function DuplicateCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -167,7 +167,7 @@ export function DuplicateCard(props: CardPropList) {
 export function TimeCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -183,7 +183,7 @@ export function TimeCard(props: CardPropList) {
 export function ToListCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -197,7 +197,7 @@ export function ToListCard(props: CardPropList) {
 export function SetCustomFieldCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -211,7 +211,7 @@ export function SetCustomFieldCard(props: CardPropList) {
 export function CommentCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -225,7 +225,7 @@ export function CommentCard(props: CardPropList) {
 export function AssigneeCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -239,7 +239,7 @@ export function AssigneeCard(props: CardPropList) {
 export function StatusCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -259,7 +259,7 @@ export function StatusCard(props: CardPropList) {
 export function DefaultCard(props: CardPropList) {
   return (
     <>
-      <Card key={props.key}>
+      <Card className="action-card" key={props.key}>
         <Card.Body>
           <Card.Title>
             {props.cardDetails.name}
@@ -411,6 +411,7 @@ const Actions = (props: ActionPropList) => {
         break;
       case /delete/.test(type):
         let deleteCard;
+        console.log(`${triggerObject?.trigger?.input?.trigger_on}`)
         if (triggerObject?.trigger?.input?.trigger_on === "ALL") {
           deleteCard = {
             name: "Delete task or subtask",
@@ -557,7 +558,22 @@ const Actions = (props: ActionPropList) => {
                 case "Set Custom Field":
                   return <SetCustomFieldCard cardDetails={card} key={`${i}`} />
                   break;
-                case "Archive task" || "Archive subtask" || "Archive task or subtask" || "Delete task" || "Delete subtask" || "Delete task or subtask":
+                case "Archive task":
+                  return <DefaultCard cardDetails={card} key={`${i}`} />
+                  break;
+                case "Archive subtask":
+                  return <DefaultCard cardDetails={card} key={`${i}`} />
+                  break;
+                case "Archive task or subtask":
+                  return <DefaultCard cardDetails={card} key={`${i}`} />
+                  break;
+                case "Delete task":
+                  return <DefaultCard cardDetails={card} key={`${i}`} />
+                  break;
+                case "Delete subtask":
+                  return <DefaultCard cardDetails={card} key={`${i}`} />
+                  break;
+                case "Delete task or subtask":
                   return <DefaultCard cardDetails={card} key={`${i}`} />
                   break;
               }

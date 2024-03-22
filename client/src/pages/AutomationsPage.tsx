@@ -818,11 +818,11 @@ const Automations = (props: AutomationPropList) => {
                             </th>
                           )}
                         </tr>
-                        <tr>
-                          <td style={{ width: '50%' }}>
+                        <tr className="modal-body">
+                          <td className="modal-body-column" >
                             <Trigger triggerObject={foundTrigger} />
                           </td>
-                          <td>
+                          <td className="modal-body-column" >
                             <Actions triggerObject={foundTrigger}/>
                           </td>
                         </tr>
@@ -839,7 +839,7 @@ const Automations = (props: AutomationPropList) => {
                               {shortcut.description}
                             </td>
                           ) : (
-                            <td colSpan={2}>
+                            <td className="footer" colSpan={2}>
                               <span>Automation: {foundTrigger?.sentence}</span>
                               <br />
                               <span>

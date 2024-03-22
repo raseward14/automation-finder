@@ -14,6 +14,7 @@
     background-color: rgba(0, 0, 0, 0.887);
     color: white;
     border-radius: 5px;
+    height: 100px;
 }
 .action-text {
     color: grey;
@@ -26,4 +27,8 @@
 /*to undo react bootstrap defaults*/
 .card {
     border: unset !important;
+}
+
+.action-card {
+    margin-top: 20px;
 }

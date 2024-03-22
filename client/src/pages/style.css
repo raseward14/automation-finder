@@ -33,6 +33,20 @@
 
 #modal tr:nth-child(even) {
   background-color: #f2f2f244;
+  display: flex;
+  height: 45vh
+
+}
+
+.modal-body {
+  width: 100%;
+}
+
+.modal-body-column {
+  z-index: 2;
+  overflow-y: scroll;
+  scrollbar-color: #007 #bada55;
+  width: 50%;
 }
 
 .location-link {
@@ -123,4 +137,8 @@ input:checked+.slider:before {
 .progress {
   margin: auto;
   max-width: 40vw !important;
+}
+
+.footer {
+  z-index: 1;
 }
