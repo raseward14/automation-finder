@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Container, Col, ContainerProps, Row } from 'react-bootstrap';
+import { Button, Container, Col, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Team,
@@ -21,30 +20,27 @@ type WorkspacePropList = {
   tokenCallback: (a: any) => void;
 };
 
-// type WorkspacePropList = {
-//   teams: object[]
-// };
-
 export default function Workspace(props: WorkspacePropList) {
   let { token } = useParams();
   const navigate = useNavigate();
-  const [JWT, setJWT] = useState<any>(localStorage.getItem('jwt'))
   //containers for response object
   const [teamData, setTeamData] = useState<JSON>();
-  //containers for
   const [teamArray, setTeamArray] = useState<Team[]>([]);
   const [spaceArray, setSpaceArray] = useState<Space[]>([]);
   const [folderArray, setFolderArray] = useState<Folder[]>([]);
   const [folderlessListArray, setFolderlessListArray] = useState<List[]>([]);
-  const [listArray, setListArray] = useState<ListObject[]>([]);
+
+  // to be used with a function that pupulates a List array from the Get Folders call
+  // const [listArray, setListArray] = useState<ListObject[]>([]);
 
   // pending state variables for location searching
-  const [spacePending, setSpacePending] = useState<boolean>(true);
-  const [folderPending, setFolderPending] = useState<boolean>(true);
-  const [folderlessListPending, setFolderlessListPending] =
-    useState<boolean>(true);
-  const [listPending, setListPending] = useState<boolean>(true);
+  // const [spacePending, setSpacePending] = useState<boolean>(true);
+  // const [folderPending, setFolderPending] = useState<boolean>(true);
+  // const [folderlessListPending, setFolderlessListPending] =
+  //   useState<boolean>(true);
+  // const [listPending, setListPending] = useState<boolean>(true);
 
+  const [listArray, setListArray] = useState<List[]>([]);
   const [clickedTeam, setClickedTeam] = useState<JSON>();
   const [showNavButton, setShowNavButton] = useState<boolean>(false);
   const [workspacePressed, setWorkspacePressed] = useState<Number>(-1);
@@ -60,7 +56,7 @@ export default function Workspace(props: WorkspacePropList) {
           const teamsArrayData: Team[] = jsonData.teams;
           const individualTeamObjects: Team[] = [];
           for (const team of teamsArrayData) {
-            individualTeamObjects.push(team); // Add the team object to the new array
+            individualTeamObjects.push(team);
           }
           setTeamArray(individualTeamObjects);
         }
@@ -77,40 +73,28 @@ export default function Workspace(props: WorkspacePropList) {
         teamId: teamId,
       })
       .then((resp) => {
+
+
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const spaceArrayData: Space[] = jsonData.spaces;
           const indvidualArray: Space[] = [];
-          let spaceCount = spaceArrayData.length;
           for (var i = 0; i < spaceArrayData.length; i++) {
-            let spaceIndex = i + 1;
-            // let percent = (spaceIndex/spaceCount);
-            // let integer = percent * 100;
-            // setProgress(integer);
             indvidualArray.push(spaceArrayData[i]);
-            GetFolders(spaceArrayData[i].id, spaceIndex, spaceCount);
-            GetFolderlessLists(spaceArrayData[i].id, spaceIndex, spaceCount);
-            // if its the last Space in the Space array
-            if (spaceIndex === spaceCount) {
-              console.log(
-                `this Spaces index: ${spaceIndex}, and total Space count: ${spaceCount}`
-              );
-              setSpacePending(false);
-            }
           }
           setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
         }
+
+
+
+
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const GetFolders = async (
-    spaceId: string,
-    spaceIndex: number,
-    spaceCount: number
-  ): Promise<void> => {
+  const GetFolders = async (spaceId: string): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folders`, {
         token: token,
@@ -121,48 +105,22 @@ export default function Workspace(props: WorkspacePropList) {
           let jsonData = JSON.parse(resp.data);
           const folderArrayData: Folder[] = jsonData.folders;
           const indvidualArray: Folder[] = [];
-          let folderCount = folderArrayData.length;
-
-          if (spaceIndex === spaceCount && folderArrayData.length === 0) {
-            // if its the last Space in the Space array, and this Space doesn't have any Folders
-            setFolderPending(false);
-            setListPending(false);
-          } else {
-            for (var i = 0; i < folderArrayData.length; i++) {
-              let folderIndex = i + 1;
-              indvidualArray.push(folderArrayData[i]);
-              let folderLists: ListObject[] = folderArrayData[i].lists;
-              storeLists(
-                folderLists,
-                folderIndex,
-                folderCount,
-                spaceIndex,
-                spaceCount
-              );
-              // if its the last Space in the Space array, and this is the last Folder in that Space
-              if (spaceIndex === spaceCount && folderIndex === folderCount) {
-                console.log(
-                  `this Folders index: ${folderIndex}, and total Folder count: ${folderCount}`
-                );
-                setFolderPending(false);
-              }
-            }
-            setFolderArray((folderArray) => [
-              ...folderArray,
-              ...indvidualArray,
-            ]);
+          for (var i = 0; i < folderArrayData.length; i++) {
+            indvidualArray.push(folderArrayData[i]);
           }
+          setFolderArray((folderArray) => [
+            ...folderArray,
+            ...indvidualArray,
+          ]);
         }
-      })
+      }
+      )
       .catch((error) => {
         console.log(error);
       });
   };
-  const GetFolderlessLists = async (
-    spaceId: string,
-    spaceIndex: number,
-    spaceCount: number
-  ): Promise<void> => {
+
+  const GetFolderlessLists = async (spaceId: string): Promise<void> => {
     await axios
       .post(`http://localhost:3001/workspace/folderless/lists`, {
         token: token,
@@ -173,73 +131,89 @@ export default function Workspace(props: WorkspacePropList) {
           let jsonData = JSON.parse(resp.data);
           const folderlessListArrayData: List[] = jsonData.lists;
           const indvidualArray: List[] = [];
-          let folderlessListCount = folderlessListArrayData.length;
-          if (
-            spaceIndex === spaceCount &&
-            folderlessListArrayData.length === 0
-          ) {
-            // if its the last Space in the Space array, and this Space does not have any Folderless lists
-            setFolderlessListPending(false);
-          } else {
-            for (var i = 0; i < folderlessListArrayData.length; i++) {
-              let folderlessListIndex = i + 1;
-              indvidualArray.push(folderlessListArrayData[i]);
-              console.log(
-                spaceIndex,
-                spaceCount,
-                folderlessListIndex,
-                folderlessListCount
-              );
-              // if its the last Space in the Space array, and this is the last list in that Space
-              if (
-                spaceIndex === spaceCount &&
-                folderlessListIndex === folderlessListCount
-              ) {
-                console.log(
-                  `this Folderless list index: ${folderlessListIndex}, and total Folderless list count: ${folderlessListCount}`
-                );
-                setFolderlessListPending(false);
-              }
-            }
-            setFolderlessListArray((folderlessListArray) => [
-              ...folderlessListArray,
-              ...indvidualArray,
-            ]);
+          for (var i = 0; i < folderlessListArrayData.length; i++) {
+            indvidualArray.push(folderlessListArrayData[i]);
           }
+          setFolderlessListArray((folderlessListArray) => [
+            ...folderlessListArray,
+            ...indvidualArray,
+          ]);
         }
-      })
+      }
+      )
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const storeLists = (
-    listArray: ListObject[],
-    folderIndex: number,
-    folderCount: number,
-    spaceIndex: number,
-    spaceCount: number
-  ) => {
-    const listArrayData: ListObject[] = listArray;
-    const indvidualArray: ListObject[] = [];
-    let listCount = listArrayData.length;
-    for (var i = 0; i < listArrayData.length; i++) {
-      let listIndex = i + 1;
-      indvidualArray.push(listArrayData[i]);
-      // if its the last Folder in the Folder array, and this is the last Space in the Space array, and this is the last list in that Folder
-      if (
-        folderIndex === folderCount &&
-        spaceIndex === spaceCount &&
-        listIndex === listCount
-      ) {
-        console.log(
-          `this lists index: ${listIndex}, and total list count: ${listCount}`
-        );
-        setListPending(false);
+
+  const GetLists = async (folderId: string): Promise<void> => {
+    await axios
+      .post(`http://localhost:3001/workspace/lists`, {
+        token: token,
+        folderId: folderId,
+      })
+      .then((resp) => {
+        if (resp.data != undefined) {
+          let jsonData = JSON.parse(resp.data);
+          const listArrayData: List[] = jsonData.lists;
+          const indvidualArray: List[] = [];
+          for (var i = 0; i < listArrayData.length; i++) {
+            indvidualArray.push(listArrayData[i]);
+          }
+          setListArray((listArray) => [
+            ...listArray,
+            ...indvidualArray,
+          ]);
+        }
       }
-    }
-    setListArray((listArray) => [...listArray, ...indvidualArray]);
+      )
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  const getIds = async (teamId: string) => {
+
+    await GetSpaces(teamId);
+
+
+    const setFolderIds = async () => {
+      for (var i = 0; i < spaceArray.length; i++) {
+        GetFolders(spaceArray[i].id)
+      }
+    };
+
+    await setFolderIds();
+
+    const setFolderlessIds = async () => {
+      for (var i = 0; i < spaceArray.length; i++) {
+        GetFolderlessLists(spaceArray[i].id)
+      }
+    };
+
+    await setFolderlessIds();
+
+    const setListIds = async () => {
+      for (var i = 0; i < folderArray.length; i++) {
+        GetLists(folderArray[i].id)
+      }
+    };
+
+    await setListIds();
+
+
+    props.tokenCallback(token);
+    props.spaceCallback(spaceArray.map((space: any) => space.id));
+    props.folderCallback(folderArray.map((folder: any) => folder.id));
+    props.folderlessListCallback(folderlessListArray.map((list: any) => list.id));
+    props.listCallback(listArray.map((list: any) => list.id));
+
+
+    setShowNavButton(true);
+
+
+  }
 
   const createButtons = (data: any) => {
     if (data !== undefined) {
@@ -274,32 +248,6 @@ export default function Workspace(props: WorkspacePropList) {
     }
   }, [teamData]);
 
-  useEffect(() => {
-    console.log(`pending spaces: ${spacePending}`);
-    console.log(`pending folders: ${folderPending}`);
-    console.log(`pending folderlessLists: ${folderlessListPending}`);
-    console.log(`pending lists: ${listPending}`);
-
-    if (
-      !spacePending &&
-      !folderPending &&
-      !folderlessListPending &&
-      !listPending
-    ) {
-      setShowNavButton(true);
-    }
-  }, [spacePending, folderPending, folderlessListPending, listPending]);
-
-  useEffect(() => {
-    props.tokenCallback(token);
-    props.spaceCallback(spaceArray.map((space: any) => space.id));
-    props.folderCallback(folderArray.map((folder: any) => folder.id));
-    props.listCallback(listArray.map((list: any) => list.id));
-    props.folderlessListCallback(
-      folderlessListArray.map((list: any) => list.id)
-    );
-  }, [listArray, folderlessListArray]);
-
   const style = {
     container: {
       margin: '5% 10% 10% 10%',
@@ -330,14 +278,13 @@ export default function Workspace(props: WorkspacePropList) {
               style={style.button}
               variant={workspacePressed == i ? 'dark' : 'outline-dark'}
               key={i}
-              onClick={() => {
-                console.log(team);
-                setClickedTeam(team);
+              onClick={async () => {
+                setShowNavButton(false);
                 setSpaceArray([]);
                 setFolderArray([]);
                 setFolderlessListArray([]);
                 setListArray([]);
-                GetSpaces(team.id);
+                await getIds(team.id);
                 i === workspacePressed
                   ? setWorkspacePressed(-1)
                   : setWorkspacePressed(i);
@@ -372,7 +319,6 @@ export default function Workspace(props: WorkspacePropList) {
                   animation="border"
                   variant="info"
                 />
-                {/* <ProgressBar className="progress" now={progress} /> */}
               </>
             ) : (
               <Col></Col>
@@ -380,101 +326,13 @@ export default function Workspace(props: WorkspacePropList) {
           </Row>
         )}
       </Row>
-      {/* {workspacePressed === -1 ? (
-        <></>
-      ) : (
-        <Container fluid style={style.container as React.CSSProperties}>
-          <Row style={style.row}>
-            <Col id="hierarchy_col">
-              <h1>Spaces</h1>
+      <Row>
+        <h1>STATUS</h1>
+      </Row>
+      <Row>
+        <h5 style={{ fontSize: "x-small" }}> {spaceArray.length} Spaces | {folderArray.length} Folders | {folderlessListArray.length} Folderless Lists | {listArray.length} Lists</h5>
+      </Row>
 
-              {spaceArray?.map((space: any, i: number) => (
-                <tr key={i}>
-                  <td key={i}>
-                    <Button
-                      style={style.button}
-                      variant={spacePressed == i ? "dark" : "outline-dark"}
-                      key={i}
-                      onClick={() => {
-                        i === spacePressed
-                          ? setSpacePressed(-1)
-                          : setSpacePressed(i);
-                      }}>
-                      {`${space.name} id: ${space.id}`}
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </Col>
-          </Row>
-          <Row style={style.row}>
-            <Col id="hierarchy_col">
-              <h1>Folders</h1>
-              {folderArray?.map((folder: any, i: number) => (
-                <tr key={i}>
-                  <td key={i}>
-                    <Button
-                      style={style.button}
-                      variant={folderPressed == i ? "dark" : "outline-dark"}
-                      key={i}
-                      onClick={() => {
-                        i === folderPressed
-                          ? setFolderPressed(-1)
-                          : setFolderPressed(i);
-                      }}>
-                      {`${folder.name} id: ${folder.id}`}
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </Col>
-          </Row>
-          <Row style={style.row}>
-            <Col id="hierarchy_col">
-              <h1>Folderless Lists</h1>
-              {folderlessListArray?.map((list: any, i: number) => (
-                <tr key={i}>
-                  <td key={i}>
-                    <Button
-                      style={style.button}
-                      variant={folderlessPressed == i ? "dark" : "outline-dark"}
-                      key={i}
-                      onClick={() => {
-                        i === folderlessPressed
-                          ? setFolderlessPressed(-1)
-                          : setFolderlessPressed(i);
-                      }}>
-                      {`${list.name} id: ${list.id}`}
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </Col>
-          </Row>
-          <Row style={style.row}>
-            <Col id="hierarchy_col">
-              <h1>Lists</h1>
-              {listArray?.map((list: any, i: number) => (
-                <tr key={i}>
-                  <td key={i}>
-                    <Button
-                      style={style.button}
-                      variant={listPressed == i ? "dark" : "outline-dark"}
-                      key={i}
-                      onClick={() => {
-                        i === listPressed
-                          ? setListPressed(-1)
-                          : setListPressed(i);
-                      }}>
-                      {`${list.name} id: ${list.id}`}
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </Col>
-          </Row>
-        </Container>
-      )} */}
     </Container>
   );
 }
