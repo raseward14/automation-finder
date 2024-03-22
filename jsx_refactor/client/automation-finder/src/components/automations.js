@@ -10,22 +10,21 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import axios from 'axios';
 
 
-export default function Automations({ teamId, spaceIds, folderIds, folderlessListIds, listIds}) {
+export default function Automations({ teamId }) {
  
-     // sets dynamically by teamId on page load
+  // sets dynamically by teamId on page load
   const [shard, setShard] = useState('');
 
   // this is no longer being returned from basic.tsx - token is now returned as undefined
-  const yourToken = localStorage.getItem('token');
-  const [token, setToken] = useState(yourToken);
+  const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
 
   // variables for the trigger being searched
   const [includeInactive, setIncludeInactive] = useState(false);
   const [triggerId, setTriggerId] = useState('');
-  const [notFoundList, setNotFoundList] = useState(false);
-  const [notFoundFolderlessList, setNotFoundFolderlessList] = useState(false);
-  const [notFoundFolder, setNotFoundFolder] = useState(false);
-  const [notFoundSpace, setNotFoundSpace] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+  // const [notFoundFolderlessList, setNotFoundFolderlessList] = useState(false);
+  // const [notFoundFolder, setNotFoundFolder] = useState(false);
+  // const [notFoundSpace, setNotFoundSpace] = useState(false);
   const [findClicked, setFindClicked] = useState(false);
 
   const [foundTrigger, setFoundTrigger] = useState();
@@ -46,19 +45,10 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
     description: '',
   });
 
-//   // will be passed from workspace.tsx - IN PROGRESS
-//   const [teamId, setteamId] = useState(teamId);
-//   // location ids
-//   const [spaceIds, setSpaceIds] = useState(spaceIds);
-//   const [folderIds, setFolderIds] = useState(folderIds);
-//   const [listIds, setListIds] = useState(listIds);
-//   const [folderlessListIds, setFolderlessListIds] = useState(
-//     folderlessListIds
-//   );
-  const [spacePending, setSpacePending] = useState(true);
-  const [folderPending, setFolderPending] = useState(true);
-  const [folderlessListPending, setFolderlessListPending] = useState(true);
-  const [listPending, setListPending] = useState(true);
+  // const [spacePending, setSpacePending] = useState(true);
+  // const [folderPending, setFolderPending] = useState(true);
+  // const [folderlessListPending, setFolderlessListPending] = useState(true);
+  // const [listPending, setListPending] = useState(true);
   const [showFindButton, setShowFindButton] = useState(false);
 
   // token passed from OAUTH - for workflow requests
@@ -68,22 +58,22 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
   // const [workspaceUsers, setWorkspaceUsers] = useState<[{id: number; email: string}]>
 
   // location trigger_ids
-  const [listTriggers, setListTriggers] = useState({
-    automations: [],
-    shortcuts: [],
-  });
-  const [folderlessListTriggers, setFolderlessListTriggers] = useState({
-    automations: [],
-    shortcuts: [],
-  });
-  const [folderTriggers, setFolderTriggers] = useState({
-    automations: [],
-    shortcuts: [],
-  });
-  const [spaceTriggers, setSpaceTriggers] = useState({
-    automations: [],
-    shortcuts: [],
-  });
+  // const [listTriggers, setListTriggers] = useState({
+  //   automations: [],
+  //   shortcuts: [],
+  // });
+  // const [folderlessListTriggers, setFolderlessListTriggers] = useState({
+  //   automations: [],
+  //   shortcuts: [],
+  // });
+  // const [folderTriggers, setFolderTriggers] = useState({
+  //   automations: [],
+  //   shortcuts: [],
+  // });
+  // const [spaceTriggers, setSpaceTriggers] = useState({
+  //   automations: [],
+  //   shortcuts: [],
+  // });
 
   const printShardFromteamId = async () => {
     if (teamId.length > 1) {
@@ -95,127 +85,131 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
     }
   };
 
-  const getListAutomations = (listIDs) => {
-    let allAutoTriggers = [];
-    let allShortTriggers = [];
+  // const getListAutomations = (listIDs) => {
+  //   let allAutoTriggers = [];
+  //   let allShortTriggers = [];
 
-    listIDs.forEach(async (id, i) => {
-      const res = await axios.post('http://localhost:3001/automation/list', {
+  //   listIDs.forEach(async (id, i) => {
+  //     const res = await axios.post('http://localhost:3001/automation/list', {
+  //       shard: shard,
+  //       listId: id,
+  //       bearer: token,
+  //     });
+  //     res?.data?.automations?.forEach((triggerObject) => {
+  //       // we only want to search active triggers
+  //       if (triggerObject.active !== false) {
+  //         allAutoTriggers.push(triggerObject);
+  //       }
+  //     });
+  //     res?.data?.shortcuts?.forEach((shortcutObject) =>
+  //       allShortTriggers.push(shortcutObject)
+  //     );
+  //     if (i + 1 === listIDs.length) {
+  //       setListPending(false);
+  //     }
+  //   });
+  //   setListTriggers({
+  //     automations: allAutoTriggers,
+  //     shortcuts: allShortTriggers,
+  //   });
+  // };
+
+  // const getFolderlessListAutomations = (listIDs) => {
+  //   let allAutoTriggers = [];
+  //   let allShortTriggers = [];
+
+  //   listIDs.forEach(async (id, i) => {
+  //     const res = await axios.post('http://localhost:3001/automation/list', {
+  //       shard: shard,
+  //       listId: id,
+  //       bearer: token,
+  //     });
+  //     res?.data?.automations?.forEach((triggerObject) => {
+  //       // we only want to search active triggers
+  //       if (triggerObject.active !== false) {
+  //         allAutoTriggers.push(triggerObject);
+  //       }
+  //     });
+  //     res?.data?.shortcuts?.forEach((shortcutObject) =>
+  //       allShortTriggers.push(shortcutObject)
+  //     );
+  //     if (i + 1 === listIDs.length) {
+  //       setFolderlessListPending(false);
+  //     }
+  //   });
+  //   setFolderlessListTriggers({
+  //     automations: allAutoTriggers,
+  //     shortcuts: allShortTriggers,
+  //   });
+  // };
+
+  // const getFolderAutomations = (folderIDs) => {
+  //   let allAutoTriggers = [];
+  //   let allShortTriggers = [];
+  //   folderIDs.forEach(async (id, i) => {
+  //     const res = await axios.post('http://localhost:3001/automation/folder', {
+  //       shard: shard,
+  //       folderId: id,
+  //       bearer: token,
+  //     });
+  //     res?.data?.automations?.forEach(async (triggerObject) => {
+  //       // we only want to search active triggers
+  //       if (triggerObject.active !== false) {
+  //         allAutoTriggers.push(triggerObject);
+  //       }
+  //     });
+  //     res?.data?.shortcuts?.forEach(async (shortcutObject) =>
+  //       allShortTriggers.push(shortcutObject)
+  //     );
+  //     if (i + 1 === folderIDs.length) {
+  //       setFolderPending(false);
+  //     }
+  //   });
+  //   setFolderTriggers({
+  //     automations: allAutoTriggers,
+  //     shortcuts: allShortTriggers,
+  //   });
+  // };
+
+  // const getSpaceAutomations = async (spaceIDs) => {
+  //   let allAutoTriggers = [];
+  //   let allShortTriggers = [];
+  //   await spaceIDs.forEach(async (id, i) => {
+  //     const res = await axios.post('http://localhost:3001/automation/space', {
+  //       shard: shard,
+  //       spaceId: id,
+  //       bearer: token,
+  //     });
+  //     res?.data?.automations?.forEach((triggerObject) => {
+  //       // we only want to search active triggers
+  //       if (triggerObject.active !== false) {
+  //         allAutoTriggers.push(triggerObject);
+  //       }
+  //     });
+  //     res?.data?.shortcuts?.forEach((shortcutObject) =>
+  //       allShortTriggers.push(shortcutObject)
+  //     );
+  //     if (i + 1 === spaceIDs.length) {
+  //       setSpacePending(false);
+  //     }
+  //   });
+  //   setSpaceTriggers({
+  //     automations: allAutoTriggers,
+  //     shortcuts: allShortTriggers,
+  //   });
+  // };
+
+  const getAutomation = async (triggerId) => {
+    const res = await axios.post('http://localhost:3001/automation/space', {
         shard: shard,
-        listId: id,
+        triggerId: triggerId,
         bearer: token,
       });
-      res?.data?.automations?.forEach((triggerObject) => {
-        // at this point, we would have already not included inactive triggers
-        // we need to retrieve
-        // we only want to search active triggers
-        if (triggerObject.active !== false) {
-          allAutoTriggers.push(triggerObject);
-        }
-        // push the trigger if includeInactive is toggled on, otherwise check its active before pushing
-        // if(includeInactive) {
-        //   allAutoTriggers.push(triggerObject);
-        // } else if (triggerObject.active !== false) {
-        //   allAutoTriggers.push(triggerObject);
-        // }
-      });
-      res?.data?.shortcuts?.forEach((shortcutObject) =>
-        allShortTriggers.push(shortcutObject)
-      );
-      if (i + 1 === listIDs.length) {
-        setListPending(false);
-      }
-    });
-    setListTriggers({
-      automations: allAutoTriggers,
-      shortcuts: allShortTriggers,
-    });
-  };
-
-  const getFolderlessListAutomations = (listIDs) => {
-    let allAutoTriggers = [];
-    let allShortTriggers = [];
-
-    listIDs.forEach(async (id, i) => {
-      const res = await axios.post('http://localhost:3001/automation/list', {
-        shard: shard,
-        listId: id,
-        bearer: token,
-      });
-      res?.data?.automations?.forEach((triggerObject) => {
-        // we only want to search active triggers
-        if (triggerObject.active !== false) {
-          allAutoTriggers.push(triggerObject);
-        }
-      });
-      res?.data?.shortcuts?.forEach((shortcutObject) =>
-        allShortTriggers.push(shortcutObject)
-      );
-      if (i + 1 === listIDs.length) {
-        setFolderlessListPending(false);
-      }
-    });
-    setFolderlessListTriggers({
-      automations: allAutoTriggers,
-      shortcuts: allShortTriggers,
-    });
-  };
-
-  const getFolderAutomations = (folderIDs) => {
-    let allAutoTriggers = [];
-    let allShortTriggers = [];
-    folderIDs.forEach(async (id, i) => {
-      const res = await axios.post('http://localhost:3001/automation/folder', {
-        shard: shard,
-        folderId: id,
-        bearer: token,
-      });
-      res?.data?.automations?.forEach(async (triggerObject) => {
-        // we only want to search active triggers
-        if (triggerObject.active !== false) {
-          allAutoTriggers.push(triggerObject);
-        }
-      });
-      res?.data?.shortcuts?.forEach(async (shortcutObject) =>
-        allShortTriggers.push(shortcutObject)
-      );
-      if (i + 1 === folderIDs.length) {
-        setFolderPending(false);
-      }
-    });
-    setFolderTriggers({
-      automations: allAutoTriggers,
-      shortcuts: allShortTriggers,
-    });
-  };
-
-  const getSpaceAutomations = async (spaceIDs) => {
-    let allAutoTriggers = [];
-    let allShortTriggers = [];
-    await spaceIDs.forEach(async (id, i) => {
-      const res = await axios.post('http://localhost:3001/automation/space', {
-        shard: shard,
-        spaceId: id,
-        bearer: token,
-      });
-      res?.data?.automations?.forEach((triggerObject) => {
-        // we only want to search active triggers
-        if (triggerObject.active !== false) {
-          allAutoTriggers.push(triggerObject);
-        }
-      });
-      res?.data?.shortcuts?.forEach((shortcutObject) =>
-        allShortTriggers.push(shortcutObject)
-      );
-      if (i + 1 === spaceIDs.length) {
-        setSpacePending(false);
-      }
-    });
-    setSpaceTriggers({
-      automations: allAutoTriggers,
-      shortcuts: allShortTriggers,
-    });
-  };
+    if(res?.data){
+      setFoundTrigger(res.data);
+      getLocation(res.data);
+    }
+  }
 
   const getLocation = async (trigger) => {
     let location = trigger.parent_type;
@@ -286,264 +280,264 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
     }
   };
 
-  const searchSpacesForTrigger = () => {
-    const trigger = document.getElementById(
-      'trigger-input'
-    );
-    const triggerInput = trigger.value.trim();
+  // const searchSpacesForTrigger = () => {
+  //   const trigger = document.getElementById(
+  //     'trigger-input'
+  //   );
+  //   const triggerInput = trigger.value.trim();
 
-    let spaceAutoTriggers = spaceTriggers?.automations;
-    let spaceShortcutTriggers = spaceTriggers?.shortcuts;
-    console.log(spaceTriggers);
+  //   let spaceAutoTriggers = spaceTriggers?.automations;
+  //   let spaceShortcutTriggers = spaceTriggers?.shortcuts;
+  //   console.log(spaceTriggers);
 
-    if (
-      foundTrigger === undefined &&
-      (spaceAutoTriggers?.length !== 0 || spaceShortcutTriggers?.length !== 0)
-    ) {
-      console.log('searching Space triggers');
-      spaceAutoTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-        }
-      });
+  //   if (
+  //     foundTrigger === undefined &&
+  //     (spaceAutoTriggers?.length !== 0 || spaceShortcutTriggers?.length !== 0)
+  //   ) {
+  //     console.log('searching Space triggers');
+  //     spaceAutoTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //       }
+  //     });
 
-      spaceShortcutTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-          let shortType = '';
-          let shortUsers = [];
-          let shortDescription = trigger.description;
-          console.log(trigger.description);
-          if (trigger.shortcut === 'assignee') {
-            shortType = 'assign tasks to ';
-            shortUsers = trigger.actions[0].input.add_assignees;
-          } else {
-            shortType = 'watch tasks ';
-            shortUsers = trigger.actions[0].input.followers;
-          }
-          setShortcut({
-            type: shortType,
-            users: shortUsers,
-            description: shortDescription,
-          });
-        }
-      });
-      if (foundTrigger === undefined) {
-        console.log(
-          'space triggers exist, but the input trigger isnt one of them'
-        );
-        setNotFoundSpace(true);
-      }
-    } else {
-      console.log('not found Space search');
-      setNotFoundSpace(true);
-    }
-  };
+  //     spaceShortcutTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //         let shortType = '';
+  //         let shortUsers = [];
+  //         let shortDescription = trigger.description;
+  //         console.log(trigger.description);
+  //         if (trigger.shortcut === 'assignee') {
+  //           shortType = 'assign tasks to ';
+  //           shortUsers = trigger.actions[0].input.add_assignees;
+  //         } else {
+  //           shortType = 'watch tasks ';
+  //           shortUsers = trigger.actions[0].input.followers;
+  //         }
+  //         setShortcut({
+  //           type: shortType,
+  //           users: shortUsers,
+  //           description: shortDescription,
+  //         });
+  //       }
+  //     });
+  //     if (foundTrigger === undefined) {
+  //       console.log(
+  //         'space triggers exist, but the input trigger isnt one of them'
+  //       );
+  //       setNotFoundSpace(true);
+  //     }
+  //   } else {
+  //     console.log('not found Space search');
+  //     setNotFoundSpace(true);
+  //   }
+  // };
 
-  const searchFoldersForTrigger = () => {
-    console.log('called Folder triggers');
+  // const searchFoldersForTrigger = () => {
+  //   console.log('called Folder triggers');
 
-    const trigger = document.getElementById(
-      'trigger-input'
-    );
-    const triggerInput = trigger.value.trim();
+  //   const trigger = document.getElementById(
+  //     'trigger-input'
+  //   );
+  //   const triggerInput = trigger.value.trim();
 
-    let folderAutoTriggers = folderTriggers?.automations;
-    let folderShortcutTriggers = folderTriggers?.shortcuts;
+  //   let folderAutoTriggers = folderTriggers?.automations;
+  //   let folderShortcutTriggers = folderTriggers?.shortcuts;
 
-    if (
-      foundTrigger === undefined &&
-      (folderAutoTriggers?.length !== 0 || folderShortcutTriggers?.length !== 0)
-    ) {
-      console.log('searching Folder triggers');
-      folderAutoTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-        }
-      });
+  //   if (
+  //     foundTrigger === undefined &&
+  //     (folderAutoTriggers?.length !== 0 || folderShortcutTriggers?.length !== 0)
+  //   ) {
+  //     console.log('searching Folder triggers');
+  //     folderAutoTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //       }
+  //     });
 
-      folderShortcutTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-          let shortType = '';
-          let shortUsers = [];
-          let shortDescription = trigger.description;
-          if (trigger.shortcut === 'assignee') {
-            shortType = 'assign tasks to ';
-            shortUsers = trigger.actions[0].input.add_assignees;
-          } else {
-            shortType = 'watch tasks ';
-            shortUsers = trigger.actions[0].input.followers;
-          }
-          setShortcut({
-            type: shortType,
-            users: shortUsers,
-            description: shortDescription,
-          });
-        }
-      });
-      if (foundTrigger === undefined) {
-        console.log(
-          'folder triggers exist, but the input trigger isnt one of them'
-        );
-        setNotFoundFolder(true);
-      }
-    } else {
-      console.log('not found Folder search');
-      setNotFoundFolder(true);
-    }
-  };
+  //     folderShortcutTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //         let shortType = '';
+  //         let shortUsers = [];
+  //         let shortDescription = trigger.description;
+  //         if (trigger.shortcut === 'assignee') {
+  //           shortType = 'assign tasks to ';
+  //           shortUsers = trigger.actions[0].input.add_assignees;
+  //         } else {
+  //           shortType = 'watch tasks ';
+  //           shortUsers = trigger.actions[0].input.followers;
+  //         }
+  //         setShortcut({
+  //           type: shortType,
+  //           users: shortUsers,
+  //           description: shortDescription,
+  //         });
+  //       }
+  //     });
+  //     if (foundTrigger === undefined) {
+  //       console.log(
+  //         'folder triggers exist, but the input trigger isnt one of them'
+  //       );
+  //       setNotFoundFolder(true);
+  //     }
+  //   } else {
+  //     console.log('not found Folder search');
+  //     setNotFoundFolder(true);
+  //   }
+  // };
 
-  const searchFolderlessListsForTrigger = () => {
-    console.log('called Folderless list search');
+  // const searchFolderlessListsForTrigger = () => {
+  //   console.log('called Folderless list search');
 
-    const trigger = document.getElementById(
-      'trigger-input'
-    );
-    const triggerInput = trigger.value.trim();
+  //   const trigger = document.getElementById(
+  //     'trigger-input'
+  //   );
+  //   const triggerInput = trigger.value.trim();
 
-    let folderlessListAutoTriggers =
-      folderlessListTriggers?.automations;
-    let folderlessListShortcutTriggers =
-      folderlessListTriggers?.shortcuts;
-    console.log(
-      'folderless auto/short',
-      folderlessListTriggers?.automations.length,
-      folderlessListTriggers?.shortcuts.length
-    );
-    if (
-      foundTrigger === undefined &&
-      (folderlessListAutoTriggers?.length !== 0 ||
-        folderlessListShortcutTriggers?.length !== 0)
-    ) {
-      console.log('searching Folderless list triggers');
+  //   let folderlessListAutoTriggers =
+  //     folderlessListTriggers?.automations;
+  //   let folderlessListShortcutTriggers =
+  //     folderlessListTriggers?.shortcuts;
+  //   console.log(
+  //     'folderless auto/short',
+  //     folderlessListTriggers?.automations.length,
+  //     folderlessListTriggers?.shortcuts.length
+  //   );
+  //   if (
+  //     foundTrigger === undefined &&
+  //     (folderlessListAutoTriggers?.length !== 0 ||
+  //       folderlessListShortcutTriggers?.length !== 0)
+  //   ) {
+  //     console.log('searching Folderless list triggers');
 
-      folderlessListAutoTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-        }
-      });
+  //     folderlessListAutoTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //       }
+  //     });
 
-      folderlessListShortcutTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-          let shortType = '';
-          let shortUsers = [];
-          let shortDescription = trigger.description;
-          if (trigger.shortcut === 'assignee') {
-            shortType = 'assign tasks to ';
-            shortUsers = trigger.actions[0].input.add_assignees;
-          } else {
-            shortType = 'watch tasks ';
-            shortUsers = trigger.actions[0].input.followers;
-          }
-          setShortcut({
-            type: shortType,
-            users: shortUsers,
-            description: shortDescription,
-          });
-        }
-      });
-      if (foundTrigger === undefined) {
-        console.log(
-          'folderless list triggers exist, but this isnt one of them'
-        );
-        setNotFoundFolderlessList(true);
-      }
-    } else {
-      console.log('not found Folderless list search');
-      setNotFoundFolderlessList(true);
-    }
-  };
+  //     folderlessListShortcutTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //         let shortType = '';
+  //         let shortUsers = [];
+  //         let shortDescription = trigger.description;
+  //         if (trigger.shortcut === 'assignee') {
+  //           shortType = 'assign tasks to ';
+  //           shortUsers = trigger.actions[0].input.add_assignees;
+  //         } else {
+  //           shortType = 'watch tasks ';
+  //           shortUsers = trigger.actions[0].input.followers;
+  //         }
+  //         setShortcut({
+  //           type: shortType,
+  //           users: shortUsers,
+  //           description: shortDescription,
+  //         });
+  //       }
+  //     });
+  //     if (foundTrigger === undefined) {
+  //       console.log(
+  //         'folderless list triggers exist, but this isnt one of them'
+  //       );
+  //       setNotFoundFolderlessList(true);
+  //     }
+  //   } else {
+  //     console.log('not found Folderless list search');
+  //     setNotFoundFolderlessList(true);
+  //   }
+  // };
 
-  const searchListsForTrigger = async () => {
-    const trigger = document.getElementById(
-      'trigger-input'
-    );
-    const triggerInput = trigger.value.trim();
+  // const searchListsForTrigger = async () => {
+  //   const trigger = document.getElementById(
+  //     'trigger-input'
+  //   );
+  //   const triggerInput = trigger.value.trim();
 
-    let listAutoTriggers = listTriggers?.automations;
-    let listShortcutTriggers = listTriggers?.shortcuts;
-    if (
-      foundTrigger === undefined &&
-      (listAutoTriggers?.length !== 0 || listShortcutTriggers?.length !== 0)
-    ) {
-      console.log('searching List triggers');
-      listAutoTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-        }
-      });
+  //   let listAutoTriggers = listTriggers?.automations;
+  //   let listShortcutTriggers = listTriggers?.shortcuts;
+  //   if (
+  //     foundTrigger === undefined &&
+  //     (listAutoTriggers?.length !== 0 || listShortcutTriggers?.length !== 0)
+  //   ) {
+  //     console.log('searching List triggers');
+  //     listAutoTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //       }
+  //     });
 
-      listShortcutTriggers?.forEach((trigger) => {
-        if (foundTrigger === undefined && trigger.id === triggerInput) {
-          setFoundTrigger(trigger);
-          getLocation(trigger);
-          let shortType = '';
-          let shortUsers = [];
-          let shortDescription = trigger.description;
-          if (trigger.shortcut === 'assignee') {
-            shortType = 'assign tasks to ';
-            shortUsers = trigger.actions[0].input.add_assignees;
-          } else {
-            shortType = 'watch tasks ';
-            shortUsers = trigger.actions[0].input.followers;
-          }
-          setShortcut({
-            type: shortType,
-            users: shortUsers,
-            description: shortDescription,
-          });
-        }
-      });
-      if (foundTrigger === undefined) {
-        console.log('list triggers exist, but this isnt one of them');
-        setNotFoundList(true);
-      }
-    } else {
-      console.log('not found list search');
-      setNotFoundList(true);
-    }
-  };
+  //     listShortcutTriggers?.forEach((trigger) => {
+  //       if (foundTrigger === undefined && trigger.id === triggerInput) {
+  //         setFoundTrigger(trigger);
+  //         getLocation(trigger);
+  //         let shortType = '';
+  //         let shortUsers = [];
+  //         let shortDescription = trigger.description;
+  //         if (trigger.shortcut === 'assignee') {
+  //           shortType = 'assign tasks to ';
+  //           shortUsers = trigger.actions[0].input.add_assignees;
+  //         } else {
+  //           shortType = 'watch tasks ';
+  //           shortUsers = trigger.actions[0].input.followers;
+  //         }
+  //         setShortcut({
+  //           type: shortType,
+  //           users: shortUsers,
+  //           description: shortDescription,
+  //         });
+  //       }
+  //     });
+  //     if (foundTrigger === undefined) {
+  //       console.log('list triggers exist, but this isnt one of them');
+  //       setNotFoundList(true);
+  //     }
+  //   } else {
+  //     console.log('not found list search');
+  //     setNotFoundList(true);
+  //   }
+  // };
 
   useEffect(() => {
     console.log(`include inactive is: ${includeInactive}`);
   }, [includeInactive]);
 
-  useEffect(() => {
-    console.log(`not found on List: ${notFoundList}`);
-  }, [notFoundList]);
+  // useEffect(() => {
+  //   console.log(`not found on List: ${notFoundList}`);
+  // }, [notFoundList]);
 
   useEffect(() => {
     console.log(token);
   }, [token]);
 
-  useEffect(() => {
-    console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts);
-  }, [spaceTriggers]);
+  // useEffect(() => {
+  //   console.log(spaceTriggers?.automations, spaceTriggers?.shortcuts);
+  // }, [spaceTriggers]);
 
-  useEffect(() => {
-    console.log(`pending spaces: ${spacePending}`);
-    console.log(`pending folders: ${folderPending}`);
-    console.log(`pending folderlessLists: ${folderlessListPending}`);
-    console.log(`pending lists: ${listPending}`);
+  // useEffect(() => {
+  //   console.log(`pending spaces: ${spacePending}`);
+  //   console.log(`pending folders: ${folderPending}`);
+  //   console.log(`pending folderlessLists: ${folderlessListPending}`);
+  //   console.log(`pending lists: ${listPending}`);
 
-    if (
-      !spacePending &&
-      !folderPending &&
-      !folderlessListPending &&
-      !listPending
-    ) {
-      setShowFindButton(true);
-    }
-  }, [spacePending, folderPending, folderlessListPending, listPending]);
+  //   if (
+  //     !spacePending &&
+  //     !folderPending &&
+  //     !folderlessListPending &&
+  //     !listPending
+  //   ) {
+  //     setShowFindButton(true);
+  //   }
+  // }, [spacePending, folderPending, folderlessListPending, listPending]);
 
   // useEffects for what this component has
   useEffect(() => {
@@ -551,29 +545,29 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
     console.log(`teamId being searched: ${teamId}`);
   }, [teamId]);
 
-  useEffect(() => {
+  // useEffect(() => {
     // console.log(`workspace shard: ${shard}`);
     // console.log(`workspace token: ${token}`);
-    if (shard.length > 1) {
-      // when we have a bearer, we can call get automations functions on page load from here
-      if (folderlessListIds?.length) {
-        console.log('folderlessLists being searched', folderlessListIds.length);
-        getFolderlessListAutomations(folderlessListIds);
-      }
-      if (listIds?.length) {
-        console.log('lists being searched', listIds.length);
-        getListAutomations(listIds);
-      }
-      if (folderIds?.length) {
-        console.log('folders being searched', folderIds.length);
-        getFolderAutomations(folderIds);
-      }
-      if (spaceIds?.length) {
-        console.log('spaces being searched', spaceIds.length);
-        getSpaceAutomations(spaceIds);
-      }
-    }
-  }, [shard]);
+    // if (shard.length > 1) {
+    //   // when we have a bearer, we can call get automations functions on page load from here
+    //   if (folderlessListIds?.length) {
+    //     console.log('folderlessLists being searched', folderlessListIds.length);
+    //     getFolderlessListAutomations(folderlessListIds);
+    //   }
+    //   if (listIds?.length) {
+    //     console.log('lists being searched', listIds.length);
+    //     getListAutomations(listIds);
+    //   }
+    //   if (folderIds?.length) {
+    //     console.log('folders being searched', folderIds.length);
+    //     getFolderAutomations(folderIds);
+    //   }
+    //   if (spaceIds?.length) {
+    //     console.log('spaces being searched', spaceIds.length);
+    //     getSpaceAutomations(spaceIds);
+    //   }
+    // }
+  // }, [shard]);
 
   useEffect(() => {
     console.log(`triggerID being searched: ${triggerId}`);
@@ -592,10 +586,7 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
             placeholder="Search by a triggerId"
           />
           {foundTrigger ||
-          (notFoundList === true &&
-            notFoundFolderlessList === true &&
-            notFoundFolder === true &&
-            notFoundSpace === true) ? (
+          (notFound === true) ? (
             <>
               {/*clear button*/}
               <Button
@@ -617,10 +608,10 @@ export default function Automations({ teamId, spaceIds, folderIds, folderlessLis
                   setFoundLink(undefined);
                   setParentFolder({ link: '', name: '' });
                   setParentSpace({ link: '', name: '' });
-                  setNotFoundList(false);
-                  setNotFoundFolderlessList(false);
-                  setNotFoundFolder(false);
-                  setNotFoundSpace(false);
+                  setNotFound(false);
+                  // setNotFoundFolderlessList(false);
+                  // setNotFoundFolder(false);
+                  // setNotFoundSpace(false);
                   setFindClicked(false);
                 }}
               >

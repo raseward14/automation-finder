@@ -14,11 +14,13 @@ app.use(cors());
 app.use(express.json());
 
 const WorkspaceRouter = require("./routes/workspace_routes");
-const AuthRouter = require("./routes/auth_routes")
+const AuthRouter = require("./routes/auth_routes");
+const AutomationRouter = require("./routes/auth_routes");
+
 
 app.use("/workspace", WorkspaceRouter);
-app.use("/auth", AuthRouter)
-
+app.use("/auth", AuthRouter);
+app.use("/automation", AutomationRouter);
 
 
 const server = http.createServer(app); // Create an HTTP server
