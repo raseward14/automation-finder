@@ -8,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import axios from 'axios';
-
+import './style.css';
 
 export default function Automations({ socket, workspaceId, spaceIds, folderIds, folderlessListIds, listIds }) {
  

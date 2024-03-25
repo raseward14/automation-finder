@@ -5,29 +5,30 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
-import HOME from './components/home'
-import OAUTH from './components/oauth'
-import WORKSPACE from './components/workspace'
-import AUTOMATIONS from './components/automations'
-import Container from 'react-bootstrap/Container'
+import Layout from './components/Layout';
+import HOME from './pages/home';
+import OAUTH from './pages/oauth';
+import WORKSPACE from './pages/workspace';
+import AUTOMATIONS from './pages/automations';
+import Container from 'react-bootstrap/Container';
 
 const socket = io.connect("http://localhost:8080/");
 
 export default function App() {
 
-const [token, setToken] = useState([]);
-const [workspaceId, setWorkspaceId] = useState([]);
-const [spaceIds, setSpaceIds] = useState([]);
-const [folderIds, setFolderIds] = useState([]);
-const [listIds, setListIds] = useState([]);
-const [folderlessListIds, setFolderlessListIds] = useState([]);
+  const [token, setToken] = useState([]);
+  const [workspaceId, setWorkspaceId] = useState([]);
+  const [spaceIds, setSpaceIds] = useState([]);
+  const [folderIds, setFolderIds] = useState([]);
+  const [listIds, setListIds] = useState([]);
+  const [folderlessListIds, setFolderlessListIds] = useState([]);
 
-const getTeamIdFromObject = (data) => {
-  console.log('app.js team_id is:', data.id)
-  if (data !== undefined) {
-    setWorkspaceId(data.id);
-  }
-};
+  const getTeamIdFromObject = (data) => {
+    console.log('app.js team_id is:', data.id)
+    if (data !== undefined) {
+      setWorkspaceId(data.id);
+    }
+  };
 
   const style = {
     container: {},
@@ -41,27 +42,30 @@ const getTeamIdFromObject = (data) => {
       <Container style={style.container}>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/" element={<HOME socket={socket} />}></Route>
-            <Route exact path="/oauth" element={<OAUTH socket={socket} />}></Route>
-            <Route exact path="/oauth/success" element={<OAUTH socket={socket} />}></Route>
-            <Route exact path="/workspace/:token" element={<WORKSPACE 
-                  socket={socket}
-                  teamCallback={()=>getTeamIdFromObject}
-                  spaceCallback={()=>setSpaceIds}
-                  folderCallback={()=>setFolderIds}
-                  listCallback={()=>setListIds}
-                  folderlessListCallback={()=>setFolderlessListIds}
-                  tokenCallback={()=>setToken}/>}></Route>
-            <Route path="/automations" element={<AUTOMATIONS
-                  
-                  socket={socket}
-                  workspaceId={workspaceId}
-                  spaceIds={spaceIds}
-                  folderIds={folderIds}
-                  folderlessListIds={folderlessListIds}
-                  listIds={listIds}
-                  
-                />}></Route>
+            <Route path="/" element={<Layout />}>
+
+              <Route index element={<HOME socket={socket} />}></Route>
+              <Route exact path="/oauth" element={<OAUTH socket={socket} />}></Route>
+              <Route exact path="/oauth/success" element={<OAUTH socket={socket} />}></Route>
+              <Route exact path="/workspace/:token" element={<WORKSPACE
+                socket={socket}
+                teamCallback={() => getTeamIdFromObject}
+                spaceCallback={() => setSpaceIds}
+                folderCallback={() => setFolderIds}
+                listCallback={() => setListIds}
+                folderlessListCallback={() => setFolderlessListIds}
+                tokenCallback={() => setToken} />}></Route>
+              <Route path="/automations" element={<AUTOMATIONS
+
+                socket={socket}
+                workspaceId={workspaceId}
+                spaceIds={spaceIds}
+                folderIds={folderIds}
+                folderlessListIds={folderlessListIds}
+                listIds={listIds}
+
+              />}></Route>
+            </Route>
           </Routes>
         </BrowserRouter>
       </Container>
