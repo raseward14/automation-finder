@@ -201,6 +201,7 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
   };
 
   const sendTeam = (data) => {
+    console.log('workspace.js team_id is:', data)
     if (data !== undefined) {
       teamCallback(data);
     }
@@ -256,7 +257,7 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
                 setSpaceArray([]);
                 setFolderArray([]);
                 setFolderlessListArray([]);
-                setListArray
+                // setListArray
                 await getIds(team.id);
                 i === workspacePressed
                   ? setWorkspacePressed(-1)

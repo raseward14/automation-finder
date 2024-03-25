@@ -23,6 +23,7 @@ const [listIds, setListIds] = useState([]);
 const [folderlessListIds, setFolderlessListIds] = useState([]);
 
 const getTeamIdFromObject = (data) => {
+  console.log('app.js team_id is:', data.id)
   if (data !== undefined) {
     setWorkspaceId(data.id);
   }
@@ -51,7 +52,7 @@ const getTeamIdFromObject = (data) => {
                   listCallback={()=>setListIds}
                   folderlessListCallback={()=>setFolderlessListIds}
                   tokenCallback={()=>setToken}/>}></Route>
-            <Route path="automations" element={<AUTOMATIONS
+            <Route path="/automations" element={<AUTOMATIONS
                   
                   socket={socket}
                   workspaceId={workspaceId}

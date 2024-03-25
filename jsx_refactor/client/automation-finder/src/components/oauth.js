@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { Constants } from './constants'
+import { Constants } from '../constants';
 
 export default function Oauth({ socket }) {
     const navigate = useNavigate();
