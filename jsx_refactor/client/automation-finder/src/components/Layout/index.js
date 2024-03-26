@@ -19,7 +19,7 @@ const Layout = () => {
   return (
     <Container style={style.container}>
       <Nav />
-      <div className={"page-container"}>
+      <div className="page-container">
         <Outlet />
       </div>
     </Container>

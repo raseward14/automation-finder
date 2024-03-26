@@ -1,11 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
 import io from "socket.io-client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import Layout from './components/Layout';
+import BASIC from './pages/basic';
 import HOME from './pages/home';
 import OAUTH from './pages/oauth';
 import WORKSPACE from './pages/workspace';
@@ -45,6 +44,8 @@ export default function App() {
             <Route path="/" element={<Layout />}>
 
               <Route index element={<HOME socket={socket} />}></Route>
+              <Route exact path="/basic" element={<BASIC socket={socket} />}></Route>
+
               <Route exact path="/oauth" element={<OAUTH socket={socket} />}></Route>
               <Route exact path="/oauth/success" element={<OAUTH socket={socket} />}></Route>
               <Route exact path="/workspace/:token" element={<WORKSPACE

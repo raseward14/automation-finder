@@ -46,7 +46,6 @@ export default function Home({ socket }) {
     };
   
     return (
-        
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>CRM Login Link</Form.Label>
@@ -59,7 +58,7 @@ export default function Home({ socket }) {
           onChange={(e) => setLoginURL(e.target.value)}
           required
         />
-      </Form.Group>
+      </Form.Group><br />
       <Button style={style.button} variant="primary" type="submit">
         Submit
       </Button>

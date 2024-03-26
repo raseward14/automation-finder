@@ -8,7 +8,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ClickUpIcon from '../images/clickup.jpeg';
 import './style.css';
 
-const NavComponent = () => {
+const NavComponent = ({ socket }) => {
   const [JWTPresent, setJWTPresent] = useState(false)
 
   const logout = async () => {
@@ -51,7 +51,7 @@ const NavComponent = () => {
                 <Nav.Link href={"/"} onClick={logout}>Logout</Nav.Link>
               ) : (
                 <>
-                  <Nav.Link href={"/token"}>CRM Link</Nav.Link>
+                  <Nav.Link href={"/"}>CRM Link</Nav.Link>
                   <Nav.Link href={"/basic"}>Password</Nav.Link>
                 </>
               )}
