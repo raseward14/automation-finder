@@ -36,7 +36,7 @@ export default function Home({ socket }) {
     useEffect(() => {
         if (JWT !== '') {
           socket.emit("loginBypassSucessful", {jwt: JWT})
-          // localStorage.setItem('token', JWT);
+          localStorage.setItem('jwt', JWT);
           navigate('/oauth')
         }
       }, [JWT]);

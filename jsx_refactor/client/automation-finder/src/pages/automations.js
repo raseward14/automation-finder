@@ -145,12 +145,18 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
 
 
   useEffect(() => {
+    console.log('shard length is:', shard.length())
+  }, [shard])
+
+  useEffect(() => {
     console.log(JWT);
   }, [JWT]);
 
   // useEffects for what this component has
   useEffect(() => {
-    printShardFromteamId(workspaceId);
+    if(workspaceId) {
+      printShardFromteamId(workspaceId);
+    }
     console.log(`automations.js team_id is: ${workspaceId}`);
   }, [workspaceId]);
 

@@ -7,8 +7,8 @@ const socketIo = require("socket.io"); // Require the socket.io module
 dotenv.config();
 
 const app = express();
-const socket_port = process.env.SOCKET_PORT || 3001;
-const react_port = process.env.REACT_PORT || 3002;
+const socket_port = process.env.SOCKET_PORT || 8080;
+const react_port = process.env.REACT_PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
