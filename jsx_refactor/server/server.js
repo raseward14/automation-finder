@@ -15,7 +15,7 @@ app.use(express.json());
 
 const WorkspaceRouter = require("./routes/workspace_routes");
 const AuthRouter = require("./routes/auth_routes");
-const AutomationRouter = require("./routes/auth_routes");
+const AutomationRouter = require("./routes/auto_routes");
 
 
 app.use("/workspace", WorkspaceRouter);

@@ -12,6 +12,8 @@ import './style.css';
 
 export default function Automations({ socket, workspaceId, spaceIds, folderIds, folderlessListIds, listIds }) {
  
+  const [workspaceID, setWorkspaceID] = useState(workspaceId)
+
   // sets dynamically by teamId on page load
   const [shard, setShard] = useState('');
 
@@ -47,10 +49,10 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
   // token passed from OAUTH - for workflow requests
   const [oAuthToken, setOAuthToken] = useState(JWT);
 
-  const printShardFromteamId = async (workspaceId) => {
-    if (workspaceId.length > 1) {
-      const res = await axios.post('http://localhost:3001/automation/shard', {
-        teamId: workspaceId,
+  const printShardFromteamId = async (id) => {
+    if (id.length > 1) {
+      const res = await axios.post('http://localhost:8080/automation/shard', {
+        teamId: id
       });
       const shard = res.data;
       setShard(shard);
@@ -59,7 +61,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
 
   const getAutomation = async () => {
     const triggerInput = document.getElementById("trigger-input").value.trim();
-    const res = await axios.post('http://localhost:3001/automation/space', {
+    const res = await axios.post('http://localhost:8080/automation/space', {
         shard: shard,
         triggerId: triggerInput,
         bearer: JWT,
@@ -77,7 +79,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
     switch (location) {
       case 6:
         const listResponse = await axios.post(
-          `http://localhost:3001/workspace/list`,
+          `http://localhost:8080/workspace/list`,
           {
             listId: id,
             token: oAuthToken,
@@ -102,7 +104,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
         break;
       case 5:
         const folderResponse = await axios.post(
-          `http://localhost:3001/workspace/folder`,
+          `http://localhost:8080/workspace/folder`,
           {
             folderId: id,
             token: oAuthToken,
@@ -124,7 +126,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
         break;
       case 4:
         const spaceResponse = await axios.post(
-          `http://localhost:3001/workspace/space`,
+          `http://localhost:8080/workspace/space`,
           {
             spaceId: id,
             token: oAuthToken,
@@ -145,25 +147,26 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
 
 
   useEffect(() => {
-    console.log('shard length is:', shard.length())
+    console.log(`shard is: ${JSON.stringify(shard)}`, typeof shard)
   }, [shard])
 
   useEffect(() => {
     console.log(JWT);
   }, [JWT]);
 
-  // useEffects for what this component has
-  useEffect(() => {
-    if(workspaceId) {
-      printShardFromteamId(workspaceId);
-    }
-    console.log(`automations.js team_id is: ${workspaceId}`);
-  }, [workspaceId]);
-
+  
   useEffect(() => {
     console.log(`triggerID being searched: ${triggerId}`);
   }, [triggerId]);
 
+  // useEffects for what this component has
+  useEffect(() => {
+    if(workspaceID) {
+      printShardFromteamId(workspaceID);
+    }
+    console.log(`automations.js team_id is: ${workspaceID}`);
+  }, [workspaceID]);
+  
   return (
     <div className="automations-container">
       <br />

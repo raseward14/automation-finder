@@ -50,7 +50,7 @@ export default function App() {
               <Route exact path="/oauth/success" element={<OAUTH socket={socket} />}></Route>
               <Route exact path="/workspace/:token" element={<WORKSPACE
                 socket={socket}
-                teamCallback={() => getTeamIdFromObject}
+                teamCallback={setWorkspaceId}
                 spaceCallback={() => setSpaceIds}
                 folderCallback={() => setFolderIds}
                 listCallback={() => setListIds}
