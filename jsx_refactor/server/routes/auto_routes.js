@@ -4,7 +4,6 @@ const router = require("express").Router();
 router.route("/shard").post(
     async (req, res) => {
         const teamId = req.body.teamId;
-        console.log(teamId)
         try {
             const response = await fetch(
                 `https://app.clickup.com/shard/v1/handshake/${teamId}`,
