@@ -55,13 +55,16 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
         teamId: id
       });
       const shard = res.data;
-      setShard(shard);
+      if(shard) {
+        setShard(shard);
+        setShowFindButton(true);
+      }
     }
   };
 
   const getAutomation = async () => {
     const triggerInput = document.getElementById("trigger-input").value.trim();
-    const res = await axios.post('http://localhost:8080/automation/space', {
+    const res = await axios.post('http://localhost:8080/automation/trigger', {
         shard: shard,
         triggerId: triggerInput,
         bearer: JWT,
@@ -171,7 +174,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
     <div className="automations-container">
       <br />
       <h1>Find Automation</h1>
-      {JWT ? (
+      {shard ? (
         <>
           <input
             className="search-field"
