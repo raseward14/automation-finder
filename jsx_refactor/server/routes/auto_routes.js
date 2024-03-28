@@ -21,7 +21,6 @@ router.route("/shard").post(
 // get Automation by trigger_id
 router.route("/trigger").post(
     async (req, res) => {
-        console.log(req.body)
         const shard = req.body.shard;
         const triggerId = req.body.triggerId;
         const token = req.body.bearer;

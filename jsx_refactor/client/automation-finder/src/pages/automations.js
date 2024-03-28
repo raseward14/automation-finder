@@ -71,75 +71,47 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
       });
     if(res?.data){
       setFoundTrigger(res.data);
-      getLocation(res.data);
+      createBreadcrumbs(res.data);
+      console.log(res.data)
     }
   }
 
-  const getLocation = async (trigger) => {
-    let location = trigger.parent_type;
-    let id = trigger.parent_id;
-    console.log(trigger, location);
+  const createBreadcrumbs = async (automation) => {
+    let location = automation?.parent_type;
+    let id = automation?.parent_id
     switch (location) {
       case 6:
-        const listResponse = await axios.post(
-          `http://localhost:8080/workspace/list`,
-          {
-            listId: id,
-            token: oAuthToken,
-          }
-        );
-        let listId = listResponse.data.id;
-        setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${listId}`);
-        let listName = listResponse.data.name;
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/li/${id}`);
         setLocationType('List: ');
-        setLocationName(`${listName}`);
+        setLocationName(`${automation?.subcategory?.name}`);
         // check for a parent Folder and Space
-        if (listResponse.data?.folder.name !== 'hidden') {
+        if (automation?.subcategory?.category?.name !== 'hidden') {
           setParentFolder({
-            link: `https://app.clickup.com/${workspaceId}/v/o/f/${listResponse.data?.folder.id}/${listResponse.data?.space.id}`,
-            name: listResponse.data?.folder.name,
+            link: `https://app.clickup.com/${workspaceId}/v/o/f/${automation?.subcategory?.category?.id}/${automation?.subcategory?.project?.id}`,
+            name: automation?.subcategory?.category?.name,
           });
         }
         setParentSpace({
-          link: `https://app.clickup.com/${workspaceId}/v/o/s/${listResponse.data?.space.id}`,
-          name: listResponse.data?.space.name,
+          link: `https://app.clickup.com/${workspaceId}/v/o/s/${automation?.subcategory?.project?.id}`,
+          name: automation?.subcategory?.project?.name,
         });
         break;
       case 5:
-        const folderResponse = await axios.post(
-          `http://localhost:8080/workspace/folder`,
-          {
-            folderId: id,
-            token: oAuthToken,
-          }
-        );
-        let folderId = folderResponse.data.id;
-        let folderSpaceId = folderResponse.data.space.id;
         setFoundLink(
-          `https://app.clickup.com/${workspaceId}/v/o/f/${folderId}/${folderSpaceId}`
+          `https://app.clickup.com/${workspaceId}/v/o/f/${id}/${automation?.category?.project?.id}`
         );
-        let folderName = folderResponse.data.name;
         // check for a parent Space
         setLocationType('Folder: ');
-        setLocationName(`${folderName}`);
+        setLocationName(`${automation?.category?.name}`);
         setParentSpace({
-          link: `https://app.clickup.com/${workspaceId}/v/o/s/${folderResponse.data?.space.id}`,
-          name: folderResponse.data?.space.name,
+          link: `https://app.clickup.com/${workspaceId}/v/o/s/${automation?.category?.project?.id}`,
+          name: automation?.category?.project?.name,
         });
         break;
       case 4:
-        const spaceResponse = await axios.post(
-          `http://localhost:8080/workspace/space`,
-          {
-            spaceId: id,
-            token: oAuthToken,
-          }
-        );
-        let spaceId = spaceResponse.data.id;
-        setFoundLink(`https://app.clickup.com/${workspaceId}/v/o/s/${spaceId}`);
-        let spaceName = spaceResponse.data.name;
+        setFoundLink(`https://app.clickup.com/${workspaceId}/v/o/s/${id}`);
         setLocationType('Space: ');
-        setLocationName(`${spaceName}`);
+        setLocationName(`${automation?.project?.name}`);
         break;
     }
   };
