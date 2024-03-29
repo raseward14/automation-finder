@@ -3,8 +3,8 @@ import Card from 'react-bootstrap/Card';
 import ClickUpLogo from '../images/clickup-logo.jpeg';
 import './style.css';
 
-const Trigger = ({ triggerObject }) => {
-  const [triggerObject, setTriggerObject] = useState(triggerObject);
+const Trigger = ({ automationObject }) => {
+  const [triggerObject, setTriggerObject] = useState(automationObject);
   const [triggerName, setTriggerName] = useState('');
   const [triggeredOn, setTriggeredOn] = useState('tasks or subtasks')
 

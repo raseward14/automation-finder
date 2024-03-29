@@ -267,8 +267,8 @@ export function DefaultCard({ cardDetails, key}) {
 
 
 
-const Actions = ({ triggerObject }) => {
-  const [triggerObject, setTriggerObject] = useState(triggerObject);
+const Actions = ({ automationObject }) => {
+  const [triggerObject, setTriggerObject] = useState(automationObject);
   const [actionCardArray, setActionCardArray] = useState([]);
   let emptyArr = [];
 

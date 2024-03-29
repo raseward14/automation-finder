@@ -7,6 +7,8 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Trigger from '../components/AutoTrigger';
+import Actions from '../components/AutoAction';
 import axios from 'axios';
 import './style.css';
 
@@ -353,8 +355,14 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
                             </th>
                           )}
                         </tr>
-                        <tr>
-                          <td style={{ width: '50%' }}>
+                        <tr className="modal-body">
+                          <td className="modal-body-column">
+                            <Trigger automationObject={foundTrigger} />
+                          </td>
+                          <td className="modal-body-column">
+                            <Actions automationObject={foundTrigger} />
+                          </td>
+                          {/* <td style={{ width: '50%' }}>
                             <h4>When</h4>
                             this happens:
                             <Card>
@@ -364,8 +372,8 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
                                 </Card.Title>
                               </Card.Body>
                             </Card>
-                          </td>
-                          <td>
+                          </td> */}
+                          {/* <td>
                             <h4>Then</h4>
                             Do this action:
                             {foundTrigger?.actions.map(
@@ -377,7 +385,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
                                 </Card>
                               )
                             )}
-                          </td>
+                          </td> */}
                         </tr>
                         <tr>
                           {shortcut !== undefined ? (
