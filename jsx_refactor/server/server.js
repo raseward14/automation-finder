@@ -7,18 +7,20 @@ const socketIo = require("socket.io"); // Require the socket.io module
 dotenv.config();
 
 const app = express();
-const socket_port = process.env.SOCKET_PORT;
-const react_port = process.env.REACT_PORT;
+const socket_port = process.env.SOCKET_PORT || 8080;
+const react_port = process.env.REACT_PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
 const WorkspaceRouter = require("./routes/workspace_routes");
-const AuthRouter = require("./routes/auth_routes")
+const AuthRouter = require("./routes/auth_routes");
+const AutomationRouter = require("./routes/auto_routes");
+
 
 app.use("/workspace", WorkspaceRouter);
-app.use("/auth", AuthRouter)
-
+app.use("/auth", AuthRouter);
+app.use("/automation", AutomationRouter);
 
 
 const server = http.createServer(app); // Create an HTTP server

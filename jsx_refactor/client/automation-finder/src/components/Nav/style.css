@@ -1,0 +1,15 @@
+.navBar {
+    position: relative;
+    left: 0px;
+    margin-top: 20px;
+    width: 100%;
+    border: lime solid 1px;
+    border-radius: 10px;
+}
+
+.clickup-icon-dark {
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+}
