@@ -12,7 +12,7 @@ import Actions from '../components/AutoAction';
 import axios from 'axios';
 import './style.css';
 
-export default function Automations({ socket, workspaceId, spaceIds, folderIds, folderlessListIds, listIds }) {
+export default function Automations({ socket, workspaceId }) {
 
   const [workspaceID, setWorkspaceID] = useState(workspaceId)
 
@@ -47,9 +47,6 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
   });
 
   const [showFindButton, setShowFindButton] = useState(false);
-
-  // token passed from OAUTH - for workflow requests
-  const [oAuthToken, setOAuthToken] = useState(JWT);
 
   const printShardFromteamId = async (id) => {
     if (id.length > 1) {

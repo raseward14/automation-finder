@@ -57,14 +57,8 @@ export default function App() {
                 folderlessListCallback={() => setFolderlessListIds}
                 tokenCallback={() => setToken} />}></Route>
               <Route path="/automations" element={<AUTOMATIONS
-
                 socket={socket}
                 workspaceId={workspaceId}
-                spaceIds={spaceIds}
-                folderIds={folderIds}
-                folderlessListIds={folderlessListIds}
-                listIds={listIds}
-
               />}></Route>
             </Route>
           </Routes>

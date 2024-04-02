@@ -1,49 +1,14 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ClickUpLogo from '../images/clickup-logo.jpeg';
+import DefaultCard from "../ActionCards/default";
+import StatusCard from "../ActionCards/status";
+import ApplyTemplateCard from "../ActionCards/template";
+import CallWebhookCard from "../ActionCards/webhook";
+import ChangePriorityCard from '../ActionCards/priority';
+
 import './style.css';
 
-export function ApplyTemplateCard({ cardDetails, key}) {
-  return (
-    <>
-      <Card className="action-card" key={key}>
-        <Card.Body>
-          <Card.Title>
-            {cardDetails.name}
-          </Card.Title>
-        </Card.Body>
-      </Card>
-    </>
-  )
-}
-
-export function CallWebhookCard({ cardDetails, key}) {
-  return (
-    <>
-      <Card className="action-card" key={key}>
-        <Card.Body>
-          <Card.Title>
-            {cardDetails.name}
-          </Card.Title>
-        </Card.Body>
-      </Card>
-    </>
-  )
-}
-
-export function ChangePriorityCard({ cardDetails, key}) {
-  return (
-    <>
-      <Card className="action-card" key={key}>
-        <Card.Body>
-          <Card.Title>
-            {cardDetails.name}
-          </Card.Title>
-        </Card.Body>
-      </Card>
-    </>
-  )
-}
 
 // change start date
 // change due date
@@ -231,19 +196,19 @@ export function AssigneeCard({ cardDetails, key}) {
   )
 }
 
-export function StatusCard({ cardDetails, key}) {
-  return (
-    <>
-      <Card className="action-card" key={key}>
-        <Card.Body>
-          <Card.Title>
-            {cardDetails.name}
-          </Card.Title>
-        </Card.Body>
-      </Card>
-    </>
-  )
-}
+// export function StatusCard({ cardDetails, key}) {
+//   return (
+//     <>
+//       <Card className="action-card" key={key}>
+//         <Card.Body>
+//           <Card.Title>
+//             {cardDetails.name}
+//           </Card.Title>
+//         </Card.Body>
+//       </Card>
+//     </>
+//   )
+// }
 
 // delete task or subtask
 // delete task
@@ -251,19 +216,19 @@ export function StatusCard({ cardDetails, key}) {
 // archive task
 // archive subtask
 // archive task or subtask
-export function DefaultCard({ cardDetails, key}) {
-  return (
-    <>
-      <Card className="action-card" key={key}>
-        <Card.Body>
-          <Card.Title>
-            {cardDetails.name}
-          </Card.Title>
-        </Card.Body>
-      </Card>
-    </>
-  )
-}
+// export function DefaultCard({ cardDetails, key}) {
+//   return (
+//     <>
+//       <Card className="action-card" key={key}>
+//         <Card.Body>
+//           <Card.Title>
+//             {cardDetails.name}
+//           </Card.Title>
+//         </Card.Body>
+//       </Card>
+//     </>
+//   )
+// }
 
 
 
