@@ -371,7 +371,7 @@ export default function Automations({ socket, workspaceId }) {
                               <Badge pill bg="info">
                                 SHORTCUT
                               </Badge>{' '}
-                              Always {shortcut.type}
+                              Always {shortcut?.type}
                               {shortcut?.users?.map((user) => ` ${user}`)}
                               <br />
                               <br />
