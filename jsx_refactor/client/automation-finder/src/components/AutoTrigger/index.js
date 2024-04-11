@@ -15,6 +15,7 @@ import './style.css';
 
 const Trigger = ({ automationObject }) => {
   const [triggerObject, setTriggerObject] = useState(automationObject);
+  const [conditions, setConditions] = useState();
   const [triggerName, setTriggerName] = useState('');
   const [triggeredOn, setTriggeredOn] = useState('tasks or subtasks')
 
@@ -137,14 +138,6 @@ const Trigger = ({ automationObject }) => {
           </div>
         </div>
       </Card><br />
-
-      {/* <Card>
-        <Card.Body>
-          <Card.Title>
-            {triggerName}
-          </Card.Title>
-        </Card.Body>
-      </Card> */}
 
     {(() => {
       switch (triggerName) {

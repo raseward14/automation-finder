@@ -220,7 +220,7 @@ const Actions = ({ automationObject }) => {
     // cleanup is used so that in StrictMode, when the component re-mounts, the array is empty, and populates actions once
     emptyArr = [];
     if (triggerObject?.actions) {
-      let actionArray = triggerObject?.actions
+      let actionArray = triggerObject?.actions;
       for (var i = 0; i < actionArray.length; i++) {
         // call functions to create different kinds of action cards
         createActionObject(actionArray[i], i)

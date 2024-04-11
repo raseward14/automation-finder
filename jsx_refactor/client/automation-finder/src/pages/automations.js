@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Trigger from '../components/AutoTrigger';
 import Actions from '../components/AutoAction';
+import Conditions from '../components/AutoCondition';
 import axios from 'axios';
 import './style.css';
 
@@ -122,6 +123,10 @@ export default function Automations({ socket, workspaceId }) {
         break;
     }
   };
+
+  useEffect(() => {
+    console.log('found trigger from auto.js', foundTrigger)
+  }, [foundTrigger]);
 
   useEffect(() => {
     console.log(shortcut)
