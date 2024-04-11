@@ -123,6 +123,10 @@ const Trigger = ({ automationObject }) => {
     }
   }, [triggerObject])
 
+  useEffect(() => {
+    console.log('made it here')
+  }, [])
+
   return (
     <>
       <Card>

@@ -70,6 +70,7 @@ export default function Automations({ socket, workspaceId }) {
       bearer: JWT,
     });
     if (res?.data?.shortcut) {
+      console.log(res?.data?.shortcut)
       setFoundTrigger(true);
       setShortcut({
         type: res?.data?.shortcut,
@@ -125,21 +126,16 @@ export default function Automations({ socket, workspaceId }) {
   };
 
   useEffect(() => {
+    console.log('found trigger from auto.js', foundTrigger?.trigger?.conditions)
     console.log('found trigger from auto.js', foundTrigger)
   }, [foundTrigger]);
 
   useEffect(() => {
-    console.log(shortcut)
-    console.log(shortcut?.length)
-
-  }, [shortcut])
-
-  useEffect(() => {
-    console.log(`include inactive is: ${includeInactive}`);
+    // console.log(`include inactive is: ${includeInactive}`);
   }, [includeInactive]);
 
   useEffect(() => {
-    console.log(`triggerID being searched: ${triggerId}`);
+    // console.log(`triggerID being searched: ${triggerId}`);
   }, [triggerId]);
 
   // useEffects for what this component has
@@ -179,7 +175,11 @@ export default function Automations({ socket, workspaceId }) {
                     automation.textContent = '';
                   }
                   setLocationName(undefined);
-                  setShortcut(undefined);
+                  setShortcut({
+                    type: '',
+                    users: [],
+                    description: '',
+                  });
                   setFoundTrigger(undefined);
                   setFoundLink(undefined);
                   setParentFolder({ link: '', name: '' });
