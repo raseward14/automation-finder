@@ -1,0 +1,8 @@
+/*to undo react bootstrap defaults*/
+.card {
+    border: unset !important;
+}
+
+.condition-card {
+    margin-top: 20px;
+}

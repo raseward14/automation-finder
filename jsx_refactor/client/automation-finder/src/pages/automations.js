@@ -30,6 +30,7 @@ export default function Automations({ socket, workspaceId }) {
   const [findClicked, setFindClicked] = useState(false);
 
   const [foundTrigger, setFoundTrigger] = useState();
+  const [conditions, setConditions] = useState();
   const [foundLink, setFoundLink] = useState();
   const [locationType, setLocationType] = useState();
   const [locationName, setLocationName] = useState();
@@ -126,17 +127,18 @@ export default function Automations({ socket, workspaceId }) {
   };
 
   useEffect(() => {
-    console.log('found trigger from auto.js', foundTrigger?.trigger?.conditions)
-    console.log('found trigger from auto.js', foundTrigger)
+    console.log(conditions)
+  }, [conditions])
+
+  useEffect(() => {
+    if(foundTrigger?.trigger?.conditions) {
+      setConditions(foundTrigger?.trigger?.conditions)
+    }
   }, [foundTrigger]);
 
   useEffect(() => {
     // console.log(`include inactive is: ${includeInactive}`);
   }, [includeInactive]);
-
-  useEffect(() => {
-    // console.log(`triggerID being searched: ${triggerId}`);
-  }, [triggerId]);
 
   // useEffects for what this component has
   useEffect(() => {
@@ -186,6 +188,7 @@ export default function Automations({ socket, workspaceId }) {
                   setParentSpace({ link: '', name: '' });
                   setNotFound(false);
                   setFindClicked(false);
+                  setConditions([])
                 }}
               >
                 Clear
@@ -363,6 +366,7 @@ export default function Automations({ socket, workspaceId }) {
                           <tr className="modal-body">
                             <td className="modal-body-column">
                               <Trigger automationObject={foundTrigger} />
+                            {conditions ? (<Conditions conditionArray={conditions}/>) : (<></>)}
                             </td>
                             <td className="modal-body-column">
                               <Actions automationObject={foundTrigger} />

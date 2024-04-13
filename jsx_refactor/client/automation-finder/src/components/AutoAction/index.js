@@ -29,7 +29,6 @@ const Actions = ({ automationObject }) => {
 
   const createActionObject = (action, i) => {
     let type = action.type;
-    console.log(type);
     switch (true) {
       case /assignee/.test(type):
         // consider calling funciton here to create object for this card
