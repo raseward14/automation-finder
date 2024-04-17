@@ -10,6 +10,8 @@ const AssigneeCard = ({ cardDetails, key}) => {
             <Card.Title>
               {cardDetails.name}
             </Card.Title>
+            <Card>{cardDetails.op}</Card>
+
           </Card.Body>
         </Card>
       </>
