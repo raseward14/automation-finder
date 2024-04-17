@@ -148,6 +148,13 @@ const Conditions = ({ conditionArray }) => {
     }
 
     useEffect(() => {
+        console.log('condition card array;', conditionCardArray)
+        conditionCardArray.map((card) => {
+            console.log(card.name)
+        })
+    }, [conditionCardArray])
+
+    useEffect(() => {
         // cleanup is used so that in StrictMode, when the component re-mounts the array is empty, and populates conditions once
         emptyArr = []
         console.log('from AutoCondition', conditions)
@@ -164,8 +171,11 @@ const Conditions = ({ conditionArray }) => {
                 (
                     () => {
                         let conditionHeader = document.getElementById("condition-header");
-
-                        switch (card.name) {
+                        let cardName = card.name;
+                        if ((cardName !== undefined) && (cardName.slice(0,2)==="cf")) {
+                            cardName = "cf";
+                        } 
+                        switch (cardName) {
                             case "Status":
                                 return (
                                     <>
@@ -238,7 +248,7 @@ const Conditions = ({ conditionArray }) => {
                                     </>
                                 )
                                 break;
-                            case /^cf_/.test(card.name):
+                            case "cf":
                                 return (
                                     <>
                                         <span><em>and if this is true</em></span>
