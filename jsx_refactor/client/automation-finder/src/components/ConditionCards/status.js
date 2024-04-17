@@ -5,16 +5,16 @@ import "./style.css"
 const StatusCard = ({ cardDetails, key}) => {
     return (
       <>
-        <Card className="action-card" key={key}>
+        <Card className="condition-card" key={key}>
           <Card.Body>
             <Card.Title>
               {cardDetails.name}
             </Card.Title>
+            <Card>{cardDetails.op}</Card>
+
           </Card.Body>
         </Card>
       </>
     )
   }
-
   export default StatusCard;
-  

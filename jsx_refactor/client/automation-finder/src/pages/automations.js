@@ -9,10 +9,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Trigger from '../components/AutoTrigger';
 import Actions from '../components/AutoAction';
+import Conditions from '../components/AutoCondition';
 import axios from 'axios';
 import './style.css';
 
-export default function Automations({ socket, workspaceId, spaceIds, folderIds, folderlessListIds, listIds }) {
+export default function Automations({ socket, workspaceId }) {
 
   const [workspaceID, setWorkspaceID] = useState(workspaceId)
 
@@ -29,6 +30,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
   const [findClicked, setFindClicked] = useState(false);
 
   const [foundTrigger, setFoundTrigger] = useState();
+  const [conditions, setConditions] = useState();
   const [foundLink, setFoundLink] = useState();
   const [locationType, setLocationType] = useState();
   const [locationName, setLocationName] = useState();
@@ -47,9 +49,6 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
   });
 
   const [showFindButton, setShowFindButton] = useState(false);
-
-  // token passed from OAUTH - for workflow requests
-  const [oAuthToken, setOAuthToken] = useState(JWT);
 
   const printShardFromteamId = async (id) => {
     if (id.length > 1) {
@@ -72,6 +71,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
       bearer: JWT,
     });
     if (res?.data?.shortcut) {
+      console.log(res?.data?.shortcut)
       setFoundTrigger(true);
       setShortcut({
         type: res?.data?.shortcut,
@@ -127,18 +127,18 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
   };
 
   useEffect(() => {
-    console.log(shortcut)
-    console.log(shortcut?.length)
-
-  }, [shortcut])
+    console.log(conditions)
+  }, [conditions])
 
   useEffect(() => {
-    console.log(`include inactive is: ${includeInactive}`);
+    if(foundTrigger?.trigger?.conditions) {
+      setConditions(foundTrigger?.trigger?.conditions)
+    }
+  }, [foundTrigger]);
+
+  useEffect(() => {
+    // console.log(`include inactive is: ${includeInactive}`);
   }, [includeInactive]);
-
-  useEffect(() => {
-    console.log(`triggerID being searched: ${triggerId}`);
-  }, [triggerId]);
 
   // useEffects for what this component has
   useEffect(() => {
@@ -177,7 +177,11 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
                     automation.textContent = '';
                   }
                   setLocationName(undefined);
-                  setShortcut(undefined);
+                  setShortcut({
+                    type: '',
+                    users: [],
+                    description: '',
+                  });
                   setFoundTrigger(undefined);
                   setFoundLink(undefined);
                   setParentFolder({ link: '', name: '' });
@@ -361,6 +365,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
                           <tr className="modal-body">
                             <td className="modal-body-column">
                               <Trigger automationObject={foundTrigger} />
+                            {conditions ? (<Conditions conditionArray={conditions}/>) : (<></>)}
                             </td>
                             <td className="modal-body-column">
                               <Actions automationObject={foundTrigger} />
@@ -374,7 +379,7 @@ export default function Automations({ socket, workspaceId, spaceIds, folderIds, 
                               <Badge pill bg="info">
                                 SHORTCUT
                               </Badge>{' '}
-                              Always {shortcut.type}
+                              Always {shortcut?.type}
                               {shortcut?.users?.map((user) => ` ${user}`)}
                               <br />
                               <br />

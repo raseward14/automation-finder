@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import "./style.css"
+import "./style.css";
 
-const CommentCard = ({ cardDetails, key }) => {
+// task or subtask created
+// task created
+// subtask created
+const TaskCreatedCard = ({ triggerName, cardDetails }) => {
     return (
         <>
-            <Card className="action-card" key={key}>
+            <Card>
                 <Card.Body>
                     <Card.Title>
-                        {cardDetails.name}
+                        {triggerName}
                     </Card.Title>
                 </Card.Body>
             </Card>
         </>
     )
 }
-export default CommentCard;
+export default TaskCreatedCard;
