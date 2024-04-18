@@ -28,7 +28,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       let valueArray = customField?.type_config?.options;
       console.log(valueArray);
       console.log(fieldValue)
-      let result = valueArray.find(item => item.id === fieldValue);
+      let result = valueArray?.find(item => item.id === fieldValue);
       setValueText(result?.name);
     }
   }, [customField])
