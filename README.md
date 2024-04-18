@@ -1,2 +1,2 @@
-# my-coordinates
+# Automation Finder
 A react app with typescript.
