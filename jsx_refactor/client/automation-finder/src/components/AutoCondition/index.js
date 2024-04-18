@@ -13,7 +13,7 @@ import TimeEstimateCard from '../ConditionCards/timeEstimate';
 import CustomFieldCard from '../ConditionCards/customField';
 
 
-const Conditions = ({ conditionArray }) => {
+const Conditions = ({ conditionArray, shard }) => {
     const [conditions, setCondidions] = useState(conditionArray);
     const [conditionCardArray, setConditionCardArray] = useState([])
     let emptyArr = [];
@@ -140,7 +140,8 @@ const Conditions = ({ conditionArray }) => {
                 let customFieldCard = {
                     name: field,
                     op: printOperator(operator),
-                    value: value
+                    value: value,
+                    shard: shard
                 }
                 emptyArr?.push(customFieldCard);
                 break;
