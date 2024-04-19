@@ -7,10 +7,10 @@ const WatcherCard = ({ cardDetails, key}) => {
       <>
         <Card className="condition-card" key={key}>
           <Card.Body>
-            <Card.Title>
+            <Card.Title className='value'>
               {cardDetails.name}
             </Card.Title>
-            <Card>{cardDetails.op}</Card>
+            <Card className='value'>{cardDetails.op}</Card>
 
           </Card.Body>
         </Card>

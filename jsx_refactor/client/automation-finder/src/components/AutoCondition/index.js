@@ -173,14 +173,15 @@ const Conditions = ({ conditionArray, shard }) => {
                     () => {
                         let conditionHeader = document.getElementById("condition-header");
                         let cardName = card.name;
-                        if ((cardName !== undefined) && (cardName.slice(0,2)==="cf")) {
+                        if ((cardName !== undefined) && (cardName.slice(0, 2) === "cf")) {
                             cardName = "cf";
-                        } 
+                        }
                         switch (cardName) {
                             case "Status":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <StatusCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -188,7 +189,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Task Type":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <TaskTypeCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -196,7 +198,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Priority":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <PriorityCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -204,7 +207,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Due Date":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <DateCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -212,7 +216,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Start Date":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <DateCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -220,7 +225,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Assignee":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <AssigneeCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -228,7 +234,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Tag":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <TagCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -236,7 +243,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Watcher":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <WatcherCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -244,7 +252,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "Time Estimate":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <TimeEstimateCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -252,7 +261,8 @@ const Conditions = ({ conditionArray, shard }) => {
                             case "cf":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <CustomFieldCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )

@@ -44,11 +44,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             {`Custom Field`}
           </Card.Title>
           <Card className="value">{cardDetails.op}</Card>
-          <span>FIELD</span>
+          <span><b className='card-text'>FIELD</b></span>
           {customField && valueText ? (
             <>
               <Card className='value'>{customField?.name}</Card>
-              <span>VALUE</span>
+              <span><b className='card-text'>VALUE</b></span>
               <Card className='value'>{valueText}</Card>
             </>
           ) : (<></>)}

@@ -1,6 +1,9 @@
 /*to undo react bootstrap defaults*/
 .card {
     border: unset !important;
+    background-color: rgba(0, 0, 0, 0.887);
+    color: white;
+    z-index: 1;
 }
 
 .condition-card {
@@ -8,7 +11,8 @@
 }
 
 .value {
-    border-radius: 3px;
-    background-color: rgb(215, 211, 211);
-    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(60, 65, 74, 1);
+    background-color: rgb(48, 53, 60, 1);
+    padding: 4px 12px;
 }
