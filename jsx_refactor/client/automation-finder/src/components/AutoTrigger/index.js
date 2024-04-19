@@ -143,91 +143,253 @@ const Trigger = ({ automationObject }) => {
         </div>
       </Card><br />
 
-    {(() => {
-      switch (triggerName) {
-        case "Status changes":
-          return <StatusCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Assignee added":
-          return <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Assignee removed":
-          return <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Custom Field changes":
-          return <CustomFieldCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "All checklists resolved":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "All subtasks resolved":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Comment is added":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Due date arrives":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Due date changes":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Existing task or subtask is added to this location":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Existing task or subtask is moved to this location":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Start date arrives":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Start date changes":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task or subtask linked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task linked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Subtask linked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task or subtask unblocked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task unblocked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Subtask unblocked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Time tracked":
-          return <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Priority changes":
-          return <PriorityCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Tag added":
-          return <TagCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Tag removed":
-          return <TagCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task type changes":
-          return <TaskTypeCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task or subtask created":
-          return <TaskCreatedCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Task created":
-          return <TaskCreatedCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-        case "Subtask created":
-          return <TaskCreatedCard triggerName={triggerName} cardDetails={triggerObject} />
-          break;
-      }
-    })()}
+      {(() => {
+        switch (triggerName) {
+          case "Status changes":
+            return (
+              <>
+                <hr className='modal-line' />
+                <StatusCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Assignee added":
+            return (
+              <>
+                <hr className='modal-line' />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Assignee removed":
+            return (
+              <>
+                <hr className='modal-line' />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Custom Field changes":
+            return (
+              <>
+                <hr className='modal-line' />
+                <CustomFieldCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+
+            break;
+          case "All checklists resolved":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "All subtasks resolved":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Comment is added":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Due date arrives":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Due date changes":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Existing task or subtask is added to this location":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Existing task or subtask is moved to this location":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Start date arrives":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Start date changes":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Task or subtask linked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Task linked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Subtask linked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Task or subtask unblocked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Task unblocked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Subtask unblocked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Time tracked":
+            return (
+              <>
+                <hr className='modal-line' />
+                <DefaultCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Priority changes":
+            return (
+              <>
+                <hr className='modal-line' />
+                <PriorityCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Tag added":
+            return (
+              <>
+                <hr className='modal-line' />
+                <TagCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Tag removed":
+            return (
+              <>
+                <hr className='modal-line' />
+                <TagCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Task type changes":
+            return (
+              <>
+                <hr className='modal-line' />
+                <TaskTypeCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+            break;
+
+          case "Task or subtask created":
+            return (
+              <>
+                <hr className='modal-line' />
+                <TaskCreatedCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+
+            break;
+          case "Task created":
+            return (
+              <>
+                <hr className='modal-line' />
+                <TaskCreatedCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+
+            break;
+          case "Subtask created":
+            return (
+              <>
+                <hr className='modal-line' />
+                <TaskCreatedCard triggerName={triggerName} cardDetails={triggerObject} />
+              </>
+            )
+
+            break;
+        }
+      })()}
     </>
   )
 };

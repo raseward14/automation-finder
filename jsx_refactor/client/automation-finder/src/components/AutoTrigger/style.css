@@ -11,7 +11,6 @@
     display: flex;
     padding: 1rem;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.887);
     color: white;
     border-radius: 5px;
     height: 100px;
@@ -21,10 +20,6 @@
     color: grey;
 }
 
-/* .trigger-text-container {
-    display: flex;
-    
-} */
 /*to undo react bootstrap defaults*/
 .card {
     border: unset !important;
