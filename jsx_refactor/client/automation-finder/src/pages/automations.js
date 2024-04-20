@@ -188,6 +188,7 @@ export default function Automations({ socket, workspaceId }) {
                   setParentSpace({ link: '', name: '' });
                   setNotFound(false);
                   setFindClicked(false);
+                  setConditions();
                 }}
               >
                 Clear
