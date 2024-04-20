@@ -28,6 +28,10 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       case 15:
       case 2:
       case 7:
+      case 0:
+      // website
+      case 3:
+      // phone
       case 8:
         setValueText(cardDetails.value)
         break;
@@ -41,10 +45,30 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // add function to loop through attachment URLs and display them
         break;
       case 12:
-        // this is a label, so we'll need to loop through and display all item.label string text values 
+      // this is a label, so we'll need to loop through and display all item.label string text values 
       case 19:
         setValueText(cardDetails?.value?.formatted_address)
         break;
+      case 10:
+        // users, we need to loop through userIds and print each user - array of numbers
+        break;
+      case 11:
+        // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
+        break;
+      case 14:
+        // this is an manual progress - total is in type_config?.end prop, and users value is in cardDetails.value.current - its a string
+        break;
+      case 18:
+        // relationship specific list - type_config.subcategory_id is the list_id - cardDetails.value is an array of task_ids
+        break;
+      case 9:
+        // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
+        break;
+      case 1:
+        // dropdown
+        let valueArray = customField?.type_config?.options;
+        let result = valueArray?.find(item => item.id === fieldValue);
+        setValueText(result?.name);
     }
   }
 
