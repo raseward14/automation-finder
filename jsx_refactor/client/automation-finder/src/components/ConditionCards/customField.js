@@ -43,7 +43,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       case 6:
         // checkbox
         // insert logic to convert boolean to text
-        if(valueText){
+        if (valueText) {
           setValueText("checked")
         } else {
           setValueText("unchecked")
@@ -53,12 +53,31 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // add a function to convert 1713520800000 to a date
         const myUnixTimestamp = fieldValue;
         const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
-        // const formattedDate = qie.formatDate('yyyy-MM-dd HH:mm', myDate)
-        console.log(myDate)
+        console.log(myDate);
         setValueText(myDate.toDateString());
         break;
       case 16:
         // add function to loop through attachment URLs and display them
+        let valueString = '';
+        fieldValue.map((item, i) => {
+          // console.log(i+1, fieldValue.length, item);
+          if ((i + 1) === fieldValue.length) {
+            // its the last item in the array, and does not need a comma
+            let newString = valueString.concat(item);
+            setValueText(newString);
+          } else {
+            let newString = valueString.concat(item + ", ");
+            valueString = newString;
+          }
+          console.log(valueString)
+        })
+        // for (let i = 0; i < fieldValue.length; i++) {
+        //   if ((i + 1) === fieldValue.length) {
+        //     // its the last item in the array, and does not need a comma
+        //     valueString.concat()
+        //   }
+        //   valueString.concat(item + ", ")
+        // }
         break;
       case 12:
       // this is a label, so we'll need to loop through and display all item.label string text values 
