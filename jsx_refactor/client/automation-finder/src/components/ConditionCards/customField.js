@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import "./style.css"
 
 const CustomFieldCard = ({ cardDetails, key }) => {
@@ -80,7 +82,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         })
 
         labelTxtArray.map((label, i) => {
-          if((i + 1) === labelTxtArray.length) {
+          if ((i + 1) === labelTxtArray.length) {
             let newString = labelString.concat(label);
             setValueText(newString);
           } else {
@@ -112,6 +114,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         let valueArray = customField?.type_config?.options;
         let result = valueArray?.find(item => item.id === fieldValue);
         setValueText(result?.name);
+        break;
     }
   }
 
@@ -148,7 +151,80 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           <span><b className='card-text'>FIELD</b></span>
           {customField && valueText ? (
             <>
-              <Card className='value'>{customField?.name}</Card>
+              <Card className='value'>
+                {
+                  (
+                    (action) => {
+                      switch (action?.type_id) {
+                        // 5 is text, ai summary, ai progress update, txt area
+                        case 5:
+                          // text area & (ai)
+                          break;
+                        case 15:
+                          // short text
+                          break;
+                        case 2:
+                          // email
+                          break;
+                        case 7:
+                          // number
+                          break;
+                        case 0:
+                          // website
+                          break;
+                        case 3:
+                          // phone
+                          break;
+                        case 8:
+                          // currency
+                          break;
+                        case 6:
+                          // checkbox
+                          // insert logic to convert boolean to text
+                          break;
+                        case 4:
+                          // add a function to convert 1713520800000 to a date
+                          break;
+                        case 16:
+                          // add function to loop through attachment URLs and display them
+                          break;
+                        case 12:
+                          //  Label Custom Field
+                          return (
+                            <>
+                              <FontAwesomeIcon icon={icon({ name: "square" })} />
+                            </>
+                          )
+                          break;
+                        case 19:
+                          //address
+                          break;
+                        case 10:
+                          // users, we need to loop through userIds and print each user - array of numbers
+                          break;
+                        case 11:
+                          // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
+                          break;
+                        case 14:
+                          // manual progress 
+                          break;
+                        case 18:
+                          // relationship specific list 
+                          break;
+                        case 9:
+                          // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
+                          break;
+                        case 1:
+                          // dropdown
+                          break
+                      }
+                    }
+                  )()
+                }
+                {" "}
+                {customField?.name}
+
+              </Card>
               <span><b className='card-text'>VALUE</b></span>
               <Card className='value'>{valueText}</Card>
             </>
