@@ -180,7 +180,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                           break;
                         case 6:
                           // checkbox
-                          // insert logic to convert boolean to text
                           break;
                         case 4:
                           // add a function to convert 1713520800000 to a date
