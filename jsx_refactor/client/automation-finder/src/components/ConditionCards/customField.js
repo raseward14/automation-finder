@@ -25,21 +25,37 @@ const CustomFieldCard = ({ cardDetails, key }) => {
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
       case 5:
+      // text area & (ai)
       case 15:
+      // short text
       case 2:
+      // email
       case 7:
+      // number
       case 0:
       // website
       case 3:
       // phone
       case 8:
+        // currency
         setValueText(cardDetails.value)
         break;
       case 6:
+        // checkbox
         // insert logic to convert boolean to text
+        if(valueText){
+          setValueText("checked")
+        } else {
+          setValueText("unchecked")
+        }
         break;
       case 4:
         // add a function to convert 1713520800000 to a date
+        const myUnixTimestamp = fieldValue;
+        const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
+        // const formattedDate = qie.formatDate('yyyy-MM-dd HH:mm', myDate)
+        console.log(myDate)
+        setValueText(myDate.toDateString());
         break;
       case 16:
         // add function to loop through attachment URLs and display them
@@ -93,6 +109,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   useEffect(() => {
     getCustomField(fieldId)
   }, [fieldId])
+
   return (
     <>
       <Card className="condition-card" key={key}>
