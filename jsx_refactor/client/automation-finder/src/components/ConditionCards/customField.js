@@ -58,29 +58,37 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         break;
       case 16:
         // add function to loop through attachment URLs and display them
-        let valueString = '';
+        let attachmentString = '';
         fieldValue.map((item, i) => {
-          // console.log(i+1, fieldValue.length, item);
           if ((i + 1) === fieldValue.length) {
             // its the last item in the array, and does not need a comma
-            let newString = valueString.concat(item);
+            let newString = attachmentString.concat(item);
             setValueText(newString);
           } else {
-            let newString = valueString.concat(item + ", ");
-            valueString = newString;
+            let newString = attachmentString.concat(item + ", ");
+            attachmentString = newString;
           }
-          console.log(valueString)
         })
-        // for (let i = 0; i < fieldValue.length; i++) {
-        //   if ((i + 1) === fieldValue.length) {
-        //     // its the last item in the array, and does not need a comma
-        //     valueString.concat()
-        //   }
-        //   valueString.concat(item + ", ")
-        // }
         break;
       case 12:
-      // this is a label, so we'll need to loop through and display all item.label string text values 
+        // fieldValue is an array of labelIDs, we need to convert them to their txt value
+        const labelValueArray = customField?.type_config?.options;
+        let labelString = '';
+        let labelTxtArray = fieldValue.map((value) => {
+          let found = labelValueArray.find((label) => value === label.id)
+          return found.label;
+        })
+
+        labelTxtArray.map((label, i) => {
+          if((i + 1) === labelTxtArray.length) {
+            let newString = labelString.concat(label);
+            setValueText(newString);
+          } else {
+            let newString = labelString.concat(label + ", ");
+            labelString = newString;
+          }
+        })
+        break;
       case 19:
         setValueText(cardDetails?.value?.formatted_address)
         break;
