@@ -3,6 +3,7 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import ClickUp from '../images/clickup.jpeg';
 import "./style.css"
 
 const CustomFieldCard = ({ cardDetails, key }) => {
@@ -38,7 +39,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // short text
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "t" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -62,7 +63,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // website
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "globe" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -70,7 +71,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // phone
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "phone-flip" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -94,7 +95,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // add a function to convert 1713520800000 to a date
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "calendar" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -150,7 +151,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // relationship specific list 
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <img src={ClickUp}></img><>{customField?.name}</>
           </div>
         )
         break;
