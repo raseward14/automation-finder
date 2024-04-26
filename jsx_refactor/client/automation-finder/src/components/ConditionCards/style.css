@@ -10,6 +10,17 @@
     margin: 10px 0px;
 }
 
+.condition-icon {
+    padding: 5px 5px 5px 0px;
+    display: inline-flex;
+    align-self: self-start;
+    align-items: center;
+}
+
+.icon {
+    margin-right: 5px;
+}
+
 .value {
     border-radius: 5px;
     border: 1px solid rgba(60, 65, 74, 1);

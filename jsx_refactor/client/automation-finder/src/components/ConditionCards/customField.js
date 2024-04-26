@@ -23,6 +23,151 @@ const CustomFieldCard = ({ cardDetails, key }) => {
     }
   }
 
+  const renderIcon = (action) => {
+    switch (action.type_id) {
+      // 5 is text, ai summary, ai progress update, txt area
+      case 5:
+        // text area & (ai)
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 15:
+        // short text
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 2:
+        // email
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 7:
+        // number
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 0:
+        // website
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 3:
+        // phone
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 8:
+        // currency
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 6:
+        // checkbox
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 4:
+        // add a function to convert 1713520800000 to a date
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 16:
+        // add function to loop through attachment URLs and display them
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 12:
+        //  Label Custom Field
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 19:
+        //address
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 10:
+        // users, we need to loop through userIds and print each user - array of numbers
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 11:
+        // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 14:
+        // manual progress 
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 18:
+        // relationship specific list 
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 9:
+        // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
+        break;
+      case 1:
+        // dropdown
+        return (
+          <div className='condition-icon'>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "square-caret-down" })} /><>{customField?.name}</>
+          </div>
+        )
+        break
+    }
+  }
+
   const getValue = (action) => {
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
@@ -152,77 +297,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           {customField && valueText ? (
             <>
               <Card className='value'>
-                {
-                  (
-                    (action) => {
-                      switch (action?.type_id) {
-                        // 5 is text, ai summary, ai progress update, txt area
-                        case 5:
-                          // text area & (ai)
-                          break;
-                        case 15:
-                          // short text
-                          break;
-                        case 2:
-                          // email
-                          break;
-                        case 7:
-                          // number
-                          break;
-                        case 0:
-                          // website
-                          break;
-                        case 3:
-                          // phone
-                          break;
-                        case 8:
-                          // currency
-                          break;
-                        case 6:
-                          // checkbox
-                          break;
-                        case 4:
-                          // add a function to convert 1713520800000 to a date
-                          break;
-                        case 16:
-                          // add function to loop through attachment URLs and display them
-                          break;
-                        case 12:
-                          //  Label Custom Field
-                          return (
-                            <>
-                              <FontAwesomeIcon icon={icon({ name: "square" })} />
-                            </>
-                          )
-                          break;
-                        case 19:
-                          //address
-                          break;
-                        case 10:
-                          // users, we need to loop through userIds and print each user - array of numbers
-                          break;
-                        case 11:
-                          // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
-                          break;
-                        case 14:
-                          // manual progress 
-                          break;
-                        case 18:
-                          // relationship specific list 
-                          break;
-                        case 9:
-                          // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
-                          break;
-                        case 1:
-                          // dropdown
-                          break
-                      }
-                    }
-                  )()
-                }
-                {" "}
-                {customField?.name}
-
+                {renderIcon(customField)}
               </Card>
               <span><b className='card-text'>VALUE</b></span>
               <Card className='value'>{valueText}</Card>
