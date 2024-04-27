@@ -277,11 +277,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         break;
       case 14:
         // this is an manual progress - total is in type_config?.end prop, and users value is in cardDetails.value.current - its a string
-        setValueText({ type: "manual-progress", value: fieldValue?.current})
+        setValueText({ type: "manual-progress", value: fieldValue?.current })
         // setValueText(fieldValue?.current)
         break;
       case 18:
-        // relationship specific list - type_config.subcategory_id is the list_id - cardDetails.value is an array of task_ids
+      // relationship specific list - type_config.subcategory_id is the list_id - cardDetails.value is an array of task_ids
       case 9:
         // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
         let taskIdString = '';
@@ -343,16 +343,15 @@ const CustomFieldCard = ({ cardDetails, key }) => {
               </Card>
               <span><b className='card-text'>VALUE</b></span>
               {valueText?.type === "manual-progress" ? (
-<>
-<ProgressBar variant="success" now={valueText?.value} label={`${valueText?.value}`} />
-</>
+                <>
+                  <ProgressBar variant="success" now={valueText?.value} label={`${valueText?.value}`} />
+                </>
 
               ) : (
 
-<>
-
-<Card className='value'>{valueText}</Card>
-</>
+                <>
+                  <Card className='value'>{valueText}</Card>
+                </>
               )}
             </>
           ) : (<></>)}
