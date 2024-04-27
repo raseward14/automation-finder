@@ -27,3 +27,12 @@
     background-color: rgb(48, 53, 60, 1);
     padding: 4px 12px;
 }
+
+img, svg {
+    height: 20px;
+    margin-right: 5px;
+}
+
+.list-relationship {
+    transform: rotateY(0deg) rotate(-45deg);
+}

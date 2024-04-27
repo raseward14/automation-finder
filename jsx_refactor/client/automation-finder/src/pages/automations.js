@@ -210,7 +210,7 @@ export default function Automations({ socket, workspaceId }) {
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -221,13 +221,13 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {parentSpace?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'folder' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -238,7 +238,7 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {parentSpace?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item
@@ -246,13 +246,13 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'folder' })}
-                                        />{' '}
+                                        />
                                         {parentFolder?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'list' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -263,13 +263,13 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {parentSpace?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'list' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -289,7 +289,7 @@ export default function Automations({ socket, workspaceId }) {
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -300,13 +300,13 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {parentSpace?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'folder' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -317,7 +317,7 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {parentSpace?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item
@@ -325,13 +325,13 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'folder' })}
-                                      />{' '}
+                                      />
                                       {parentFolder?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'list' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -342,13 +342,13 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {parentSpace?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'list' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>

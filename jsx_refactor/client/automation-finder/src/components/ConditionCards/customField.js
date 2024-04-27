@@ -3,7 +3,7 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
-import ClickUp from '../images/clickup.jpeg';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import "./style.css"
 
 const CustomFieldCard = ({ cardDetails, key }) => {
@@ -29,11 +29,22 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       // 5 is text, ai summary, ai progress update, txt area
       case 5:
         // text area & (ai)
-        return (
-          <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
-          </div>
-        )
+        if (action?.type_config?.ai) {
+          // ai
+          return (
+            <div className='condition-icon'>
+              <FontAwesomeIcon className='icon' icon={icon({ name: "wand-magic-sparkles" })} /><>{customField?.name}</>
+            </div>
+          )
+        } else {
+          // text area
+          return (
+            <div className='condition-icon'>
+              <FontAwesomeIcon className='icon' icon={icon({ name: "i-cursor" })} /><>{customField?.name}</>
+            </div>
+          )
+
+        }
         break;
       case 15:
         // short text
@@ -47,7 +58,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // email
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "envelope" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -55,7 +66,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // number
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "hashtag" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -79,7 +90,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // currency
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "dollar-sign" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -87,7 +98,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // checkbox
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "square-check" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -103,7 +114,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // add function to loop through attachment URLs and display them
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "paperclip" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -119,7 +130,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         //address
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "location-dot" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -127,7 +138,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // users, we need to loop through userIds and print each user - array of numbers
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "user" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -135,7 +146,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "star" })} /><>{customField?.name}</>
           </div>
         )
         break;
@@ -143,7 +154,15 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // manual progress 
         return (
           <div className='condition-icon'>
-            <FontAwesomeIcon className='icon' icon={icon({ name: "tag" })} /><>{customField?.name}</>
+            <FontAwesomeIcon className='icon' icon={icon({ name: "bars-progress" })} /><>{customField?.name}</>
+          </div>
+        )
+        break;
+      case 9:
+        // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
+        return (
+          <div className='condition-icon'>
+            <img src="../images/clickup.jpeg"></img><>{customField?.name}</>
           </div>
         )
         break;
@@ -151,12 +170,9 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         // relationship specific list 
         return (
           <div className='condition-icon'>
-            <img src={ClickUp}></img><>{customField?.name}</>
+            <FontAwesomeIcon className='icon list-relationship' icon={icon({ name: "arrow-right-arrow-left" })} /><>{customField?.name}</>
           </div>
         )
-        break;
-      case 9:
-        // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
         break;
       case 1:
         // dropdown
@@ -242,18 +258,43 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         break;
       case 10:
         // users, we need to loop through userIds and print each user - array of numbers
+        let userIdString = '';
+        fieldValue.map((item, i) => {
+          if ((i + 1) === fieldValue.length) {
+            // its the last item in the array, and does not need a comma
+            let newString = userIdString.concat(item);
+            setValueText(newString);
+          } else {
+            let newString = userIdString.concat(item + ", ");
+            userIdString = newString;
+          }
+        })
         break;
       case 11:
         // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
+        let ratioString = `${fieldValue}/${action?.type_config?.count}`
+        setValueText(ratioString);
         break;
       case 14:
         // this is an manual progress - total is in type_config?.end prop, and users value is in cardDetails.value.current - its a string
+        setValueText({ type: "manual-progress", value: fieldValue?.current})
+        // setValueText(fieldValue?.current)
         break;
       case 18:
         // relationship specific list - type_config.subcategory_id is the list_id - cardDetails.value is an array of task_ids
-        break;
       case 9:
         // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
+        let taskIdString = '';
+        fieldValue.map((item, i) => {
+          if ((i + 1) === fieldValue.length) {
+            // its the last item in the array, and does not need a comma
+            let newString = taskIdString.concat(item);
+            setValueText(newString);
+          } else {
+            let newString = taskIdString.concat(item + ", ");
+            taskIdString = newString;
+          }
+        })
         break;
       case 1:
         // dropdown
@@ -301,7 +342,18 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                 {renderIcon(customField)}
               </Card>
               <span><b className='card-text'>VALUE</b></span>
-              <Card className='value'>{valueText}</Card>
+              {valueText?.type === "manual-progress" ? (
+<>
+<ProgressBar variant="success" now={valueText?.value} label={`${valueText?.value}`} />
+</>
+
+              ) : (
+
+<>
+
+<Card className='value'>{valueText}</Card>
+</>
+              )}
             </>
           ) : (<></>)}
         </Card.Body>
