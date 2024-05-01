@@ -3,6 +3,9 @@ import Card from 'react-bootstrap/Card';
 import "./style.css"
 
 const StatusCard = ({ cardDetails, key}) => {
+  useEffect(() => {
+    console.log('from status component', cardDetails)
+  },[])
     return (
       <>
         <Card className="condition-card" key={key}>
