@@ -13,7 +13,7 @@ import TimeEstimateCard from '../ConditionCards/timeEstimate';
 import CustomFieldCard from '../ConditionCards/customField';
 
 
-const Conditions = ({ conditionArray, shard }) => {
+const Conditions = ({ conditionArray, shard, parentType, parentId }) => {
     const [conditions, setCondidions] = useState(conditionArray);
     const [conditionCardArray, setConditionCardArray] = useState([])
     let emptyArr = [];
@@ -68,7 +68,9 @@ const Conditions = ({ conditionArray, shard }) => {
                 let statusCard = {
                     name: "Status",
                     op: printOperator(operator),
-                    value: value
+                    value: value,
+                    parentType: parentType,
+                    parentId: parentId
                 }
                 emptyArr?.push(statusCard);
                 break;
@@ -166,6 +168,7 @@ const Conditions = ({ conditionArray, shard }) => {
             }
         }
     }, [conditions])
+
     return (
         <div className='condition-container'><br id="condition-header" />
             {conditionCardArray.map((card, i) => (
