@@ -70,7 +70,8 @@ const Conditions = ({ conditionArray, shard, parentType, parentId }) => {
                     op: printOperator(operator),
                     value: value,
                     parentType: parentType,
-                    parentId: parentId
+                    parentId: parentId,
+                    shard: shard
                 }
                 emptyArr?.push(statusCard);
                 break;

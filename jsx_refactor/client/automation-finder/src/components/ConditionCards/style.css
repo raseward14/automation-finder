@@ -28,6 +28,14 @@
     padding: 4px 12px;
 }
 
+.status {
+    border-radius: 5px;
+    border: 1px solid rgba(60, 65, 74) !important;
+    background-color: transparent;
+    padding: 4px 12px;
+    margin-top: 0.5rem;
+}
+
 img, svg {
     height: 20px;
     margin-right: 5px;

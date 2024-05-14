@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import "./style.css"
 
 // this card needs a locationId, and a locationType
 const StatusCard = ({ cardDetails, key }) => {
+  const [valueText, setValueText] = useState();
   const [valueArray, setValueArray] = useState(cardDetails?.value);
   const [locationStatuses, setLocationStatuses] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
@@ -44,6 +47,7 @@ const StatusCard = ({ cardDetails, key }) => {
   };
 
   const getListStatuses = async (listId) => {
+    console.log(cardDetails.shard, JWT)
     // List
     // https://{shard}.clickup.com/hierarchy/v1/subcategory/{list_id}
     // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})
@@ -55,21 +59,23 @@ const StatusCard = ({ cardDetails, key }) => {
         bearer: JWT
       }
     );
-    if(res?.data?.statuses) {
-      setLocationStatuses(res?.data?.statuses);
+    if(res?.data) {
+      setLocationStatuses(res?.data);
     }
   };
 
   useEffect(() => {
-    let statusString = '';
-    // let statusTxtArray = valueArray.map((value) => {
-    //   let found = locationStatuses.find((status) => status.status === value.status_id);
-    //   return found.status;
-    // })
+    // let statusString = '';
+    console.log('returned from API request', locationStatuses, valueArray)
+    let statusArray = valueArray?.map((value) => {
+      let found = locationStatuses?.find((status) => status?.id === value?.status_id);
+      return found;
+    })
+    setValueText(statusArray)
 
     // each object[i] contains a status_id property with the value
-    // statusTxtArray.map((status, i) => {
-    //   if (i + 1 === statusTxtArray.length) {
+    // statusArray.map((status, i) => {
+    //   if (i + 1 === statusArray.length) {
     //     let newString = statusString.concat(status);
     //     setValueText(newString);
     //   } else {
@@ -102,7 +108,9 @@ const StatusCard = ({ cardDetails, key }) => {
             {cardDetails.name}
           </Card.Title>
           <Card className='value'>{cardDetails.op}</Card>
-
+          {valueText.map((value) => (
+          <Card className='status'><FontAwesomeIcon style={{ color: `${value?.color}` }} icon={icon({ name: 'square' })}/>{value?.text}</Card>
+          ))}
         </Card.Body>
       </Card>
     </>
