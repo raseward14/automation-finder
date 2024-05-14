@@ -7,7 +7,7 @@ import "./style.css"
 
 // this card needs a locationId, and a locationType
 const StatusCard = ({ cardDetails, key }) => {
-  const [valueText, setValueText] = useState();
+  const [conditionStatuses, setConditionStatuses] = useState();
   const [valueArray, setValueArray] = useState(cardDetails?.value);
   const [locationStatuses, setLocationStatuses] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
@@ -71,7 +71,7 @@ const StatusCard = ({ cardDetails, key }) => {
       let found = locationStatuses?.find((status) => status?.id === value?.status_id);
       return found;
     })
-    setValueText(statusArray)
+    setConditionStatuses(statusArray)
 
     // each object[i] contains a status_id property with the value
     // statusArray.map((status, i) => {
@@ -108,9 +108,12 @@ const StatusCard = ({ cardDetails, key }) => {
             {cardDetails.name}
           </Card.Title>
           <Card className='value'>{cardDetails.op}</Card>
-          {valueText.map((value) => (
+          {conditionStatuses.map((value) => (
+
           <Card className='status'><FontAwesomeIcon style={{ color: `${value?.color}` }} icon={icon({ name: 'square' })}/>{value?.text}</Card>
-          ))}
+
+          ))
+          }
         </Card.Body>
       </Card>
     </>
