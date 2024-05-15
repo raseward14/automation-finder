@@ -7,7 +7,7 @@ import "./style.css"
 
 // this card needs a locationId, and a locationType
 const StatusCard = ({ cardDetails, key }) => {
-  const [conditionStatuses, setConditionStatuses] = useState();
+  const [conditionStatuses, setConditionStatuses] = useState([]);
   const [valueArray, setValueArray] = useState(cardDetails?.value);
   const [locationStatuses, setLocationStatuses] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
@@ -24,7 +24,7 @@ const StatusCard = ({ cardDetails, key }) => {
         bearer: JWT
       }
     );
-    if(res?.data?.statuses) {
+    if (res?.data?.statuses) {
       setLocationStatuses(res?.data?.statuses);
     }
   };
@@ -41,7 +41,7 @@ const StatusCard = ({ cardDetails, key }) => {
         bearer: JWT
       }
     );
-    if(res?.data?.statuses) {
+    if (res?.data?.statuses) {
       setLocationStatuses(res?.data?.statuses);
     }
   };
@@ -59,10 +59,14 @@ const StatusCard = ({ cardDetails, key }) => {
         bearer: JWT
       }
     );
-    if(res?.data) {
+    if (res?.data) {
       setLocationStatuses(res?.data);
     }
   };
+
+  useEffect(() => {
+    console.log('the selected statuses: ', conditionStatuses)
+  }, [conditionStatuses])
 
   useEffect(() => {
     // let statusString = '';
@@ -83,7 +87,7 @@ const StatusCard = ({ cardDetails, key }) => {
     //     statusString = newString;
     //   }
     // });
-    
+
   }, [locationStatuses])
 
   useEffect(() => {
@@ -108,12 +112,18 @@ const StatusCard = ({ cardDetails, key }) => {
             {cardDetails.name}
           </Card.Title>
           <Card className='value'>{cardDetails.op}</Card>
-          {conditionStatuses.map((value) => (
-
-          <Card className='status'><FontAwesomeIcon style={{ color: `${value?.color}` }} icon={icon({ name: 'square' })}/>{value?.text}</Card>
-
-          ))
-          }
+          {conditionStatuses ? (
+            <Card className='status'>
+              {conditionStatuses?.map((status) => (
+                <div className='status-row'>
+                  <FontAwesomeIcon style={{ color: `${status?.color}` }} icon={icon({ name: 'square' })} />{status?.status}
+                </div>
+              )
+              )}
+            </Card>
+          ) : (
+            <></>
+          )}
         </Card.Body>
       </Card>
     </>
