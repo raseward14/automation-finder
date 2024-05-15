@@ -12,96 +12,44 @@ const StatusCard = ({ cardDetails, key }) => {
   const [locationStatuses, setLocationStatuses] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
 
-  const getSpaceStatuses = async (spaceId) => {
-    // Space
-    // https://{shard}.clickup.com/hierarchy/v1/project/{space_id}
-    // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})
-    const res = await axios.post(
-      'http://localhost:8080/automation/spaceStatus',
-      {
-        shard: cardDetails.shard,
-        locationId: spaceId,
-        bearer: JWT
-      }
-    );
-    if (res?.data?.statuses) {
-      setLocationStatuses(res?.data?.statuses);
+  const getStatuses = async (locationType, locationId) => {
+    let req;
+    switch (locationType) {
+      // List
+      case 6:
+        req = 'http://localhost:8080/automation/listStatus';
+        break;
+      // Folder
+      case 5:
+        req = 'http://localhost:8080/automation/folderStatus';
+        break;
+      // Space
+      case 4:
+        req = 'http://localhost:8080/automation/spaceStatus';
+        break;
     }
-  };
-
-  const getFolderStatuses = async (folderId) => {
-    // Folder
-    // https://{shard}.clickup.com/hierarchy/v1/category/{Folder_id}
-    // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})
-    const res = await axios.post(
-      'http://localhost:8080/automation/folderStatus',
+    const res = await axios.post(req,
       {
         shard: cardDetails.shard,
-        locationId: folderId,
-        bearer: JWT
-      }
-    );
-    if (res?.data?.statuses) {
-      setLocationStatuses(res?.data?.statuses);
-    }
-  };
-
-  const getListStatuses = async (listId) => {
-    console.log(cardDetails.shard, JWT)
-    // List
-    // https://{shard}.clickup.com/hierarchy/v1/subcategory/{list_id}
-    // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})
-    const res = await axios.post(
-      'http://localhost:8080/automation/listStatus',
-      {
-        shard: cardDetails.shard,
-        locationId: listId,
+        locationId: locationId,
         bearer: JWT
       }
     );
     if (res?.data) {
       setLocationStatuses(res?.data);
     }
-  };
+  }
 
   useEffect(() => {
-    console.log('the selected statuses: ', conditionStatuses)
-  }, [conditionStatuses])
-
-  useEffect(() => {
-    // let statusString = '';
-    console.log('returned from API request', locationStatuses, valueArray)
     let statusArray = valueArray?.map((value) => {
       let found = locationStatuses?.find((status) => status?.id === value?.status_id);
       return found;
     })
     setConditionStatuses(statusArray)
-
-    // each object[i] contains a status_id property with the value
-    // statusArray.map((status, i) => {
-    //   if (i + 1 === statusArray.length) {
-    //     let newString = statusString.concat(status);
-    //     setValueText(newString);
-    //   } else {
-    //     let newString = statusString.concat(status + ', ');
-    //     statusString = newString;
-    //   }
-    // });
-
   }, [locationStatuses])
 
   useEffect(() => {
-    switch (cardDetails?.parentType) {
-      case 6:
-        getListStatuses(cardDetails?.parentId)
-        break;
-      case 5:
-        getFolderStatuses(cardDetails?.parentId)
-        break;
-      case 4:
-        getSpaceStatuses(cardDetails?.parentId)
-        break;
-    }
+    getStatuses(cardDetails?.parentType, cardDetails?.parentId)
   }, [valueArray])
 
   return (

@@ -95,9 +95,51 @@ router.route("/listStatus").post(
 // Folder
 // https://{shard}.clickup.com/hierarchy/v1/category/{Folder_id}
 // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})
+router.route("/folderStatus").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const locationId = req.body.locationId;
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/category/${locationId}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            );
+            const data = await response.json();
+            res.status(200).json(data?.statuses);
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
+)
 
 // Space
 // https://{shard}.clickup.com/hierarchy/v1/project/{space_id}
 // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})
+router.route("/spaceStatus").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const locationId = req.body.locationId;
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/project/${locationId}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            );
+            const data = await response.json();
+            res.status(200).json(data?.statuses);
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
+)
 
 module.exports = router;
