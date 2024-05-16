@@ -13,7 +13,7 @@ import TaskTypeCard from "../TriggerCards/taskType";
 
 import './style.css';
 
-const Trigger = ({ automationObject }) => {
+const Trigger = ({ automationObject, shard }) => {
   const [triggerObject, setTriggerObject] = useState(automationObject);
   const [conditions, setConditions] = useState();
   const [triggerName, setTriggerName] = useState('');
@@ -149,7 +149,7 @@ const Trigger = ({ automationObject }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <StatusCard triggerName={triggerName} cardDetails={triggerObject} />
+                <StatusCard triggerName={triggerName} beforeAfter={triggerObject?.trigger?.conditions} parentType={triggerObject?.parent_type} parentId={triggerObject?.parent_id} shard={shard} />
               </>
             )
             break;

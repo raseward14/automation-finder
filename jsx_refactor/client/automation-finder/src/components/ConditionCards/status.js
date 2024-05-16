@@ -62,8 +62,8 @@ const StatusCard = ({ cardDetails, key }) => {
           <Card className='value'>{cardDetails.op}</Card>
           {conditionStatuses ? (
             <Card className='status'>
-              {conditionStatuses?.map((status) => (
-                <div className='status-row'>
+              {conditionStatuses?.map((status, i) => (
+                <div key={i} className='status-row'>
                   <FontAwesomeIcon style={{ color: `${status?.color}` }} icon={icon({ name: 'square' })} />{status?.status}
                 </div>
               )
