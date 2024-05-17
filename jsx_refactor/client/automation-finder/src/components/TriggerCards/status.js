@@ -94,9 +94,9 @@ const StatusCard = ({ triggerName, beforeAfter, parentType, parentId, shard }) =
                         {triggerName}
                     </Card.Title>
 
-                    <Card className='from-to'><span>From: </span>
+                    <Card className='from-to'><span className='status-label'>From: </span>
                         {beforeStatusObjects ? (
-                            <Card className='status'>
+                            <Card className='status status-trigger'>
                                 {beforeStatusObjects?.map((status, i) => (
                                     <div key={i} className='status-row'>
                                         <FontAwesomeIcon style={{ color: `${status?.color}` }} icon={icon({ name: 'square' })} />{status?.status}
@@ -108,9 +108,9 @@ const StatusCard = ({ triggerName, beforeAfter, parentType, parentId, shard }) =
                         )}
                     </Card>
 
-                    <Card className='from-to'><span>To: </span>
+                    <Card className='from-to'><span className='status-label'>To: </span>
                         {afterStatusObjects ? (
-                            <Card className='status'>
+                            <Card className='status status-trigger'>
                                 {afterStatusObjects?.map((status, i) => (
                                     <div key={i} className='status-row'>
                                         <FontAwesomeIcon style={{ color: `${status?.color}` }} icon={icon({ name: 'square' })} />{status?.status}

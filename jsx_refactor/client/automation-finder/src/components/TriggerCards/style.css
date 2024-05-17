@@ -1,6 +1,7 @@
 .from-to {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .status {
@@ -18,4 +19,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.status-label {
+    width: 25%;
+}
+
+.status-trigger {
+    width: 75%;
 }
