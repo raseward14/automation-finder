@@ -271,7 +271,8 @@ const Actions = ({ automationObject }) => {
                   )
                   break;
 
-                case "Add to list" || "Move to List":
+                case "Add to list":
+                case "Move to List":
                   return (
                     <>
                       <hr className='modal-line' />
@@ -298,7 +299,8 @@ const Actions = ({ automationObject }) => {
                   )
                   break;
 
-                case "Call due date" || "Change start date":
+                case "Change due date":
+                case "Change start date":
                   return (
                     <>
                       <hr className='modal-line' />
@@ -388,7 +390,8 @@ const Actions = ({ automationObject }) => {
                   )
                   break;
 
-                case "Estimate time" || "Track time":
+                case "Estimate time":
+                case "Track time":
                   return (
                     <>
                       <hr className='modal-line' />
@@ -407,50 +410,10 @@ const Actions = ({ automationObject }) => {
                   break;
 
                 case "Archive task":
-                  return (
-                    <>
-                      <hr className='modal-line' />
-                      <DefaultCard cardDetails={card} key={`${i}`} />
-                    </>
-                  )
-                  break;
-
                 case "Archive subtask":
-                  return (
-                    <>
-                      <hr className='modal-line' />
-                      <DefaultCard cardDetails={card} key={`${i}`} />
-                    </>
-                  )
-                  break;
-
                 case "Archive task or subtask":
-                  return (
-                    <>
-                      <hr className='modal-line' />
-                      <DefaultCard cardDetails={card} key={`${i}`} />
-                    </>
-                  )
-                  break;
-
                 case "Delete task":
-                  return (
-                    <>
-                      <hr className='modal-line' />
-                      <DefaultCard cardDetails={card} key={`${i}`} />
-                    </>
-                  )
-                  break;
-
                 case "Delete subtask":
-                  return (
-                    <>
-                      <hr className='modal-line' />
-                      <DefaultCard cardDetails={card} key={`${i}`} />
-                    </>
-                  )
-                  break;
-
                 case "Delete task or subtask":
                   return (
                     <>
