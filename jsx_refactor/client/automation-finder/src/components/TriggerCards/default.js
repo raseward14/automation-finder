@@ -23,7 +23,7 @@ const DefaultCard = ({ triggerName, cardDetails }) => {
         <>
             <Card>
                 <Card.Body>
-                    <Card.Title>
+                    <Card.Title className='value'>
                         {triggerName}
                     </Card.Title>
                 </Card.Body>

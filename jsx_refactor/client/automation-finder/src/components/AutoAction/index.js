@@ -255,74 +255,174 @@ const Actions = ({ automationObject }) => {
 
               switch (card.name) {
                 case "Change assignees":
-                  return <AssigneeCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <AssigneeCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
                 case "Add a comment":
-                  return <CommentCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <CommentCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
-                case "Add to list" || "Move to List":
-                  return <ToListCard cardDetails={card} key={`${i}`} />
+
+                case "Add to list":
+                case "Move to List":
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ToListCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Apply a template":
-                  return <ApplyTemplateCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ApplyTemplateCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Call webhook":
-                  return <CallWebhookCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <CallWebhookCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
-                case "Call due date" || "Change start date":
-                  return <ChangeDateCard cardDetails={card} key={`${i}`} />
+
+                case "Change due date":
+                case "Change start date":
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ChangeDateCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Change Priority":
-                  return <ChangePriorityCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ChangePriorityCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Change status":
-                  return <StatusCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <StatusCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Change tags":
-                  return <ChangeTagsCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ChangeTagsCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Change Task Type":
-                  return <ChangeTaskTypeCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ChangeTaskTypeCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Change watchers":
-                  return <ChangeWatchersCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <ChangeWatchersCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Create a List":
-                  return <CreateAListCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <CreateAListCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Create a task":
-                  return <CreateATaskCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <CreateATaskCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Create a subtask":
-                  return <CreateASubtaskCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <CreateASubtaskCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Duplicate":
-                  return <DuplicateCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <DuplicateCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
-                case "Estimate time" || "Track time":
-                  return <TimeCard cardDetails={card} key={`${i}`} />
+
+                case "Estimate time":
+                case "Track time":
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <TimeCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Set Custom Field":
-                  return <SetCustomFieldCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <SetCustomFieldCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
                 case "Archive task":
-                  return <DefaultCard cardDetails={card} key={`${i}`} />
-                  break;
                 case "Archive subtask":
-                  return <DefaultCard cardDetails={card} key={`${i}`} />
-                  break;
                 case "Archive task or subtask":
-                  return <DefaultCard cardDetails={card} key={`${i}`} />
-                  break;
                 case "Delete task":
-                  return <DefaultCard cardDetails={card} key={`${i}`} />
-                  break;
                 case "Delete subtask":
-                  return <DefaultCard cardDetails={card} key={`${i}`} />
-                  break;
                 case "Delete task or subtask":
-                  return <DefaultCard cardDetails={card} key={`${i}`} />
+                  return (
+                    <>
+                      <hr className='modal-line' />
+                      <DefaultCard cardDetails={card} key={`${i}`} />
+                    </>
+                  )
                   break;
+
               }
 
               let newCard = document.getElementById(`${i}`)

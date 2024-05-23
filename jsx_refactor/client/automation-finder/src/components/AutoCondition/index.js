@@ -13,7 +13,7 @@ import TimeEstimateCard from '../ConditionCards/timeEstimate';
 import CustomFieldCard from '../ConditionCards/customField';
 
 
-const Conditions = ({ conditionArray }) => {
+const Conditions = ({ conditionArray, shard, parentType, parentId }) => {
     const [conditions, setCondidions] = useState(conditionArray);
     const [conditionCardArray, setConditionCardArray] = useState([])
     let emptyArr = [];
@@ -68,7 +68,10 @@ const Conditions = ({ conditionArray }) => {
                 let statusCard = {
                     name: "Status",
                     op: printOperator(operator),
-                    value: value
+                    value: value,
+                    parentType: parentType,
+                    parentId: parentId,
+                    shard: shard
                 }
                 emptyArr?.push(statusCard);
                 break;
@@ -140,7 +143,8 @@ const Conditions = ({ conditionArray }) => {
                 let customFieldCard = {
                     name: field,
                     op: printOperator(operator),
-                    value: value
+                    value: value,
+                    shard: shard
                 }
                 emptyArr?.push(customFieldCard);
                 break;
@@ -165,6 +169,7 @@ const Conditions = ({ conditionArray }) => {
             }
         }
     }, [conditions])
+
     return (
         <div className='condition-container'><br id="condition-header" />
             {conditionCardArray.map((card, i) => (
@@ -172,14 +177,15 @@ const Conditions = ({ conditionArray }) => {
                     () => {
                         let conditionHeader = document.getElementById("condition-header");
                         let cardName = card.name;
-                        if ((cardName !== undefined) && (cardName.slice(0,2)==="cf")) {
+                        if ((cardName !== undefined) && (cardName.slice(0, 2) === "cf")) {
                             cardName = "cf";
-                        } 
+                        }
                         switch (cardName) {
                             case "Status":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <StatusCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -187,7 +193,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Task Type":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <TaskTypeCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -195,7 +202,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Priority":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <PriorityCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -203,7 +211,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Due Date":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <DateCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -211,7 +220,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Start Date":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <DateCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -219,7 +229,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Assignee":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <AssigneeCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -227,7 +238,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Tag":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <TagCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -235,7 +247,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Watcher":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <WatcherCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -243,7 +256,8 @@ const Conditions = ({ conditionArray }) => {
                             case "Time Estimate":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <TimeEstimateCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )
@@ -251,7 +265,8 @@ const Conditions = ({ conditionArray }) => {
                             case "cf":
                                 return (
                                     <>
-                                        <span><em>and if this is true</em></span>
+                                        <hr className='modal-line' />
+                                        <span><em>and if this is true:</em></span>
                                         <CustomFieldCard cardDetails={card} key={`${i}`} />
                                     </>
                                 )

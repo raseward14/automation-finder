@@ -13,7 +13,7 @@ const DefaultCard = ({ cardDetails, key }) => {
         <>
             <Card className="action-card" key={key}>
                 <Card.Body>
-                    <Card.Title>
+                    <Card.Title className='value'>
                         {cardDetails.name}
                     </Card.Title>
                 </Card.Body>

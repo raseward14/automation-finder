@@ -188,6 +188,7 @@ export default function Automations({ socket, workspaceId }) {
                   setParentSpace({ link: '', name: '' });
                   setNotFound(false);
                   setFindClicked(false);
+                  setConditions();
                 }}
               >
                 Clear
@@ -209,7 +210,7 @@ export default function Automations({ socket, workspaceId }) {
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -220,13 +221,13 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {parentSpace?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'folder' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -237,7 +238,7 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {parentSpace?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item
@@ -245,13 +246,13 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'folder' })}
-                                        />{' '}
+                                        />
                                         {parentFolder?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'list' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -262,13 +263,13 @@ export default function Automations({ socket, workspaceId }) {
                                       >
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'square' })}
-                                        />{' '}
+                                        />
                                         {parentSpace?.name}
                                       </Breadcrumb.Item>
                                       <Breadcrumb.Item href={foundLink}>
                                         <FontAwesomeIcon
                                           icon={icon({ name: 'list' })}
-                                        />{' '}
+                                        />
                                         {locationName}
                                       </Breadcrumb.Item>
                                     </>
@@ -288,7 +289,7 @@ export default function Automations({ socket, workspaceId }) {
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -299,13 +300,13 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {parentSpace?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'folder' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -316,7 +317,7 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {parentSpace?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item
@@ -324,13 +325,13 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'folder' })}
-                                      />{' '}
+                                      />
                                       {parentFolder?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'list' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -341,13 +342,13 @@ export default function Automations({ socket, workspaceId }) {
                                     >
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'square' })}
-                                      />{' '}
+                                      />
                                       {parentSpace?.name}
                                     </Breadcrumb.Item>
                                     <Breadcrumb.Item href={foundLink}>
                                       <FontAwesomeIcon
                                         icon={icon({ name: 'list' })}
-                                      />{' '}
+                                      />
                                       {locationName}
                                     </Breadcrumb.Item>
                                   </>
@@ -364,8 +365,8 @@ export default function Automations({ socket, workspaceId }) {
                         ) : (
                           <tr className="modal-body">
                             <td className="modal-body-column">
-                              <Trigger automationObject={foundTrigger} />
-                            {conditions ? (<Conditions conditionArray={conditions}/>) : (<></>)}
+                              <Trigger automationObject={foundTrigger} shard={shard} />
+                            {conditions ? (<Conditions conditionArray={conditions} shard={shard} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />) : (<></>)}
                             </td>
                             <td className="modal-body-column">
                               <Actions automationObject={foundTrigger} />
