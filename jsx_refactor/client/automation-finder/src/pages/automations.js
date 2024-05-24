@@ -131,7 +131,7 @@ export default function Automations({ socket, workspaceId }) {
   }, [conditions])
 
   useEffect(() => {
-    if(foundTrigger?.trigger?.conditions) {
+    if (foundTrigger?.trigger?.conditions) {
       setConditions(foundTrigger?.trigger?.conditions)
     }
   }, [foundTrigger]);
@@ -366,10 +366,10 @@ export default function Automations({ socket, workspaceId }) {
                           <tr className="modal-body">
                             <td className="modal-body-column">
                               <Trigger automationObject={foundTrigger} shard={shard} />
-                            {conditions ? (<Conditions conditionArray={conditions} shard={shard} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />) : (<></>)}
+                              {conditions ? (<Conditions conditionArray={conditions} shard={shard} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />) : (<></>)}
                             </td>
                             <td className="modal-body-column">
-                              <Actions automationObject={foundTrigger} />
+                              <Actions automationObject={foundTrigger} shard={shard} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />
                             </td>
                           </tr>
                         )}
