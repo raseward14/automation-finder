@@ -22,7 +22,7 @@ import ToListCard from '../ActionCards/customField';
 
 import './style.css';
 
-const Actions = ({ automationObject }) => {
+const Actions = ({ automationObject, shard, parentType, parentId }) => {
   const [triggerObject, setTriggerObject] = useState(automationObject);
   const [actionCardArray, setActionCardArray] = useState([]);
   let emptyArr = [];
@@ -110,7 +110,10 @@ const Actions = ({ automationObject }) => {
       case /status/.test(type):
         let statusCard = {
           name: "Change status",
-          action: action
+          action: action,
+          parentType: parentType,
+          parentId: parentId,
+          shard: shard
         }
         emptyArr?.push(statusCard);
         break;

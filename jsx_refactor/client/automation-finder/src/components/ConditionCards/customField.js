@@ -367,7 +367,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   useEffect(() => {
-    console.log('from Custom Field card', customField);
     if (customField !== undefined) {
       // the only way to do this is to switch the field type_id prop
       // will need to call function from here
@@ -376,8 +375,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
 
       // this logic works for dropdowns
       let valueArray = customField?.type_config?.options;
-      console.log(valueArray);
-      console.log(fieldValue);
       // let result = valueArray?.find(item => item.id === fieldValue);
       // setValueText(result?.name);
     }

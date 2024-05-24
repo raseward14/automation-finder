@@ -37,20 +37,20 @@ const StatusCard = ({ cardDetails, key }) => {
     );
     if (res?.data) {
       setLocationStatuses(res?.data);
-    }
-  }
+    };
+  };
 
   useEffect(() => {
     let statusArray = valueArray?.map((value) => {
       let found = locationStatuses?.find((status) => status?.id === value?.status_id);
       return found;
     })
-    setConditionStatuses(statusArray)
-  }, [locationStatuses])
+    setConditionStatuses(statusArray);
+  }, [locationStatuses]);
 
   useEffect(() => {
-    getStatuses(cardDetails?.parentType, cardDetails?.parentId)
-  }, [valueArray])
+    getStatuses(cardDetails?.parentType, cardDetails?.parentId);
+  }, [valueArray]);
 
   return (
     <>
