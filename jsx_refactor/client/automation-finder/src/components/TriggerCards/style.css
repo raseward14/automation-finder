@@ -23,6 +23,7 @@
 
 .status-label {
     width: 25%;
+    color: rgb(173, 179, 189, 1);
 }
 
 .status-trigger {

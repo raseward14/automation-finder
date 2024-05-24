@@ -20,15 +20,19 @@
     color: grey;
 }
 
-/* .trigger-text-container {
+.status {
+    border-radius: 5px;
+    border: 1px solid rgba(60, 65, 74) !important;
+    background-color: transparent;
+    padding: 4px 12px;
+    margin-top: 0.5rem;
     display: flex;
-    
-} */
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 /*to undo react bootstrap defaults*/
 .card {
     border: unset !important;
 }
 
-/* .action-card {
-    margin-top: 20px;
-} */
