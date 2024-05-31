@@ -4,14 +4,18 @@ import "./style.css"
 
 const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
+    let line = '';
 
     const testFunction = (obj, i) => {
-        let line = '';
         if(obj.text === '\n') {
-            return <br/>;
+            // return <br/>;
+            console.log('line break');
+            let newLine = line;
+            line = '';
+            return <span>{newLine}</span>
         } else {
             line = line.concat(obj.text);
-            return <span>{line}</span>
+            console.log(line);
         }
     }
 
