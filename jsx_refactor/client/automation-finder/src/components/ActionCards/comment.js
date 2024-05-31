@@ -5,16 +5,30 @@ import "./style.css"
 const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
     let line = '';
+    let lineObjects = [];
 
     const testFunction = (obj, i) => {
-        if(obj.text === '\n') {
-            // return <br/>;
+        if (obj.text === '\n') {
             console.log('line break');
             let newLine = line;
+            let newArray = lineObjects
             line = '';
+            lineObjects = []
+            console.log(newArray);
+            // return <div>
+            //     {newArray.forEach((item) => {
+            //         if ("bold" in item.attributes) {
+            //             <strong>{item.text}</strong>
+            //         } else {
+            //             <div>{item.text}</div>
+            //         }
+
+            //     })}
+            // </div>
             return <span>{newLine}</span>
         } else {
             line = line.concat(obj.text);
+            lineObjects.push(obj);
             console.log(line);
         }
     }
@@ -30,12 +44,12 @@ const CommentCard = ({ cardDetails, key }) => {
                         {cardDetails.name}
                     </Card.Title>
                     <Card className='status'>{commentArray ? (
-                    <>
-                        {commentArray.map((text, i) => (
-                            // <span>{text.text}</span>
-                            testFunction(text)
-                        ))}
-                    </>
+                        <>
+                            {commentArray.map((text, i) => (
+                                // <span>{text.text}</span>
+                                testFunction(text)
+                            ))}
+                        </>
                     ) : (
                         <></>
                     )
