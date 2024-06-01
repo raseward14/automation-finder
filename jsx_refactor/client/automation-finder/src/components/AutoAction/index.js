@@ -15,7 +15,7 @@ import CreateATaskCard from '../ActionCards/createTask';
 import CreateASubtaskCard from '../ActionCards/createSubtask';
 import AssigneeCard from '../ActionCards/assignee';
 import DuplicateCard from '../ActionCards/duplicate';
-import CommentCard from '../ActionCards/duplicate';
+import CommentCard from '../ActionCards/comment';
 import TimeCard from '../ActionCards/time';
 import SetCustomFieldCard from '../ActionCards/customField';
 import ToListCard from '../ActionCards/customField';

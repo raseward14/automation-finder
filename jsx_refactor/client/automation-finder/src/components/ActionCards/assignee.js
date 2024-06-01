@@ -3,6 +3,9 @@ import Card from 'react-bootstrap/Card';
 import "./style.css"
 
 const AssigneeCard = ({ cardDetails, key}) => {
+  useEffect(() => {
+    console.log('this is a testt')
+  })
     return (
       <>
         <Card className="action-card" key={key}>
