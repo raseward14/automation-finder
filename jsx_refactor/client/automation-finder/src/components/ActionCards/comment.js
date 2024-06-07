@@ -38,7 +38,9 @@ const CommentCard = ({ cardDetails, key }) => {
                 newDiv.classList.add(attributeString);
             }
             let container = document.getElementById('container-test');
-            container.appendChild(newDiv);
+            if(newDiv !== null) {
+                container.appendChild(newDiv);
+            }
             // return <div className={attributeString}>{`${obj.text}`}</div>
         }
     }
