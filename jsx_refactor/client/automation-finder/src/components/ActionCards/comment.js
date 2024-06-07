@@ -6,6 +6,7 @@ const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
     let line = '';
     let lineObjects = [];
+    let attributeString = '';
     
     const testFunction = (obj, i) => {
         if (obj.text === '\n') {
@@ -17,24 +18,28 @@ const CommentCard = ({ cardDetails, key }) => {
             let newArray = lineObjects;
             console.log('array of objects for this line', newArray)
             lineObjects = [];
-            // create a new span element, and append all divs in array
-            let newSpan = document.createElement('span');
-            lineObjects.forEach((element) => {
-                console.log(element)
-                newSpan.appendChild(element)
-            })
-            console.log('the new line', newSpan);
-
             // print the new line to the page
-            return <span>{newLine}</span>
-            // return {newSpan};
+            // return <span>{newLine}</span>
         } else {
+            attributeString = '';
             line = line.concat(obj.text);
-            let newDiv = document.createElement('div');
-            newDiv.innerHTML = `${obj.text}`;
             let attributeArray = Object.keys(obj?.attributes);
-            attributeArray.forEach(key => newDiv.classList.add(`${key}`));
-            lineObjects.push(newDiv);
+            attributeArray.forEach(style =>  {
+                console.log('single attribute', style)
+                let newString = attributeString.concat(style);
+                let addSpace = newString.concat(' ');
+                attributeString = addSpace;
+            })
+            console.log(attributeString);
+            let newDiv = document.createElement('div');
+            let content = document.createTextNode(`${obj.text}`);
+            newDiv.appendChild(content);
+            if(attributeString !== '') {
+                newDiv.classList.add(attributeString);
+            }
+            let container = document.getElementById('container-test');
+            container.appendChild(newDiv);
+            // return <div className={attributeString}>{`${obj.text}`}</div>
         }
     }
 
@@ -53,6 +58,7 @@ const CommentCard = ({ cardDetails, key }) => {
                             {commentArray.map((text, i) => (
                                 testFunction(text)
                             ))}
+                            <span id='container-test'></span>
                         </>
                     ) : (
                         <></>
