@@ -4,7 +4,7 @@ import "./style.css"
 
 const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
-    const [textArray, setTextArray] = useState([]);
+    const [completeLine, setCompleteLine] = useState([]);
     let line = '';
     let lineArray = [];
     let container = document.getElementById('line-container');
@@ -12,20 +12,14 @@ const CommentCard = ({ cardDetails, key }) => {
     const test2Function = (obj, i) => {
         console.log('text object: ', obj)
         if (obj.text === '\n') {
-            setTextArray(lineArray);
-            console.log('complete line: ', textArray)
+            console.log('complete line: ', lineArray)
+            // setCompleteLine(lineArray)
             lineArray = [];
         } else {
             lineArray.push(obj)
         }
 
     }
-
-    useEffect(() => {
-        if(textArray.length > 0) {
-            console.log('the current line is: ', textArray)
-        }
-    }, [textArray])
 
     const testFunction = (obj, i) => {
         console.log('text object: ', obj)
@@ -46,15 +40,15 @@ const CommentCard = ({ cardDetails, key }) => {
                 newDiv.appendChild(content);
                 // create an array of its attributes, and append them to the new element
                 let attributeArray = Object.keys(obj?.attributes);
-                attributeArray.forEach(style =>  {
+                attributeArray.forEach(style => {
                     newDiv.classList.add(style);
                 });
                 // now append that styled div, with text to the line container
-                newSpan.appendChild(newDiv); 
+                newSpan.appendChild(newDiv);
             });
             // and append that line to the comment field
             console.log('container: ', container);
-            if((container !== null) && (newSpan !== null)) {
+            if ((container !== null) && (newSpan !== null)) {
                 container.appendChild(newSpan);
             }
         } else {
@@ -73,23 +67,37 @@ const CommentCard = ({ cardDetails, key }) => {
                         {cardDetails.name}
                     </Card.Title>
                     <Card className='status'>
-                    <div id='line-container'></div>
-                    {commentArray ? (
-                        <>
-                            {
-                                commentArray.map((text, i) => (
-                                    // testFunction(text)
-                                    test2Function(text)
-                                ))
-                            }
-                        </>
-                    ) : (
-                        <></>
-                    )
-                    }
+                        {commentArray ? (
+                            <>
+                                {
+                                    commentArray.map((text, i) => (
+                                        // testFunction(text)
+                                        test2Function(text)
+                                    ))
+                                }
+                            </>
+                        ) : (
+                            <></>
+                        )
+                        }
+                        {/* {completeLine ? (
+                            <span className='inline'>
+                                {
+                                    completeLine.map((item, i) => {
+                                        // let attributeArray = Object.keys(item?.attributes)
+                                        <>
+                                            <div>{item?.text}</div>
+                                        </>
+
+                                    })
+                                }
+                            </span>
+                        ) : (
+                            <></>
+                        )} */}
                     </Card>
-                </Card.Body>
-            </Card>
+                </Card.Body >
+            </Card >
         </>
     )
 }
