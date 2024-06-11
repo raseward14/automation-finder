@@ -14,6 +14,7 @@ const CommentCard = ({ cardDetails, key }) => {
         if (obj.text === '\n') {
             console.log('complete line: ', lineArray)
             // setCompleteLine(lineArray)
+           
             lineArray = [];
         } else {
             lineArray.push(obj)
