@@ -4,62 +4,57 @@ import "./style.css"
 
 const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
-    const [completeLine, setCompleteLine] = useState([]);
+    const [finalState, setFinalState] = useState([]);
     let line = '';
     let lineArray = [];
-    let container = document.getElementById('line-container');
+    let arrayOfLines = [];
+    let finalComment = [];
 
-    const test2Function = (obj, i) => {
-        console.log('text object: ', obj)
-        if (obj.text === '\n') {
-            console.log('complete line: ', lineArray)
-            // setCompleteLine(lineArray)
-           
-            lineArray = [];
-        } else {
-            lineArray.push(obj)
-        }
-
+    const printComment = (comment) => {
+        comment?.forEach((line) => {
+            console.log('line is: ', line);
+            (<span className="inline">
+                {line.forEach((string) => {
+                    console.log('line string is: ', string)
+                    return (<div>{string.text}</div>)
+                })}
+            </span>)
+        })
     }
 
-    const testFunction = (obj, i) => {
+    const formatComment = (obj, i) => {
         console.log('text object: ', obj)
         if (obj.text === '\n') {
-            console.log('one complete line: ', lineArray);
-            // create a new line
-            let newSpan = document.createElement('span');
-            newSpan.classList.add('inline');
-            // array of text objects to print on this line
-            let newArr = lineArray;
-            // set global var back to empty
+            console.log('line: ', lineArray, (i + 1), commentArray.length)
+            arrayOfLines.push(lineArray);
             lineArray = [];
-            newArr.map((obj, i) => {
-                // for each text object, create a new div
-                let newDiv = document.createElement('div');
-                // give the div text
-                let content = document.createTextNode(`${obj.text}`);
-                newDiv.appendChild(content);
-                // create an array of its attributes, and append them to the new element
-                let attributeArray = Object.keys(obj?.attributes);
-                attributeArray.forEach(style => {
-                    newDiv.classList.add(style);
-                });
-                // now append that styled div, with text to the line container
-                newSpan.appendChild(newDiv);
-            });
-            // and append that line to the comment field
-            console.log('container: ', container);
-            if ((container !== null) && (newSpan !== null)) {
-                container.appendChild(newSpan);
+            if ((i + 1) === commentArray.length) {
+                finalComment = arrayOfLines;
+                // console.log('complete comment', finalComment);
+                // printComment(finalComment);
+                setFinalState(finalComment);
+                arrayOfLines = [];
+                finalComment = [];
             }
         } else {
-            lineArray.push(obj);
+            lineArray.push(obj)
         }
     }
 
     useEffect(() => {
-        console.log('comment array: ', commentArray);
+        if (finalState.length > 0 ) {
+            console.log('my final comment', finalState);
+        }
+    }, [finalState])
+
+    useEffect(() => {
+        if (commentArray !== null) {
+            commentArray.map((text, i) => {
+                formatComment(text, i)
+            })
+        }
     }, [commentArray])
+
     return (
         <>
             <Card className="action-card" key={key}>
@@ -68,34 +63,15 @@ const CommentCard = ({ cardDetails, key }) => {
                         {cardDetails.name}
                     </Card.Title>
                     <Card className='status'>
-                        {commentArray ? (
-                            <>
-                                {
-                                    commentArray.map((text, i) => (
-                                        // testFunction(text)
-                                        test2Function(text)
-                                    ))
-                                }
-                            </>
-                        ) : (
-                            <></>
-                        )
-                        }
-                        {/* {completeLine ? (
-                            <span className='inline'>
-                                {
-                                    completeLine.map((item, i) => {
-                                        // let attributeArray = Object.keys(item?.attributes)
-                                        <>
-                                            <div>{item?.text}</div>
-                                        </>
-
-                                    })
-                                }
-                            </span>
-                        ) : (
-                            <></>
-                        )} */}
+                        {finalState.map((line, i) => {
+                            return (
+                                <span className='inline' key={i}>
+                                    {line.map((obj, i) => {
+                                        <div key={i}>{obj.text}</div>
+                                    })}
+                                </span>
+                            )
+                        })}
                     </Card>
                 </Card.Body >
             </Card >
