@@ -66,8 +66,6 @@ const CommentCard = ({ cardDetails, key }) => {
                                 <span key={i}>
                                     {line.map((obj, i) => (
                                         obj.attributes ? (
-                                            
-                                           
                                             <span className={`${Object.keys(obj.attributes)}`} key={i}>{obj.text}</span>
                                         ) : (
                                             <span key={i}>{obj.text}</span>
