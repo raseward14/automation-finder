@@ -10,18 +10,6 @@ const CommentCard = ({ cardDetails, key }) => {
     let arrayOfLines = [];
     let finalComment = [];
 
-    // const printComment = (comment) => {
-    //     comment?.forEach((line) => {
-    //         console.log('line is: ', line);
-    //         (<span className="inline">
-    //             {line.forEach((string) => {
-    //                 console.log('line string is: ', string)
-    //                 return (<div>{string.text}</div>)
-    //             })}
-    //         </span>)
-    //     })
-    // }
-
     const formatComment = (obj, i) => {
         console.log('text object: ', obj)
         if (obj.text === '\n') {
@@ -66,7 +54,7 @@ const CommentCard = ({ cardDetails, key }) => {
                                 <span key={i}>
                                     {line.map((obj, i) => (
                                         obj.attributes ? (
-                                            <span className={`${Object.keys(obj.attributes)}`} key={i}>{obj.text}</span>
+                                            <span className={`${Object.keys(obj.attributes).join(" ")}`} key={i}>{obj.text}</span>
                                         ) : (
                                             <span key={i}>{obj.text}</span>
                                         )
