@@ -4,36 +4,42 @@ import "./style.css"
 
 const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
-    let line = '';
-    let lineObjects = [];
+    const [finalState, setFinalState] = useState([]);
+    let lineArray = [];
+    let arrayOfLines = [];
+    let finalComment = [];
 
-    const testFunction = (obj, i) => {
+    const formatComment = (obj, i) => {
+        console.log('text object: ', obj)
         if (obj.text === '\n') {
-            let newLine = line;
-            let newArray = lineObjects
-            line = '';
-            lineObjects = []
-            console.log(newArray);
-            // return <div>
-            //     {newArray.forEach((item) => {
-            //         if ("bold" in item.attributes) {
-            //             <strong>{item.text}</strong>
-            //         } else {
-            //             <div>{item.text}</div>
-            //         }
-
-            //     })}
-            // </div>
-            return <span>{newLine}</span>
+            console.log('line: ', lineArray, (i + 1), commentArray.length)
+            arrayOfLines.push(lineArray);
+            lineArray = [];
+            if ((i + 1) === commentArray.length) {
+                finalComment = arrayOfLines;
+                setFinalState(finalComment);
+                arrayOfLines = [];
+                finalComment = [];
+            }
         } else {
-            line = line.concat(obj.text);
-            lineObjects.push(obj);
+            lineArray.push(obj)
         }
     }
 
     useEffect(() => {
-        console.log('comment array: ', commentArray);
-    }, [commentArray])
+        if (finalState.length > 0) {
+            console.log('my final comment', finalState);
+        };
+    }, [finalState]);
+
+    useEffect(() => {
+        if (commentArray !== null) {
+            commentArray.map((text, i) => {
+                formatComment(text, i);
+            });
+        };
+    }, [commentArray]);
+
     return (
         <>
             <Card className="action-card" key={key}>
@@ -41,18 +47,23 @@ const CommentCard = ({ cardDetails, key }) => {
                     <Card.Title className='value'>
                         {cardDetails.name}
                     </Card.Title>
-                    <Card className='status'>{commentArray ? (
-                        <>
-                            {commentArray.map((text, i) => (
-                                testFunction(text)
-                            ))}
-                        </>
-                    ) : (
-                        <></>
-                    )
-                    }</Card>
-                </Card.Body>
-            </Card>
+                    <Card className='status'>
+                        {finalState.map((line, i) => {
+                            return (
+                                <span key={i}>
+                                    {line.map((obj, i) => (
+                                        obj.attributes ? (
+                                            <span className={`${Object.keys(obj.attributes).join(" ")}`} key={i}>{obj.text}</span>
+                                        ) : (
+                                            <span key={i}>{obj.text}</span>
+                                        )
+                                    ))}
+                                </span>
+                            )
+                        })}
+                    </Card>
+                </Card.Body >
+            </Card >
         </>
     )
 }

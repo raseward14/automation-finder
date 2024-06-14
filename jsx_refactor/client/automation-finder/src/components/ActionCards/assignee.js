@@ -4,7 +4,7 @@ import "./style.css"
 
 const AssigneeCard = ({ cardDetails, key}) => {
   useEffect(() => {
-    console.log('this is a testt')
+    // console.log('this is a testt')
   })
     return (
       <>

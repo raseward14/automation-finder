@@ -44,3 +44,15 @@
     font-weight: bold;
 }
 
+.italic {
+    font-style: italic;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.strike {
+    text-decoration: line-through;
+}
+
