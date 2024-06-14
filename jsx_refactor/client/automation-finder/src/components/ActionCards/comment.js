@@ -5,7 +5,6 @@ import "./style.css"
 const CommentCard = ({ cardDetails, key }) => {
     const [commentArray, setCommentArray] = useState(cardDetails?.action?.input?.comment);
     const [finalState, setFinalState] = useState([]);
-    let line = '';
     let lineArray = [];
     let arrayOfLines = [];
     let finalComment = [];
