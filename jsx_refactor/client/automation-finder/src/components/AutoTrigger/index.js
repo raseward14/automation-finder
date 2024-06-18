@@ -30,7 +30,7 @@ const Trigger = ({ automationObject, shard }) => {
       case /subtasks_resolved/.test(type):
         setTriggerName('All subtasks resolved');
         break;
-      case /assignee/.test(type):
+      case /^assignee$/.test(type):
         setTriggerName('Assignee added');
         break;
       case /assignee_removed/.test(type):

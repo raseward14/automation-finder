@@ -5,6 +5,9 @@ import "./style.css";
 // assignee added
 // assignee removed
 const AssigneeCard = ({ triggerName, cardDetails }) => {
+    useEffect(() => {
+        console.log('assignee card details: ', cardDetails)
+    }, [cardDetails])
     return (
         <>
             <Card>
