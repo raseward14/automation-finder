@@ -63,7 +63,7 @@ const Trigger = ({ automationObject, shard }) => {
       case /start_date/.test(type):
         setTriggerName('Start date changes');
         break;
-      case /tag/.test(type):
+      case /^tag$/.test(type):
         setTriggerName('Tag added');
         break;
       case /tag_removed/.test(type):
