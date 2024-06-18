@@ -9,6 +9,10 @@ import "./style.css";
 const AssigneeCard = ({ triggerName, cardDetails }) => {
     const [assigneeArray, setAssigneeArray] = useState([]);
 
+    const getAssignees = (arr) => {
+
+    }
+
     useEffect(() => {
         if(assigneeArray.length) {
             console.log('assignees are: ', assigneeArray)
