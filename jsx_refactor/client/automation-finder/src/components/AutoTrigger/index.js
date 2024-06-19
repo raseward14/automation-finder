@@ -13,7 +13,7 @@ import TaskTypeCard from "../TriggerCards/taskType";
 
 import './style.css';
 
-const Trigger = ({ automationObject, shard }) => {
+const Trigger = ({ automationObject, shard, teamId }) => {
   const [triggerObject, setTriggerObject] = useState(automationObject);
   const [conditions, setConditions] = useState();
   const [triggerName, setTriggerName] = useState('');
@@ -158,7 +158,7 @@ const Trigger = ({ automationObject, shard }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} teamId={teamId} />
               </>
             )
             break;
@@ -167,7 +167,7 @@ const Trigger = ({ automationObject, shard }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} teamId={teamId} />
               </>
             )
             break;
