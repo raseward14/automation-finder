@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import "./style.css"
 
-const ChangeDateCard = ({ cardDetails, key }) => {
+const ChangeDateCard = ({ cardDetails }) => {
     // change start date
     // change due date
     return (
         <>
-            <Card className="action-card" key={key}>
+            <Card className="action-card">
                 <Card.Body>
                     <Card.Title className='value'>
                         {cardDetails.name}

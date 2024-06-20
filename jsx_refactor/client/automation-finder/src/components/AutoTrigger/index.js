@@ -158,7 +158,7 @@ const Trigger = ({ automationObject, shard, teamId }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} teamId={teamId} />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} shard={shard} teamId={teamId} />
               </>
             )
             break;
@@ -167,7 +167,7 @@ const Trigger = ({ automationObject, shard, teamId }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} teamId={teamId} />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} shard={shard} teamId={teamId} />
               </>
             )
             break;
