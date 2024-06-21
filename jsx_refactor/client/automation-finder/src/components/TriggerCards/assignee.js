@@ -96,7 +96,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                 className="icon-circle"
                                                 style={{ color: `${assignee.user.color}` }}
                                                 icon={icon({ name: 'circle' })} />
-                                            <span className='fa-layers-text initials' style={{ zIndex: `${i}` }}>{assignee.user.initials}</span>
+                                            <span className='fa-layers-text initials'>{assignee.user.initials}</span>
                                         </span><span className='space'></span>
                                     </>
                                 ) : assignee === "watchers" ? (
