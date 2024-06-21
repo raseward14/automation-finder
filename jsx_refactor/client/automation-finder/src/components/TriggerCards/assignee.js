@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { Tooltip } from 'react-tooltip'
 import axios from 'axios';
 import "./style.css";
 
@@ -78,13 +81,75 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         {triggerName}
                     </Card.Title>
                     {workspaceAssignees.map((assignee, i) => {
-                        {
-                            assignee?.user ? (
-                                <span>{assignee.user.username}</span>
-                            ) : (
-                            <span key={i}>{assignee}</span>
+                        return (
+                            <span key={i}>
+                                {assignee?.user ? (
+                                    <>
+                                        <Tooltip id={`${assignee.user.username}`} />
+                                        <span
+                                            className="fa-layers person-icon"
+                                            data-tooltip-id={`${assignee.user.username}`}
+                                            data-tooltip-content={`${assignee.user.username}`}
+                                            data-tooltip-place="top">
+                                            <FontAwesomeIcon
+                                                transform="grow-12"
+                                                className="icon-circle"
+                                                style={{ color: `${assignee.user.color}` }}
+                                                icon={icon({ name: 'circle' })} />
+                                            <span className='fa-layers-text initials' style={{ zIndex: `${i}` }}>{assignee.user.initials}</span>
+                                        </span><span className='space'></span>
+                                    </>
+                                ) : assignee === "watchers" ? (
+                                    <>
+                                        <Tooltip id={`watchers`} />
+                                        <span
+                                            className="fa-layers person-icon"
+                                            data-tooltip-id={`watchers`}
+                                            data-tooltip-content={`watchers`}
+                                            data-tooltip-place="top">
+                                            <FontAwesomeIcon
+                                                transform="grow-12"
+                                                className="icon-circle"
+                                                style={{ color: `grey` }}
+                                                icon={icon({ name: 'circle' })} />
+                                            <span className='fa-layers-text initials'>{"WA"}</span>
+                                        </span><span className='space'></span>
+                                    </>
+                                ) : assignee === "creator" ? (
+                                    <>
+                                        <Tooltip id={`creator`} />
+                                        <span
+                                            className="fa-layers person-icon"
+                                            data-tooltip-id={`creator`}
+                                            data-tooltip-content={`creator`}
+                                            data-tooltip-place="top">
+                                            <FontAwesomeIcon
+                                                transform="grow-12"
+                                                className="icon-circle"
+                                                style={{ color: `grey` }}
+                                                icon={icon({ name: 'circle' })} />
+                                            <span className='fa-layers-text initials'>{"CR"}</span>
+                                        </span><span className='space'></span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Tooltip id={`triggered_by`} />
+                                        <span
+                                            className="fa-layers person-icon"
+                                            data-tooltip-id={`triggered_by`}
+                                            data-tooltip-content={`triggered by`}
+                                            data-tooltip-place="top">
+                                            <FontAwesomeIcon
+                                                transform="grow-12"
+                                                className="icon-circle"
+                                                style={{ color: `grey` }}
+                                                icon={icon({ name: 'circle' })} />
+                                            <span className='fa-layers-text initials'>{"TB"}</span>
+                                        </span><span className='space'></span>
+                                    </>
+                                )}
+                            </span>
                         )
-                        }
                     })}
                 </Card.Body>
             </Card>

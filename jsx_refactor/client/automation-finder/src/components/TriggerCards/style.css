@@ -29,3 +29,23 @@
 .status-trigger {
     width: 75%;
 }
+
+.initials {
+    color: black;
+    margin-left: 6px;
+    z-index: 2;
+}
+
+.person-icon {
+    margin-top: 15px;
+}
+ 
+.icon-circle {
+    border: 7px solid black;
+    border-radius: 50%;
+    /* z-index: 1; */
+}
+
+.space {
+    margin-right: 5px;
+}
