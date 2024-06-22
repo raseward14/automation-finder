@@ -135,16 +135,19 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     <>
                                         <Tooltip id={`triggered_by`} />
                                         <span
-                                            className="fa-layers person-icon"
+                                            className="fa-layers person-icon fa-stack"
                                             data-tooltip-id={`triggered_by`}
-                                            data-tooltip-content={`triggered by`}
+                                            data-tooltip-content={`Person who Triggered`}
                                             data-tooltip-place="top">
                                             <FontAwesomeIcon
                                                 transform="grow-12"
-                                                className="icon-circle"
+                                                className="icon-circle fa-stack"
                                                 style={{ color: `grey` }}
                                                 icon={icon({ name: 'circle' })} />
-                                            <span className='fa-layers-text initials'>{"TB"}</span>
+                                            <FontAwesomeIcon
+                                                className="fa-stack-1x fa-inverse"
+                                                icon={icon({ name: 'robot' })} />
+                                            <span className='fa-layers-text initials'></span>
                                         </span><span className='space'></span>
                                     </>
                                 )}
