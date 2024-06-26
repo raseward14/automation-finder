@@ -46,6 +46,11 @@
     /* z-index: 1; */
 }
 
+.dynamic-assignee-icon {
+    position: relative;
+    margin-left: 5px !important;
+}
+
 
 .space {
     margin-right: 5px;

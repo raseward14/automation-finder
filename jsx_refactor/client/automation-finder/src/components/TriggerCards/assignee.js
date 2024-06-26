@@ -105,14 +105,16 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         <span
                                             className="fa-layers person-icon"
                                             data-tooltip-id={`watchers`}
-                                            data-tooltip-content={`watchers`}
+                                            data-tooltip-content={`Watchers`}
                                             data-tooltip-place="top">
                                             <FontAwesomeIcon
                                                 transform="grow-12"
                                                 className="icon-circle"
                                                 style={{ color: `grey` }}
                                                 icon={icon({ name: 'circle' })} />
-                                            <span className='fa-layers-text initials'>{"WA"}</span>
+                                            <FontAwesomeIcon
+                                                className='dynamic-assignee-icon'
+                                                icon={icon({ name: 'bell' })} />
                                         </span><span className='space'></span>
                                     </>
                                 ) : assignee === "creator" ? (
@@ -121,33 +123,34 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         <span
                                             className="fa-layers person-icon"
                                             data-tooltip-id={`creator`}
-                                            data-tooltip-content={`creator`}
+                                            data-tooltip-content={`Task creator`}
                                             data-tooltip-place="top">
                                             <FontAwesomeIcon
                                                 transform="grow-12"
                                                 className="icon-circle"
                                                 style={{ color: `grey` }}
                                                 icon={icon({ name: 'circle' })} />
-                                            <span className='fa-layers-text initials'>{"CR"}</span>
+                                            <FontAwesomeIcon
+                                                className='dynamic-assignee-icon'
+                                                icon={icon({ name: 'check' })} />
                                         </span><span className='space'></span>
                                     </>
                                 ) : (
                                     <>
                                         <Tooltip id={`triggered_by`} />
                                         <span
-                                            className="fa-layers person-icon fa-stack"
+                                            className="fa-layers person-icon"
                                             data-tooltip-id={`triggered_by`}
                                             data-tooltip-content={`Person who Triggered`}
                                             data-tooltip-place="top">
                                             <FontAwesomeIcon
                                                 transform="grow-12"
-                                                className="icon-circle fa-stack"
+                                                className="icon-circle"
                                                 style={{ color: `grey` }}
                                                 icon={icon({ name: 'circle' })} />
                                             <FontAwesomeIcon
-                                                className="fa-stack-1x fa-inverse"
+                                                className='dynamic-assignee-icon'
                                                 icon={icon({ name: 'robot' })} />
-                                            <span className='fa-layers-text initials'></span>
                                         </span><span className='space'></span>
                                     </>
                                 )}
