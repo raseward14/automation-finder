@@ -143,6 +143,9 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             data-tooltip-id={`triggered_by`}
                                             data-tooltip-content={`Person who Triggered`}
                                             data-tooltip-place="top">
+                                                
+                                                
+                                                
                                             <FontAwesomeIcon
                                                 transform="grow-12"
                                                 className="icon-circle"
@@ -151,6 +154,8 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             <FontAwesomeIcon
                                                 className='dynamic-assignee-icon'
                                                 icon={icon({ name: 'robot' })} />
+                                                
+                                              
                                         </span><span className='space'></span>
                                     </>
                                 )}
