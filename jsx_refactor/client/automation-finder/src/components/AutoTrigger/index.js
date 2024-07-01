@@ -13,7 +13,7 @@ import TaskTypeCard from "../TriggerCards/taskType";
 
 import './style.css';
 
-const Trigger = ({ automationObject, shard }) => {
+const Trigger = ({ automationObject, shard, teamId }) => {
   const [triggerObject, setTriggerObject] = useState(automationObject);
   const [conditions, setConditions] = useState();
   const [triggerName, setTriggerName] = useState('');
@@ -30,7 +30,7 @@ const Trigger = ({ automationObject, shard }) => {
       case /subtasks_resolved/.test(type):
         setTriggerName('All subtasks resolved');
         break;
-      case /assignee/.test(type):
+      case /^assignee$/.test(type):
         setTriggerName('Assignee added');
         break;
       case /assignee_removed/.test(type):
@@ -63,7 +63,7 @@ const Trigger = ({ automationObject, shard }) => {
       case /start_date/.test(type):
         setTriggerName('Start date changes');
         break;
-      case /tag/.test(type):
+      case /^tag$/.test(type):
         setTriggerName('Tag added');
         break;
       case /tag_removed/.test(type):
@@ -158,7 +158,7 @@ const Trigger = ({ automationObject, shard }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} shard={shard} teamId={teamId} />
               </>
             )
             break;
@@ -167,7 +167,7 @@ const Trigger = ({ automationObject, shard }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} />
+                <AssigneeCard triggerName={triggerName} cardDetails={triggerObject} shard={shard} teamId={teamId} />
               </>
             )
             break;

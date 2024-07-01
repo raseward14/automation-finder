@@ -29,3 +29,27 @@
 .status-trigger {
     width: 75%;
 }
+
+.initials {
+    color: black;
+    margin-left: 6px;
+}
+
+.person-icon {
+    margin-top: 15px;
+}
+ 
+.icon-circle {
+    border: 7px solid black;
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+}
+
+.dynamic-assignee-icon {
+    margin-left: 30% !important;
+}
+
+.space {
+    margin-right: 5px;
+}

@@ -67,6 +67,31 @@ router.route("/customField").post(
     }
 )
 
+// get Workspace members endpoint:
+// https://prod-us-west-2-2.clickup.com/user/v1/team/10618731/member
+router.route("/members").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const teamId = req.body.teamId;
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(`https://${shard}.clickup.com/user/v1/team/${teamId}/member`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const data = await response.json();
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    }
+)
+
+
 // List
 // https://{shard}.clickup.com/hierarchy/v1/subcategory/{list_id}
 // endpoints for statuses -> req.data.statuses (array of objects { "id": "", "status": "text name", "orderindex": 0, "color": "#87909e", "type": "open"/"custom"/"closed"})

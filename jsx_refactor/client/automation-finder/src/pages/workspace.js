@@ -25,6 +25,7 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
         token: token,
       })
       .then((resp) => {
+        console.log('get teams response: ', JSON.parse(resp.data))
         if (resp.data != undefined) {
           let jsonData = JSON.parse(resp.data);
           const teamsArrayData = jsonData.teams;
@@ -58,10 +59,6 @@ export default function Workspace({ socket, teamCallback, spaceCallback, folderC
             }
              setSpaceArray((spaceArray) => [...spaceArray, ...indvidualArray]);
           }
-        
-
-         
-        
       })
       .catch((error) => {
         console.log(error);
