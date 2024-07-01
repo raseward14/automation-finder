@@ -17,8 +17,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
 
 
     const getAssignees = (assigneeArr, workspaceUsers) => {
-        console.log('the assignees set in the trigger: ', assigneeArr);
-        console.log('the Workspace members: ', workspaceUsers);
         let newArr = [];
         assigneeArr.forEach((id) => {
             switch (id) {
@@ -54,10 +52,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             getAssignees(assigneeArr, res.data.members);
         };
     };
-
-    useEffect(() => {
-        console.log('these are the assignees: ', workspaceAssignees);
-    }, [workspaceAssignees])
 
     useEffect(() => {
         if (assigneeArray?.length > 0) {
@@ -143,9 +137,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             data-tooltip-id={`triggered_by`}
                                             data-tooltip-content={`Person who Triggered`}
                                             data-tooltip-place="top">
-                                                
-                                                
-                                                
                                             <FontAwesomeIcon
                                                 transform="grow-12"
                                                 className="icon-circle"
@@ -154,8 +145,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             <FontAwesomeIcon
                                                 className='dynamic-assignee-icon'
                                                 icon={icon({ name: 'robot' })} />
-                                                
-                                              
                                         </span><span className='space'></span>
                                     </>
                                 )}

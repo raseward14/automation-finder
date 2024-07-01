@@ -33,7 +33,6 @@
 .initials {
     color: black;
     margin-left: 6px;
-    /* z-index: 2; */
 }
 
 .person-icon {
@@ -43,15 +42,11 @@
 .icon-circle {
     border: 7px solid black;
     border-radius: 50%;
-    /* z-index: 1; */
     height: 100%;
     width: 100%;
 }
 
-/*fa-layers, the parent element is position absolute*/
 .dynamic-assignee-icon {
-    /* position: relative; */
-    /* margin-left: 5px !important; */
     margin-left: 30% !important;
 }
 
