@@ -14,7 +14,8 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
     const [assigneeArray, setAssigneeArray] = useState([]);
     const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
-
+    let extraArray = '';
+    let count = 0;
 
     const getAssignees = (assigneeArr, workspaceUsers) => {
         let newArr = [];
@@ -75,17 +76,103 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         {triggerName}
                     </Card.Title>
                     {workspaceAssignees.map((assignee, i) => {
-                        // let extraArray = []
-                        // if((assignee === "watchers") || (assignee === "creator") || (assignee === "triggered_by")) {
+                        if(i < 3) {
 
-                        // } else {
-                        //     return (
-                        //         <span key={i}>
+                            return (
+                                <span key={i}>
+                                    {assignee?.user ? (
+                                        <>
+                                            <Tooltip id={`${assignee.user.username}`} />
+                                            <span
+                                                className="fa-layers person-icon"
+                                                data-tooltip-id={`${assignee.user.username}`}
+                                                data-tooltip-content={`${assignee.user.username}`}
+                                                data-tooltip-place="top">
+                                                <FontAwesomeIcon
+                                                    transform="grow-12"
+                                                    className="icon-circle"
+                                                    style={{ color: `${assignee.user.color}` }}
+                                                    icon={icon({ name: 'circle' })} />
+                                                <span className='fa-layers-text initials'>{assignee.user.initials}</span>
+                                            </span><span className='space'></span>
+                                        </>
+                                    ) : assignee === "watchers" ? (
+                                        <>
+                                            <Tooltip id={`watchers`} />
+                                            <span
+                                                className="fa-layers person-icon"
+                                                data-tooltip-id={`watchers`}
+                                                data-tooltip-content={`Watchers`}
+                                                data-tooltip-place="top">
+                                                <FontAwesomeIcon
+                                                    transform="grow-12"
+                                                    className="icon-circle"
+                                                    style={{ color: `grey` }}
+                                                    icon={icon({ name: 'circle' })} />
+                                                <FontAwesomeIcon
+                                                    className='dynamic-assignee-icon'
+                                                    icon={icon({ name: 'bell' })} />
+                                            </span><span className='space'></span>
+                                        </>
+                                    ) : assignee === "creator" ? (
+                                        <>
+                                            <Tooltip id={`creator`} />
+                                            <span
+                                                className="fa-layers person-icon"
+                                                data-tooltip-id={`creator`}
+                                                data-tooltip-content={`Task creator`}
+                                                data-tooltip-place="top">
+                                                <FontAwesomeIcon
+                                                    transform="grow-12"
+                                                    className="icon-circle"
+                                                    style={{ color: `grey` }}
+                                                    icon={icon({ name: 'circle' })} />
+                                                <FontAwesomeIcon
+                                                    className='dynamic-assignee-icon'
+                                                    icon={icon({ name: 'check' })} />
+                                            </span><span className='space'></span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Tooltip id={`triggered_by`} />
+                                            <span
+                                                className="fa-layers person-icon"
+                                                data-tooltip-id={`triggered_by`}
+                                                data-tooltip-content={`Person who Triggered`}
+                                                data-tooltip-place="top">
+                                                <FontAwesomeIcon
+                                                    transform="grow-12"
+                                                    className="icon-circle"
+                                                    style={{ color: `grey` }}
+                                                    icon={icon({ name: 'circle' })} />
+                                                <FontAwesomeIcon
+                                                    className='dynamic-assignee-icon'
+                                                    icon={icon({ name: 'robot' })} />
+                                            </span><span className='space'></span>
+                                        </>
+                                    )}
+                                </span>
+                            )
+    
+
+                        } else if (i === (workspaceAssignees.length - 1)) {
+                            let newText = extraArray.concat(assignee.user.username);
+                            extraArray = newText;
+                            count++;
+                        } else {
+                            let newText = extraArray.concat(assignee.user.username + ',' + ' ');
+                            extraArray = newText;
+                            count++;
+                        }
+                        
+                        // return (
+                        //     <span key={i}>
+                        //         {assignee?.user ? (
                         //             <>
-                        //                 <Tooltip id={'extras'} />
+                        //                 <Tooltip id={`${assignee.user.username}`} />
                         //                 <span
                         //                     className="fa-layers person-icon"
-                        //                     data-tooltip-id={'extras'}
+                        //                     data-tooltip-id={`${assignee.user.username}`}
                         //                     data-tooltip-content={`${assignee.user.username}`}
                         //                     data-tooltip-place="top">
                         //                     <FontAwesomeIcon
@@ -96,86 +183,88 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         //                     <span className='fa-layers-text initials'>{assignee.user.initials}</span>
                         //                 </span><span className='space'></span>
                         //             </>
-                        //         </span>
-
-                        //     )
-                        // }
-                        return (
-                            <span key={i}>
-                                {assignee?.user ? (
-                                    <>
-                                        <Tooltip id={`${assignee.user.username}`} />
-                                        <span
-                                            className="fa-layers person-icon"
-                                            data-tooltip-id={`${assignee.user.username}`}
-                                            data-tooltip-content={`${assignee.user.username}`}
-                                            data-tooltip-place="top">
-                                            <FontAwesomeIcon
-                                                transform="grow-12"
-                                                className="icon-circle"
-                                                style={{ color: `${assignee.user.color}` }}
-                                                icon={icon({ name: 'circle' })} />
-                                            <span className='fa-layers-text initials'>{assignee.user.initials}</span>
-                                        </span><span className='space'></span>
-                                    </>
-                                ) : assignee === "watchers" ? (
-                                    <>
-                                        <Tooltip id={`watchers`} />
-                                        <span
-                                            className="fa-layers person-icon"
-                                            data-tooltip-id={`watchers`}
-                                            data-tooltip-content={`Watchers`}
-                                            data-tooltip-place="top">
-                                            <FontAwesomeIcon
-                                                transform="grow-12"
-                                                className="icon-circle"
-                                                style={{ color: `grey` }}
-                                                icon={icon({ name: 'circle' })} />
-                                            <FontAwesomeIcon
-                                                className='dynamic-assignee-icon'
-                                                icon={icon({ name: 'bell' })} />
-                                        </span><span className='space'></span>
-                                    </>
-                                ) : assignee === "creator" ? (
-                                    <>
-                                        <Tooltip id={`creator`} />
-                                        <span
-                                            className="fa-layers person-icon"
-                                            data-tooltip-id={`creator`}
-                                            data-tooltip-content={`Task creator`}
-                                            data-tooltip-place="top">
-                                            <FontAwesomeIcon
-                                                transform="grow-12"
-                                                className="icon-circle"
-                                                style={{ color: `grey` }}
-                                                icon={icon({ name: 'circle' })} />
-                                            <FontAwesomeIcon
-                                                className='dynamic-assignee-icon'
-                                                icon={icon({ name: 'check' })} />
-                                        </span><span className='space'></span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Tooltip id={`triggered_by`} />
-                                        <span
-                                            className="fa-layers person-icon"
-                                            data-tooltip-id={`triggered_by`}
-                                            data-tooltip-content={`Person who Triggered`}
-                                            data-tooltip-place="top">
-                                            <FontAwesomeIcon
-                                                transform="grow-12"
-                                                className="icon-circle"
-                                                style={{ color: `grey` }}
-                                                icon={icon({ name: 'circle' })} />
-                                            <FontAwesomeIcon
-                                                className='dynamic-assignee-icon'
-                                                icon={icon({ name: 'robot' })} />
-                                        </span><span className='space'></span>
-                                    </>
-                                )}
-                            </span>
-                        )
+                        //         ) : assignee === "watchers" ? (
+                        //             <>
+                        //                 <Tooltip id={`watchers`} />
+                        //                 <span
+                        //                     className="fa-layers person-icon"
+                        //                     data-tooltip-id={`watchers`}
+                        //                     data-tooltip-content={`Watchers`}
+                        //                     data-tooltip-place="top">
+                        //                     <FontAwesomeIcon
+                        //                         transform="grow-12"
+                        //                         className="icon-circle"
+                        //                         style={{ color: `grey` }}
+                        //                         icon={icon({ name: 'circle' })} />
+                        //                     <FontAwesomeIcon
+                        //                         className='dynamic-assignee-icon'
+                        //                         icon={icon({ name: 'bell' })} />
+                        //                 </span><span className='space'></span>
+                        //             </>
+                        //         ) : assignee === "creator" ? (
+                        //             <>
+                        //                 <Tooltip id={`creator`} />
+                        //                 <span
+                        //                     className="fa-layers person-icon"
+                        //                     data-tooltip-id={`creator`}
+                        //                     data-tooltip-content={`Task creator`}
+                        //                     data-tooltip-place="top">
+                        //                     <FontAwesomeIcon
+                        //                         transform="grow-12"
+                        //                         className="icon-circle"
+                        //                         style={{ color: `grey` }}
+                        //                         icon={icon({ name: 'circle' })} />
+                        //                     <FontAwesomeIcon
+                        //                         className='dynamic-assignee-icon'
+                        //                         icon={icon({ name: 'check' })} />
+                        //                 </span><span className='space'></span>
+                        //             </>
+                        //         ) : (
+                        //             <>
+                        //                 <Tooltip id={`triggered_by`} />
+                        //                 <span
+                        //                     className="fa-layers person-icon"
+                        //                     data-tooltip-id={`triggered_by`}
+                        //                     data-tooltip-content={`Person who Triggered`}
+                        //                     data-tooltip-place="top">
+                        //                     <FontAwesomeIcon
+                        //                         transform="grow-12"
+                        //                         className="icon-circle"
+                        //                         style={{ color: `grey` }}
+                        //                         icon={icon({ name: 'circle' })} />
+                        //                     <FontAwesomeIcon
+                        //                         className='dynamic-assignee-icon'
+                        //                         icon={icon({ name: 'robot' })} />
+                        //                 </span><span className='space'></span>
+                        //             </>
+                        //         )}
+                        //     </span>
+                        // )
                     })}
+                    {
+                        workspaceAssignees.length > 2 ? ( 
+                            // return (
+                                <span>
+                                    <>
+                                        <Tooltip id={'extras'} />
+                                        <span
+                                            className="fa-layers person-icon"
+                                            data-tooltip-id={'extras'}
+                                            data-tooltip-content={extraArray}
+                                            data-tooltip-place="top">
+                                            <FontAwesomeIcon
+                                                transform="grow-12"
+                                                className="icon-circle"
+                                                icon={icon({ name: 'circle' })} />
+                                            <span className='fa-layers-text initials'>+{count}</span>
+                                        </span><span className='space'></span>
+                                    </>
+                                </span>
+
+                            // )
+
+                        ) : (<></>)
+                    }
                 </Card.Body>
             </Card>
         </>
