@@ -21,13 +21,13 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
         assigneeArr.forEach((id) => {
             switch (id) {
                 case 'creator':
-                    newArr.push('creator')
+                    newArr.unshift('creator')
                     break;
                 case 'watchers':
-                    newArr.push('watchers')
+                    newArr.unshift('watchers')
                     break;
                 case 'triggered_by':
-                    newArr.push('triggered_by')
+                    newArr.unshift('triggered_by')
                     break;
                 default:
                     let foundObject = workspaceUsers.find((object) => object.user.id === id)
@@ -75,6 +75,31 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         {triggerName}
                     </Card.Title>
                     {workspaceAssignees.map((assignee, i) => {
+                        // let extraArray = []
+                        // if((assignee === "watchers") || (assignee === "creator") || (assignee === "triggered_by")) {
+
+                        // } else {
+                        //     return (
+                        //         <span key={i}>
+                        //             <>
+                        //                 <Tooltip id={'extras'} />
+                        //                 <span
+                        //                     className="fa-layers person-icon"
+                        //                     data-tooltip-id={'extras'}
+                        //                     data-tooltip-content={`${assignee.user.username}`}
+                        //                     data-tooltip-place="top">
+                        //                     <FontAwesomeIcon
+                        //                         transform="grow-12"
+                        //                         className="icon-circle"
+                        //                         style={{ color: `${assignee.user.color}` }}
+                        //                         icon={icon({ name: 'circle' })} />
+                        //                     <span className='fa-layers-text initials'>{assignee.user.initials}</span>
+                        //                 </span><span className='space'></span>
+                        //             </>
+                        //         </span>
+
+                        //     )
+                        // }
                         return (
                             <span key={i}>
                                 {assignee?.user ? (
