@@ -134,7 +134,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Tooltip id={`triggered_by`} />
+                                            <Tooltip className="triggered-by" id={`triggered_by`} />
                                             <span
                                                 className="fa-layers person-icon"
                                                 data-tooltip-id={`triggered_by`}
@@ -246,7 +246,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                             // return (
                                 <span>
                                     <>
-                                        <Tooltip id={'extras'} />
+                                        <Tooltip 
+                                        multiline={true}
+                                        className="extras-tip" 
+                                        id={'extras'} />
                                         <span
                                             className="fa-layers person-icon"
                                             data-tooltip-id={'extras'}

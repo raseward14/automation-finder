@@ -53,3 +53,15 @@
 .space {
     margin-right: 5px;
 }
+
+.triggered-by {
+    position: fixed;
+    z-index: 3;
+}
+
+.extras-tip {
+    width: 100px,
+    /* word-break: break-all,
+    overflow-wrap: break-word,
+    display: "block" */
+}
