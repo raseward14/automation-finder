@@ -54,14 +54,13 @@
     margin-right: 5px;
 }
 
-.triggered-by {
-    position: fixed;
-    z-index: 3;
+.dynamic-tooltip {
+    /* position: fixed; */
+    z-index: 5;
 }
 
 .extras-tip {
-    width: 100px,
-    /* word-break: break-all,
-    overflow-wrap: break-word,
-    display: "block" */
+    max-width: 70% !important;
+    display: "block";
+    z-index: 5;
 }

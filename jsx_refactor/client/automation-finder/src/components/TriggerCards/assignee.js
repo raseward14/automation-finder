@@ -76,13 +76,12 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         {triggerName}
                     </Card.Title>
                     {workspaceAssignees.map((assignee, i) => {
-                        if(i < 3) {
-
+                        if ((i < 3) || ((i === 3) && (workspaceAssignees.length === 4))) {
                             return (
                                 <span key={i}>
                                     {assignee?.user ? (
                                         <>
-                                            <Tooltip id={`${assignee.user.username}`} />
+                                            <Tooltip className="dynamic-tooltip" id={`${assignee.user.username}`} />
                                             <span
                                                 className="fa-layers person-icon"
                                                 data-tooltip-id={`${assignee.user.username}`}
@@ -98,7 +97,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         </>
                                     ) : assignee === "watchers" ? (
                                         <>
-                                            <Tooltip id={`watchers`} />
+                                            <Tooltip className="dynamic-tooltip" id={`watchers`} />
                                             <span
                                                 className="fa-layers person-icon"
                                                 data-tooltip-id={`watchers`}
@@ -116,7 +115,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         </>
                                     ) : assignee === "creator" ? (
                                         <>
-                                            <Tooltip id={`creator`} />
+                                            <Tooltip className="dynamic-tooltip" id={`creator`} />
                                             <span
                                                 className="fa-layers person-icon"
                                                 data-tooltip-id={`creator`}
@@ -134,7 +133,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Tooltip className="triggered-by" id={`triggered_by`} />
+                                            <Tooltip className="dynamic-tooltip" id={`triggered_by`} />
                                             <span
                                                 className="fa-layers person-icon"
                                                 data-tooltip-id={`triggered_by`}
@@ -153,7 +152,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     )}
                                 </span>
                             )
-    
+
 
                         } else if (i === (workspaceAssignees.length - 1)) {
                             let newText = extraArray.concat(assignee.user.username);
@@ -164,7 +163,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                             extraArray = newText;
                             count++;
                         }
-                        
+
                         // return (
                         //     <span key={i}>
                         //         {assignee?.user ? (
@@ -242,27 +241,27 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         // )
                     })}
                     {
-                        workspaceAssignees.length > 2 ? ( 
+                        workspaceAssignees.length > 4 ? (
                             // return (
-                                <span>
-                                    <>
-                                        <Tooltip 
-                                        multiline={true}
-                                        className="extras-tip" 
+                            <span>
+                                <>
+                                    <Tooltip
+                                        className="extras-tip"
                                         id={'extras'} />
-                                        <span
-                                            className="fa-layers person-icon"
-                                            data-tooltip-id={'extras'}
-                                            data-tooltip-content={extraArray}
-                                            data-tooltip-place="top">
-                                            <FontAwesomeIcon
-                                                transform="grow-12"
-                                                className="icon-circle"
-                                                icon={icon({ name: 'circle' })} />
-                                            <span className='fa-layers-text initials'>+{count}</span>
-                                        </span><span className='space'></span>
-                                    </>
-                                </span>
+                                    <span
+                                        className="fa-layers person-icon"
+
+                                        data-tooltip-id={'extras'}
+                                        data-tooltip-content={extraArray}
+                                        data-tooltip-place="top">
+                                        <FontAwesomeIcon
+                                            transform="grow-12"
+                                            className="icon-circle"
+                                            icon={icon({ name: 'circle' })} />
+                                        <span className='fa-layers-text initials'>+{count}</span>
+                                    </span><span className='space'></span>
+                                </>
+                            </span>
 
                             // )
 
