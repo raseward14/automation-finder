@@ -53,3 +53,14 @@
 .space {
     margin-right: 5px;
 }
+
+.dynamic-tooltip {
+    /* position: fixed; */
+    z-index: 5;
+}
+
+.extras-tip {
+    max-width: 70% !important;
+    display: "block";
+    z-index: 5;
+}
