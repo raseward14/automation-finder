@@ -22,7 +22,7 @@ import ToListCard from '../ActionCards/customField';
 
 import './style.css';
 
-const Actions = ({ automationObject, shard, parentType, parentId }) => {
+const Actions = ({ automationObject, shard, teamId, parentType, parentId }) => {
   const [triggerObject, setTriggerObject] = useState(automationObject);
   const [actionCardArray, setActionCardArray] = useState([]);
   let emptyArr = [];
@@ -261,7 +261,7 @@ const Actions = ({ automationObject, shard, parentType, parentId }) => {
                   return (
                     <>
                       <hr className='modal-line' />
-                      <AssigneeCard cardDetails={card} key={`${i}`} />
+                      <AssigneeCard cardDetails={card} shard={shard} teamId={teamId} />
                     </>
                   )
                   break;

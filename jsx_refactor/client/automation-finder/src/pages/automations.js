@@ -369,7 +369,7 @@ export default function Automations({ socket, workspaceId }) {
                               {conditions ? (<Conditions conditionArray={conditions} shard={shard} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />) : (<></>)}
                             </td>
                             <td className="modal-body-column">
-                              <Actions automationObject={foundTrigger} shard={shard} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />
+                              <Actions automationObject={foundTrigger} shard={shard} teamId={foundTrigger?.team_id} parentType={foundTrigger?.parent_type} parentId={foundTrigger?.parent_id} />
                             </td>
                           </tr>
                         )}
