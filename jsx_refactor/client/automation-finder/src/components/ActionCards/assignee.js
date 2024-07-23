@@ -5,7 +5,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Tooltip } from 'react-tooltip'
 import axios from 'axios';
 import "./style.css"
-
+// 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
 const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
   // unassign
@@ -101,18 +101,19 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
       }
     );
     if (res?.data) {
+      // console.log('add assignee length', cardDetails.action.input?.add_assignees.length)
       // use to get assignees in action fields
       if (cardDetails.action.input?.assignees) {
         const reassignArray = cardDetails.action.input?.assignees;
         printReassignAssignees(reassignArray, res.data.members);
       }
-      if ((cardDetails.action.input?.add_assignees > 0) || (cardDetails.action.input?.add_special_assignees > 0)) {
+      if ((cardDetails.action.input?.add_assignees.length > 0) || (cardDetails.action.input?.add_special_assignees.length > 0)) {
         let arr1 = cardDetails.action.input?.add_special_assignees;
         let arr2 = cardDetails.action.input?.add_assignees;
         const addArray = arr1.concat(arr2);
         printAddAssignees(addArray, res.data.members);
       }
-      if ((cardDetails.action.input?.rem_assignees > 0) || (cardDetails.action.input?.rem_special_assignees > 0)) {
+      if ((cardDetails.action.input?.rem_assignees.length > 0) || (cardDetails.action.input?.rem_special_assignees.length > 0)) {
         let arr1 = cardDetails.action.input?.rem_special_assignees;
         let arr2 = cardDetails.action.input?.rem_assignees;
         const remArray = arr1.concat(arr2);
@@ -145,6 +146,18 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('removing assignees: ', remAssignee);
+  }, [remAssignee]);
+
+  useEffect(() => {
+    console.log('adding assignees: ', addAssignee);
+  }, [addAssignee]);
+
+  useEffect(() => {
+    console.log('reassign: ', reassign);
+  }, [reassign]);
+
   return (
     <>
       <Card className="action-card">
@@ -158,10 +171,10 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 if ((i < 3) || ((i === 3) && (addAssignee.length === 4))) {
                   return (
                     <span key={i}>
+                      <span>{"Add assignees"}</span>
                       {assignee?.user ? (
                         <>
                           <Tooltip className="dynamic-tooltip" id={`${assignee.user.username}`} />
-                          <span>{"Add assignees"}</span>
                           <span
                             className="fa-layers person-icon"
                             data-tooltip-id={`${assignee.user.username}`}
@@ -248,10 +261,10 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 if ((i < 3) || ((i === 3) && (remAssignee.length === 4))) {
                   return (
                     <span key={i}>
+                      <span>{"Remove assignees"}</span>
                       {assignee?.user ? (
                         <>
                           <Tooltip className="dynamic-tooltip" id={`${assignee.user.username}`} />
-                          <span>{"Remove assignees"}</span>
                           <span
                             className="fa-layers person-icon"
                             data-tooltip-id={`${assignee.user.username}`}
@@ -322,8 +335,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       )}
                     </span>
                   )
-
-
                 } else if (i === (remAssignee.length - 1)) {
                   let newText = extraRem.concat(assignee.user.username);
                   extraRem = newText;
@@ -340,10 +351,10 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 if ((i < 3) || ((i === 3) && (reassign.length === 4))) {
                   return (
                     <span key={i}>
+                      <span>{"Reassign"}</span>
                       {assignee?.user ? (
                         <>
                           <Tooltip className="dynamic-tooltip" id={`${assignee.user.username}`} />
-                          <span>{"Reassign"}</span>
                           <span
                             className="fa-layers person-icon"
                             data-tooltip-id={`${assignee.user.username}`}
@@ -414,8 +425,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       )}
                     </span>
                   )
-
-
                 } else if (i === (reassign.length - 1)) {
                   let newText = extraReassign.concat(assignee.user.username);
                   extraReassign = newText;
