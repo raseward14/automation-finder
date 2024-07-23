@@ -254,7 +254,28 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                   extraAdd = newText;
                   addCount++;
                 }
-              })
+              }),
+              addAssignee.length > 4 ? (
+                <span>
+                  <>
+                    <Tooltip
+                      className="extras-tip"
+                      id={'extra-add'} />
+                    <span
+                      className="fa-layers person-icon"
+
+                      data-tooltip-id={'extra-add'}
+                      data-tooltip-content={extraAdd}
+                      data-tooltip-place="top">
+                      <FontAwesomeIcon
+                        transform="grow-12"
+                        className="icon-circle"
+                        icon={icon({ name: 'circle' })} />
+                      <span className='fa-layers-text initials'>+{addCount}</span>
+                    </span><span className='space'></span>
+                  </>
+                </span>
+              ) : (<></>)
             ) : (<></>),
             remAssignee ? (
               remAssignee.map((assignee, i) => {
@@ -344,7 +365,28 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                   extraRem = newText;
                   remCount++;
                 }
-              })
+              }),
+              remAssignee.length > 4 ? (
+                <span>
+                  <>
+                    <Tooltip
+                      className="extras-tip"
+                      id={'extra-rem'} />
+                    <span
+                      className="fa-layers person-icon"
+
+                      data-tooltip-id={'extra-rem'}
+                      data-tooltip-content={extraRem}
+                      data-tooltip-place="top">
+                      <FontAwesomeIcon
+                        transform="grow-12"
+                        className="icon-circle"
+                        icon={icon({ name: 'circle' })} />
+                      <span className='fa-layers-text initials'>+{remCount}</span>
+                    </span><span className='space'></span>
+                  </>
+                </span>
+              ) : (<></>)
             ) : (<></>),
             reassign ? (
               reassign.map((assignee, i) => {
@@ -434,7 +476,28 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                   extraReassign = newText;
                   reassignCount++;
                 }
-              })
+              }),
+              reassign.length > 4 ? (
+                <span>
+                  <>
+                    <Tooltip
+                      className="extras-tip"
+                      id={'extra-reassign'} />
+                    <span
+                      className="fa-layers person-icon"
+
+                      data-tooltip-id={'extra-reassign'}
+                      data-tooltip-content={extraReassign}
+                      data-tooltip-place="top">
+                      <FontAwesomeIcon
+                        transform="grow-12"
+                        className="icon-circle"
+                        icon={icon({ name: 'circle' })} />
+                      <span className='fa-layers-text initials'>+{reassignCount}</span>
+                    </span><span className='space'></span>
+                  </>
+                </span>
+              ) : (<></>)
             ) : (<></>)
           )}
         </Card.Body>
