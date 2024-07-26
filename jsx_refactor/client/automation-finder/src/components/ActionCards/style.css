@@ -56,3 +56,10 @@
     text-decoration: line-through;
 }
 
+.change-assignee-field {
+    border: 1px solid rgba(60, 65, 74, 1);
+    border-radius: 5px;
+    padding: 0px 12px 0px 12px;
+    height: 45px;
+}
+
