@@ -47,7 +47,7 @@
 }
 
 .dynamic-assignee-icon {
-    margin-left: 30% !important;
+    margin-left: 50% !important;
 }
 
 .space {
@@ -63,4 +63,8 @@
     max-width: 70% !important;
     display: "block";
     z-index: 5;
+}
+
+.triggered-icon {
+    margin-left: 32% !important;
 }

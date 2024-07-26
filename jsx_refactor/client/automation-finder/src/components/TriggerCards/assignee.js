@@ -146,7 +146,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                         style={{ color: `grey` }}
                                                         icon={icon({ name: 'circle' })} />
                                                     <FontAwesomeIcon
-                                                        className='dynamic-assignee-icon'
+                                                        className='dynamic-assignee-icon triggered-icon'
                                                         icon={icon({ name: 'robot' })} />
                                                 </span><span className='space'></span>
                                             </>

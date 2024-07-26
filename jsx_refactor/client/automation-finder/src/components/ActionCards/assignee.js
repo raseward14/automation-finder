@@ -125,19 +125,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     };
   };
 
-  // Remove all assignees green checkbox
-  // action.input.unassign: true
-  // if this is true, nothing else is rendered
-  // if this is not true, the unassign property is false
-
-  // Add assignees (default) (single avatar array, but spread across two properties) - handled the same way as assignee added/removed triggers
-  // action.input.add_assignees: [14917287]
-  // action.input.add_special_assignees: ['watchers', 'creator', 'triggered_by']
-  // Remove assignees (single avatar array, but spread across two properties) - handled the same way as assignee added/removed triggers
-  // action.input.rem_assignees: [14917287]
-  // action.input.rem_special_assignees: ['watchers', 'creator', 'triggered_by', 'assignees'] -> there is one additional option here - assignees
-  // Reassign
-  // action.input.assignees: [14917287, 61313973, 37710627] -> no dynamic options available here
   useEffect(() => {
     console.log('from assignee action', cardDetails)
     // if unassign, set it and be done
@@ -232,7 +219,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                   style={{ color: `grey` }}
                                   icon={icon({ name: 'circle' })} />
                                 <FontAwesomeIcon
-                                  className='dynamic-assignee-icon'
+                                  className='dynamic-assignee-icon triggered-icon'
                                   icon={icon({ name: 'robot' })} />
                               </span><span className='space'></span>
                             </>
@@ -248,7 +235,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       extraAdd = newText;
                       addCount++;
                     }
-                  })},
+                  })}
 
                   {addAssignee.length > 4 ? (
                     <span>
@@ -340,7 +327,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                               </span><span className='space'></span>
                             </>
                           ) : assignee === "assignees" ? (
-<>
+                            <>
                               <Tooltip className="dynamic-tooltip" id={`assignees`} />
                               <span
                                 className="fa-layers person-icon"
@@ -357,7 +344,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                   icon={icon({ name: 'circle-user' })} />
                               </span><span className='space'></span>
                             </>
-
                           ) : (
                             <>
                               <Tooltip className="dynamic-tooltip" id={`triggered_by`} />
@@ -372,7 +358,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                   style={{ color: `grey` }}
                                   icon={icon({ name: 'circle' })} />
                                 <FontAwesomeIcon
-                                  className='dynamic-assignee-icon'
+                                  className='dynamic-assignee-icon triggered-icon'
                                   icon={icon({ name: 'robot' })} />
                               </span><span className='space'></span>
                             </>
@@ -388,7 +374,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       extraRem = newText;
                       remCount++;
                     }
-                  })},
+                  })}
 
                   {remAssignee.length > 4 ? (
                     <span>
@@ -494,7 +480,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                   style={{ color: `grey` }}
                                   icon={icon({ name: 'circle' })} />
                                 <FontAwesomeIcon
-                                  className='dynamic-assignee-icon'
+                                  className='dynamic-assignee-icon triggered-icon'
                                   icon={icon({ name: 'robot' })} />
                               </span><span className='space'></span>
                             </>
@@ -510,7 +496,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       extraReassign = newText;
                       reassignCount++;
                     }
-                  })},
+                  })}
 
                   {reassign.length > 4 ? (
                     <span>
