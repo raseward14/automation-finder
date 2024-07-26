@@ -339,6 +339,25 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                   icon={icon({ name: 'check' })} />
                               </span><span className='space'></span>
                             </>
+                          ) : assignee === "assignees" ? (
+<>
+                              <Tooltip className="dynamic-tooltip" id={`assignees`} />
+                              <span
+                                className="fa-layers person-icon"
+                                data-tooltip-id={`assignees`}
+                                data-tooltip-content={`Assignees`}
+                                data-tooltip-place="top">
+                                <FontAwesomeIcon
+                                  transform="grow-12"
+                                  className="icon-circle"
+                                  style={{ color: `grey` }}
+                                  icon={icon({ name: 'circle' })} />
+                                <FontAwesomeIcon
+                                  className='dynamic-assignee-icon'
+                                  icon={icon({ name: 'circle-user' })} />
+                              </span><span className='space'></span>
+                            </>
+
                           ) : (
                             <>
                               <Tooltip className="dynamic-tooltip" id={`triggered_by`} />
