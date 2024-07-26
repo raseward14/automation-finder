@@ -82,10 +82,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     <span key={i}>
                                         {assignee?.user ? (
                                             <>
-                                                <Tooltip className="dynamic-tooltip" id={`${assignee.user.username}`} />
+                                                <Tooltip className="dynamic-tooltip" id={`t-${assignee.user.username}`} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={`${assignee.user.username}`}
+                                                    data-tooltip-id={`t-${assignee.user.username}`}
                                                     data-tooltip-content={`${assignee.user.username}`}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
@@ -98,10 +98,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             </>
                                         ) : assignee === "watchers" ? (
                                             <>
-                                                <Tooltip className="dynamic-tooltip" id={`watchers`} />
+                                                <Tooltip className="dynamic-tooltip" id={`t-watchers`} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={`watchers`}
+                                                    data-tooltip-id={`t-watchers`}
                                                     data-tooltip-content={`Watchers`}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
@@ -116,10 +116,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             </>
                                         ) : assignee === "creator" ? (
                                             <>
-                                                <Tooltip className="dynamic-tooltip" id={`creator`} />
+                                                <Tooltip className="dynamic-tooltip" id={`t-creator`} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={`creator`}
+                                                    data-tooltip-id={`t-creator`}
                                                     data-tooltip-content={`Task creator`}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
@@ -134,10 +134,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             </>
                                         ) : (
                                             <>
-                                                <Tooltip className="dynamic-tooltip" id={`triggered_by`} />
+                                                <Tooltip className="dynamic-tooltip" id={`t-triggered_by`} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={`triggered_by`}
+                                                    data-tooltip-id={`t-triggered_by`}
                                                     data-tooltip-content={`Person who Triggered`}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
@@ -170,11 +170,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                 <>
                                     <Tooltip
                                         className="extras-tip"
-                                        id={'extras'} />
+                                        id={'t-extras'} />
                                     <span
                                         className="fa-layers person-icon"
-
-                                        data-tooltip-id={'extras'}
+                                        data-tooltip-id={'t-extras'}
                                         data-tooltip-content={extraArray}
                                         data-tooltip-place="top">
                                         <FontAwesomeIcon
