@@ -143,9 +143,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           <Card.Title className='value'>
             {cardDetails.name}
           </Card.Title>
-          {unassign ? (<span>{"Remove all assignees"}</span>) : (
-
-            addAssignee ? (
+          {addAssignee ? (
               <>
                 <div>{"Add assignees"}</div>
                 <div className='change-assignee-field'>
@@ -260,13 +258,9 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                   ) : (<></>)}
                 </div><br />
               </>
-            ) : (<></>)
+            ) : (<></>)}
 
-          )}
-
-          {unassign ? (<></>) : (
-
-            remAssignee ? (
+          {remAssignee ? (
               <>
                 <div>{"Remove assignees"}</div>
                 <div className='change-assignee-field'>
@@ -399,13 +393,9 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                   ) : (<></>)}
                 </div><br />
               </>
-            ) : (<></>)
+            ) : (<></>)}
 
-          )}
-
-          {unassign ? (<></>) : (
-
-            reassign ? (
+          {reassign ? (
               <>
                 <div>{"Reassign"}</div>
                 <div className='change-assignee-field'>
@@ -520,9 +510,9 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                   ) : (<></>)}
                 </div><br />
               </>
-            ) : (<></>)
+            ) : (<></>)}
 
-          )}
+          {unassign ? (<></>) : (<></>)}
         </Card.Body>
       </Card >
     </>
