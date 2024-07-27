@@ -522,7 +522,15 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 className="check-icon"
                 icon={icon({ name: 'square-check' })} />
             </>
-          ) : (<></>)}
+          ) : (
+          <>
+           <div>{"Remove all assignees"}</div>
+              <FontAwesomeIcon
+                transform="grow-4"
+                className="uncheck-icon"
+                icon={icon({ name: 'square' })} />
+          </>
+          )}
 
         </Card.Body>
       </Card >
