@@ -72,9 +72,11 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
         <>
             <Card>
                 <Card.Body>
+
                     <Card.Title className='value'>
                         {triggerName}
                     </Card.Title>
+
                     <div className='change-assignee-field'>
                         {workspaceAssignees.map((assignee, i) => {
                             if ((i < 3) || ((i === 3) && (workspaceAssignees.length === 4))) {
@@ -167,22 +169,20 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         })}
                         {workspaceAssignees.length > 4 ? (
                             <span>
-                                <>
-                                    <Tooltip
-                                        className="extras-tip"
-                                        id={'t-extras'} />
-                                    <span
-                                        className="fa-layers person-icon"
-                                        data-tooltip-id={'t-extras'}
-                                        data-tooltip-content={extraArray}
-                                        data-tooltip-place="top">
-                                        <FontAwesomeIcon
-                                            transform="grow-12"
-                                            className="icon-circle"
-                                            icon={icon({ name: 'circle' })} />
-                                        <span className='fa-layers-text initials'>+{count}</span>
-                                    </span><span className='space'></span>
-                                </>
+                                <Tooltip
+                                    className="extras-tip"
+                                    id={'t-extras'} />
+                                <span
+                                    className="fa-layers person-icon"
+                                    data-tooltip-id={'t-extras'}
+                                    data-tooltip-content={extraArray}
+                                    data-tooltip-place="top">
+                                    <FontAwesomeIcon
+                                        transform="grow-12"
+                                        className="icon-circle"
+                                        icon={icon({ name: 'circle' })} />
+                                    <span className='fa-layers-text initials'>+{count}</span>
+                                </span><span className='space'></span>
                             </span>
                         ) : (<></>)}
                     </div><br />
