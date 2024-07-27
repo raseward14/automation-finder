@@ -38,12 +38,21 @@
 .person-icon {
     margin-top: 15px;
 }
- 
+
 .icon-circle {
     border: 7px solid black;
     border-radius: 50%;
     height: 100%;
     width: 100%;
+}
+
+.empty-circle {
+    border-radius: 50%;
+    border-style: dashed;
+    height: 100%;
+    width: 100%;
+    /* background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%23CDC7C8FF' stroke-width='4' stroke-dasharray='10%25%2c 13%25' stroke-dashoffset='77' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 100px; */
 }
 
 .dynamic-assignee-icon {

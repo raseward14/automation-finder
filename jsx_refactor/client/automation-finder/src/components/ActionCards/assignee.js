@@ -145,7 +145,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             {cardDetails.name}
           </Card.Title>
 
-          {addAssignee ? (
+          {addAssignee.length > 0 ? (
             <>
               <div>{"Add assignees"}</div>
               <div className='change-assignee-field'>
@@ -260,9 +260,25 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 ) : (<></>)}
               </div><br />
             </>
-          ) : (<></>)}
+          ) : (
+            <>
+              <div className='change-assignee-field'>
+                <span className="fa-layers person-icon">
+                  <FontAwesomeIcon
+                    transform="grow-12"
+                    className="empty-circle"
+                    style={{ color: `black`, border: `8px dashed grey` }}
+                    icon={icon({ name: 'circle' })} />
+                  <FontAwesomeIcon
+                    className='dynamic-assignee-icon'
+                    icon={icon({ name: 'circle-user' })} />
+                </span>
+              </div><br />
 
-          {remAssignee ? (
+            </>
+          )}
+
+          {remAssignee.length > 0 ? (
             <>
               <div>{"Remove assignees"}</div>
               <div className='change-assignee-field'>
@@ -395,9 +411,25 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 ) : (<></>)}
               </div><br />
             </>
-          ) : (<></>)}
+          ) : (
+            <>
+              <div className='change-assignee-field'>
+                <span className="fa-layers person-icon">
+                  <FontAwesomeIcon
+                    transform="grow-12"
+                    className="empty-circle"
+                    style={{ color: `black`, border: `8px dashed grey` }}
+                    icon={icon({ name: 'circle' })} />
+                  <FontAwesomeIcon
+                    className='dynamic-assignee-icon'
+                    icon={icon({ name: 'circle-user' })} />
+                </span>
+              </div><br />
 
-          {reassign ? (
+            </>
+          )}
+
+          {reassign.length > 0 ? (
             <>
               <div>{"Reassign"}</div>
               <div className='change-assignee-field'>
@@ -512,7 +544,22 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 ) : (<></>)}
               </div><br />
             </>
-          ) : (<></>)}
+          ) : (
+            <>
+              <div className='change-assignee-field'>
+                <span className="fa-layers person-icon">
+                  <FontAwesomeIcon
+                    transform="grow-12"
+                    className="empty-circle"
+                    style={{ color: `black`, border: `8px dashed grey` }}
+                    icon={icon({ name: 'circle' })} />
+                  <FontAwesomeIcon
+                    className='dynamic-assignee-icon'
+                    icon={icon({ name: 'circle-user' })} />
+                </span>
+              </div><br />
+            </>
+          )}
 
           {unassign ? (
             <>
@@ -523,13 +570,13 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 icon={icon({ name: 'square-check' })} />
             </>
           ) : (
-          <>
-           <div>{"Remove all assignees"}</div>
+            <>
+              <div>{"Remove all assignees"}</div>
               <FontAwesomeIcon
                 transform="grow-4"
                 className="uncheck-icon"
                 icon={icon({ name: 'square' })} />
-          </>
+            </>
           )}
 
         </Card.Body>

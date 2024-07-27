@@ -6,6 +6,7 @@
     display: flex;
     align-content: center;
 }
+
 .action-header-container {
     flex-direction: row;
     display: flex;
@@ -16,6 +17,7 @@
     border-radius: 5px;
     height: 100px;
 }
+
 .action-text {
     color: grey;
 }
@@ -65,12 +67,11 @@
 
 .check-icon {
     color: rgba(100, 198, 162, 1);
-    background-color: white;  
+    background-color: white;
 }
 
 .uncheck-icon {
     color: transparent;
     border: 1px solid rgba(60, 65, 74, 1);
-border-radius: 3px;
+    border-radius: 3px;
 }
-
