@@ -262,6 +262,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             </>
           ) : (
             <>
+              <div>{"Add assignees"}</div>
               <div className='change-assignee-field'>
                 <span className="fa-layers person-icon">
                   <FontAwesomeIcon
@@ -413,6 +414,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             </>
           ) : (
             <>
+              <div>{"Remove assignees"}</div>
               <div className='change-assignee-field'>
                 <span className="fa-layers person-icon">
                   <FontAwesomeIcon
@@ -546,6 +548,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             </>
           ) : (
             <>
+              <div>{"Reassign"}</div>
               <div className='change-assignee-field'>
                 <span className="fa-layers person-icon">
                   <FontAwesomeIcon
