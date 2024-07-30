@@ -267,8 +267,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 <span className="fa-layers person-icon">
                   <FontAwesomeIcon
                     transform="grow-12"
-                    className="empty-circle"
-                    style={{ color: `black`, border: `8px dashed grey` }}
+                    style={{ color: `black`, border: `1px dashed grey`, padding: `7px`, borderRadius: `50%` }}
                     icon={icon({ name: 'circle' })} />
                   <FontAwesomeIcon
                     className='dynamic-assignee-icon'
@@ -419,8 +418,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 <span className="fa-layers person-icon">
                   <FontAwesomeIcon
                     transform="grow-12"
-                    className="empty-circle"
-                    style={{ color: `black`, border: `8px dashed grey` }}
+                    style={{ color: `black`, border: `1px dashed grey`, padding: `7px`, borderRadius: `50%` }}
                     icon={icon({ name: 'circle' })} />
                   <FontAwesomeIcon
                     className='dynamic-assignee-icon'
@@ -553,8 +551,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                 <span className="fa-layers person-icon">
                   <FontAwesomeIcon
                     transform="grow-12"
-                    className="empty-circle"
-                    style={{ color: `black`, border: `8px dashed grey` }}
+                    style={{ color: `black`, border: `1px dashed grey`, padding: `7px`, borderRadius: `50%` }}
                     icon={icon({ name: 'circle' })} />
                   <FontAwesomeIcon
                     className='dynamic-assignee-icon'
