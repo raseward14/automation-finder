@@ -86,7 +86,30 @@ router.route("/members").post(
             const data = await response.json();
             res.status(200).json(data);
         } catch (err) {
-            res.status(500).json(err)
+            res.status(500).json(err);
+        }
+    }
+)
+
+// get Workspace teams (user groups)
+router.route("/userTeams").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const teamId = req.body.teamId;
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(`https://${shard}.clickup.com/user/v1/team/${teamId}/group`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const data = await response.json();
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).json(err);
         }
     }
 )
@@ -112,7 +135,7 @@ router.route("/listStatus").post(
             const data = await response.json();
             res.status(200).json(data?.statuses);
         } catch (err) {
-            res.status(500).json(err)
+            res.status(500).json(err);
         }
     }
 )

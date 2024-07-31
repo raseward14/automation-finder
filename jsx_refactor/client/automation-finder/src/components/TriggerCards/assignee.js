@@ -30,6 +30,9 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 case 'triggered_by':
                     newArr.unshift('triggered_by')
                     break;
+                    // there are cases where a team could be selected here - looks like a team_id d17b78cc-7d80-4887-8e51-c126dd35a25d
+                    // this request can be auth'd with a bearer token: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
+                    // we need the shard, Workspace id, and the request is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name" } ] }
                 default:
                     let foundObject = workspaceUsers.find((object) => object.user.id === id)
                     newArr.push(foundObject)
