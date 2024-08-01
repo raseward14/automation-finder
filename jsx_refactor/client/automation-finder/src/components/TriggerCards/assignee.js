@@ -30,22 +30,26 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 case 'triggered_by':
                     newArr.unshift('triggered_by')
                     break;
-                case typeof id === 'string':
-                    newArr.unshift('userTeam')
+                case typeof id === 'string': 
+                    console.log(id, typeof id)
+                    // these should just be long strings that are not one of the above, or a userid, which would use the case below
+                    // there are cases where a team could be selected here - looks like a team_id d17b78cc-7d80-4887-8e51-c126dd35a25d
+                    // this request can be auth'd with a bearer token: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
+                    // we need the shard, Workspace id, and the request is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name", "initials": "O" } ] }
+                    
+                    // let foundTeam = workspaceUsers.find((object) => object.id === id)
+                    // newArr.unshift(foundObject)
                     break;
-                // there are cases where a team could be selected here - looks like a team_id d17b78cc-7d80-4887-8e51-c126dd35a25d
-                // this request can be auth'd with a bearer token: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
-                // we need the shard, Workspace id, and the request is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name", "initials": "O" } ] }
-                default:
-                    let foundObject = workspaceUsers.find((object) => object.user.id === id)
-                    newArr.push(foundObject)
-                    break;
+                // default:
+                //     let foundObject = workspaceUsers.find((object) => object.user.id === id)
+                //     newArr.push(foundObject)
+                //     break;
             }
         })
         setWorkspaceAssignees(newArr);
     }
 
-    const getWorkspaceTeams = async (userTeamId) => {
+    const getWorkspaceTeams = async (teamIdArr) => {
         const res = await axios.post(
             'http://localhost:8080/automation/userTeams',
             {
@@ -55,7 +59,8 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             }
         );
         if (res?.data) {
-            console.log('userTeam api response', res.data)
+            console.log('userTeam api response', res.data.groups)
+            getAssignees(teamIdArr, res.data.groups);
         }
     }
 
@@ -77,7 +82,17 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     useEffect(() => {
         if (assigneeArray?.length > 0) {
             console.log('assignee trigger', assigneeArray);
-            getWorkspaceMembers(assigneeArray)
+            getWorkspaceMembers(assigneeArray);
+            // remove dynamic assignees, and userIds from the assignee array
+            let teamIdArr = assigneeArray.filter(item => {
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+                if (typeof item !== "number" && !dynamicOptions.includes(item)) {
+                    return item;
+                };
+            });
+            if (teamIdArr?.length > 0) {
+                getWorkspaceTeams(teamIdArr);
+            }
         }
     }, [assigneeArray]);
 
