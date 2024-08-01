@@ -136,6 +136,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (remAssignee) {
+      console.log('our remove assignee action array is', remAssignee);
+    }
+  }, [remAssignee])
+
   return (
     <>
       <Card className="action-card">
@@ -381,8 +387,13 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                     let newText = extraRem.concat(assignee.user.username);
                     extraRem = newText;
                     remCount++;
+                  } else if (assignee?.user?.username) {
+                    // because there are 4 dynamic options, if the array is 5 or longer, and all dynamic are selected, one of the dynamic can end up in the overflow modal - account for that here
+                    let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
+                    extraRem = newText;
+                    remCount++;
                   } else {
-                    let newText = extraRem.concat(assignee.user.username + ',' + ' ');
+                    let newText = extraRem.concat(assignee + ',' + ' ');
                     extraRem = newText;
                     remCount++;
                   }

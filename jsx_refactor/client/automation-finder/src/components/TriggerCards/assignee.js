@@ -30,9 +30,12 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 case 'triggered_by':
                     newArr.unshift('triggered_by')
                     break;
-                    // there are cases where a team could be selected here - looks like a team_id d17b78cc-7d80-4887-8e51-c126dd35a25d
-                    // this request can be auth'd with a bearer token: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
-                    // we need the shard, Workspace id, and the request is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name" } ] }
+                case typeof id === 'string':
+                    newArr.unshift('userTeam')
+                    break;
+                // there are cases where a team could be selected here - looks like a team_id d17b78cc-7d80-4887-8e51-c126dd35a25d
+                // this request can be auth'd with a bearer token: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
+                // we need the shard, Workspace id, and the request is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name", "initials": "O" } ] }
                 default:
                     let foundObject = workspaceUsers.find((object) => object.user.id === id)
                     newArr.push(foundObject)
@@ -40,6 +43,20 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             }
         })
         setWorkspaceAssignees(newArr);
+    }
+
+    const getWorkspaceTeams = async (userTeamId) => {
+        const res = await axios.post(
+            'http://localhost:8080/automation/userTeams',
+            {
+                shard: shard,
+                teamId: teamId,
+                bearer: JWT
+            }
+        );
+        if (res?.data) {
+            console.log('userTeam api response', res.data)
+        }
     }
 
     const getWorkspaceMembers = async (assigneeArr) => {
@@ -56,9 +73,10 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             getAssignees(assigneeArr, res.data.members);
         };
     };
-
+    // 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
     useEffect(() => {
         if (assigneeArray?.length > 0) {
+            console.log('assignee trigger', assigneeArray);
             getWorkspaceMembers(assigneeArray)
         }
     }, [assigneeArray]);
@@ -87,18 +105,18 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     <span key={i}>
                                         {assignee?.user ? (
                                             <>
-                                                <Tooltip className="dynamic-tooltip" id={`t-${assignee.user.username}`} />
+                                                <Tooltip className="dynamic-tooltip" id={`t-${assignee?.user?.username}`} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={`t-${assignee.user.username}`}
-                                                    data-tooltip-content={`${assignee.user.username}`}
+                                                    data-tooltip-id={`t-${assignee?.user?.username}`}
+                                                    data-tooltip-content={`${assignee?.user?.username}`}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
                                                         transform="grow-12"
                                                         className="icon-circle"
-                                                        style={{ color: `${assignee.user.color}` }}
+                                                        style={{ color: `${assignee?.user?.color}` }}
                                                         icon={icon({ name: 'circle' })} />
-                                                    <span className='fa-layers-text initials'>{assignee.user.initials}</span>
+                                                    <span className='fa-layers-text initials'>{assignee?.user?.initials}</span>
                                                 </span><span className='space'></span>
                                             </>
                                         ) : assignee === "watchers" ? (
@@ -137,7 +155,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                         icon={icon({ name: 'check' })} />
                                                 </span><span className='space'></span>
                                             </>
-                                        ) : (
+                                        ) : assignee === "triggered_by" ? (
                                             <>
                                                 <Tooltip className="dynamic-tooltip" id={`t-triggered_by`} />
                                                 <span
@@ -155,17 +173,33 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                         icon={icon({ name: 'robot' })} />
                                                 </span><span className='space'></span>
                                             </>
+                                        ) : (
+                                            <>
+                                                {/* <Tooltip className="dynamic-tooltip" id={`t-${assignee.user.initials}`} />
+                                                <span
+                                                    className="fa-layers person-icon"
+                                                    data-tooltip-id={`t-${assignee.user.initials}`}
+                                                    data-tooltip-content={`${assignee.user.initials}`}
+                                                    data-tooltip-place="top">
+                                                    <FontAwesomeIcon
+                                                        transform="grow-12"
+                                                        className="icon-circle"
+                                                        style={{ color: `grey` }}
+                                                        icon={icon({ name: 'circle' })} />
+                                                    <span className='fa-layers-text initials'>{assignee.user.initials}</span>
+                                                </span><span className='space'></span> */}
+                                            </>
                                         )}
                                     </span>
                                 )
 
 
                             } else if (i === (workspaceAssignees.length - 1)) {
-                                let newText = extraArray.concat(assignee.user.username);
+                                let newText = extraArray.concat(assignee?.user?.username);
                                 extraArray = newText;
                                 count++;
                             } else {
-                                let newText = extraArray.concat(assignee.user.username + ',' + ' ');
+                                let newText = extraArray.concat(assignee?.user?.username + ',' + ' ');
                                 extraArray = newText;
                                 count++;
                             }
