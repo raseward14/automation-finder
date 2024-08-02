@@ -253,7 +253,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                           transform="grow-12"
                           className="icon-circle"
                           icon={icon({ name: 'circle' })} />
-                        <span className='fa-layers-text initials'>+{addCount}</span>
+                        <span className='fa-layers-text overflow-text'>+{addCount}</span>
                       </span><span className='space'></span>
                     </>
                   </span>
@@ -409,7 +409,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                           transform="grow-12"
                           className="icon-circle"
                           icon={icon({ name: 'circle' })} />
-                        <span className='fa-layers-text initials'>+{remCount}</span>
+                        <span className='fa-layers-text overflow-text'>+{remCount}</span>
                       </span><span className='space'></span>
                     </>
                   </span>
@@ -542,7 +542,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                           transform="grow-12"
                           className="icon-circle"
                           icon={icon({ name: 'circle' })} />
-                        <span className='fa-layers-text initials'>+{reassignCount}</span>
+                        <span className='fa-layers-text overflow-text'>+{reassignCount}</span>
                       </span><span className='space'></span>
                     </>
                   </span>

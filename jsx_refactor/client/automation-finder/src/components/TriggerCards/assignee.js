@@ -81,7 +81,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             console.log(newArr)
             // else, just set state now 
             setWorkspaceAssignees(newArr);
-    
+
         };
     };
 
@@ -228,6 +228,9 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                         style={{ color: `grey` }}
                                                         icon={icon({ name: 'circle' })} />
                                                     <span className='fa-layers-text initials'>{assignee.initials}</span>
+                                                    <FontAwesomeIcon
+                                                        className='team'
+                                                        icon={icon({ name: 'people-group' })} />
                                                 </span><span className='space'></span>
                                             </>
                                         )}
@@ -259,7 +262,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         transform="grow-12"
                                         className="icon-circle"
                                         icon={icon({ name: 'circle' })} />
-                                    <span className='fa-layers-text initials'>+{count}</span>
+                                    <span className='fa-layers-text overflow-text'>+{count}</span>
                                 </span><span className='space'></span>
                             </span>
                         ) : (<></>)}
