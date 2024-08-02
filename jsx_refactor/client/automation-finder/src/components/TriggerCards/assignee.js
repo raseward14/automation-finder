@@ -37,7 +37,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             teamIdArr.forEach((id) => {
                 let foundObject = workspaceTeams.find((object) => object.id === id)
                 if (foundObject !== undefined) {
-                    newArr.push(foundObject)
+                    foundArr.push(foundObject)
                 }
             })
             let totalArr = foundArr.concat(newArr);
