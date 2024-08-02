@@ -134,13 +134,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     } else if ((cardDetails.action.input?.add_assignees > 0) || (cardDetails.action.input?.add_special_assignees > 0) || (cardDetails.action.input?.rem_assignees > 0) || (cardDetails.action.input?.rem_special_assignees > 0) || (cardDetails.action.input?.assignees)) {
       getWorkspaceMembers();
     }
-  }, [])
-
-  useEffect(() => {
-    if (remAssignee) {
-      console.log('our remove assignee action array is', remAssignee);
-    }
-  }, [remAssignee])
+  }, []);
 
   return (
     <>
