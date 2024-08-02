@@ -245,7 +245,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         id={'a-a-extra-add'} />
                       <span
                         className="fa-layers person-icon"
-
                         data-tooltip-id={'a-a-extra-add'}
                         data-tooltip-content={extraAdd}
                         data-tooltip-place="top">

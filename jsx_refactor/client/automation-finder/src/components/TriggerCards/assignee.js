@@ -124,7 +124,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
         } else {
             setAssigneeArray(cardDetails.trigger.conditions[0].before);
         };
-    }, [cardDetails]);
+    }, []);
 
     useEffect(() => {
         console.log(workspaceAssignees);
