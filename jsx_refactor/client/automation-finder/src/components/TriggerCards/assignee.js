@@ -17,7 +17,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     let extraArray = '';
     let count = 0;
 
-    const getWorkspaceTeams = async (teamIdArr) => {
+    const getWorkspaceTeams = async (teamIdArr, newArr) => {
         const res = await axios.post(
             'http://localhost:8080/automation/userTeams',
             {
@@ -27,20 +27,21 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             }
         );
         if (res?.data) {
-        // long strings 
-        // d17b78cc-7d80-4887-8e51-c126dd35a25d
-        // request: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
-        // we need the shard, Workspace id, bearer token 
-        // response is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name", "initials": "O" } ] }
+            // long strings 
+            // d17b78cc-7d80-4887-8e51-c126dd35a25d
+            // request: https://prod-us-west-2-2.clickup.com/user/v1/team/42085025/group
+            // we need the shard, Workspace id, bearer token 
+            // response is JSON { "groups": [ { "id": "d17b78cc-7d80-4887-8e51-c126dd35a25d", "name": "team-name", "initials": "O" } ] }
             let workspaceTeams = res.data.groups;
-            let newArr = [];
+            let foundArr = [];
             teamIdArr.forEach((id) => {
                 let foundObject = workspaceTeams.find((object) => object.id === id)
                 if (foundObject !== undefined) {
                     newArr.push(foundObject)
                 }
             })
-            let totalArr = newArr.concat(workspaceAssignees);
+            let totalArr = foundArr.concat(newArr);
+            console.log(totalArr);
             setWorkspaceAssignees(totalArr);
         };
     };
@@ -64,7 +65,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                     break;
             }
         })
-        setWorkspaceAssignees(newArr);
         // check for teams in the original array
         // remove dynamic assignees, and userIds from the assignee array
         let teamIdArr = assigneeArray.filter(item => {
@@ -74,11 +74,19 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             };
         });
         if (teamIdArr?.length > 0) {
-            getWorkspaceTeams(teamIdArr);
+            console.log(teamIdArr)
+            // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
+            getWorkspaceTeams(teamIdArr, newArr);
+        } else {
+            console.log(newArr)
+            // else, just set state now 
+            setWorkspaceAssignees(newArr);
+    
         };
     };
 
     const getWorkspaceMembers = async (assigneeArr) => {
+        console.log(assigneeArr)
         // needs shard, Workspace_id, and bearer token
         const res = await axios.post(
             'http://localhost:8080/automation/members',
@@ -96,7 +104,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     // 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
     useEffect(() => {
         if (assigneeArray?.length > 0) {
-
             console.log('assignee trigger', assigneeArray);
             //remove teamIds from the user array
             let userArr = assigneeArray.filter(item => {
@@ -209,19 +216,19 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                             </>
                                         ) : (
                                             <>
-                                                {/* <Tooltip className="dynamic-tooltip" id={`t-${assignee.user.initials}`} />
+                                                <Tooltip className="dynamic-tooltip" id={`t-${assignee.initials}`} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={`t-${assignee.user.initials}`}
-                                                    data-tooltip-content={`${assignee.user.initials}`}
+                                                    data-tooltip-id={`t-${assignee.initials}`}
+                                                    data-tooltip-content={`${assignee.name}`}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
                                                         transform="grow-12"
                                                         className="icon-circle"
                                                         style={{ color: `grey` }}
                                                         icon={icon({ name: 'circle' })} />
-                                                    <span className='fa-layers-text initials'>{assignee.user.initials}</span>
-                                                </span><span className='space'></span> */}
+                                                    <span className='fa-layers-text initials'>{assignee.initials}</span>
+                                                </span><span className='space'></span>
                                             </>
                                         )}
                                     </span>
