@@ -126,7 +126,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     if (res?.data) {
       // console.log('add assignee length', cardDetails.action.input?.add_assignees.length)
       // use to get assignees in action fields
-
       if (cardDetails.action.input?.assignees) {
         const reassignArray = cardDetails.action.input?.assignees;
         // filter out teams here - pass as separate array
@@ -208,7 +207,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   useEffect(() => {
     // this is my trigger, one of the teams arrays have triggered the api call
     if(workspaceTeams.length > 0) {
-      if (reAssignTeamArr.length > 0) {
+      if (reassignTeamArr.length > 0) {
         // get team objects, add to state var's
         let foundReTeam = [];
         reassignTeamArr.forEach((id) => {
@@ -246,11 +245,13 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           }
         });
         let totalRemArr = foundRemTeam.concat(remAssignee);
-        console.log('total add assignee array: ', totalRemArr);
+        console.log('total remove assignee array: ', totalRemArr);
         setAddAssignee(totalRemArr);
       };
     }
-  }, [workspaceTeams])
+  }, [workspaceTeams]);
+
+  
 
   return (
     <>
