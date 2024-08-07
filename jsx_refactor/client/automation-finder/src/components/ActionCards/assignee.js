@@ -23,9 +23,13 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   let extraReassign = '';
   let reassignCount = 0;
 
-  let reassignTeamArr = [];
-  let addTeamArr = [];
-  let remTeamArr = [];
+  // let reassignTeamArr = [];
+  // let addTeamArr = [];
+  // let remTeamArr = [];
+  // ^^ changing to state vars
+  const [reassignTeamArr, setReassignTeamArr] = useState([]);
+  const [addTeamArr, setAddTeamArr] = useState([]);
+  const [remTeamArr, setRemTeamArr] = useState([]);
   // Workspace teams
   const [workspaceTeams, setWorkspaceTeams] = useState([]);
 
@@ -98,7 +102,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     setReassign(newArr);
   }
 
-  const getWorkspaceTeams = async (teamIdArr, newArr) => {
+  const getWorkspaceTeams = async () => {
     const res = await axios.post(
       'http://localhost:8080/automation/userTeams',
       {
@@ -108,7 +112,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
       }
     );
     if (res?.data) {
-      setWorkspaceTeams(res?.data?.groups)
+      setWorkspaceTeams(res?.data?.groups);
     };
   };
 
@@ -126,12 +130,15 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     if (res?.data) {
       // console.log('add assignee length', cardDetails.action.input?.add_assignees.length)
       // use to get assignees in action fields
+      let reTeamIdArr = [];
+      let addTeamIdArr = [];
+      let remTeamIdArr = [];
       if (cardDetails.action.input?.assignees) {
         const reassignArray = cardDetails.action.input?.assignees;
         // filter out teams here - pass as separate array
         // array to hold everything else
         let reOverflow = [];
-        let reTeamIdArr = reassignArray.filter((item) => {
+        reTeamIdArr = reassignArray.filter((item) => {
           const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
           if (typeof item !== "number" && !dynamicOptions.includes(item)) {
             return item;
@@ -139,9 +146,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             reOverflow.push(item);
           };
         });
-        if(reTeamIdArr.length > 0) {
+        if (reTeamIdArr.length > 0) {
           // if there are teams, set the corresponding team array
-          reassignTeamArr = reTeamIdArr;
+          // reassignTeamArr = reTeamIdArr;
+          setReassignTeamArr(reTeamIdArr);
+
+          // console.log('filtered reassign team array', reassignTeamArr);
         };
         printReassignAssignees(reOverflow, res.data.members);
       };
@@ -152,7 +162,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         // filter out teams here - pass as separate array
         // array to hold everything else
         let addOverflow = [];
-        let addTeamIdArr = addArray.filter((item) => {
+        addTeamIdArr = addArray.filter((item) => {
           const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
           if (typeof item !== "number" && !dynamicOptions.includes(item)) {
             return item;
@@ -160,9 +170,11 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             addOverflow.push(item);
           };
         });
-        if(addTeamIdArr.length > 0) {
+        if (addTeamIdArr.length > 0) {
           // if there are teams, set the corresponding team array
-          addTeamArr = addTeamIdArr;
+          // addTeamArr = addTeamIdArr;
+          setAddTeamArr(addTeamIdArr);
+
         };
         printAddAssignees(addOverflow, res.data.members);
       };
@@ -173,7 +185,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         // filter out teams here - pass as a separate array
         // array to hold everything else
         let remOverflow = [];
-        let remTeamIdArr = remArray.filter((item) => {
+        remTeamIdArr = remArray.filter((item) => {
           const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
           if (typeof item !== "number" && !dynamicOptions.includes(item)) {
             return item;
@@ -181,13 +193,15 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             remOverflow.push(item)
           };
         });
-        if(remTeamIdArr.length > 0) {
+        if (remTeamIdArr.length > 0) {
           // if there are teams, set the corresponding team array
-          remTeamArr = remTeamIdArr;
+          // remTeamArr = remTeamIdArr;
+          setRemTeamArr(remTeamIdArr);
+
         };
         printRemAssignees(remOverflow, res.data.members);
       };
-      if ((reassignTeamArr.length > 0) || (addTeamArr > 0) || (remTeamArr > 0)) {
+      if ((reTeamIdArr.length > 0) || (addTeamIdArr > 0) || (remTeamIdArr > 0)) {
         getWorkspaceTeams();
       };
     };
@@ -206,8 +220,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
 
   useEffect(() => {
     // this is my trigger, one of the teams arrays have triggered the api call
-    if(workspaceTeams.length > 0) {
+    console.log('Workspace teams: ', workspaceTeams)
+    if (workspaceTeams.length > 0) {
+      console.log('our teams', workspaceTeams);
+      console.log('reassign team arr in our useEffect', reassignTeamArr);
       if (reassignTeamArr.length > 0) {
+        console.log('reassign team array', reassignTeamArr)
         // get team objects, add to state var's
         let foundReTeam = [];
         reassignTeamArr.forEach((id) => {
@@ -251,7 +269,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     }
   }, [workspaceTeams]);
 
-  
+
 
   return (
     <>
@@ -322,7 +340,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'check' })} />
                             </span><span className='space'></span>
                           </>
-                        ) : (
+                        ) : assignee === "triggered_by" ? (
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-a-triggered_by`} />
                             <span
@@ -340,15 +358,35 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'robot' })} />
                             </span><span className='space'></span>
                           </>
+                        ) : (
+                          <>
+                            <Tooltip className="dynamic-tooltip" id={`a-a-${assignee.initials}`} />
+                            <span
+                              className="fa-layers person-icon"
+                              data-tooltip-id={`a-a-${assignee.initials}`}
+                              data-tooltip-content={`${assignee.name}`}
+                              data-tooltip-place="top">
+                              <FontAwesomeIcon
+                                transform="grow-12"
+                                className="icon-circle"
+                                style={{ color: `grey` }}
+                                icon={icon({ name: 'circle' })} />
+                              <span className='fa-layers-text initials'>{assignee.initials}</span>
+                              <FontAwesomeIcon
+                                className='team'
+                                icon={icon({ name: 'people-group' })} />
+                            </span><span className='space'></span>
+                          </>
                         )}
                       </span>
                     )
+
                   } else if (i === (addAssignee.length - 1)) {
-                    let newText = extraAdd.concat(assignee.user.username);
+                    let newText = extraAdd.concat(assignee?.user?.username);
                     extraAdd = newText;
                     addCount++;
                   } else {
-                    let newText = extraAdd.concat(assignee.user.username + ',' + ' ');
+                    let newText = extraAdd.concat(assignee?.user?.username + ',' + ' ');
                     extraAdd = newText;
                     addCount++;
                   }
@@ -472,7 +510,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'circle-user' })} />
                             </span><span className='space'></span>
                           </>
-                        ) : (
+                        ) : assignee === "triggered_by" ? (
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-r-triggered_by`} />
                             <span
@@ -490,11 +528,30 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'robot' })} />
                             </span><span className='space'></span>
                           </>
+                        ) : (
+                          <>
+                            <Tooltip className="dynamic-tooltip" id={`a-rem-${assignee.initials}`} />
+                            <span
+                              className="fa-layers person-icon"
+                              data-tooltip-id={`a-rem-${assignee.initials}`}
+                              data-tooltip-content={`${assignee.name}`}
+                              data-tooltip-place="top">
+                              <FontAwesomeIcon
+                                transform="grow-12"
+                                className="icon-circle"
+                                style={{ color: `grey` }}
+                                icon={icon({ name: 'circle' })} />
+                              <span className='fa-layers-text initials'>{assignee.initials}</span>
+                              <FontAwesomeIcon
+                                className='team'
+                                icon={icon({ name: 'people-group' })} />
+                            </span><span className='space'></span>
+                          </>
                         )}
                       </span>
                     )
                   } else if (i === (remAssignee.length - 1)) {
-                    let newText = extraRem.concat(assignee.user.username);
+                    let newText = extraRem.concat(assignee?.user?.username);
                     extraRem = newText;
                     remCount++;
                   } else if (assignee?.user?.username) {
@@ -611,7 +668,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'check' })} />
                             </span><span className='space'></span>
                           </>
-                        ) : (
+                        ) : assignee === "triggered_by" ? (
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-re-triggered_by`} />
                             <span
@@ -629,15 +686,34 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'robot' })} />
                             </span><span className='space'></span>
                           </>
+                        ) : (
+                          <>
+                            <Tooltip className="dynamic-tooltip" id={`a-re-${assignee.initials}`} />
+                            <span
+                              className="fa-layers person-icon"
+                              data-tooltip-id={`a-re-${assignee.initials}`}
+                              data-tooltip-content={`${assignee.name}`}
+                              data-tooltip-place="top">
+                              <FontAwesomeIcon
+                                transform="grow-12"
+                                className="icon-circle"
+                                style={{ color: `grey` }}
+                                icon={icon({ name: 'circle' })} />
+                              <span className='fa-layers-text initials'>{assignee.initials}</span>
+                              <FontAwesomeIcon
+                                className='team'
+                                icon={icon({ name: 'people-group' })} />
+                            </span><span className='space'></span>
+                          </>
                         )}
                       </span>
                     )
                   } else if (i === (reassign.length - 1)) {
-                    let newText = extraReassign.concat(assignee.user.username);
+                    let newText = extraReassign.concat(assignee?.user?.username);
                     extraReassign = newText;
                     reassignCount++;
                   } else {
-                    let newText = extraReassign.concat(assignee.user.username + ',' + ' ');
+                    let newText = extraReassign.concat(assignee?.user?.username + ',' + ' ');
                     extraReassign = newText;
                     reassignCount++;
                   }

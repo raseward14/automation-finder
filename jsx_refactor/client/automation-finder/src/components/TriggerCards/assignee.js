@@ -41,7 +41,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 }
             })
             let totalArr = foundArr.concat(newArr);
-            console.log(totalArr);
+            // console.log(totalArr);
             setWorkspaceAssignees(totalArr);
         };
     };
@@ -74,7 +74,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             };
         });
         if (teamIdArr?.length > 0) {
-            console.log(teamIdArr)
+            // console.log(teamIdArr)
             // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
             getWorkspaceTeams(teamIdArr, newArr);
         } else {
@@ -86,7 +86,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     };
 
     const getWorkspaceMembers = async (assigneeArr) => {
-        console.log(assigneeArr)
+        // console.log(assigneeArr)
         // needs shard, Workspace_id, and bearer token
         const res = await axios.post(
             'http://localhost:8080/automation/members',
@@ -104,7 +104,7 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     // 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
     useEffect(() => {
         if (assigneeArray?.length > 0) {
-            console.log('assignee trigger', assigneeArray);
+            // console.log('assignee trigger', assigneeArray);
             //remove teamIds from the user array
             let userArr = assigneeArray.filter(item => {
                 const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
@@ -126,9 +126,9 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
         };
     }, []);
 
-    useEffect(() => {
-        console.log(workspaceAssignees);
-    }, [workspaceAssignees]);
+    // useEffect(() => {
+    //     console.log(workspaceAssignees);
+    // }, [workspaceAssignees]);
 
     return (
         <>
@@ -236,7 +236,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                         )}
                                     </span>
                                 )
-
 
                             } else if (i === (workspaceAssignees.length - 1)) {
                                 let newText = extraArray.concat(assignee?.user?.username);
