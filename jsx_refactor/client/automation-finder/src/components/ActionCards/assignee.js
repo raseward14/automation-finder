@@ -264,7 +264,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         });
         let totalRemArr = foundRemTeam.concat(remAssignee);
         console.log('total remove assignee array: ', totalRemArr);
-        setAddAssignee(totalRemArr);
+        setRemAssignee(totalRemArr);
       };
     }
   }, [workspaceTeams]);
