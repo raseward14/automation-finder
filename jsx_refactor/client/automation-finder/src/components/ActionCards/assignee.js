@@ -23,6 +23,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   let extraReassign = '';
   let reassignCount = 0;
 
+  let reassignTeamArr = [];
+  let addTeamArr = [];
+  let remTeamArr = [];
+  // Workspace teams
+  const [workspaceTeams, setWorkspaceTeams] = useState([]);
+
   const printRemAssignees = (remArr, workspaceUsers) => {
     let newArr = [];
     remArr.forEach((id) => {
@@ -92,6 +98,20 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     setReassign(newArr);
   }
 
+  const getWorkspaceTeams = async (teamIdArr, newArr) => {
+    const res = await axios.post(
+      'http://localhost:8080/automation/userTeams',
+      {
+        shard: shard,
+        teamId: teamId,
+        bearer: JWT
+      }
+    );
+    if (res?.data) {
+      setWorkspaceTeams(res?.data?.groups)
+    };
+  };
+
   // returns Workspace users
   const getWorkspaceMembers = async () => {
     // needs shard, Workspace_id, and bearer token
@@ -106,22 +126,71 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
     if (res?.data) {
       // console.log('add assignee length', cardDetails.action.input?.add_assignees.length)
       // use to get assignees in action fields
+
       if (cardDetails.action.input?.assignees) {
         const reassignArray = cardDetails.action.input?.assignees;
-        printReassignAssignees(reassignArray, res.data.members);
-      }
+        // filter out teams here - pass as separate array
+        // array to hold everything else
+        let reOverflow = [];
+        let reTeamIdArr = reassignArray.filter((item) => {
+          const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+          if (typeof item !== "number" && !dynamicOptions.includes(item)) {
+            return item;
+          } else {
+            reOverflow.push(item);
+          };
+        });
+        if(reTeamIdArr.length > 0) {
+          // if there are teams, set the corresponding team array
+          reassignTeamArr = reTeamIdArr;
+        };
+        printReassignAssignees(reOverflow, res.data.members);
+      };
       if ((cardDetails.action.input?.add_assignees.length > 0) || (cardDetails.action.input?.add_special_assignees.length > 0)) {
         let arr1 = cardDetails.action.input?.add_special_assignees;
         let arr2 = cardDetails.action.input?.add_assignees;
         const addArray = arr1.concat(arr2);
-        printAddAssignees(addArray, res.data.members);
-      }
+        // filter out teams here - pass as separate array
+        // array to hold everything else
+        let addOverflow = [];
+        let addTeamIdArr = addArray.filter((item) => {
+          const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+          if (typeof item !== "number" && !dynamicOptions.includes(item)) {
+            return item;
+          } else {
+            addOverflow.push(item);
+          };
+        });
+        if(addTeamIdArr.length > 0) {
+          // if there are teams, set the corresponding team array
+          addTeamArr = addTeamIdArr;
+        };
+        printAddAssignees(addOverflow, res.data.members);
+      };
       if ((cardDetails.action.input?.rem_assignees.length > 0) || (cardDetails.action.input?.rem_special_assignees.length > 0)) {
         let arr1 = cardDetails.action.input?.rem_special_assignees;
         let arr2 = cardDetails.action.input?.rem_assignees;
         const remArray = arr1.concat(arr2);
-        printRemAssignees(remArray, res.data.members);
-      }
+        // filter out teams here - pass as a separate array
+        // array to hold everything else
+        let remOverflow = [];
+        let remTeamIdArr = remArray.filter((item) => {
+          const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+          if (typeof item !== "number" && !dynamicOptions.includes(item)) {
+            return item;
+          } else {
+            remOverflow.push(item)
+          };
+        });
+        if(remTeamIdArr.length > 0) {
+          // if there are teams, set the corresponding team array
+          remTeamArr = remTeamIdArr;
+        };
+        printRemAssignees(remOverflow, res.data.members);
+      };
+      if ((reassignTeamArr.length > 0) || (addTeamArr > 0) || (remTeamArr > 0)) {
+        getWorkspaceTeams();
+      };
     };
   };
 
@@ -135,6 +204,53 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
       getWorkspaceMembers();
     }
   }, []);
+
+  useEffect(() => {
+    // this is my trigger, one of the teams arrays have triggered the api call
+    if(workspaceTeams.length > 0) {
+      if (reAssignTeamArr.length > 0) {
+        // get team objects, add to state var's
+        let foundReTeam = [];
+        reassignTeamArr.forEach((id) => {
+          let foundObject = workspaceTeams.find((object) => object.id === id);
+          if (foundObject !== undefined) {
+            foundReTeam.push(foundObject);
+          }
+        });
+        let totalReArr = foundReTeam.concat(reassign);
+        console.log('total reassign array: ', totalReArr);
+        setReassign(totalReArr);
+      };
+
+      if (addTeamArr.length > 0) {
+        // get team objects, add to state var's
+        let foundAddTeam = [];
+        addTeamArr.forEach((id) => {
+          let foundObject = workspaceTeams.find((object) => object.id === id);
+          if (foundObject !== undefined) {
+            foundAddTeam.push(foundObject);
+          }
+        });
+        let totalAddArr = foundAddTeam.concat(addAssignee);
+        console.log('total add assignee array: ', totalAddArr);
+        setAddAssignee(totalAddArr);
+      };
+
+      if (remTeamArr.length > 0) {
+        // get team objects, add to state var's
+        let foundRemTeam = [];
+        remTeamArr.forEach((id) => {
+          let foundObject = workspaceTeams.find((object) => object.id === id);
+          if (foundObject !== undefined) {
+            foundRemTeam.push(foundObject);
+          }
+        });
+        let totalRemArr = foundRemTeam.concat(remAssignee);
+        console.log('total add assignee array: ', totalRemArr);
+        setAddAssignee(totalRemArr);
+      };
+    }
+  }, [workspaceTeams])
 
   return (
     <>
