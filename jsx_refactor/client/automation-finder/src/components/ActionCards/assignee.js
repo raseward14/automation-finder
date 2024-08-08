@@ -5,6 +5,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Tooltip } from 'react-tooltip'
 import axios from 'axios';
 import "./style.css"
+
 // 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
 const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
@@ -23,10 +24,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   let extraReassign = '';
   let reassignCount = 0;
 
-  // let reassignTeamArr = [];
-  // let addTeamArr = [];
-  // let remTeamArr = [];
-  // ^^ changing to state vars
+  // state vars for round team objects
   const [reassignTeamArr, setReassignTeamArr] = useState([]);
   const [addTeamArr, setAddTeamArr] = useState([]);
   const [remTeamArr, setRemTeamArr] = useState([]);
@@ -128,7 +126,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
       }
     );
     if (res?.data) {
-      // console.log('add assignee length', cardDetails.action.input?.add_assignees.length)
       // use to get assignees in action fields
       let reTeamIdArr = [];
       let addTeamIdArr = [];
@@ -148,10 +145,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         });
         if (reTeamIdArr.length > 0) {
           // if there are teams, set the corresponding team array
-          // reassignTeamArr = reTeamIdArr;
           setReassignTeamArr(reTeamIdArr);
-
-          // console.log('filtered reassign team array', reassignTeamArr);
         };
         printReassignAssignees(reOverflow, res.data.members);
       };
@@ -195,7 +189,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         });
         if (remTeamIdArr.length > 0) {
           // if there are teams, set the corresponding team array
-          // remTeamArr = remTeamIdArr;
           setRemTeamArr(remTeamIdArr);
 
         };
@@ -208,11 +201,10 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
   };
 
   useEffect(() => {
-    console.log('from assignee action', cardDetails)
     // if unassign, set it and be done
+    // else set state variables above if anything else is set
     if (cardDetails.action.input?.unassign) {
       setUnassign(true)
-      // else set state variables above if anything else is set
     } else if ((cardDetails.action.input?.add_assignees > 0) || (cardDetails.action.input?.add_special_assignees > 0) || (cardDetails.action.input?.rem_assignees > 0) || (cardDetails.action.input?.rem_special_assignees > 0) || (cardDetails.action.input?.assignees)) {
       getWorkspaceMembers();
     }
@@ -220,12 +212,8 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
 
   useEffect(() => {
     // this is my trigger, one of the teams arrays have triggered the api call
-    console.log('Workspace teams: ', workspaceTeams)
     if (workspaceTeams.length > 0) {
-      console.log('our teams', workspaceTeams);
-      console.log('reassign team arr in our useEffect', reassignTeamArr);
       if (reassignTeamArr.length > 0) {
-        console.log('reassign team array', reassignTeamArr)
         // get team objects, add to state var's
         let foundReTeam = [];
         reassignTeamArr.forEach((id) => {
@@ -235,7 +223,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           }
         });
         let totalReArr = foundReTeam.concat(reassign);
-        console.log('total reassign array: ', totalReArr);
         setReassign(totalReArr);
       };
 
@@ -249,7 +236,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           }
         });
         let totalAddArr = foundAddTeam.concat(addAssignee);
-        console.log('total add assignee array: ', totalAddArr);
         setAddAssignee(totalAddArr);
       };
 
@@ -263,7 +249,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           }
         });
         let totalRemArr = foundRemTeam.concat(remAssignee);
-        console.log('total remove assignee array: ', totalRemArr);
         setRemAssignee(totalRemArr);
       };
     }

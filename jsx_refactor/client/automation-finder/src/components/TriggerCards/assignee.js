@@ -10,6 +10,8 @@ import "./style.css";
 // assignee added > cardDetails.trigger.conditions[0].after forEach (array)
 // if cardDetails.type === 'assignee_removed'
 // assignee removed > cardDetails.trigger.conditions[0].before forEach (array)
+// 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
+
 const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
     const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
     const [assigneeArray, setAssigneeArray] = useState([]);
@@ -41,7 +43,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 }
             })
             let totalArr = foundArr.concat(newArr);
-            // console.log(totalArr);
             setWorkspaceAssignees(totalArr);
         };
     };
@@ -73,20 +74,17 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 return item;
             };
         });
+        // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
+        // else, just set state now 
         if (teamIdArr?.length > 0) {
-            // console.log(teamIdArr)
-            // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
             getWorkspaceTeams(teamIdArr, newArr);
         } else {
-            console.log(newArr)
-            // else, just set state now 
             setWorkspaceAssignees(newArr);
 
         };
     };
 
     const getWorkspaceMembers = async (assigneeArr) => {
-        // console.log(assigneeArr)
         // needs shard, Workspace_id, and bearer token
         const res = await axios.post(
             'http://localhost:8080/automation/members',
@@ -101,10 +99,8 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
         };
     };
 
-    // 7e5011f7-f8ca-44d7-bcb7-e7827fca874c
     useEffect(() => {
         if (assigneeArray?.length > 0) {
-            // console.log('assignee trigger', assigneeArray);
             //remove teamIds from the user array
             let userArr = assigneeArray.filter(item => {
                 const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
@@ -125,10 +121,6 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
             setAssigneeArray(cardDetails.trigger.conditions[0].before);
         };
     }, []);
-
-    // useEffect(() => {
-    //     console.log(workspaceAssignees);
-    // }, [workspaceAssignees]);
 
     return (
         <>
