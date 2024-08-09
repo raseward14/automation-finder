@@ -271,10 +271,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
               <div>{"Add assignees"}</div>
               <div className='change-assignee-field'>
                 {addAssignee.map((assignee, i) => {
+                  // print icons if index is less than 3, or if array length is 4, we current indx is 3
                   if ((i < 3) || ((i === 3) && (addAssignee.length === 4))) {
                     return (
                       <span key={i}>
                         {assignee?.user ? (
+                          // user option
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-a-${assignee.user.username}`} />
                             <span
@@ -345,6 +347,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                             </span><span className='space'></span>
                           </>
                         ) : (
+                          // team option
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-a-${assignee.initials}`} />
                             <span
@@ -366,12 +369,14 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
-
+                  // else, if its the last array item, tack on to overflow modal
                   } else if (i === (addAssignee.length - 1)) {
                     let newText = extraAdd.concat(assignee?.user?.username);
                     extraAdd = newText;
                     addCount++;
+                  // else, add a comma and a Space bc something is coming after it
                   } else {
+                    // could be a user, a dynamic option, or a team
                     let newText = extraAdd.concat(assignee?.user?.username + ',' + ' ');
                     extraAdd = newText;
                     addCount++;
@@ -423,10 +428,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
               <div>{"Remove assignees"}</div>
               <div className='change-assignee-field'>
                 {remAssignee.map((assignee, i) => {
+                  // print icons if index is less than 3, or if array length is 4, we current indx is 3
                   if ((i < 3) || ((i === 3) && (remAssignee.length === 4))) {
                     return (
                       <span key={i}>
                         {assignee?.user ? (
+                          // user option
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-r-${assignee.user.username}`} />
                             <span
@@ -515,6 +522,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                             </span><span className='space'></span>
                           </>
                         ) : (
+                          // team option
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-rem-${assignee.initials}`} />
                             <span
@@ -536,16 +544,20 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
+                  // else, if its the last array item, tack on to overflow modal
                   } else if (i === (remAssignee.length - 1)) {
+                    // could be a user, a dynamic option, or a team
                     let newText = extraRem.concat(assignee?.user?.username);
                     extraRem = newText;
                     remCount++;
                   } else if (assignee?.user?.username) {
-                    // because there are 4 dynamic options, if the array is 5 or longer, and all dynamic are selected, one of the dynamic can end up in the overflow modal - account for that here
+                    // because there are 4 dynamic options, and teams, if the array is 5 or longer, and all dynamic are selected, one of the dynamic can end up in the overflow modal - account for that here
                     let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
                     extraRem = newText;
                     remCount++;
+                  // else, add a comma and a Space bc something is coming after it
                   } else {
+                    // could be a user, a dynamic option, or a team
                     let newText = extraRem.concat(assignee + ',' + ' ');
                     extraRem = newText;
                     remCount++;
@@ -598,11 +610,12 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
               <div>{"Reassign"}</div>
               <div className='change-assignee-field'>
                 {reassign.map((assignee, i) => {
+                  // print icons if index is less than 3, or if array length is 4, we current indx is 3
                   if ((i < 3) || ((i === 3) && (reassign.length === 4))) {
                     return (
                       <span key={i}>
-
                         {assignee?.user ? (
+                          // user option
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-re-${assignee.user.username}`} />
                             <span
@@ -673,6 +686,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                             </span><span className='space'></span>
                           </>
                         ) : (
+                          // team option
                           <>
                             <Tooltip className="dynamic-tooltip" id={`a-re-${assignee.initials}`} />
                             <span
@@ -694,11 +708,15 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
+                  // else, if its the last array item, tack on to overflow modal
                   } else if (i === (reassign.length - 1)) {
+                    // could be a user, a dynamic option, or a team
                     let newText = extraReassign.concat(assignee?.user?.username);
                     extraReassign = newText;
                     reassignCount++;
+                  // else, add a comma and a Space bc something is coming after it
                   } else {
+                    // could be a user, a dynamic option, or a team
                     let newText = extraReassign.concat(assignee?.user?.username + ',' + ' ');
                     extraReassign = newText;
                     reassignCount++;
