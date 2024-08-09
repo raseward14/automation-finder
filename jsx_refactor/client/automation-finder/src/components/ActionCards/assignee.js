@@ -180,7 +180,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         // array to hold everything else
         let remOverflow = [];
         remTeamIdArr = remArray.filter((item) => {
-          const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+          const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'assignees'];
           if (typeof item !== "number" && !dynamicOptions.includes(item)) {
             return item;
           } else {
@@ -236,6 +236,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           }
         });
         let totalAddArr = foundAddTeam.concat(addAssignee);
+        console.log('add assingee array', totalAddArr);
         setAddAssignee(totalAddArr);
       };
 
