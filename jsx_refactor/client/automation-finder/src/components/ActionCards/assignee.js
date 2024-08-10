@@ -225,19 +225,25 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         let totalReArr = foundReTeam.concat(reassign);
         setReassign(totalReArr);
       };
-
+      
+      
       if (addTeamArr.length > 0) {
         // get team objects, add to state var's
         let foundAddTeam = [];
         addTeamArr.forEach((id) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
-          if (foundObject !== undefined) {
+          if ((foundObject !== undefined)) {
             foundAddTeam.push(foundObject);
           }
         });
         let totalAddArr = foundAddTeam.concat(addAssignee);
+        
+        console.log('foundAddTeam is', foundAddTeam);
+        console.log('add assignees is', addAssignee);
         console.log('add assingee array', totalAddArr);
+        
         setAddAssignee(totalAddArr);
+
       };
 
       if (remTeamArr.length > 0) {
