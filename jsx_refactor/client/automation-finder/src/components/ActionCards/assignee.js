@@ -219,8 +219,14 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         reassignTeamArr.forEach((id) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if (foundObject !== undefined) {
-            foundReTeam.push(foundObject);
-          }
+            let index = reassign.findIndex((item) => item?.id === foundObject?.id);
+            if(index === -1) {
+              // then the object doesn't exist in the array yet
+              foundReTeam.push(foundObject);
+            } else {
+              console.log('Object already exists in the reassign');
+            };
+          };
         });
         let totalReArr = foundReTeam.concat(reassign);
         setReassign(totalReArr);
@@ -233,23 +239,16 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         addTeamArr.forEach((id) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if ((foundObject !== undefined)) {
-            console.log(foundObject?.id, foundAddTeam)
-            let index = addAssignee.findIndex((item) => item?.id === foundObject?.id)
+            let index = addAssignee.findIndex((item) => item?.id === foundObject?.id);
             if(index === -1) {
               // then the object doesn't exist in the array yet
               foundAddTeam.push(foundObject);
             } else {
-              console.log('Object already exists')
-            }
-            // foundAddTeam.push(foundObject);
-          }
+              console.log('Object already exists in add');
+            };
+          };
         });
-        let totalAddArr = foundAddTeam.concat(addAssignee);
-        
-        console.log('foundAddTeam is', foundAddTeam);
-        console.log('add assignees is', addAssignee);
-        console.log('add assingee array', totalAddArr);
-        
+        let totalAddArr = foundAddTeam.concat(addAssignee);        
         setAddAssignee(totalAddArr);
 
       };
@@ -260,8 +259,14 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         remTeamArr.forEach((id) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if (foundObject !== undefined) {
-            foundRemTeam.push(foundObject);
-          }
+            let index = remAssignee.findIndex((item) => item?.id === foundObject?.id);
+            if(index === -1) {
+              // then the object doesn't exist in the array yet
+              foundRemTeam.push(foundObject);
+            } else {
+              console.log('Object already exists in rem');
+            };
+          };
         });
         let totalRemArr = foundRemTeam.concat(remAssignee);
         setRemAssignee(totalRemArr);
