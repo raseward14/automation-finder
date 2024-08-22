@@ -232,7 +232,6 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         setReassign(totalReArr);
       };
       
-      
       if (addTeamArr.length > 0) {
         // get team objects, add to state var's
         let foundAddTeam = [];
