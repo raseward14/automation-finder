@@ -233,7 +233,15 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         addTeamArr.forEach((id) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if ((foundObject !== undefined)) {
-            foundAddTeam.push(foundObject);
+            console.log(foundObject?.id, foundAddTeam)
+            let index = addAssignee.findIndex((item) => item?.id === foundObject?.id)
+            if(index === -1) {
+              // then the object doesn't exist in the array yet
+              foundAddTeam.push(foundObject);
+            } else {
+              console.log('Object already exists')
+            }
+            // foundAddTeam.push(foundObject);
           }
         });
         let totalAddArr = foundAddTeam.concat(addAssignee);
