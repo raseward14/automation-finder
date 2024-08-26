@@ -220,7 +220,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if (foundObject !== undefined) {
             let index = reassign.findIndex((item) => item?.id === foundObject?.id);
-            if(index === -1) {
+            if (index === -1) {
               // then the object doesn't exist in the array yet
               foundReTeam.push(foundObject);
             } else {
@@ -231,7 +231,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         let totalReArr = foundReTeam.concat(reassign);
         setReassign(totalReArr);
       };
-      
+
       if (addTeamArr.length > 0) {
         // get team objects, add to state var's
         let foundAddTeam = [];
@@ -239,7 +239,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if ((foundObject !== undefined)) {
             let index = addAssignee.findIndex((item) => item?.id === foundObject?.id);
-            if(index === -1) {
+            if (index === -1) {
               // then the object doesn't exist in the array yet
               foundAddTeam.push(foundObject);
             } else {
@@ -247,9 +247,8 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
             };
           };
         });
-        let totalAddArr = foundAddTeam.concat(addAssignee);        
+        let totalAddArr = foundAddTeam.concat(addAssignee);
         setAddAssignee(totalAddArr);
-
       };
 
       if (remTeamArr.length > 0) {
@@ -259,7 +258,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
           let foundObject = workspaceTeams.find((object) => object.id === id);
           if (foundObject !== undefined) {
             let index = remAssignee.findIndex((item) => item?.id === foundObject?.id);
-            if(index === -1) {
+            if (index === -1) {
               // then the object doesn't exist in the array yet
               foundRemTeam.push(foundObject);
             } else {
@@ -387,12 +386,13 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
-                  // else, if its the last array item, tack on to overflow modal
+                    // else, if its the last array item, tack on to overflow modal
                   } else if (i === (addAssignee.length - 1)) {
+                    // this could still be a team, and would not be assignee.user.username
                     let newText = extraAdd.concat(assignee?.user?.username);
                     extraAdd = newText;
                     addCount++;
-                  // else, add a comma and a Space bc something is coming after it
+                    // else, add a comma and a Space bc something is coming after it
                   } else {
                     // could be a user, a dynamic option, or a team
                     let newText = extraAdd.concat(assignee?.user?.username + ',' + ' ');
@@ -564,21 +564,60 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                     )
                   // else, if its the last array item, tack on to overflow modal
                   } else if (i === (remAssignee.length - 1)) {
-                    // could be a user, a dynamic option, or a team
-                    let newText = extraRem.concat(assignee?.user?.username);
-                    extraRem = newText;
-                    remCount++;
-                  } else if (assignee?.user?.username) {
-                    // because there are 4 dynamic options, and teams, if the array is 5 or longer, and all dynamic are selected, one of the dynamic can end up in the overflow modal - account for that here
-                    let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
-                    extraRem = newText;
-                    remCount++;
-                  // else, add a comma and a Space bc something is coming after it
-                  } else {
-                    // could be a user, a dynamic option, or a team
-                    let newText = extraRem.concat(assignee + ',' + ' ');
-                    extraRem = newText;
-                    remCount++;
+                    // last one
+                    if (assignee?.user?.username) {
+                      // its a user
+                      let newText = extraRem.concat(assignee?.user?.username);
+                      extraRem = newText;
+                      remCount++;
+                    } else if (assignee?.name) {
+                      // its a team
+                      let newText = extraRem.concat(assignee?.name);
+                      extraRem = newText;
+                      remCount++;
+                    } else {
+                      // its a dynamic
+                      let newText = extraRem.concat(assignee);
+                      extraRem = newText;
+                      remCount++;
+                    };
+                  }
+                  
+                  // else if (assignee?.user?.username) {
+                  //   // because there are 4 dynamic options, and teams, if the array is 5 or longer, and all dynamic are selected, one of the dynamic can end up in the overflow modal - account for that here
+                  //   console.log('a user: ', assignee.user.username)
+                  //   let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
+                  //   extraRem = newText;
+                  //   remCount++;
+                  // // else, add a comma and a Space bc something is coming after it
+                  // } 
+                  else {
+                    // add a comma
+                    // console.log('something else: ', assignee)
+                    // let newText = extraRem.concat(assignee + ',' + ' ');
+                    // extraRem = newText;
+                    // remCount++;
+
+
+
+                    if (assignee?.user?.username) {
+                      // its a user
+                      let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
+                      extraRem = newText;
+                      remCount++;
+                    } else if (assignee?.name) {
+                      // its a team
+                      let newText = extraRem.concat(assignee?.name + ',' + ' ');
+                      extraRem = newText;
+                      remCount++;
+                    } else {
+                      // its a dynamic
+                      let newText = extraRem.concat(assignee + ',' + ' ');
+                      extraRem = newText;
+                      remCount++;
+                    };
+
+
                   }
                 })}
 
@@ -726,13 +765,15 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
-                  // else, if its the last array item, tack on to overflow modal
+                    // else, if its the last array item, tack on to overflow modal
                   } else if (i === (reassign.length - 1)) {
                     // could be a user, a dynamic option, or a team
+                    // this could still be a team, and would be assignee?.name
+                    // console.log('this is going into the overflow', assignee?.name);
                     let newText = extraReassign.concat(assignee?.user?.username);
                     extraReassign = newText;
                     reassignCount++;
-                  // else, add a comma and a Space bc something is coming after it
+                    // else, add a comma and a Space bc something is coming after it
                   } else {
                     // could be a user, a dynamic option, or a team
                     let newText = extraReassign.concat(assignee?.user?.username + ',' + ' ');
