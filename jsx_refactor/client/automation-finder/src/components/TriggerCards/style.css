@@ -31,14 +31,19 @@
 }
 
 .initials {
-    color: black;
+    color: white;
+    margin-left: 6px;
+}
+
+.overflow-text {
+    color: #7c828d;
     margin-left: 6px;
 }
 
 .person-icon {
     margin-top: 15px;
 }
- 
+
 .icon-circle {
     border: 7px solid black;
     border-radius: 50%;
@@ -46,8 +51,9 @@
     width: 100%;
 }
 
+
 .dynamic-assignee-icon {
-    margin-left: 30% !important;
+    margin-left: 50% !important;
 }
 
 .space {
@@ -63,4 +69,18 @@
     max-width: 70% !important;
     display: "block";
     z-index: 5;
+}
+
+.triggered-icon {
+    margin-left: 32% !important;
+}
+
+.team {
+   top: 22px !important;
+   left: 7px !important; 
+   background-color: rgb(72, 70, 70);
+   border-radius: 5px;
+   padding: 2px;
+   font-size: 9px;
+   color: #7c828d;
 }

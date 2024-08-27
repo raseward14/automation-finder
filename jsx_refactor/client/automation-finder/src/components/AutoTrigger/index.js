@@ -123,10 +123,6 @@ const Trigger = ({ automationObject, shard, teamId }) => {
     }
   }, [triggerObject])
 
-  useEffect(() => {
-    console.log('made it here')
-  }, [])
-
   return (
     <>
       <Card>
