@@ -386,19 +386,43 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
-                    // else, if its the last array item, tack on to overflow modal
                   } else if (i === (addAssignee.length - 1)) {
-                    // this could still be a team, and would not be assignee.user.username
-                    let newText = extraAdd.concat(assignee?.user?.username);
-                    extraAdd = newText;
-                    addCount++;
-                    // else, add a comma and a Space bc something is coming after it
+                    // last one
+                    if (assignee?.user?.username) {
+                      // its a user
+                      let newText = extraAdd.concat(assignee?.user?.username);
+                      extraAdd = newText;
+                      addCount++;
+                    } else if (assignee?.name) {
+                      // its a team
+                      let newText = extraAdd.concat(assignee?.name);
+                      extraAdd = newText;
+                      addCount++;
+                    } else {
+                      // its dynamic
+                      let newText = extraAdd.concat(assignee);
+                      extraAdd = newText;
+                      addCount++;
+                    };
                   } else {
-                    // could be a user, a dynamic option, or a team
-                    let newText = extraAdd.concat(assignee?.user?.username + ',' + ' ');
-                    extraAdd = newText;
-                    addCount++;
-                  }
+                    // add a comma
+                    if (assignee?.user?.username) {
+                      // its a user
+                      let newText = extraAdd.concat(assignee?.user?.username + ',' + ' ');
+                      extraAdd = newText;
+                      addCount++;
+                    } else if (assignee?.name) {
+                      // its a team
+                      let newText = extraAdd.concat(assignee?.name + ',' + ' ');
+                      extraAdd = newText;
+                      addCount++;
+                    } else {
+                      // its dynamic
+                      let newText = extraAdd.concat(assignee + ',' + ' ');
+                      extraAdd = newText;
+                      addCount++;
+                    };
+                  };
                 })}
 
                 {addAssignee.length > 4 ? (
@@ -562,7 +586,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                         )}
                       </span>
                     )
-                  // else, if its the last array item, tack on to overflow modal
+                    // else, if its the last array item, tack on to overflow modal
                   } else if (i === (remAssignee.length - 1)) {
                     // last one
                     if (assignee?.user?.username) {
@@ -576,30 +600,13 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       extraRem = newText;
                       remCount++;
                     } else {
-                      // its a dynamic
+                      // its dynamic
                       let newText = extraRem.concat(assignee);
                       extraRem = newText;
                       remCount++;
                     };
-                  }
-                  
-                  // else if (assignee?.user?.username) {
-                  //   // because there are 4 dynamic options, and teams, if the array is 5 or longer, and all dynamic are selected, one of the dynamic can end up in the overflow modal - account for that here
-                  //   console.log('a user: ', assignee.user.username)
-                  //   let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
-                  //   extraRem = newText;
-                  //   remCount++;
-                  // // else, add a comma and a Space bc something is coming after it
-                  // } 
-                  else {
+                  } else {
                     // add a comma
-                    // console.log('something else: ', assignee)
-                    // let newText = extraRem.concat(assignee + ',' + ' ');
-                    // extraRem = newText;
-                    // remCount++;
-
-
-
                     if (assignee?.user?.username) {
                       // its a user
                       let newText = extraRem.concat(assignee?.user?.username + ',' + ' ');
@@ -616,9 +623,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                       extraRem = newText;
                       remCount++;
                     };
-
-
-                  }
+                  };
                 })}
 
                 {remAssignee.length > 4 ? (
@@ -767,19 +772,42 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
                     )
                     // else, if its the last array item, tack on to overflow modal
                   } else if (i === (reassign.length - 1)) {
-                    // could be a user, a dynamic option, or a team
-                    // this could still be a team, and would be assignee?.name
-                    // console.log('this is going into the overflow', assignee?.name);
-                    let newText = extraReassign.concat(assignee?.user?.username);
-                    extraReassign = newText;
-                    reassignCount++;
-                    // else, add a comma and a Space bc something is coming after it
+                    // last one
+                    if (assignee?.user?.username) {
+                      // its a user
+                      let newText = extraReassign.concat(assignee?.user?.username);
+                      extraReassign = newText;
+                      reassignCount++;
+                    } else if (assignee?.name) {
+                      // its a team
+                      let newText = extraReassign.concat(assignee?.name);
+                      extraReassign = newText;
+                      reassignCount++;
+                    } else {
+                      // its dynamic
+                      let newText = extraReassign.concat(assignee);
+                      extraReassign = newText;
+                      reassignCount++;
+                    };
                   } else {
-                    // could be a user, a dynamic option, or a team
-                    let newText = extraReassign.concat(assignee?.user?.username + ',' + ' ');
-                    extraReassign = newText;
-                    reassignCount++;
-                  }
+                    // add a comma
+                    if (assignee?.user?.username) {
+                      // its a user
+                      let newText = extraReassign.concat(assignee?.user?.username + ',' + ' ');
+                      extraReassign = newText;
+                      reassignCount++;
+                    } else if (assignee?.name) {
+                      // its a team
+                      let newText = extraReassign.concat(assignee?.name + ',' + ' ');
+                      extraReassign = newText;
+                      reassignCount++;
+                    } else {
+                      // its dynamic
+                      let newText = extraReassign.concat(assignee + ',' + ' ');
+                      extraReassign = newText;
+                      reassignCount++;
+                    };
+                  };
                 })}
 
                 {reassign.length > 4 ? (
