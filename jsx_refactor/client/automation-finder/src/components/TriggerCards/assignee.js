@@ -230,13 +230,42 @@ const AssigneeCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                 )
 
                             } else if (i === (workspaceAssignees.length - 1)) {
-                                let newText = extraArray.concat(assignee?.user?.username);
-                                extraArray = newText;
-                                count++;
+                                // last one
+                                if (assignee?.user?.username) {
+                                    // its a user
+                                    let newText = extraArray.concat(assignee?.user?.username);
+                                    extraArray = newText;
+                                    count++;
+                                } else if (assignee?.name) {
+                                    // its a team
+                                    let newText = extraArray.concat(assignee?.name);
+                                    extraArray = newText;
+                                    count++;
+                                } else {
+                                    // its dynamic
+                                    let newText = extraArray.concat(assignee);
+                                    extraArray = newText;
+                                    count++;
+                                };
+
                             } else {
-                                let newText = extraArray.concat(assignee?.user?.username + ',' + ' ');
-                                extraArray = newText;
-                                count++;
+                                // add a comma
+                                if (assignee?.user?.username) {
+                                    // its a user
+                                    let newText = extraArray.concat(assignee?.user?.username + ',' + ' ');
+                                    extraArray = newText;
+                                    count++;
+                                } else if (assignee?.name) {
+                                    // its a team
+                                    let newText = extraArray.concat(assignee?.name + ',' + ' ');
+                                    extraArray = newText;
+                                    count++;
+                                } else {
+                                    // its dynamic
+                                    let newText = extraArray.concat(assignee + ',' + ' ');
+                                    extraArray = newText;
+                                    count++;
+                                };
                             }
                         })}
                         {workspaceAssignees.length > 4 ? (
