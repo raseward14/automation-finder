@@ -11,10 +11,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
   const [valueText, setValueText] = useState();
+  const [valueColor, setValueColor] = useState();
   const [customField, setCustomField] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
 
-  const getCustomField = async (id) => {
+  const getCustomField = async () => {
     const res = await axios.post(
       'http://localhost:8080/automation/customField',
       {
@@ -24,6 +25,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       }
     );
     if (res?.data) {
+      console.log(res?.data)
       setCustomField(res.data);
     }
   };
@@ -362,6 +364,9 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         let valueArray = customField?.type_config?.options;
         let result = valueArray?.find((item) => item.id === fieldValue);
         setValueText(result?.name);
+        if(result?.color) {
+          setValueColor(result?.color)
+        }
         break;
     }
   };
@@ -369,14 +374,12 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   useEffect(() => {
     if (customField !== undefined) {
       // the only way to do this is to switch the field type_id prop
-      // will need to call function from here
-      // function can perform this find method
       getValue(customField);
     }
   }, [customField]);
 
   useEffect(() => {
-    getCustomField(fieldId);
+    getCustomField();
   }, [fieldId]);
 
   return (
@@ -404,7 +407,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                 </>
               ) : (
                 <>
-                  <Card className="value">{valueText}</Card>
+                  <Card className="value" style={{backgroundColor: valueColor ? `${valueColor}` : 'inherit'}}>{valueText}</Card>
                 </>
               )}
             </>
