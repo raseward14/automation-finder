@@ -372,11 +372,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       // will need to call function from here
       // function can perform this find method
       getValue(customField);
-
-      // this logic works for dropdowns
-      let valueArray = customField?.type_config?.options;
-      // let result = valueArray?.find(item => item.id === fieldValue);
-      // setValueText(result?.name);
     }
   }, [customField]);
 
