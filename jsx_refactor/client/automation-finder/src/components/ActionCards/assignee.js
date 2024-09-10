@@ -149,7 +149,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         };
         printReassignAssignees(reOverflow, res.data.members);
       };
-      if ((cardDetails.action.input?.add_assignees.length > 0) || (cardDetails.action.input?.add_special_assignees.length > 0)) {
+      if ((cardDetails.action.input?.add_assignees?.length > 0) || (cardDetails.action.input?.add_special_assignees?.length > 0)) {
         let arr1 = cardDetails.action.input?.add_special_assignees;
         let arr2 = cardDetails.action.input?.add_assignees;
         const addArray = arr1.concat(arr2);
@@ -172,7 +172,7 @@ const AssigneeCard = ({ cardDetails, shard, teamId }) => {
         };
         printAddAssignees(addOverflow, res.data.members);
       };
-      if ((cardDetails.action.input?.rem_assignees.length > 0) || (cardDetails.action.input?.rem_special_assignees.length > 0)) {
+      if ((cardDetails.action.input?.rem_assignees?.length > 0) || (cardDetails.action.input?.rem_special_assignees?.length > 0)) {
         let arr1 = cardDetails.action.input?.rem_special_assignees;
         let arr2 = cardDetails.action.input?.rem_assignees;
         const remArray = arr1.concat(arr2);

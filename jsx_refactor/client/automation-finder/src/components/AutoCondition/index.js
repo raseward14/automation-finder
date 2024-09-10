@@ -13,7 +13,7 @@ import TimeEstimateCard from '../ConditionCards/timeEstimate';
 import CustomFieldCard from '../ConditionCards/customField';
 
 
-const Conditions = ({ conditionArray, shard, parentType, parentId }) => {
+const Conditions = ({ conditionArray, shard, teamId, parentType, parentId }) => {
     const [conditions, setCondidions] = useState(conditionArray);
     const [conditionCardArray, setConditionCardArray] = useState([])
     let emptyArr = [];
@@ -231,7 +231,7 @@ const Conditions = ({ conditionArray, shard, parentType, parentId }) => {
                                     <>
                                         <hr className='modal-line' />
                                         <span><em>and if this is true:</em></span>
-                                        <AssigneeCard cardDetails={card} key={`${i}`} />
+                                        <AssigneeCard cardDetails={card} key={`${i}`} shard={shard} teamId={teamId} />
                                     </>
                                 )
                                 break;
