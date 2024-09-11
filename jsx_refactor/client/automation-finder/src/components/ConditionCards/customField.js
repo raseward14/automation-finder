@@ -32,7 +32,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   const renderCondition = (action) => {
-    console.log(action)
+    // console.log(action.type_id)
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
       // 12 label
@@ -43,13 +43,17 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           let found = labelValueArray.find((label) => value === label.id);
           return found;
         });
-
-        return (
-          <>
+        console.log('found labels: ', foundLabelArray);
+         return (
+           <>
             {foundLabelArray.map((label, i) => {
-              <Card style={{ backgroundColor: label?.color ? `${label?.color}` : 'inherit' }}>{label.label}</Card>
+              return (
+                <>
+                  <Card className='label' style={{ backgroundColor: label?.color ? `${label?.color}` : 'inherit' }}>{label?.label}</Card>
+                </>
+              ) 
             })}
-          </>
+           </>
         )
       // 1 dropdown
       case 1:

@@ -54,3 +54,8 @@ img, svg {
 .list-relationship {
     transform: rotateY(0deg) rotate(-45deg);
 }
+
+.label {
+    padding: 3px;
+    width: fit-content;
+}
