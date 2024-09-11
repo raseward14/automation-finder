@@ -7,6 +7,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import ClickUpIcon from '../images/cu-white.png';
 import './style.css';
 
+// 8651cc40-e1e0-43a6-81f9-233398e11dc6
 const CustomFieldCard = ({ cardDetails, key }) => {
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
@@ -28,6 +29,43 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       console.log(res?.data)
       setCustomField(res.data);
     }
+  };
+
+  const renderCondition = (action) => {
+    console.log(action)
+    switch (action.type_id) {
+      // 5 is text, ai summary, ai progress update, txt area
+      // 12 label
+      case 12:
+        const labelValueArray = customField?.type_config?.options;
+        let labelString = '';
+        let foundLabelArray = fieldValue.map((value) => {
+          let found = labelValueArray.find((label) => value === label.id);
+          return found;
+        });
+
+        return (
+          <>
+            {foundLabelArray.map((label, i) => {
+              <Card style={{ backgroundColor: label?.color ? `${label?.color}` : 'inherit' }}>{label.label}</Card>
+            })}
+          </>
+        )
+      // 1 dropdown
+      case 1:
+        let valueArray = customField?.type_config?.options;
+        let result = valueArray?.find((item) => item.id === fieldValue);
+        let valueName = result?.name
+        let valueColor = result?.color
+        return (
+          <>
+            <Card className='value' style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueName}</Card>
+          </>
+        )
+      default:
+        return (<></>)
+    }
+
   };
 
   const renderIcon = (action) => {
@@ -252,23 +290,23 @@ const CustomFieldCard = ({ cardDetails, key }) => {
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
       case 5:
-      // text area & (ai)
+      // 15 text area & (ai)
       case 15:
-      // short text
+      // 2 short text
       case 2:
-      // email
+      // 7 email
       case 7:
-      // number
+      // 0 number
       case 0:
-      // website
+      // 3 website
       case 3:
-      // phone
+      // 8 phone
       case 8:
         // currency
         setValueText(cardDetails.value);
         break;
+      // 6 checkbox
       case 6:
-        // checkbox
         // insert logic to convert boolean to text
         if (valueText) {
           setValueText('checked');
@@ -276,6 +314,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           setValueText('unchecked');
         }
         break;
+      // 4 date
       case 4:
         // add a function to convert 1713520800000 to a date
         const myUnixTimestamp = fieldValue;
@@ -283,6 +322,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         console.log(myDate);
         setValueText(myDate.toDateString());
         break;
+      // 16 files
       case 16:
         // add function to loop through attachment URLs and display them
         let attachmentString = '';
@@ -297,6 +337,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           }
         });
         break;
+      // 12 label
       case 12:
         // fieldValue is an array of labelIDs, we need to convert them to their txt value
         const labelValueArray = customField?.type_config?.options;
@@ -316,9 +357,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           }
         });
         break;
+      // 19 address
       case 19:
         setValueText(cardDetails?.value?.formatted_address);
         break;
+      // 10 people 
       case 10:
         // users, we need to loop through userIds and print each user - array of numbers
         let userIdString = '';
@@ -333,18 +376,22 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           }
         });
         break;
+      // 11 rating
       case 11:
         // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
         let ratioString = `${fieldValue}/${action?.type_config?.count}`;
         setValueText(ratioString);
         break;
+      // 14 manual progress
       case 14:
         // this is an manual progress - total is in type_config?.end prop, and users value is in cardDetails.value.current - its a string
         setValueText({ type: 'manual-progress', value: fieldValue?.current });
         // setValueText(fieldValue?.current)
         break;
+      // 18 list relationship
       case 18:
       // relationship specific list - type_config.subcategory_id is the list_id - cardDetails.value is an array of task_ids
+      // 9 task relationship
       case 9:
         // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
         let taskIdString = '';
@@ -359,12 +406,13 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           }
         });
         break;
+      // 1 dropdown
       case 1:
         // dropdown
         let valueArray = customField?.type_config?.options;
         let result = valueArray?.find((item) => item.id === fieldValue);
         setValueText(result?.name);
-        if(result?.color) {
+        if (result?.color) {
           setValueColor(result?.color)
         }
         break;
@@ -407,7 +455,8 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                 </>
               ) : (
                 <>
-                  <Card className="value" style={{backgroundColor: valueColor ? `${valueColor}` : 'inherit'}}>{valueText}</Card>
+                  <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card>
+                  <div>{renderCondition(customField)}</div>
                 </>
               )}
             </>
