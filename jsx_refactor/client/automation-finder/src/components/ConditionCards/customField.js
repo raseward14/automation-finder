@@ -38,7 +38,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       // 12 label
       case 12:
         const labelValueArray = customField?.type_config?.options;
-        let labelString = '';
         let foundLabelArray = fieldValue.map((value) => {
           let found = labelValueArray.find((label) => value === label.id);
           return found;
