@@ -44,16 +44,25 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           return found;
         });
         console.log('found labels: ', foundLabelArray);
-         return (
-           <>
+        return (
+          <>
             {foundLabelArray.map((label, i) => {
+              const styles = {
+                backgroundColor: label?.color ? `${label?.color}` : 'inherit',
+              };
+              const parentStyles = {
+                border: label?.color ? 'inherit' : '1px solid #abaeb0',
+                borderRadius: '5px',
+                width: 'fit-content',
+                margin: '0px 2px 0px 2px'
+              }
               return (
-                <>
-                  <Card className='label' style={{ backgroundColor: label?.color ? `${label?.color}` : 'inherit' }}>{label?.label}</Card>
-                </>
-              ) 
+                <div  style={parentStyles}>
+                  <Card className='label' style={styles}>{label?.label}</Card>
+                </div>
+              )
             })}
-           </>
+          </>
         )
       // 1 dropdown
       case 1:
@@ -460,7 +469,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
               ) : (
                 <>
                   <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card>
-                  <div>{renderCondition(customField)}</div>
+                  <Card className="label">{renderCondition(customField)}</Card>
                 </>
               )}
             </>
