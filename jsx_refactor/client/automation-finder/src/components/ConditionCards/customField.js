@@ -457,13 +457,13 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             className='icon fa-regular'
             icon={icon({name: 'pen-to-square', style: 'regular' })} />
             {`Custom Field`}</Card.Title>
-          <Card className="value">{cardDetails.op}</Card>
           <span>
-            <b className="card-text">FIELD</b>
+            <b className="card-text">CUSTON FIELD</b>
           </span>
           {customField && valueText ? (
             <>
               <Card className="value">{renderIcon(customField)}</Card>
+              <Card className="value">{cardDetails.op}</Card>
               <span>
                 <b className="card-text">VALUE</b>
               </span>
