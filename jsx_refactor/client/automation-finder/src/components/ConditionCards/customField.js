@@ -35,6 +35,12 @@ const CustomFieldCard = ({ cardDetails, key }) => {
     // console.log(action.type_id)
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
+      case 5:
+        console.log('this was sent to renderCondition', cardDetails)
+      // 15 text area & (ai)
+      case 15:
+        console.log('this was sent to renderCondition', cardDetails)
+        break;
       // 12 label
       case 12:
         const labelValueArray = customField?.type_config?.options;
@@ -56,7 +62,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                 margin: '0px 2px 0px 2px'
               }
               return (
-                <div  style={parentStyles}>
+                <div style={parentStyles}>
                   <Card className='label' style={styles}>{label?.label}</Card>
                 </div>
               )
@@ -446,7 +452,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
     <>
       <Card className="condition-card" key={key}>
         <Card.Body>
-          <Card.Title className="value">{`Custom Field`}</Card.Title>
+          <Card.Title className="value">
+            <FontAwesomeIcon
+            className='icon fa-regular'
+            icon={icon({name: 'pen-to-square', style: 'regular' })} />
+            {`Custom Field`}</Card.Title>
           <Card className="value">{cardDetails.op}</Card>
           <span>
             <b className="card-text">FIELD</b>
