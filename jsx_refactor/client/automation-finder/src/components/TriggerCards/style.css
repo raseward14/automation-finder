@@ -1,8 +1,17 @@
+
+/* .card-row-container {
+    border: 1px solid rgba(60, 65, 74, 1) !important;
+    border-radius: 5px;
+    padding: 0px 12px 0px 12px;
+    height: 40px;
+} */
+
 .from-to {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
+
 
 .status {
     border-radius: 5px;
@@ -22,12 +31,12 @@
 }
 
 .status-label {
-    width: 25%;
     color: rgb(173, 179, 189, 1);
+    margin-top: 0.5rem;
 }
 
 .status-trigger {
-    width: 75%;
+    width: 100%;
 }
 
 .initials {

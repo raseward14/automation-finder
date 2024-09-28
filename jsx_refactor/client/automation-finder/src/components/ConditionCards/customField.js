@@ -478,7 +478,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
               ) : (
                 <>
                   <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card>
-                  <Card className="label">{renderCondition(customField)}</Card>
+                  <Card className="value label">{renderCondition(customField)}</Card>
                 </>
               )}
             </>
