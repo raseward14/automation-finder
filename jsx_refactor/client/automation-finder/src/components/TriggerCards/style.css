@@ -13,17 +13,6 @@
 }
 
 
-.status {
-    border-radius: 5px;
-    border: 1px solid rgba(60, 65, 74) !important;
-    background-color: transparent;
-    padding: 4px 12px;
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
 .status-row {
     display: flex;
     flex-direction: row;
@@ -32,7 +21,6 @@
 
 .status-label {
     color: rgb(173, 179, 189, 1);
-    margin-top: 0.5rem;
 }
 
 .status-trigger {

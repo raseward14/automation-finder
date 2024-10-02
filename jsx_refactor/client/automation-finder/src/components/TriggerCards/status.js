@@ -6,7 +6,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import "./style.css";
 
 
-// status changes
+// status changes 8651cc40-e1e0-43a6-81f9-233398e11dc6
 const StatusCard = ({ triggerName, beforeAfter, parentType, parentId, shard }) => {
     const [statusBefore, setStatusBefore] = useState([]);
     const [beforeStatusObjects, setBeforeStatusObjects] = useState([]);
@@ -107,7 +107,7 @@ const StatusCard = ({ triggerName, beforeAfter, parentType, parentId, shard }) =
                         ) : (
                             <span className='status status-trigger'>Any Status</span>
                         )}
-                    </Card>
+                    </Card><div style={{ 'margin-top': '10px' }} />
                     <span className='status-label'>To: </span>
                     <Card className='from-to'>
                         {afterStatusObjects.length ? (
