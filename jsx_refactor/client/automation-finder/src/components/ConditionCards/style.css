@@ -34,6 +34,10 @@
     flex-direction: row;
     justify-content: center !important;
     margin: auto;
+    padding: 3px;
+
+    /* background-color: unset; */
+    border: 10px solid rgba(60, 65, 74, 1);
 }
 
 /* .status {
@@ -60,9 +64,4 @@ img, svg {
 
 .list-relationship {
     transform: rotateY(0deg) rotate(-45deg);
-}
-
-.label {
-    padding: 3px;
-    width: fit-content;
 }

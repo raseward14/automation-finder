@@ -36,11 +36,74 @@ const CustomFieldCard = ({ cardDetails, key }) => {
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
       case 5:
-        console.log('this was sent to renderCondition', cardDetails)
-      // 15 text area & (ai)
+      console.log('this was sent to renderCondition', cardDetails)
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 15 text area & (ai) 
       case 15:
         console.log('this was sent to renderCondition', cardDetails)
-        break;
+        return (
+          <>
+            <Card className="value">{cardDetails.value}</Card>
+          </>
+        )
+      // 2 short text
+      case 2:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 7 email
+      case 7:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 0 number
+      case 0:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 3 website
+      case 3:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 8 phone
+      case 8:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 6 checkbox
+      case 6:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
+      // 4 date
+      case 4:
+      // 16 files
+      case 16:
+      
       // 12 label
       case 12:
         const labelValueArray = customField?.type_config?.options;
@@ -69,6 +132,18 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             })}
           </>
         )
+      // 19 address
+      case 19:
+      // 10 people
+      case 10:
+      // 11 rating
+      case 11:
+      // 14 manual progress
+      case 14:
+      // 18 list relationship
+      case 18:
+      // 9 task relationship
+      case 9:
       // 1 dropdown
       case 1:
         let valueArray = customField?.type_config?.options;
