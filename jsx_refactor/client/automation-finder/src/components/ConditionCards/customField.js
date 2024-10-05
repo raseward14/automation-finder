@@ -99,10 +99,25 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           <Card className="value">{cardDetails.value}</Card>
         </>
       )
+      
       // 4 date
       case 4:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
       // 16 files
       case 16:
+        console.log('this was sent to renderCondition', cardDetails)
+      return (
+        
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
       
       // 12 label
       case 12:
