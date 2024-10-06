@@ -7,7 +7,8 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import ClickUpIcon from '../images/cu-white.png';
 import './style.css';
 
-// 8651cc40-e1e0-43a6-81f9-233398e11dc6
+// 8651cc40-e1e0-43a6-81f9-233398e11dc6 - all
+// 268ac10f-187c-4eab-9960-b7d012711457 - building
 const CustomFieldCard = ({ cardDetails, key }) => {
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
@@ -32,20 +33,18 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   const renderCondition = (action) => {
+    console.log(action.type_id, action, cardDetails)
     switch (action.type_id) {
       case 5:
-        // 5 ai progress update
-        console.log('renderCondition ai progress update cf', action.type_id, action, cardDetails)
+        // 5 text area, ai progress update, ai summary
         return (
           <>
-            <Card className="value">{cardDetails.value}</Card>
+            <Card>{cardDetails.value}</Card>
           </>
         )
-        break;
 
       case 15:
         // 15 short text 
-        console.log('renderCondition text/ai cf', cardDetails)
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -53,34 +52,29 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         )
 
       case 2:
-        // 2 short text
-        console.log('renderCondition short text cf', cardDetails)
-        // return (
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        // 2 email
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        )
 
       case 7:
-        // 7 email
-        console.log('renderCondition email cf', cardDetails)
-        // return (
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        // 7 number
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        )
 
       case 0:
-        // 0 number
+        // 0 
         console.log('renderCondition number cf', cardDetails)
-        // return (
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        )
 
       case 3:
         // 3 website
@@ -105,24 +99,29 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       case 6:
         // 6 checkbox
         console.log('renderCondition checkbox cf', cardDetails)
-        // return (
-
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        return (
+          <>
+            {cardDetails.value === false ? (
+              <span>{'unchecked'}</span>
+            ) : (
+              <span>{'checked'}</span>
+            )}
+          </>
+        )
 
       case 4:
         // 4 date
         console.log('renderCondition date cf', cardDetails)
-        // return (
+        // add a function to convert 1713520800000 to a date
+        const myUnixTimestamp = fieldValue;
+        const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
+        console.log(myDate);
 
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        return (
+          <>
+            <Card>{myDate.toDateString()}</Card>
+          </>
+        )
 
       case 16:
         // 16 files
