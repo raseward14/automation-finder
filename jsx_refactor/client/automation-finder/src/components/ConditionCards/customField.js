@@ -32,10 +32,10 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   const renderCondition = (action) => {
-    // console.log(action.type_id)
+    console.log(action.type_id, action)
     switch (action.type_id) {
       case 5:
-        // 5 is text, ai summary, ai progress update, txt area
+        // 5 ai summary, ai progress update, txt area
         console.log('renderCondition text/ai summary/ai progress update/txt area cf', cardDetails)
         // return (
         //   <>
@@ -45,14 +45,14 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         break;
 
       case 15:
-        // 15 text area & (ai) 
-        console.log('renderCondition text area/ai cf', cardDetails)
-        // return (
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        // 15 sort text & (ai) 
+        console.log('renderCondition text/ai cf', cardDetails)
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        )
+        // break;
 
       case 2:
         // 2 short text
