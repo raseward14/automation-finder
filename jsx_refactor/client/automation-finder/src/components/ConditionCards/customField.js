@@ -34,93 +34,111 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   const renderCondition = (action) => {
     // console.log(action.type_id)
     switch (action.type_id) {
-      // 5 is text, ai summary, ai progress update, txt area
       case 5:
-      console.log('this was sent to renderCondition', cardDetails)
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 15 text area & (ai) 
+        // 5 is text, ai summary, ai progress update, txt area
+        console.log('renderCondition text/ai summary/ai progress update/txt area cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 15:
-        console.log('this was sent to renderCondition', cardDetails)
-        return (
-          <>
-            <Card className="value">{cardDetails.value}</Card>
-          </>
-        )
-      // 2 short text
+        // 15 text area & (ai) 
+        console.log('renderCondition text area/ai cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 2:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 7 email
+        // 2 short text
+        console.log('renderCondition short text cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 7:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 0 number
+        // 7 email
+        console.log('renderCondition email cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 0:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 3 website
+        // 0 number
+        console.log('renderCondition number cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 3:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 8 phone
+        // 3 website
+        console.log('renderCondition website cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 8:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 6 checkbox
+        // 8 phone
+        console.log('renderCondition phone cf', cardDetails)
+        // return (
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 6:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      
-      // 4 date
+        // 6 checkbox
+        console.log('renderCondition checkbox cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 4:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      // 16 files
+        // 4 date
+        console.log('renderCondition date cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 16:
-        console.log('this was sent to renderCondition', cardDetails)
-      return (
-        
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
-      
-      // 12 label
+        // 16 files
+        console.log('renderCondition number cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 12:
+        // 12 label
         const labelValueArray = customField?.type_config?.options;
         let foundLabelArray = fieldValue.map((value) => {
           let found = labelValueArray.find((label) => value === label.id);
@@ -134,10 +152,10 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                 backgroundColor: label?.color ? `${label?.color}` : 'inherit',
               };
               const parentStyles = {
-                border: label?.color ? 'inherit' : '1px solid #abaeb0',
+                border: label?.color ? '' : '1px solid #abaeb0',
                 borderRadius: '5px',
                 width: 'fit-content',
-                margin: '0px 2px 0px 2px'
+                margin: '4px 2px 4px 2px'
               }
               return (
                 <div style={parentStyles}>
@@ -147,20 +165,73 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             })}
           </>
         )
-      // 19 address
       case 19:
-      // 10 people
+        // 19 address
+        console.log('renderCondition address cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 10:
-      // 11 rating
+        // 10 people
+        console.log('renderCondition people cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 11:
-      // 14 manual progress
+        // 11 rating
+        console.log('renderCondition rating cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 14:
-      // 18 list relationship
+        // 14 manual progress
+        console.log('renderCondition manual progress cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 18:
-      // 9 task relationship
+        // 18 list relationship
+        console.log('renderCondition list relationship cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
+
       case 9:
-      // 1 dropdown
+        // 9 task relationship
+        console.log('renderCondition task relationship cf', cardDetails)
+        // return (
+
+        //   <>
+        //     <Card className="value">{cardDetails.value}</Card>
+        //   </>
+        // )
+        break;
       case 1:
+        // 1 dropdown
         let valueArray = customField?.type_config?.options;
         let result = valueArray?.find((item) => item.id === fieldValue);
         let valueName = result?.name
@@ -544,8 +615,8 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         <Card.Body>
           <Card.Title className="value">
             <FontAwesomeIcon
-            className='icon fa-regular'
-            icon={icon({name: 'pen-to-square', style: 'regular' })} />
+              className='icon fa-regular'
+              icon={icon({ name: 'pen-to-square', style: 'regular' })} />
             {`Custom Field`}</Card.Title>
           <span>
             <b className="card-text">CUSTON FIELD</b>
@@ -568,7 +639,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
               ) : (
                 <>
                   <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card>
-                  <Card className="value label">{renderCondition(customField)}</Card>
+                  <Card className="value label-container">{renderCondition(customField)}</Card>
                 </>
               )}
             </>
