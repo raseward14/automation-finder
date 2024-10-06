@@ -619,27 +619,31 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           <span>
             <b className="card-text">CUSTON FIELD</b>
           </span>
-          {customField  ? (
+          {customField ? (
             <>
-              <Card className="value label-container">{renderIcon(customField)}</Card><br/>
+              <Card className="value label-container">{renderIcon(customField)}</Card><br />
               <Card className="value label-container">{cardDetails.op}</Card>
-              <span>
-                <b className="card-text">VALUE</b>
-              </span>
               {valueText?.type === 'manual-progress' ? (
                 <>
+                  <span>
+                    <b className="card-text">VALUE</b>
+                  </span>
                   <ProgressBar
                     variant="success"
                     now={valueText?.value}
                     label={`${valueText?.value}`}
                   />
                 </>
-              ) : (
+              ) : valueText ? (
                 <>
+                  <span>
+                    <b className="card-text">VALUE</b>
+                  </span>
+
                   <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card>
                   <Card className="value label-container">{renderCondition(customField)}</Card>
                 </>
-              )}
+              ) : (<></>)}
             </>
           ) : (
             <></>
