@@ -623,8 +623,8 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           </span>
           {customField && valueText ? (
             <>
-              <Card className="value">{renderIcon(customField)}</Card>
-              <Card className="value">{cardDetails.op}</Card>
+              <Card className="value label-container">{renderIcon(customField)}</Card><br/>
+              <Card className="value label-container">{cardDetails.op}</Card>
               <span>
                 <b className="card-text">VALUE</b>
               </span>

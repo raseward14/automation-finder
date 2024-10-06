@@ -11,7 +11,7 @@
 }
 
 .condition-icon {
-    padding: 5px 5px 5px 0px;
+    /* padding: 5px 5px 5px 0px; */
     display: inline-flex;
     align-self: self-start;
     align-items: center;
@@ -23,7 +23,7 @@
 
 .value {
     border-radius: 5px;
-    border: 1px solid rgba(60, 65, 74, 1);
+    border: 1px solid rgba(60, 65, 74, 1) !important;
     background-color: rgb(48, 53, 60, 1);
     padding: 4px 12px;
     margin-bottom: 0.5rem;
@@ -50,17 +50,6 @@
     /* background-color: unset; */
     border: 10px solid rgba(60, 65, 74, 1);
 }
-
-/* .status {
-    border-radius: 5px;
-    border: 1px solid rgba(60, 65, 74) !important;
-    background-color: transparent;
-    padding: 4px 12px;
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-} */
 
 .status-row {
     display: flex;
