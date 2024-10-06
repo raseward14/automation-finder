@@ -32,27 +32,25 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   const renderCondition = (action) => {
-    console.log(action.type_id, action)
     switch (action.type_id) {
       case 5:
-        // 5 ai summary, ai progress update, txt area
-        console.log('renderCondition text/ai summary/ai progress update/txt area cf', cardDetails)
-        // return (
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
+        // 5 ai progress update
+        console.log('renderCondition ai progress update cf', action.type_id, action, cardDetails)
+        return (
+          <>
+            <Card className="value">{cardDetails.value}</Card>
+          </>
+        )
         break;
 
       case 15:
-        // 15 sort text & (ai) 
+        // 15 short text 
         console.log('renderCondition text/ai cf', cardDetails)
         return (
           <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-        // break;
 
       case 2:
         // 2 short text
@@ -621,7 +619,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
           <span>
             <b className="card-text">CUSTON FIELD</b>
           </span>
-          {customField && valueText ? (
+          {customField  ? (
             <>
               <Card className="value label-container">{renderIcon(customField)}</Card><br/>
               <Card className="value label-container">{cardDetails.op}</Card>
