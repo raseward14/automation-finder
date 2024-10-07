@@ -69,7 +69,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
 
       case 0:
         // 0 
-        console.log('renderCondition number cf', cardDetails)
+        // console.log('renderCondition number cf', cardDetails)
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -98,13 +98,19 @@ const CustomFieldCard = ({ cardDetails, key }) => {
 
       case 6:
         // 6 checkbox
-        console.log('renderCondition checkbox cf', cardDetails)
+        console.log('renderCondition checkbox cf', cardDetails, action)
         return (
           <>
             {cardDetails.value === false ? (
-              <span>{'unchecked'}</span>
+              <span><FontAwesomeIcon
+              className="icon"
+              icon={icon({ name: 'square', style: 'regular' })}
+            /></span>
             ) : (
-              <span>{'checked'}</span>
+              <span><FontAwesomeIcon
+              className="icon"
+              icon={icon({ name: 'square-check' })}
+            /></span>
             )}
           </>
         )
