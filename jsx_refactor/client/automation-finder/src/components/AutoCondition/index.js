@@ -63,6 +63,7 @@ const Conditions = ({ conditionArray, shard, teamId, parentType, parentId }) => 
         let field = condition.field;
         let operator = condition.op;
         let value = condition.value;
+        console.log(field);
         switch (true) {
             case /status/.test(field):
                 let statusCard = {

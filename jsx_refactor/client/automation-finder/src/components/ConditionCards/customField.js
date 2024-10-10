@@ -211,6 +211,14 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         //   </>
         // )
         break;
+      case 17:
+        // 17 formula 
+        console.log('renderCondition number cf', cardDetails, action)
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        )
 
       case 18:
         // 18 list relationship
@@ -278,7 +286,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             </div>
           );
         }
-        break;
       case 15:
         // short text
         return (
@@ -287,7 +294,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 2:
         // email
         return (
@@ -299,7 +305,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 7:
         // number
         return (
@@ -311,7 +316,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 0:
         // website
         return (
@@ -320,7 +324,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 3:
         // phone
         return (
@@ -332,7 +335,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 8:
         // currency
         return (
@@ -344,7 +346,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 6:
         // checkbox
         return (
@@ -356,7 +357,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 4:
         // date
         return (
@@ -368,7 +368,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 16:
         // attachment
         return (
@@ -380,7 +379,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 12:
         //  Label Custom Field
         return (
@@ -389,7 +387,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 19:
         // address
         return (
@@ -401,7 +398,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 10:
         // users, we need to loop through userIds and print each user - array of numbers
         return (
@@ -410,7 +406,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 11:
         // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
         return (
@@ -419,7 +414,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 14:
         // manual progress
         return (
@@ -431,7 +425,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 9:
         // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
         return (
@@ -440,7 +433,16 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
+      case 17:
+        // formula Custom Field
+        return(
+          <div className='condition-icon'>
+            <FontAwesomeIcon
+              className='icon'
+              icon={icon({ name: 'florin-sign' })}/>
+              <>{customField?.name}</>
+          </div>
+        )
       case 18:
         // relationship specific list
         return (
@@ -452,7 +454,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
       case 1:
         // dropdown
         return (
@@ -464,7 +465,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
             <>{customField?.name}</>
           </div>
         );
-        break;
     }
   };
 
@@ -602,6 +602,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   useEffect(() => {
+    console.log('custom field is', customField)
     if (customField !== undefined) {
       // the only way to do this is to switch the field type_id prop
       getValue(customField);

@@ -132,7 +132,11 @@ export default function Automations({ socket, workspaceId }) {
 
   useEffect(() => {
     if (foundTrigger?.trigger?.conditions) {
-      setConditions(foundTrigger?.trigger?.conditions)
+      // filter out any conditions that dont have operators
+      // this is needed bc status change triggers actually logs the before, and after status arrays as separate conditions!
+      let conditions = foundTrigger?.trigger?.conditions;
+      let conditionCards = conditions.filter(object => object.op)
+      setConditions(conditionCards)
     }
   }, [foundTrigger]);
 
