@@ -27,7 +27,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       }
     );
     if (res?.data) {
-      console.log(res?.data)
       setCustomField(res.data);
     }
   };
@@ -469,6 +468,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   const getValue = (action) => {
+
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
       case 5:
@@ -602,7 +602,6 @@ const CustomFieldCard = ({ cardDetails, key }) => {
   };
 
   useEffect(() => {
-    console.log('custom field is', customField)
     if (customField !== undefined) {
       // the only way to do this is to switch the field type_id prop
       getValue(customField);
