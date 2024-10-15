@@ -27,12 +27,14 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       }
     );
     if (res?.data) {
+      console.log('field is: ', res.data, 'value is: ', cardDetails.value)
       setCustomField(res.data);
     }
   };
 
   const renderCondition = (action) => {
-    console.log(action.type_id, action, cardDetails)
+    // console.log(action.type_id, action, cardDetails)
+    // console.log(customField);
     switch (action.type_id) {
       case 5:
         // 5 text area, ai progress update, ai summary
@@ -212,7 +214,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         break;
       case 17:
         // 17 formula 
-        console.log('renderCondition number cf', cardDetails, action)
+        console.log('renderCondition formula cf', cardDetails.value, action)
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -639,7 +641,7 @@ const CustomFieldCard = ({ cardDetails, key }) => {
                     label={`${valueText?.value}`}
                   />
                 </>
-              ) : valueText ? (
+              ) : cardDetails.value ? (
                 <>
                   <span>
                     <b className="card-text">VALUE</b>
