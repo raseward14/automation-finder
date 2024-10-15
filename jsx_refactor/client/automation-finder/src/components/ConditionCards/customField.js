@@ -171,14 +171,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
         )
       case 19:
         // 19 address
-        console.log('renderCondition address cf', cardDetails)
-        // return (
-
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        return (
+          <>
+            <Card>{cardDetails?.value?.formatted_address}</Card>
+          </>
+        )
 
       case 10:
         // 10 people
@@ -484,6 +481,8 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       case 0:
       // 3 website
       case 3:
+      // 17 formula
+      case 17:
       // 8 phone
       case 8:
         // currency
