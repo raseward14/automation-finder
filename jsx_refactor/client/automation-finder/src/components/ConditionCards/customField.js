@@ -90,12 +90,11 @@ const CustomFieldCard = ({ cardDetails, key }) => {
       case 8:
         // 8 phone
         console.log('renderCondition phone cf', cardDetails)
-        // return (
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        )
 
       case 6:
         // 6 checkbox
