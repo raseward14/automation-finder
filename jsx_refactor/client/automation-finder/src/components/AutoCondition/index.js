@@ -267,7 +267,7 @@ const Conditions = ({ conditionArray, shard, teamId, parentType, parentId }) => 
                                     <>
                                         <hr className='modal-line' />
                                         <span><em>and if this is true:</em></span>
-                                        <CustomFieldCard cardDetails={card} key={`${i}`} />
+                                        <CustomFieldCard cardDetails={card} key={`${i}`} shard={shard} teamId={teamId} />
                                     </>
                                 )
                                 break;
