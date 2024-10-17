@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { Tooltip } from 'react-tooltip'
-import axios from 'axios';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import ClickUpIcon from '../images/cu-white.png';
 import './style.css';
@@ -19,10 +18,12 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [customField, setCustomField] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
 
-  const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
-
+  const [workspacePeopleCustomField, setWorkspacePeopleCustomField] = useState([]);
+  let extraArray = '';
+  let count = 0;
 
   const getCustomField = async () => {
+    console.log('getCustomField')
     const res = await axios.post(
       'http://localhost:8080/automation/customField',
       {
@@ -37,6 +38,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   const getWorkspaceTeams = async (teamIdArr, newArr) => {
+    console.log('getWorkspaceTeams')
     const res = await axios.post(
       'http://localhost:8080/automation/userTeams',
       {
@@ -55,11 +57,12 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         }
       })
       let totalArr = foundArr.concat(newArr);
-      setWorkspaceAssignees(totalArr);
+      setWorkspacePeopleCustomField(totalArr);
     };
   };
 
   const getAssignees = (assigneeArr, workspaceUsers) => {
+    console.log('getAssignees')
     let newArr = [];
     assigneeArr.forEach((id) => {
       switch (id) {
@@ -92,11 +95,12 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     if (teamIdArr?.length > 0) {
       getWorkspaceTeams(teamIdArr, newArr);
     } else {
-      setWorkspaceAssignees(newArr);
+      setWorkspacePeopleCustomField(newArr);
     };
   };
 
   const getWorkspaceMembers = async (assigneeArr) => {
+    console.log('getWorkspaceMembers')
     // needs shard, Workspace_id, and bearer token
     const res = await axios.post(
       'http://localhost:8080/automation/members',
@@ -112,41 +116,42 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   const renderCondition = (action) => {
+    console.log('renderCondition')
     // console.log(action.type_id, action, cardDetails)
     // console.log(customField);
     switch (action.type_id) {
       case 5:
         // 5 text area, ai progress update, ai summary
+        console.log('text area, ai progress update, ai summary')
         return (
           <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 15:
         // 15 short text 
+        console.log('short text')
         return (
           <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 2:
         // 2 email
+        console.log('email')
         return (
           <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 7:
         // 7 number
+        console.log('number')
         return (
           <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 0:
         // 0 
         // console.log('renderCondition number cf', cardDetails)
@@ -155,29 +160,26 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 3:
         // 3 website
-        console.log('renderCondition website cf', cardDetails)
+        console.log('website')
         // return (
         //   <>
         //     <Card className="value">{cardDetails.value}</Card>
         //   </>
         // )
-        break;
 
       case 8:
         // 8 phone
-        console.log('renderCondition phone cf', cardDetails)
+        console.log('phone')
         return (
           <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 6:
         // 6 checkbox
-        console.log('renderCondition checkbox cf', cardDetails, action)
+        console.log('checkbox')
         return (
           <>
             {cardDetails.value === false ? (
@@ -193,7 +195,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             )}
           </>
         )
-
       case 4:
         // 4 date
         console.log('renderCondition date cf', cardDetails)
@@ -207,7 +208,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card>{myDate.toDateString()}</Card>
           </>
         )
-
       case 16:
         // 16 files
         console.log('renderCondition number cf', cardDetails)
@@ -254,7 +254,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card>{cardDetails?.value?.formatted_address}</Card>
           </>
         )
-
       case 10:
         // 10 people
         console.log('renderCondition people cf', cardDetails?.value)
@@ -273,8 +272,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>
               <div className='change-assignee-field'>
-                {workspaceAssignees.map((assignee, i) => {
-                  if ((i < 3) || ((i === 3) && (workspaceAssignees.length === 4))) {
+                {workspacePeopleCustomField.map((assignee, i) => {
+                  if ((i < 3) || ((i === 3) && (workspacePeopleCustomField.length === 4))) {
                     return (
                       <span key={i}>
                         {assignee?.user ? (
@@ -370,7 +369,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                       </span>
                     )
 
-                  } else if (i === (workspaceAssignees.length - 1)) {
+                  } else if (i === (workspacePeopleCustomField.length - 1)) {
                     // last one
                     if (assignee?.user?.username) {
                       // its a user
@@ -409,7 +408,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     };
                   }
                 })}
-                {workspaceAssignees.length > 4 ? (
+                {workspacePeopleCustomField.length > 4 ? (
                   <span>
                     <Tooltip
                       className="extras-tip"
@@ -433,7 +432,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             </Card>
           </>
         )
-
       case 11:
         // 11 rating
         console.log('renderCondition rating cf', cardDetails)
@@ -463,7 +461,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card>{cardDetails.value}</Card>
           </>
         )
-
       case 18:
         // 18 list relationship
         console.log('renderCondition list relationship cf', cardDetails)
@@ -713,7 +710,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   const getValue = (action) => {
-
+    console.log('five')
     switch (action.type_id) {
       // 5 is text, ai summary, ai progress update, txt area
       case 5:
@@ -849,13 +846,16 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   useEffect(() => {
+    console.log('three', customField)
     if (customField !== undefined) {
+      console.log('four')
       // the only way to do this is to switch the field type_id prop
       getValue(customField);
     }
   }, [customField]);
 
   useEffect(() => {
+    console.log('one')
     getCustomField();
   }, [fieldId]);
 
