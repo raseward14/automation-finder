@@ -17,8 +17,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [valueColor, setValueColor] = useState();
   const [customField, setCustomField] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
-
-  const [workspacePeopleCustomField, setWorkspacePeopleCustomField] = useState([]);
+  const [assigneeArray, setAssigneeArray] = useState([]);
+  const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
   let extraArray = '';
   let count = 0;
 
@@ -57,7 +57,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         }
       })
       let totalArr = foundArr.concat(newArr);
-      setWorkspacePeopleCustomField(totalArr);
+      setWorkspaceAssignees(totalArr);
     };
   };
 
@@ -83,7 +83,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     })
     // check for teams in the original array
     // remove dynamic assignees, and userIds from the assignee array
-    let assigneeArray = cardDetails?.value;
     let teamIdArr = assigneeArray.filter(item => {
       const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
       if (typeof item !== "number" && !dynamicOptions.includes(item)) {
@@ -95,7 +94,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     if (teamIdArr?.length > 0) {
       getWorkspaceTeams(teamIdArr, newArr);
     } else {
-      setWorkspacePeopleCustomField(newArr);
+      setWorkspaceAssignees(newArr);
     };
   };
 
@@ -122,7 +121,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     switch (action.type_id) {
       case 5:
         // 5 text area, ai progress update, ai summary
-        console.log('text area, ai progress update, ai summary')
+        console.log(action.type_id, '5 text area, ai progress update, ai summary')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -130,7 +129,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 15:
         // 15 short text 
-        console.log('short text')
+        console.log(action.type_id, '15 short text')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -138,7 +137,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 2:
         // 2 email
-        console.log('email')
+        console.log(action.type_id, '2 email')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -146,7 +145,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 7:
         // 7 number
-        console.log('number')
+        console.log(action.type_id, '7 number')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -154,7 +153,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 0:
         // 0 
-        // console.log('renderCondition number cf', cardDetails)
+        console.log(action.type_id, action, '0 ??')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -162,7 +161,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 3:
         // 3 website
-        console.log('website')
+        console.log(action.type_id, '3 website')
         // return (
         //   <>
         //     <Card className="value">{cardDetails.value}</Card>
@@ -171,7 +170,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
       case 8:
         // 8 phone
-        console.log('phone')
+        console.log(action.type_id, '8 phone')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -179,7 +178,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 6:
         // 6 checkbox
-        console.log('checkbox')
+        console.log(action.type_id, '6 checkbox')
         return (
           <>
             {cardDetails.value === false ? (
@@ -197,7 +196,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 4:
         // 4 date
-        console.log('renderCondition date cf', cardDetails)
+        console.log(action.type_id, '4 date')
         // add a function to convert 1713520800000 to a date
         const myUnixTimestamp = fieldValue;
         const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
@@ -210,7 +209,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 16:
         // 16 files
-        console.log('renderCondition number cf', cardDetails)
+        console.log(action.type_id, '16 files')
         // return (
 
         //   <>
@@ -221,12 +220,12 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
       case 12:
         // 12 label
+        console.log(action.type_id, '12 label')
         const labelValueArray = customField?.type_config?.options;
         let foundLabelArray = fieldValue.map((value) => {
           let found = labelValueArray.find((label) => value === label.id);
           return found;
         });
-        console.log('found labels: ', foundLabelArray);
         return (
           <>
             {foundLabelArray.map((label, i) => {
@@ -249,6 +248,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 19:
         // 19 address
+        console.log(action.type_id, '19 address')
         return (
           <>
             <Card>{cardDetails?.value?.formatted_address}</Card>
@@ -256,24 +256,15 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 10:
         // 10 people
-        console.log('renderCondition people cf', cardDetails?.value)
-        // removes teamIds from the user array
-        let assigneeArray = cardDetails?.value;
-        let userArr = assigneeArray.filter(item => {
-          const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
-          if ((typeof item === "number") || (dynamicOptions.includes(item))) {
-            return item;
-          };
-        });
-        if (userArr?.length > 0) {
-          getWorkspaceMembers(userArr);
-        }
+        console.log(action.type_id, '10 people') 
+        setAssigneeArray(cardDetails.value)       
+        
         return (
           <>
             <Card>
               <div className='change-assignee-field'>
-                {workspacePeopleCustomField.map((assignee, i) => {
-                  if ((i < 3) || ((i === 3) && (workspacePeopleCustomField.length === 4))) {
+                {workspaceAssignees.map((assignee, i) => {
+                  if ((i < 3) || ((i === 3) && (workspaceAssignees.length === 4))) {
                     return (
                       <span key={i}>
                         {assignee?.user ? (
@@ -369,7 +360,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                       </span>
                     )
 
-                  } else if (i === (workspacePeopleCustomField.length - 1)) {
+                  } else if (i === (workspaceAssignees.length - 1)) {
                     // last one
                     if (assignee?.user?.username) {
                       // its a user
@@ -408,7 +399,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     };
                   }
                 })}
-                {workspacePeopleCustomField.length > 4 ? (
+                {workspaceAssignees.length > 4 ? (
                   <span>
                     <Tooltip
                       className="extras-tip"
@@ -434,7 +425,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 11:
         // 11 rating
-        console.log('renderCondition rating cf', cardDetails)
+        console.log(action.type_id, '11 rating')
         // return (
 
         //   <>
@@ -445,7 +436,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
       case 14:
         // 14 manual progress
-        console.log('renderCondition manual progress cf', cardDetails)
+        console.log(action.type_id, '14 manual progress')        
         // return (
 
         //   <>
@@ -455,7 +446,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         break;
       case 17:
         // 17 formula 
-        console.log('renderCondition formula cf', cardDetails.value, action)
+        console.log(action.type_id, '17 formula')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -463,7 +454,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 18:
         // 18 list relationship
-        console.log('renderCondition list relationship cf', cardDetails)
+        console.log(action.type_id, '18 list relationship')
         // return (
 
         //   <>
@@ -474,7 +465,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
       case 9:
         // 9 task relationship
-        console.log('renderCondition task relationship cf', cardDetails)
+        console.log(action.type_id, '9 task relationship')
         // return (
 
         //   <>
@@ -484,6 +475,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         break;
       case 1:
         // 1 dropdown
+        console.log(action.type_id, '1 dropdown')
         let valueArray = customField?.type_config?.options;
         let result = valueArray?.find((item) => item.id === fieldValue);
         let valueName = result?.name
@@ -845,14 +837,29 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log('three', customField)
+  //   if (customField !== undefined) {
+  //     console.log('four')
+  //     // the only way to do this is to switch the field type_id prop
+  //     getValue(customField);
+  //   }
+  // }, [customField]);
+
   useEffect(() => {
-    console.log('three', customField)
-    if (customField !== undefined) {
-      console.log('four')
-      // the only way to do this is to switch the field type_id prop
-      getValue(customField);
+    if (assigneeArray?.length > 0) {
+      //remove teamIds from the user array
+      let userArr = assigneeArray.filter(item => {
+        const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+        if ((typeof item === "number") || (dynamicOptions.includes(item))) {
+          return item;
+        };
+      });
+      if (userArr?.length > 0) {
+        getWorkspaceMembers(userArr);
+      }
     }
-  }, [customField]);
+  }, [assigneeArray]);
 
   useEffect(() => {
     console.log('one')
@@ -892,7 +899,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     <b className="card-text">VALUE</b>
                   </span>
 
-                  <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card>
+                  {/* <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card> */}
                   <Card className="value label-container">{renderCondition(customField)}</Card>
                 </>
               ) : (<></>)}
