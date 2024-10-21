@@ -917,10 +917,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                             <span key={i}>
                               {assignee?.user ? (
                                 <>
-                                  <Tooltip className="dynamic-tooltip" id={`t-${assignee?.user?.username}`} />
+                                  <Tooltip className="dynamic-tooltip" id={`c-${assignee?.user?.username}`} />
                                   <span
                                     className="fa-layers person-icon"
-                                    data-tooltip-id={`t-${assignee?.user?.username}`}
+                                    data-tooltip-id={`c-${assignee?.user?.username}`}
                                     data-tooltip-content={`${assignee?.user?.username}`}
                                     data-tooltip-place="top">
                                     <FontAwesomeIcon
@@ -933,10 +933,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </>
                               ) : assignee === "watchers" ? (
                                 <>
-                                  <Tooltip className="dynamic-tooltip" id={`t-watchers`} />
+                                  <Tooltip className="dynamic-tooltip" id={`c-watchers`} />
                                   <span
                                     className="fa-layers person-icon"
-                                    data-tooltip-id={`t-watchers`}
+                                    data-tooltip-id={`c-watchers`}
                                     data-tooltip-content={`Watchers`}
                                     data-tooltip-place="top">
                                     <FontAwesomeIcon
@@ -951,10 +951,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </>
                               ) : assignee === "creator" ? (
                                 <>
-                                  <Tooltip className="dynamic-tooltip" id={`t-creator`} />
+                                  <Tooltip className="dynamic-tooltip" id={`c-creator`} />
                                   <span
                                     className="fa-layers person-icon"
-                                    data-tooltip-id={`t-creator`}
+                                    data-tooltip-id={`c-creator`}
                                     data-tooltip-content={`Task creator`}
                                     data-tooltip-place="top">
                                     <FontAwesomeIcon
@@ -969,10 +969,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </>
                               ) : assignee === "triggered_by" ? (
                                 <>
-                                  <Tooltip className="dynamic-tooltip" id={`t-triggered_by`} />
+                                  <Tooltip className="dynamic-tooltip" id={`c-triggered_by`} />
                                   <span
                                     className="fa-layers person-icon"
-                                    data-tooltip-id={`t-triggered_by`}
+                                    data-tooltip-id={`c-triggered_by`}
                                     data-tooltip-content={`Person who Triggered`}
                                     data-tooltip-place="top">
                                     <FontAwesomeIcon
@@ -987,10 +987,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </>
                               ) : (
                                 <>
-                                  <Tooltip className="dynamic-tooltip" id={`t-${assignee.initials}`} />
+                                  <Tooltip className="dynamic-tooltip" id={`c-${assignee.initials}`} />
                                   <span
                                     className="fa-layers person-icon"
-                                    data-tooltip-id={`t-${assignee.initials}`}
+                                    data-tooltip-id={`c-${assignee.initials}`}
                                     data-tooltip-content={`${assignee.name}`}
                                     data-tooltip-place="top">
                                     <FontAwesomeIcon
@@ -1051,10 +1051,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                         <span>
                           <Tooltip
                             className="extras-tip"
-                            id={'t-extras'} />
+                            id={'c-extras'} />
                           <span
                             className="fa-layers person-icon"
-                            data-tooltip-id={'t-extras'}
+                            data-tooltip-id={'c-extras'}
                             data-tooltip-content={extraArray}
                             data-tooltip-place="top">
                             <FontAwesomeIcon
