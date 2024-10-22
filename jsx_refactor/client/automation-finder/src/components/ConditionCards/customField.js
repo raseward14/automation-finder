@@ -909,7 +909,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     <b className="card-text">VALUE</b>
                   </span>
 
-                  <Card>
                     <div className='change-assignee-field'>
                       {workspaceAssignees.map((assignee, i) => {
                         if ((i < 3) || ((i === 3) && (workspaceAssignees.length === 4))) {
@@ -1066,9 +1065,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                         </span>
                       ) : (<></>)}
 
-                    </div><br />
+                    </div>
 
-                  </Card>
                 </>
 
               ) : (<></>)}
