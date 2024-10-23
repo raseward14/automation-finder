@@ -262,12 +262,12 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 11:
         // 11 rating
         console.log(action.type_id, '11 rating')
-        // return (
+        return (
 
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
+          <>
+            <Card>{`${cardDetails.value}/${action?.type_config?.count}`}</Card>
+          </>
+        )
         break;
 
       case 14:
@@ -283,7 +283,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             />
           </>
         )
-        break;
       case 17:
         // 17 formula 
         console.log(action.type_id, '17 formula')
