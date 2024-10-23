@@ -848,6 +848,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   // }, [customField]);
 
   useEffect(() => {
+    console.log(workspaceAssignees)
+  }, [workspaceAssignees])
+
+  useEffect(() => {
     if (assigneeArray?.length > 0) {
       //remove teamIds from the user array
       let userArr = assigneeArray.filter(item => {
@@ -925,7 +929,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                     <FontAwesomeIcon
                                       transform="grow-12"
                                       className="icon-circle"
-                                      style={{ color: `${assignee?.user?.color}` }}
+                                      style={{ color: `${assignee?.user?.color}` || '#8cdb00' }}
                                       icon={icon({ name: 'circle' })} />
                                     <span className='fa-layers-text initials'>{assignee?.user?.initials}</span>
                                   </span><span className='space'></span>
