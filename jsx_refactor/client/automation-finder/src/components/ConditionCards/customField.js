@@ -162,12 +162,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 3:
         // 3 website
         console.log(action.type_id, '3 website')
-      // return (
-      //   <>
-      //     <Card className="value">{cardDetails.value}</Card>
-      //   </>
-      // )
-
+      return (
+        <>
+          <Card className="value">{cardDetails.value}</Card>
+        </>
+      )
       case 8:
         // 8 phone
         console.log(action.type_id, '8 phone')
@@ -263,13 +262,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         // 11 rating
         console.log(action.type_id, '11 rating')
         return (
-
           <>
             <Card>{`${cardDetails.value}/${action?.type_config?.count}`}</Card>
           </>
         )
-        break;
-
       case 14:
         // 14 manual progress
         console.log(action.type_id, '14 manual progress')
