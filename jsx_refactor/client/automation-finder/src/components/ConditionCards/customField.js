@@ -296,12 +296,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 18:
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
-      // return (
-
-      //   <>
-      //     <Card className="value">{cardDetails.value}</Card>
-      //   </>
-      // )
       case 9:
         // 9 task relationship
         console.log(action.type_id, '9 task relationship')
@@ -549,151 +543,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     }
   };
 
-  const getValue = (action) => {
-    console.log('five')
-    switch (action.type_id) {
-      // 5 is text, ai summary, ai progress update, txt area
-      case 5:
-      // 15 text area & (ai)
-      case 15:
-      // 2 short text
-      case 2:
-      // 7 email
-      case 7:
-      // 0 number
-      case 0:
-      // 3 website
-      case 3:
-      // 17 formula
-      case 17:
-      // 8 phone
-      case 8:
-        // currency
-        setValueText(cardDetails.value);
-        break;
-      // 6 checkbox
-      case 6:
-        // insert logic to convert boolean to text
-        if (valueText) {
-          setValueText('checked');
-        } else {
-          setValueText('unchecked');
-        }
-        break;
-      // 4 date
-      case 4:
-        // add a function to convert 1713520800000 to a date
-        const myUnixTimestamp = fieldValue;
-        const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
-        console.log(myDate);
-        setValueText(myDate.toDateString());
-        break;
-      // 16 files
-      case 16:
-        // add function to loop through attachment URLs and display them
-        let attachmentString = '';
-        fieldValue.map((item, i) => {
-          if (i + 1 === fieldValue.length) {
-            // its the last item in the array, and does not need a comma
-            let newString = attachmentString.concat(item);
-            setValueText(newString);
-          } else {
-            let newString = attachmentString.concat(item + ', ');
-            attachmentString = newString;
-          }
-        });
-        break;
-      // 12 label
-      case 12:
-        // fieldValue is an array of labelIDs, we need to convert them to their txt value
-        const labelValueArray = customField?.type_config?.options;
-        let labelString = '';
-        let labelTxtArray = fieldValue.map((value) => {
-          let found = labelValueArray.find((label) => value === label.id);
-          return found.label;
-        });
-
-        labelTxtArray.map((label, i) => {
-          if (i + 1 === labelTxtArray.length) {
-            let newString = labelString.concat(label);
-            setValueText(newString);
-          } else {
-            let newString = labelString.concat(label + ', ');
-            labelString = newString;
-          }
-        });
-        break;
-      // 19 address
-      case 19:
-        setValueText(cardDetails?.value?.formatted_address);
-        break;
-      // 10 people 
-      case 10:
-        // users, we need to loop through userIds and print each user - array of numbers
-        let userIdString = '';
-        fieldValue.map((item, i) => {
-          if (i + 1 === fieldValue.length) {
-            // its the last item in the array, and does not need a comma
-            let newString = userIdString.concat(item);
-            setValueText(newString);
-          } else {
-            let newString = userIdString.concat(item + ', ');
-            userIdString = newString;
-          }
-        });
-        break;
-      // 11 rating
-      case 11:
-        // this is rating, we should use the type_config?.count prop so we know the total, and then the cardDetails.value for the numeric value user has set
-        let ratioString = `${fieldValue}/${action?.type_config?.count}`;
-        setValueText(ratioString);
-        break;
-      // 14 manual progress
-      case 14:
-        // this is an manual progress - total is in type_config?.end prop, and users value is in cardDetails.value.current - its a string
-        setValueText({ type: 'manual-progress', value: fieldValue?.current });
-        // setValueText(fieldValue?.current)
-        break;
-      // 18 list relationship
-      case 18:
-      // relationship specific list - type_config.subcategory_id is the list_id - cardDetails.value is an array of task_ids
-      // 9 task relationship
-      case 9:
-        // this is a tasks relationship type_config does not have subcategory_id for any task in Workspace cardDetails.value is an array of task_id strings
-        let taskIdString = '';
-        fieldValue.map((item, i) => {
-          if (i + 1 === fieldValue.length) {
-            // its the last item in the array, and does not need a comma
-            let newString = taskIdString.concat(item);
-            setValueText(newString);
-          } else {
-            let newString = taskIdString.concat(item + ', ');
-            taskIdString = newString;
-          }
-        });
-        break;
-      // 1 dropdown
-      case 1:
-        // dropdown
-        let valueArray = customField?.type_config?.options;
-        let result = valueArray?.find((item) => item.id === fieldValue);
-        setValueText(result?.name);
-        if (result?.color) {
-          setValueColor(result?.color)
-        }
-        break;
-    }
-  };
-
-  // useEffect(() => {
-  //   console.log('three', customField)
-  //   if (customField !== undefined) {
-  //     console.log('four')
-  //     // the only way to do this is to switch the field type_id prop
-  //     getValue(customField);
-  //   }
-  // }, [customField]);
-
   useEffect(() => {
     if (assigneeArray?.length > 0) {
       //remove teamIds from the user array
@@ -742,8 +591,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   <span>
                     <b className="card-text">VALUE</b>
                   </span>
-
-                  {/* <Card className="value" style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueText}</Card> */}
                   <Card className="value label-container">{renderCondition(customField)}</Card>
                 </>
               ) : (assigneeArray?.length > 0) ? (
