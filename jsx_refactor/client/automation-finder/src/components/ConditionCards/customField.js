@@ -162,11 +162,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 3:
         // 3 website
         console.log(action.type_id, '3 website')
-      return (
-        <>
-          <Card className="value">{cardDetails.value}</Card>
-        </>
-      )
+        return (
+          <>
+            <Card className="value">{cardDetails.value}</Card>
+          </>
+        )
       case 8:
         // 8 phone
         console.log(action.type_id, '8 phone')
@@ -206,17 +206,23 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card>{myDate.toDateString()}</Card>
           </>
         )
-      case 16:
-        // 16 files
-        console.log(action.type_id, '16 files')
-        // return (
-
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
-
+      // case 16:
+      //   // 16 files - looks like its been removed
+      //   console.log(action.type_id, '16 files')
+      //   let attachmentString = '';
+      //   cardDetails?.value?.map((item, i) => {
+      //     if (i + 1 === fieldValue.length) {
+      //       // its the last item in the array, and does not need a comma
+      //       let newString = attachmentString.concat(item);
+      //       return (
+      //         <>
+      //           <Card className="value">{`${newString}`}</Card>
+      //         </>
+      //       )
+      //     } else {
+      //       let newString = attachmentString.concat(item + ', ');
+      //       attachmentString = newString;
+      //     }});
       case 12:
         // 12 label
         console.log(action.type_id, '12 label')
@@ -290,23 +296,30 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 18:
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
-        // return (
+      // return (
 
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
-        break;
-
+      //   <>
+      //     <Card className="value">{cardDetails.value}</Card>
+      //   </>
+      // )
       case 9:
         // 9 task relationship
         console.log(action.type_id, '9 task relationship')
-        // return (
-
-        //   <>
-        //     <Card className="value">{cardDetails.value}</Card>
-        //   </>
-        // )
+        let taskIdString = '';
+        cardDetails?.value?.map((item, i) => {
+          if (i + 1 === fieldValue.length) {
+            // its the last item in the array, and does not need a comma
+            let newString = taskIdString.concat(item);
+            return (
+              <>
+                <Card className="value">{`${newString}`}</Card>
+              </>
+            )
+          } else {
+            let newString = taskIdString.concat(item + ', ');
+            taskIdString = newString;
+          }
+        });
         break;
       case 1:
         // 1 dropdown
