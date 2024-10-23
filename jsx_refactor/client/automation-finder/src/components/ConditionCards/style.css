@@ -65,3 +65,7 @@ img, svg {
 .list-relationship {
     transform: rotateY(0deg) rotate(-45deg);
 }
+
+.manual-progress {
+    width: 100%;
+}
