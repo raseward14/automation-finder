@@ -22,6 +22,26 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   let extraArray = '';
   let count = 0;
 
+  const getTasks = async (taskArray) => {
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/automation/getTasks',
+        {
+          shard: cardDetails.shard,
+          taskIds: taskArray,
+          bearer: JWT,
+        }
+      );
+      if (res?.data) {
+        console.log('response we return is:', res?.data)
+        return (res.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
   const getCustomField = async () => {
     console.log('getCustomField')
     const res = await axios.post(
@@ -121,7 +141,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     switch (action.type_id) {
       case 5:
         // 5 text area, ai progress update, ai summary
-        console.log(action.type_id, '5 text area, ai progress update, ai summary')
+        // console.log(action.type_id, '5 text area, ai progress update, ai summary')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -129,7 +149,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 15:
         // 15 short text 
-        console.log(action.type_id, '15 short text')
+        // console.log(action.type_id, '15 short text')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -137,7 +157,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 2:
         // 2 email
-        console.log(action.type_id, '2 email')
+        // console.log(action.type_id, '2 email')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -145,7 +165,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 7:
         // 7 number
-        console.log(action.type_id, '7 number')
+        // console.log(action.type_id, '7 number')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -161,7 +181,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 3:
         // 3 website
-        console.log(action.type_id, '3 website')
+        // console.log(action.type_id, '3 website')
         return (
           <>
             <Card className="value">{cardDetails.value}</Card>
@@ -169,7 +189,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 8:
         // 8 phone
-        console.log(action.type_id, '8 phone')
+        // console.log(action.type_id, '8 phone')
         return (
           <>
             <Card>{cardDetails.value}</Card>
@@ -177,7 +197,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 6:
         // 6 checkbox
-        console.log(action.type_id, '6 checkbox')
+        // console.log(action.type_id, '6 checkbox')
         return (
           <>
             {cardDetails.value === false ? (
@@ -195,7 +215,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 4:
         // 4 date
-        console.log(action.type_id, '4 date')
+        // console.log(action.type_id, '4 date')
         // add a function to convert 1713520800000 to a date
         const myUnixTimestamp = fieldValue;
         const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
@@ -225,7 +245,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       //     }});
       case 12:
         // 12 label
-        console.log(action.type_id, '12 label')
+        // console.log(action.type_id, '12 label')
         const labelValueArray = customField?.type_config?.options;
         let foundLabelArray = fieldValue.map((value) => {
           let found = labelValueArray.find((label) => value === label.id);
@@ -253,7 +273,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 19:
         // 19 address
-        console.log(action.type_id, '19 address')
+        // console.log(action.type_id, '19 address')
         return (
           <>
             <Card>{cardDetails?.value?.formatted_address}</Card>
@@ -261,7 +281,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 10:
         // 10 people
-        console.log(action.type_id, '10 people')
+        // console.log(action.type_id, '10 people')
         setAssigneeArray(cardDetails.value)
         break;
       case 11:
@@ -299,21 +319,25 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 9:
         // 9 task relationship
         console.log(action.type_id, '9 task relationship')
-        let taskIdString = '';
-        cardDetails?.value?.map((item, i) => {
-          if (i + 1 === fieldValue.length) {
-            // its the last item in the array, and does not need a comma
-            let newString = taskIdString.concat(item);
-            return (
-              <>
-                <Card className="value">{`${newString}`}</Card>
-              </>
-            )
-          } else {
-            let newString = taskIdString.concat(item + ', ');
-            taskIdString = newString;
-          }
-        });
+        console.log('tasks in this condion:', cardDetails?.value)
+        getTasks(cardDetails?.value)
+        // we could call a getTasks api call to get task status, color, name, id, etc.
+        let tasks = []
+        // cardDetails?.value?.map((item, i) => {
+        //   let task = getTasks(item)
+        //   let newArr = tasks.push(task)
+        //   tasks = newArr;
+        //   if (i + 1 > fieldValue.length) {
+        //     // its the last item in the array, print the array
+        //     return (
+        //       <>
+        //         {tasks.map((task, i) => (
+        //           <Card className="value">{`${task.name}`}</Card>
+        //         ))}
+        //       </>
+        //     )
+        //   } 
+        // });
         break;
       case 1:
         // 1 dropdown

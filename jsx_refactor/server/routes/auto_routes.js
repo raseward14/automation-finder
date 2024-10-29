@@ -42,6 +42,36 @@ router.route("/trigger").post(
     }
 );
 
+// get task endpoint:
+// https://prod-us-west-2-2.clickup.com/tasks/v2/task
+// the body is a JSON array of task_id strings {"task_ids": ["866aahpu1"]}
+router.route("/getTasks").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const taskIds = req.body.taskIds;
+        const token = req.body.bearer;
+        console.log('task ids', taskIds)
+        try {
+            const response = await fetch(`https://${shard}.clickup.com/tasks/v2/task`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        "task_ids": taskIds
+                      })
+                }
+            );
+            const data = await response.json;
+            console.log(data)
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+)
+
 // get Custom Field endpoint:
 // https://prod-us-west-2-2.clickup.com/customFields/v2/field/7c4f6f29-23cf-4af4-a9c1-6c2943b2c23b
 // auth'd with the same bearer token - inclu
@@ -125,12 +155,12 @@ router.route("/listStatus").post(
         const token = req.body.bearer;
         try {
             const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/subcategory/${locationId}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            }
             );
             const data = await response.json();
             res.status(200).json(data?.statuses);
@@ -150,12 +180,12 @@ router.route("/folderStatus").post(
         const token = req.body.bearer;
         try {
             const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/category/${locationId}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            }
             );
             const data = await response.json();
             res.status(200).json(data?.statuses);
@@ -175,12 +205,12 @@ router.route("/spaceStatus").post(
         const token = req.body.bearer;
         try {
             const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/project/${locationId}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            }
             );
             const data = await response.json();
             res.status(200).json(data?.statuses);
