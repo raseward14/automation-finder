@@ -23,6 +23,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   let count = 0;
 
   const getTasks = async (taskArray) => {
+    console.log('made it here')
     try {
       const res = await axios.post(
         'http://localhost:8080/automation/getTasks',

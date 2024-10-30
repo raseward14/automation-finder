@@ -48,26 +48,25 @@ router.route("/trigger").post(
 router.route("/getTasks").post(
     async (req, res) => {
         const shard = req.body.shard;
-        const taskIds = req.body.taskIds;
+        const taskIds = JSON.stringify({ "task_ids": req.body.taskIds });
         const token = req.body.bearer;
-        console.log('task ids', taskIds)
+        console.log(taskIds)
         try {
             const response = await fetch(`https://${shard}.clickup.com/tasks/v2/task`,
                 {
                     method: "POST",
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json; charset=UTF-8"
                     },
-                    body: JSON.stringify({
-                        "task_ids": taskIds
-                      })
+                    body: taskIds
                 }
             );
-            const data = await response.json;
-            console.log(data)
+            const data = await response.json();
+            console.log(data, response)
             res.status(200).json(data);
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ error: "An error occurred", details: err });
         }
     }
 )
