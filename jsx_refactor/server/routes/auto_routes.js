@@ -63,7 +63,6 @@ router.route("/getTasks").post(
                 }
             );
             const data = await response.json();
-            console.log(data, response)
             res.status(200).json(data);
         } catch (err) {
             res.status(500).json({ error: "An error occurred", details: err });

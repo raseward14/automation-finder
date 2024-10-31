@@ -10,19 +10,22 @@ import './style.css';
 
 // 8651cc40-e1e0-43a6-81f9-233398e11dc6 - all
 // 268ac10f-187c-4eab-9960-b7d012711457 - building
+// d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - List/List relationship
 const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
-  const [valueText, setValueText] = useState();
-  const [valueColor, setValueColor] = useState();
+  // const [valueText, setValueText] = useState();
+  // const [valueColor, setValueColor] = useState();
   const [customField, setCustomField] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
   const [assigneeArray, setAssigneeArray] = useState([]);
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
+
+  // const [tasks, setTasks] = useState([]);
   let extraArray = '';
   let count = 0;
 
-  const getTasks = async (taskArray) => {
+  const getWsTasks = async (taskArray) => {
     console.log('made it here')
     try {
       const res = await axios.post(
@@ -35,13 +38,32 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       );
       if (res?.data) {
         console.log('response we return is:', res?.data)
-        return (res.data)
       }
     } catch (err) {
       console.log(err)
     }
-
   }
+
+  // const getListTasks = async (taskArray) => {
+  //   console.log('made it here')
+  //   try {
+  //     const res = await axios.post(
+  //       'http://localhost:8080/automation/getTasks',
+  //       {
+  //         shard: cardDetails.shard,
+  //         taskIds: taskArray,
+  //         bearer: JWT,
+  //       }
+  //     );
+  //     if (res?.data) {
+  //       console.log('response we return is:', res?.data.tasks)
+  //       setTasks(res?.data.tasks)
+        
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   const getCustomField = async () => {
     console.log('getCustomField')
@@ -317,13 +339,43 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 18:
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
+        // getListTasks(cardDetails?.value)
+        const getTasks = async () => {
+          try {
+            const res = await axios.post(
+              'http://localhost:8080/automation/getTasks',
+              {
+                shard: cardDetails.shard,
+                taskIds: cardDetails?.value,
+                bearer: JWT,
+              }
+            );
+            if (res?.data) {
+              console.log('response we return is:', res?.data.tasks)
+              let tasks = res?.data.tasks;
+              if (tasks) {
+                tasks.map((task, i) => {
+                  console.log(task.name)
+                  return (
+                    <>
+                      <Card>{`${task.name}`}</Card>
+                    </>
+                  )
+                })
+              }
+            }
+          } catch (err) {
+            console.log(err)
+          }
+        }
+        getTasks();
+        break;
       case 9:
         // 9 task relationship
         console.log(action.type_id, '9 task relationship')
-        console.log('tasks in this condion:', cardDetails?.value)
-        getTasks(cardDetails?.value)
+        getWsTasks(cardDetails?.value)
+        break;
         // we could call a getTasks api call to get task status, color, name, id, etc.
-        let tasks = []
         // cardDetails?.value?.map((item, i) => {
         //   let task = getTasks(item)
         //   let newArr = tasks.push(task)
