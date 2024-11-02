@@ -50,7 +50,6 @@ router.route("/getTasks").post(
         const shard = req.body.shard;
         const taskIds = JSON.stringify({ "task_ids": req.body.taskIds });
         const token = req.body.bearer;
-        console.log(taskIds)
         try {
             const response = await fetch(`https://${shard}.clickup.com/tasks/v2/task`,
                 {

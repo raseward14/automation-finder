@@ -58,7 +58,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   //     if (res?.data) {
   //       console.log('response we return is:', res?.data.tasks)
   //       setTasks(res?.data.tasks)
-        
+
   //     }
   //   } catch (err) {
   //     console.log(err)
@@ -353,16 +353,18 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             if (res?.data) {
               console.log('response we return is:', res?.data.tasks)
               let tasks = res?.data.tasks;
-              if (tasks) {
-                tasks.map((task, i) => {
-                  console.log(task.name)
-                  return (
-                    <>
-                      <Card>{`${task.name}`}</Card>
-                    </>
-                  )
-                })
-              }
+              console.log(res.data.tasks[1].name)
+              return (
+                <>
+                  {tasks.map((task, i) => {
+                    return (
+                      <span key={i}>
+                        <Card>{task.name}</Card>
+                      </span>
+                    )
+                  })}
+                </>
+              )
             }
           } catch (err) {
             console.log(err)
