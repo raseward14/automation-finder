@@ -14,14 +14,12 @@ import './style.css';
 const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
-  // const [valueText, setValueText] = useState();
-  // const [valueColor, setValueColor] = useState();
   const [customField, setCustomField] = useState();
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
   const [assigneeArray, setAssigneeArray] = useState([]);
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
 
-  // const [tasks, setTasks] = useState([]);
+  const [listTasks, setListTasks] = useState([]);
   let extraArray = '';
   let count = 0;
 
@@ -44,26 +42,25 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     }
   }
 
-  // const getListTasks = async (taskArray) => {
-  //   console.log('made it here')
-  //   try {
-  //     const res = await axios.post(
-  //       'http://localhost:8080/automation/getTasks',
-  //       {
-  //         shard: cardDetails.shard,
-  //         taskIds: taskArray,
-  //         bearer: JWT,
-  //       }
-  //     );
-  //     if (res?.data) {
-  //       console.log('response we return is:', res?.data.tasks)
-  //       setTasks(res?.data.tasks)
-
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  const getListTasks = async (taskArray) => {
+    console.log('made it here')
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/automation/getTasks',
+        {
+          shard: cardDetails.shard,
+          taskIds: taskArray,
+          bearer: JWT,
+        }
+      );
+      if (res?.data) {
+        console.log('response we return is:', res?.data.tasks)
+        setTasks(res?.data.tasks)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const getCustomField = async () => {
     console.log('getCustomField')
@@ -339,38 +336,18 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 18:
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
-        // getListTasks(cardDetails?.value)
-        const getTasks = async () => {
-          try {
-            const res = await axios.post(
-              'http://localhost:8080/automation/getTasks',
-              {
-                shard: cardDetails.shard,
-                taskIds: cardDetails?.value,
-                bearer: JWT,
-              }
-            );
-            if (res?.data) {
-              console.log('response we return is:', res?.data.tasks)
-              let tasks = res?.data.tasks;
-              console.log(res.data.tasks[1].name)
+        getListTasks(cardDetails?.value)
+        return (
+          <>
+            {tasks.map((task, i) => {
               return (
-                <>
-                  {tasks.map((task, i) => {
-                    return (
-                      <span key={i}>
-                        <Card>{task.name}</Card>
-                      </span>
-                    )
-                  })}
-                </>
+                <span key={i}>
+                  <Card>{task.name}</Card>
+                </span>
               )
-            }
-          } catch (err) {
-            console.log(err)
-          }
-        }
-        getTasks();
+            })}
+          </>
+        )
         break;
       case 9:
         // 9 task relationship
@@ -621,6 +598,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         );
     }
   };
+
+  useEffect(() => {
+
+  }, [listTaks])
 
   useEffect(() => {
     if (assigneeArray?.length > 0) {
