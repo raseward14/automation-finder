@@ -20,6 +20,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
 
   const [listTasks, setListTasks] = useState([]);
+  const [listFieldTasks, setListFieldTasks] = useState([])
   let extraArray = '';
   let count = 0;
 
@@ -55,7 +56,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       );
       if (res?.data) {
         console.log('response we return is:', res?.data.tasks)
-        setTasks(res?.data.tasks)
+        setListFieldTasks(res?.data.tasks)
       }
     } catch (err) {
       console.log(err)
@@ -336,18 +337,20 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 18:
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
-        getListTasks(cardDetails?.value)
-        return (
-          <>
-            {tasks.map((task, i) => {
-              return (
-                <span key={i}>
-                  <Card>{task.name}</Card>
-                </span>
-              )
-            })}
-          </>
-        )
+        console.log(cardDetails?.value)
+        setListTasks(cardDetails?.value)
+        // getListTasks(cardDetails?.value)
+        // return (
+        //   <>
+        //     {tasks.map((task, i) => {
+        //       return (
+        //         <span key={i}>
+        //           <Card>{task.name}</Card>
+        //         </span>
+        //       )
+        //     })}
+        //   </>
+        // )
         break;
       case 9:
         // 9 task relationship
@@ -600,8 +603,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   useEffect(() => {
-
-  }, [listTaks])
+    if (listTasks?.length > 0) {
+      getListTasks(listTasks)
+    }
+  }, [listTasks])
 
   useEffect(() => {
     if (assigneeArray?.length > 0) {
@@ -819,6 +824,17 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
                 </>
 
+              ) : (cardDetails.value && listFieldTasks?.length > 0) ? (
+                <>
+                  <span>
+                    <b className="card-text">VALUE</b>
+                  </span>
+                  {listFieldTasks.map((task, i) => {
+                    // <span key={i}>
+                      <Card key={i}>{task.name}</Card>
+                    {/* </span> */}
+                  })}
+                </>
               ) : (<></>)}
             </>
           ) : (
