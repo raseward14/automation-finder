@@ -819,9 +819,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                         </span><span className='space'></span>
                       </span>
                     ) : (<></>)}
-
                   </div>
-
                 </>
 
               ) : (cardDetails.value && listFieldTasks?.length > 0) ? (
