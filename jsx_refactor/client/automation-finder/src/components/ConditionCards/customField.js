@@ -20,28 +20,28 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
 
   const [listTasks, setListTasks] = useState([]);
-  const [listFieldTasks, setListFieldTasks] = useState([])
+  // const [listFieldTasks, setListFieldTasks] = useState([])
   let extraArray = '';
   let count = 0;
 
-  const getWsTasks = async (taskArray) => {
-    console.log('made it here')
-    try {
-      const res = await axios.post(
-        'http://localhost:8080/automation/getTasks',
-        {
-          shard: cardDetails.shard,
-          taskIds: taskArray,
-          bearer: JWT,
-        }
-      );
-      if (res?.data) {
-        console.log('response we return is:', res?.data)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // const getWsTasks = async (taskArray) => {
+  //   console.log('made it here')
+  //   try {
+  //     const res = await axios.post(
+  //       'http://localhost:8080/automation/getTasks',
+  //       {
+  //         shard: cardDetails.shard,
+  //         taskIds: taskArray,
+  //         bearer: JWT,
+  //       }
+  //     );
+  //     if (res?.data) {
+  //       console.log('response we return is:', res?.data)
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   const getListTasks = async (taskArray) => {
     console.log('made it here')
@@ -56,7 +56,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       );
       if (res?.data) {
         console.log('response we return is:', res?.data.tasks)
-        setListFieldTasks(res?.data.tasks)
+        setListTasks(res?.data.tasks)
       }
     } catch (err) {
       console.log(err)
@@ -338,8 +338,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
         console.log(cardDetails?.value)
-        setListTasks(cardDetails?.value)
-        // getListTasks(cardDetails?.value)
+        // setListTasks(cardDetails?.value)
+        getListTasks(cardDetails?.value)
         // return (
         //   <>
         //     {tasks.map((task, i) => {
@@ -351,7 +351,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         //     })}
         //   </>
         // )
-        break;
+        // break;
       case 9:
         // 9 task relationship
         console.log(action.type_id, '9 task relationship')
@@ -373,7 +373,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         //     )
         //   } 
         // });
-        break;
       case 1:
         // 1 dropdown
         console.log(action.type_id, '1 dropdown')
@@ -603,12 +602,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   useEffect(() => {
-    if (listTasks?.length > 0) {
-      getListTasks(listTasks)
-    }
-  }, [listTasks])
-
-  useEffect(() => {
     if (assigneeArray?.length > 0) {
       //remove teamIds from the user array
       let userArr = assigneeArray.filter(item => {
@@ -822,18 +815,18 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   </div>
                 </>
 
-              ) : (cardDetails.value && listFieldTasks?.length > 0) ? (
-                <>
-                  <span>
-                    <b className="card-text">VALUE</b>
-                  </span>
-                  {listFieldTasks.map((task, i) => {
-                    // <span key={i}>
-                      <Card key={i}>{task.name}</Card>
-                    {/* </span> */}
-                  })}
-                </>
               ) : (<></>)}
+            </>
+          ) : (customField && listTasks?.length > 0) ? (
+            <>
+              <span>
+                <b className="card-text">VALUE</b>
+              </span>
+              {listTasks.map((task, i) => {
+                // <span key={i}>
+                <Card key={i}>{task.name}</Card>
+                {/* </span> */ }
+              })}
             </>
           ) : (
             <></>
