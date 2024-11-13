@@ -19,30 +19,36 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [assigneeArray, setAssigneeArray] = useState([]);
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
 
+  // type 9
+  const [wSTasks, setWSTasks] = useState([]);
+  const [tFWs, setFWs] = useState(false);
+
+  // type 18
   const [listTasks, setListTasks] = useState([]);
   const [tFList, setTFList] = useState(false);
   // const [listFieldTasks, setListFieldTasks] = useState([])
   let extraArray = '';
   let count = 0;
 
-  // const getWsTasks = async (taskArray) => {
-  //   console.log('made it here')
-  //   try {
-  //     const res = await axios.post(
-  //       'http://localhost:8080/automation/getTasks',
-  //       {
-  //         shard: cardDetails.shard,
-  //         taskIds: taskArray,
-  //         bearer: JWT,
-  //       }
-  //     );
-  //     if (res?.data) {
-  //       console.log('response we return is:', res?.data)
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  const getWsTasks = async (taskArray) => {
+    console.log('made it here')
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/automation/getTasks',
+        {
+          shard: cardDetails.shard,
+          taskIds: taskArray,
+          bearer: JWT,
+        }
+      );
+      if (res?.data) {
+        console.log('response we return is:', res?.data)
+        setWSTasks(res?.data.tasks)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const getListTasks = async (taskArray) => {
     console.log('made it here')
@@ -338,28 +344,19 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 18:
         // 18 list relationship
         console.log(action.type_id, '18 list relationship')
-        console.log(cardDetails?.value)
         // setListTasks(cardDetails?.value)
         if (tFList === false) {
           setTFList(true)
           getListTasks(cardDetails?.value)
         }
-        // return (
-        //   <>
-        //     {tasks.map((task, i) => {
-        //       return (
-        //         <span key={i}>
-        //           <Card>{task.name}</Card>
-        //         </span>
-        //       )
-        //     })}
-        //   </>
-        // )
         break;
       case 9:
         // 9 task relationship
         console.log(action.type_id, '9 task relationship')
-        // getWsTasks(cardDetails?.value)
+        if (tFWs === false) {
+          setFWs(true)
+          getWsTasks(cardDetails?.value)
+        }
         break;
       // we could call a getTasks api call to get task status, color, name, id, etc.
       // cardDetails?.value?.map((item, i) => {
@@ -834,20 +831,37 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                       {listTasks.map((task, i) => {
                         return (
                           <div className='task-card' key={i}><FontAwesomeIcon
-                          className='icon'
-                          icon={icon({name:'square', style: 'solid'})}
-                          style={{ color: `${task?.status?.color}` }}/>{task.name}</div>
+                            className='icon'
+                            icon={icon({ name: 'square', style: 'solid' })}
+                            style={{ color: `${task?.status?.color}` }} />{task.name}</div>
                         )
                       })}
                     </span>
                   </>
-                ) : (
+                ) : (wSTasks?.length > 0) ? (
                   <>
                     <span>
-                      <b className="card-text">VALUE2</b>
+                      <b className="card-text">VALUE3</b>
                     </span>
-                    <Card className="value label-container">{renderCondition(customField)}</Card>
+                    <span className='task-card-container'>
+                      {wSTasks.map((task, i) => {
+                        return (
+                          <div className='task-card' key={i}><FontAwesomeIcon
+                            className='icon'
+                            icon={icon({ name: 'square', style: 'solid' })}
+                            style={{ color: `${task?.status?.color}` }} />{task.name}</div>
+                        )
+                      })}
+                    </span>
                   </>
+
+                ) : (
+              <>
+                <span>
+                  <b className="card-text">VALUE2</b>
+                </span>
+                <Card className="value label-container">{renderCondition(customField)}</Card>
+              </>
 
                 )}
             </>
