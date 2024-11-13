@@ -81,3 +81,19 @@
    font-size: 9px;
    color: #7c828d;
 }
+
+.task-card-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+}
+
+.task-card {
+    border: 1px solid rgba(60, 65, 74, 1) !important;
+    border-radius: 2px;
+    padding: 4px;
+    width: fit-content;
+}
