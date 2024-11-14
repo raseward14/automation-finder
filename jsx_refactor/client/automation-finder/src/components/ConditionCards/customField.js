@@ -29,8 +29,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   let extraArray = '';
   let count = 0;
 
-  let values = [4, 6, 17, 19, 10, 8, 11, 0];
-
   const getWsTasks = async (taskArray) => {
     console.log('made it here')
     try {
@@ -660,8 +658,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 <>
                 </>
               ) : (
+                customField.type_id ===
                 
-                values.includes(customField.type_id)
+                [4, 6, 17, 19, 10, 8, 11, 0].some(customField.type_id = customField.type_id)
                 // assigneeArray?.length > 0
                 ) ? (
                 <>
