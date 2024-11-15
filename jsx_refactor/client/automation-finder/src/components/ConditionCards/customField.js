@@ -14,11 +14,11 @@ import './style.css';
 
 const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
-    const [standardArray, setStandardArray] = useState([4, 6, 17, 19, 10, 8, 11, 0]);
-    const [noValueArray, setNoValueArray] = useState([5]);
-    const [listRelationship, setListRelationship] = useState([18]);
-    const [taskRelationship, settaskRelationship] = useState([9]);
-    const [manualProgress, setManualProgress] = useState([14]);
+    // const [standardArray, setStandardArray] = useState([4, 6, 17, 19, 10, 8, 11, 0]);
+    // const [noValueArray, setNoValueArray] = useState([5]);
+    // const [listRelationship, setListRelationship] = useState([18]);
+    // const [taskRelationship, settaskRelationship] = useState([9]);
+    // const [manualProgress, setManualProgress] = useState([14]);
 
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
