@@ -842,7 +842,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           className='icon'
                           icon={icon({ name: 'square', style: 'solid' })}
                           style={{ color: `${task?.status?.color}` }} />{task.name}</div>
-                      )
+                      );
                     })}
                   </span>
                 </>
