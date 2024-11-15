@@ -863,7 +863,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     })}
                   </span>
                 </>
-
               ) : (
                 <>
                   <span>
