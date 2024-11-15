@@ -830,7 +830,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     ) : (<></>)}
                   </div>
                 </>
-
               ) : (customField.type_id === 18) ? (
                 <>
                   <span>
