@@ -11,7 +11,15 @@ import './style.css';
 // 8651cc40-e1e0-43a6-81f9-233398e11dc6 - all
 // 268ac10f-187c-4eab-9960-b7d012711457 - building
 // d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - List/List relationship
+
 const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
+
+    const [standardArray, setStandardArray] = useState([4, 6, 17, 19, 10, 8, 11, 0]);
+    const [noValueArray, setNoValueArray] = useState([5]);
+    const [listRelationship, setListRelationship] = useState([18]);
+    const [taskRelationship, settaskRelationship] = useState([9]);
+    const [manualProgress, setManualProgress] = useState([14]);
+
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
   const [customField, setCustomField] = useState();
@@ -28,6 +36,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   const [tFList, setTFList] = useState(false);
   let extraArray = '';
   let count = 0;
+
+  
 
   const getWsTasks = async (taskArray) => {
     console.log('made it here')
@@ -631,6 +641,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   }, [fieldId]);
 
   return (
+
     <>
       <Card className="condition-card" key={key}>
         <Card.Body>
@@ -646,26 +657,20 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <>
               <Card className="value label-container">{renderIcon(customField)}</Card><br />
               <Card className="value label-container">{cardDetails.op}</Card>
-              {cardDetails?.value?.current ? (
-                // potentially reserved for type_id 14 manual_progress
+              {(customField.type_id === 14) ? (
                 <>
                   <span>
-                    <b className="card-text">VALUE1</b>
+                    <b className="card-text">VALUE</b>
                   </span>
                   <div>{renderCondition(customField)}</div>
                 </>
               ) : (customField.type_id === 5) ? (
                 <>
                 </>
-              ) : (
-                customField.type_id ===
-                
-                [4, 6, 17, 19, 10, 8, 11, 0].some(customField.type_id = customField.type_id)
-                // assigneeArray?.length > 0
-                ) ? (
+              ) : (customField.type_id === 10) ? (
                 <>
                   <span>
-                    <b className="card-text">VALUE2</b>
+                    <b className="card-text">VALUE</b>
                   </span>
 
                   <div className='change-assignee-field'>
@@ -826,10 +831,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   </div>
                 </>
 
-              ) : (listTasks?.length > 0) ? (
+              ) : (customField.type_id === 18) ? (
                 <>
                   <span>
-                    <b className="card-text">VALUE3</b>
+                    <b className="card-text">VALUE</b>
                   </span>
                   <span className='task-card-container'>
                     {listTasks.map((task, i) => {
@@ -842,10 +847,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     })}
                   </span>
                 </>
-              ) : (wSTasks?.length > 0) ? (
+              ) : (customField.type_id === 9) ? (
                 <>
                   <span>
-                    <b className="card-text">VALUE3</b>
+                    <b className="card-text">VALUE</b>
                   </span>
                   <span className='task-card-container'>
                     {wSTasks.map((task, i) => {
@@ -860,10 +865,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 </>
 
               ) : (
-                // potentially for values 9 and 18
                 <>
                   <span>
-                    <b className="card-text">VALUE2</b>
+                    <b className="card-text">VALUE</b>
                   </span>
                   <Card className="value label-container">{renderCondition(customField)}</Card>
                 </>
