@@ -252,16 +252,16 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card>{myDate.toDateString()}</Card>
           </>
         )
-        case 12:
-          // 12 label
-          // console.log(condition.type_id, '12 label')
-          const labelValueArray = customField?.type_config?.options;
-          let foundLabelArray = fieldValue.map((value) => {
-            let found = labelValueArray.find((label) => value === label.id);
-            return found;
-          });
-          return (
-            <>
+      case 12:
+        // 12 label
+        // console.log(condition.type_id, '12 label')
+        const labelValueArray = customField?.type_config?.options;
+        let foundLabelArray = fieldValue.map((value) => {
+          let found = labelValueArray.find((label) => value === label.id);
+          return found;
+        });
+        return (
+          <>
             {foundLabelArray.map((label, i) => {
               const styles = {
                 backgroundColor: label?.color ? `${label?.color}` : 'inherit',
@@ -280,84 +280,99 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             })}
           </>
         )
-        case 19:
-          // 19 address
-          // console.log(condition.type_id, '19 address')
-          return (
-            <>
+      case 19:
+        // 19 address
+        // console.log(condition.type_id, '19 address')
+        return (
+          <>
             <Card>{cardDetails?.value?.formatted_address}</Card>
           </>
         )
-        case 11:
-          // 11 rating
-          // console.log(condition.type_id, '11 rating')
-          return (
-            <>
+      case 11:
+        // 11 rating
+        console.log(customField?.type_config?.code_point)
+        const hexCodePoint = customField?.type_config?.code_point
+        const emjoiFromHexCodePoint = String.fromCodePoint(parseInt(hexCodePoint, 16))
+        const emojiArray = emjoiFromHexCodePoint.repeat(condition?.type_config?.count)
+        console.log(cardDetails)
+        // console.log(condition.type_id, '11 rating')
+        return (
+          <>
             <Card>{`${cardDetails.value}/${condition?.type_config?.count}`}</Card>
+            {
+                <>{emjoiFromHexCodePoint.repeat(condition?.type_config?.count)}</>
+            }
+            {/* {
+              emojiArray.map((emoji, i) => {
+                return (
+                  <>{`${emoji}`}</>
+                )
+              })
+            } */}
           </>
         )
-        case 14:
-          // 14 manual progress
-          // console.log(condition.type_id, '14 manual progress')
-          return (
-            <>
+      case 14:
+        // 14 manual progress
+        // console.log(condition.type_id, '14 manual progress')
+        return (
+          <>
             <ProgressBar
               className='manual-progress'
               variant="success"
               now={cardDetails?.value?.current}
               label={`${cardDetails?.value?.current}`}
-              />
+            />
           </>
         )
-        case 17:
-          // 17 formula 
-          // console.log(condition.type_id, '17 formula')
-          return (
-            <>
+      case 17:
+        // 17 formula 
+        // console.log(condition.type_id, '17 formula')
+        return (
+          <>
             <Card>{cardDetails.value}</Card>
           </>
         )
-        case 1:
-          // 1 dropdown
-          // console.log(condition.type_id, '1 dropdown')
-          let valueArray = customField?.type_config?.options;
-          let result = valueArray?.find((item) => item.id === fieldValue);
-          let valueName = result?.name
-          let valueColor = result?.color
-          return (
-            <>
+      case 1:
+        // 1 dropdown
+        // console.log(condition.type_id, '1 dropdown')
+        let valueArray = customField?.type_config?.options;
+        let result = valueArray?.find((item) => item.id === fieldValue);
+        let valueName = result?.name
+        let valueColor = result?.color
+        return (
+          <>
             <Card className='value' style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueName}</Card>
           </>
         )
-        // case 10:
-        //  10 people
-        //  console.log(condition.type_id, '10 people')
-        //  handled in useEffect, and end values rendered with state var
-        // case 18:
-        //  18 list relationship
-        //  console.log(condition.type_id, '18 list relationship')
-        //  handled in useEffect, and end values rendered with state var
-        // case 9:
-        //   9 task relationship
-        //   console.log(condition.type_id, '9 task relationship')
-        //   handled in useEffect, and end values rendered with state var 
-        // case 16:
-        //   // 16 files - looks like its been removed
-        //   console.log(condition.type_id, '16 files')
-        //   let attachmentString = '';
-        //   cardDetails?.value?.map((item, i) => {
-        //     if (i + 1 === fieldValue.length) {
-        //       // its the last item in the array, and does not need a comma
-        //       let newString = attachmentString.concat(item);
-        //       return (
-        //         <>
-        //           <Card className="value">{`${newString}`}</Card>
-        //         </>
-        //       )
-        //     } else {
-        //       let newString = attachmentString.concat(item + ', ');
-        //       attachmentString = newString;
-        //     }});
+      // case 10:
+      //  10 people
+      //  console.log(condition.type_id, '10 people')
+      //  handled in useEffect, and end values rendered with state var
+      // case 18:
+      //  18 list relationship
+      //  console.log(condition.type_id, '18 list relationship')
+      //  handled in useEffect, and end values rendered with state var
+      // case 9:
+      //   9 task relationship
+      //   console.log(condition.type_id, '9 task relationship')
+      //   handled in useEffect, and end values rendered with state var 
+      // case 16:
+      //   // 16 files - looks like its been removed
+      //   console.log(condition.type_id, '16 files')
+      //   let attachmentString = '';
+      //   cardDetails?.value?.map((item, i) => {
+      //     if (i + 1 === fieldValue.length) {
+      //       // its the last item in the array, and does not need a comma
+      //       let newString = attachmentString.concat(item);
+      //       return (
+      //         <>
+      //           <Card className="value">{`${newString}`}</Card>
+      //         </>
+      //       )
+      //     } else {
+      //       let newString = attachmentString.concat(item + ', ');
+      //       attachmentString = newString;
+      //     }});
       default:
         return (<></>)
     }
