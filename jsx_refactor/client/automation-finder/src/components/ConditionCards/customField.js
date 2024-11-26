@@ -290,25 +290,23 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         )
       case 11:
         // 11 rating
-        console.log(customField?.type_config?.code_point)
-        const hexCodePoint = customField?.type_config?.code_point
-        const emjoiFromHexCodePoint = String.fromCodePoint(parseInt(hexCodePoint, 16))
-        const emojiArray = emjoiFromHexCodePoint.repeat(condition?.type_config?.count)
-        console.log(cardDetails)
+        let total = condition?.type_config?.count;
+        let value = cardDetails.value;
+        let remaining = total - value;
+        const hexCodePoint = customField?.type_config?.code_point;
+        const emjoiFromHexCodePoint = String.fromCodePoint(parseInt(hexCodePoint, 16));
+        // console.log(cardDetails)
         // console.log(condition.type_id, '11 rating')
+        // console.log(customField?.type_config?.code_point)
         return (
           <>
-            <Card>{`${cardDetails.value}/${condition?.type_config?.count}`}</Card>
             {
-                <>{emjoiFromHexCodePoint.repeat(condition?.type_config?.count)}</>
+              <>              
+              <span>{emjoiFromHexCodePoint.repeat(value)}</span>
+              <span style={{ opacity: "0.35" }}>{emjoiFromHexCodePoint.repeat(remaining)}</span>
+              </>
             }
-            {/* {
-              emojiArray.map((emoji, i) => {
-                return (
-                  <>{`${emoji}`}</>
-                )
-              })
-            } */}
+            
           </>
         )
       case 14:
