@@ -10,7 +10,7 @@ import './style.css';
 
 // 8651cc40-e1e0-43a6-81f9-233398e11dc6 - all
 // 268ac10f-187c-4eab-9960-b7d012711457 - building
-// d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - List/List relationship
+// d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - single condition work
 
 const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
@@ -115,6 +115,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     let newArr = [];
     assigneeArr.forEach((id) => {
       switch (id) {
+        case 'unassigned':
+          newArr.unshift('unassigned')
+          break;
         case 'creator':
           newArr.unshift('creator')
           break;
@@ -133,7 +136,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     // check for teams in the original array
     // remove dynamic assignees, and userIds from the assignee array
     let teamIdArr = assigneeArray.filter(item => {
-      const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+      const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
       if (typeof item !== "number" && !dynamicOptions.includes(item)) {
         return item;
       };
@@ -141,6 +144,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
     // else, just set state now 
     if (teamIdArr?.length > 0) {
+      console.log('team id array', teamIdArr);
       getWorkspaceTeams(teamIdArr, newArr);
     } else {
       setWorkspaceAssignees(newArr);
@@ -301,12 +305,12 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         return (
           <>
             {
-              <>              
-              <span>{emjoiFromHexCodePoint.repeat(value)}</span>
-              <span style={{ opacity: "0.35" }}>{emjoiFromHexCodePoint.repeat(remaining)}</span>
+              <>
+                <span>{emjoiFromHexCodePoint.repeat(value)}</span>
+                <span style={{ opacity: "0.35" }}>{emjoiFromHexCodePoint.repeat(remaining)}</span>
               </>
             }
-            
+
           </>
         )
       case 14:
@@ -608,17 +612,18 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   }, [listTasks])
 
   useEffect(() => {
+    console.log(assigneeArray)
     if (assigneeArray?.length > 0) {
       //remove teamIds from the user array
       let userArr = assigneeArray.filter(item => {
-        const dynamicOptions = ['watchers', 'creator', 'triggered_by'];
+        const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
         if ((typeof item === "number") || (dynamicOptions.includes(item))) {
           return item;
         };
       });
-      if (userArr?.length > 0) {
-        getWorkspaceMembers(userArr);
-      }
+      // if (userArr?.length > 0) {
+      getWorkspaceMembers(userArr);
+      // }
     }
   }, [assigneeArray]);
 
@@ -678,6 +683,25 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                     icon={icon({ name: 'circle' })} />
                                   <span className='fa-layers-text initials'>{assignee?.user?.initials}</span>
                                 </span><span className='space'></span>
+                              </>
+                            ) : assignee === 'unassigned' ? (
+                              <>
+                                <Tooltip className="dynamic-tooltip" id={`c-unassigned`} />
+                                <span
+                                  className="fa-layers person-icon"
+                                  data-tooltip-id={`c-unassigned`}
+                                  data-tooltip-content={`None`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    transform="grow-12"
+                                    className="icon-circle"
+                                    style={{ color: `grey` }}
+                                    icon={icon({ name: 'circle' })} />
+                                  <FontAwesomeIcon
+                                    className='dynamic-assignee-icon'
+                                    icon={icon({ name: 'users' })} />
+                                </span><span className='space'></span>
+
                               </>
                             ) : assignee === "watchers" ? (
                               <>
