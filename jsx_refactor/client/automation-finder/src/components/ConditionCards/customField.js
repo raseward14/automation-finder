@@ -698,7 +698,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                     style={{ color: `grey` }}
                                     icon={icon({ name: 'circle' })} />
                                   <FontAwesomeIcon
-                                    className='dynamic-assignee-icon'
+                                    className='dynamic-assignee-icon dynamic-none'
+                                    // style={{ viewBox: "95 0 640 512 !important" }}
                                     icon={icon({ name: 'users' })} />
                                 </span><span className='space'></span>
 

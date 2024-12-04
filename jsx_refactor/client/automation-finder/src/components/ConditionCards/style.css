@@ -69,3 +69,7 @@ img, svg {
 .manual-progress {
     width: 100%;
 }
+
+.dynamic-none {
+    margin: 0px 5px 0px !important;
+}
