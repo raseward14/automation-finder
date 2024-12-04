@@ -781,7 +781,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                         )
 
                       } else if (i === (workspaceAssignees.length - 1)) {
-                        // last one
+                        // last one, tack onto end of array
                         if (assignee?.user?.username) {
                           // its a user
                           let newText = extraArray.concat(assignee?.user?.username);
@@ -792,15 +792,21 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           let newText = extraArray.concat(assignee?.name);
                           extraArray = newText;
                           count++;
+                        } else if (assignee === 'unassigned') {
+                          // its unassigned - push string 'None' to overflow array to match ClickUp UI
+                          let newText = extraArray.concat('None');
+                          extraArray = newText;
+                          count++;
                         } else {
-                          // its dynamic
+                          // its dynamic and not 'unassigned'
                           let newText = extraArray.concat(assignee);
                           extraArray = newText;
                           count++;
+
                         };
 
                       } else {
-                        // add a comma
+                        // add a comma and a Space
                         if (assignee?.user?.username) {
                           // its a user
                           let newText = extraArray.concat(assignee?.user?.username + ',' + ' ');
@@ -811,8 +817,13 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           let newText = extraArray.concat(assignee?.name + ',' + ' ');
                           extraArray = newText;
                           count++;
+                        } else if (assignee === 'unassigned') {
+                          // its unassigned - push string 'None' to overflow array to match ClickUp UI
+                          let newText = extraArray.concat('None' + ',' + ' ');
+                          extraArray = newText;
+                          count++;
                         } else {
-                          // its dynamic
+                          // its dynamic and not 'unassigned'
                           let newText = extraArray.concat(assignee + ',' + ' ');
                           extraArray = newText;
                           count++;
