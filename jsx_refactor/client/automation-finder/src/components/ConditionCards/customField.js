@@ -14,10 +14,16 @@ import './style.css';
 
 const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
+  // the fieldId
   const [fieldId, setFieldId] = useState(cardDetails.name.slice(3));
+  // the value
   const [fieldValue, setFieldValue] = useState(cardDetails.value);
+  // the field
   const [customField, setCustomField] = useState();
+  // token
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
+
+  // type 10
   const [assigneeArray, setAssigneeArray] = useState([]);
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
 
@@ -28,11 +34,13 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   // type 18
   const [listTasks, setListTasks] = useState([]);
   const [tFList, setTFList] = useState(false);
+
+  // type 10
   let extraArray = '';
   let count = 0;
 
   const getWsTasks = async (taskArray) => {
-    console.log('made it here')
+    console.log('getWsTasks');
     try {
       const res = await axios.post(
         'http://localhost:8080/automation/getTasks',
@@ -43,16 +51,16 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         }
       );
       if (res?.data) {
-        console.log('response we return is:', res?.data)
+        // console.log('response we return is:', res?.data)
         setWSTasks(res?.data.tasks)
-      }
+      };
     } catch (err) {
       console.log(err)
-    }
-  }
+    };
+  };
 
   const getListTasks = async (taskArray) => {
-    console.log('made it here')
+    console.log('getListTasks')
     try {
       const res = await axios.post(
         'http://localhost:8080/automation/getTasks',
@@ -63,13 +71,13 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         }
       );
       if (res?.data) {
-        console.log('response we return is:', res?.data.tasks)
+        // console.log('response we return is:', res?.data.tasks)
         setListTasks(res?.data.tasks)
-      }
+      };
     } catch (err) {
       console.log(err)
-    }
-  }
+    };
+  };
 
   const getCustomField = async () => {
     console.log('getCustomField')
@@ -144,7 +152,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
     // else, just set state now 
     if (teamIdArr?.length > 0) {
-      console.log('team id array', teamIdArr);
+      // console.log('team id array', teamIdArr);
       getWorkspaceTeams(teamIdArr, newArr);
     } else {
       setWorkspaceAssignees(newArr);
@@ -176,7 +184,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 15:
         // 15 short text 
         // console.log(condition.type_id, '15 short text')
@@ -184,7 +192,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 2:
         // 2 email
         // console.log(condition.type_id, '2 email')
@@ -192,7 +200,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 7:
         // 7 number
         // console.log(condition.type_id, '7 number')
@@ -200,7 +208,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 0:
         // 0 website
         // console.log(condition.type_id, action, '0 ??')
@@ -208,7 +216,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 3:
         // 3 website
         // console.log(condition.type_id, '3 website')
@@ -216,7 +224,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 8:
         // 8 phone
         // console.log(action.type_id, '8 phone')
@@ -224,7 +232,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 6:
         // 6 checkbox
         // console.log(condition.type_id, '6 checkbox')
@@ -242,7 +250,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               /></span>
             )}
           </>
-        )
+        );
       case 4:
         // 4 date
         // console.log(action.type_id, '4 date')
@@ -250,12 +258,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         const myUnixTimestamp = fieldValue;
         const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
         console.log(myDate);
-
         return (
           <>
             <Card>{myDate.toDateString()}</Card>
           </>
-        )
+        );
       case 12:
         // 12 label
         // console.log(condition.type_id, '12 label')
@@ -283,7 +290,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               )
             })}
           </>
-        )
+        );
       case 19:
         // 19 address
         // console.log(condition.type_id, '19 address')
@@ -291,7 +298,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails?.value?.formatted_address}</Card>
           </>
-        )
+        );
       case 11:
         // 11 rating
         let total = condition?.type_config?.count;
@@ -299,9 +306,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         let remaining = total - value;
         const hexCodePoint = customField?.type_config?.code_point;
         const emjoiFromHexCodePoint = String.fromCodePoint(parseInt(hexCodePoint, 16));
-        // console.log(cardDetails)
-        // console.log(condition.type_id, '11 rating')
+        // console.log(cardDetails.value)
         // console.log(customField?.type_config?.code_point)
+        // console.log(condition.type_id, '11 rating')
         return (
           <>
             {
@@ -312,7 +319,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             }
 
           </>
-        )
+        );
       case 14:
         // 14 manual progress
         // console.log(condition.type_id, '14 manual progress')
@@ -325,7 +332,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               label={`${cardDetails?.value?.current}`}
             />
           </>
-        )
+        );
       case 17:
         // 17 formula 
         // console.log(condition.type_id, '17 formula')
@@ -333,7 +340,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card>{cardDetails.value}</Card>
           </>
-        )
+        );
       case 1:
         // 1 dropdown
         // console.log(condition.type_id, '1 dropdown')
@@ -345,7 +352,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           <>
             <Card className='value' style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueName}</Card>
           </>
-        )
+        );
+      // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
       //  10 people
       //  console.log(condition.type_id, '10 people')
@@ -409,7 +417,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 <>{customField?.name}</>
               </div>
             );
-          }
+          };
         case 15:
           // short text
           return (
@@ -566,7 +574,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 icon={icon({ name: 'florin-sign' })} />
               <>{customField?.name}</>
             </div>
-          )
+          );
         case 18:
           // relationship specific list
           return (
@@ -621,14 +629,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           return item;
         };
       });
-      // if (userArr?.length > 0) {
       getWorkspaceMembers(userArr);
-      // }
     }
   }, [assigneeArray]);
 
   useEffect(() => {
-    console.log('one')
     getCustomField();
   }, [fieldId]);
 
@@ -656,7 +661,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   <div>{renderCondition(customField)}</div>
                 </>
               ) : (customField?.type_id === 10) ? (
-
                 // for case customField.type_id === 10
                 <>
                   <span>
@@ -802,9 +806,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           let newText = extraArray.concat(assignee);
                           extraArray = newText;
                           count++;
-
                         };
-
                       } else {
                         // add a comma and a Space
                         if (assignee?.user?.username) {
