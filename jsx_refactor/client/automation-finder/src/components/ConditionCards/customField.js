@@ -359,7 +359,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         console.log(condition.type_id, '16 files')
         console.log(cardDetails?.value)
         let attachmentString = '';
-
         return (
           <>
             {cardDetails?.value?.map((item, i) => {
