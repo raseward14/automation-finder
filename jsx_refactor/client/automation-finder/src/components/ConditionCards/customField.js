@@ -90,6 +90,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       }
     );
     if (res?.data) {
+      console.log('Custom Field is', res.data);
       setCustomField(res.data);
     }
   };
@@ -353,6 +354,33 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             <Card className='value' style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueName}</Card>
           </>
         );
+      case 16:
+        // 16 files - looks like its been removed
+        console.log(condition.type_id, '16 files')
+        console.log(cardDetails?.value)
+        let attachmentString = '';
+
+        return (
+          <>
+            {cardDetails?.value?.map((item, i) => {
+              if (i + 1 === fieldValue.length) {
+                // its the last item in the array, and does not need a comma
+                let newString = attachmentString.concat(item);
+                console.log(newString);
+                return (
+                  <>
+                    <Card>{`${newString}`}</Card>
+                  </>
+                );
+              } else {
+                let newString = attachmentString.concat(item + ', ');
+                attachmentString = newString;
+              }
+            })}
+          </>
+        );
+
+
       // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
       //  10 people
@@ -366,23 +394,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       //   9 task relationship
       //   console.log(condition.type_id, '9 task relationship')
       //   handled in useEffect, and end values rendered with state var 
-      // case 16:
-      //   // 16 files - looks like its been removed
-      //   console.log(condition.type_id, '16 files')
-      //   let attachmentString = '';
-      //   cardDetails?.value?.map((item, i) => {
-      //     if (i + 1 === fieldValue.length) {
-      //       // its the last item in the array, and does not need a comma
-      //       let newString = attachmentString.concat(item);
-      //       return (
-      //         <>
-      //           <Card className="value">{`${newString}`}</Card>
-      //         </>
-      //       )
-      //     } else {
-      //       let newString = attachmentString.concat(item + ', ');
-      //       attachmentString = newString;
-      //     }});
       default:
         return (<></>)
     }
@@ -597,6 +608,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               <>{customField?.name}</>
             </div>
           );
+        default:
+          console.log('case needed for', action.type_id, action)
       }
     }
   };
