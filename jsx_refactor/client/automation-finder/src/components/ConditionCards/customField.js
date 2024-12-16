@@ -39,6 +39,26 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   let extraArray = '';
   let count = 0;
 
+  const getAttachment = async (attachmentId) => {
+    // getAttachment
+    console.log('getAttachment');
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/automation/getAttachment',
+        {
+          shard: cardDetails.shard,
+          attachmentId: attachmentId,
+          bearer: JWT
+        }
+      );
+      if (res?.data) {
+        console.log('attachment received via API', res?.data)
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const getWsTasks = async (taskArray) => {
     console.log('getWsTasks');
     try {
@@ -358,6 +378,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         // 16 files - looks like its been removed
         console.log(condition.type_id, '16 files')
         console.log(cardDetails?.value)
+        console.log(cardDetails)
         let attachmentString = '';
         return (
           <>

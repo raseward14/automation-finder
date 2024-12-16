@@ -42,6 +42,31 @@ router.route("/trigger").post(
     }
 );
 
+// get attachment endpoint:
+// https://prod-us-west-2-2.clickup.com/v1/attachments?attachment_ids[]=020660aa-ab53-4e9b-8eb4-eb9ced543fa1.png
+router.route("/getAttachment").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const attachmentId = req.body.attachmentId;
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(
+                `https://prod-us-west-2-2.clickup.com/v1/attachments?attachment_ids[]=${attachmentId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const data = await response.json();
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+)
+
 // get task endpoint:
 // https://prod-us-west-2-2.clickup.com/tasks/v2/task
 // the body is a JSON array of task_id strings {"task_ids": ["866aahpu1"]}
