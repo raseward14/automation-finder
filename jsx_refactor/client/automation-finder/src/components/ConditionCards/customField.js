@@ -23,6 +23,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   // token
   const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
 
+  // type 16
+  const [attachments, setAttachments] = useState([]);
+  const [tfAttachments, setTfAttachments] = useState(false);
+
   // type 10
   const [assigneeArray, setAssigneeArray] = useState([]);
   const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
@@ -39,24 +43,41 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   let extraArray = '';
   let count = 0;
 
-  const getAttachment = async (attachmentId) => {
+  const getAttachment = async (valueArray) => {
     // getAttachment
-    console.log('getAttachment');
-    try {
-      const res = await axios.post(
-        'http://localhost:8080/automation/getAttachment',
-        {
-          shard: cardDetails.shard,
-          attachmentId: attachmentId,
-          bearer: JWT
-        }
-      );
-      if (res?.data) {
-        console.log('attachment received via API', res?.data)
-      };
-    } catch (err) {
-      console.log(err);
-    }
+    console.log('getAttachment', valueArray);
+
+    let query = '';
+    if (valueArray.length > 0) {
+      await valueArray.map((item, i) => {
+        if (i + 1 === fieldValue.length) {
+          let newQuery = query.concat(`attachment_ids[]=${item}`);
+          query = newQuery;
+        } else {
+          let newQuery = query.concat(`attachment_ids[]=${item}&`);
+          query = newQuery;
+        };
+      });
+    };
+
+    console.log(query);
+
+    // try {
+    //   const res = await axios.post(
+    //     'http://localhost:8080/automation/getAttachment',
+    //     {
+    //       shard: cardDetails.shard,
+    //       attachmentIds: query,
+    //       bearer: JWT
+    //     }
+    //   );
+    //   if (res?.data) {
+    //     console.log('attachment received via API', res?.data)
+    //     setAttachments(res?.data);
+    //   };
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   const getWsTasks = async (taskArray) => {
@@ -376,9 +397,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         );
       case 16:
         // 16 files - looks like its been removed
-        console.log(condition.type_id, '16 files')
-        console.log(cardDetails?.value)
-        console.log(cardDetails)
+        // console.log(condition.type_id, '16 files')
+        // console.log(cardDetails?.value)
+
+
+
         let attachmentString = '';
         return (
           <>
@@ -640,11 +663,14 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     if (customField?.type_id === 10) {
       setAssigneeArray(cardDetails.value)
     } else if (customField?.type_id === 9 && tFWs === false) {
-      setFWs(true)
-      getWsTasks(cardDetails?.value)
+      setFWs(true);
+      getWsTasks(cardDetails?.value);
     } else if (customField?.type_id === 18 && tFList === false) {
-      setTFList(true)
-      getListTasks(cardDetails?.value)
+      setTFList(true);
+      getListTasks(cardDetails?.value);
+    } else if (customField?.type_id === 16 && tfAttachments === false) {
+      setTfAttachments(true);
+      getAttachment(cardDetails?.value);
     }
   }, [customField])
 
@@ -694,7 +720,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   <div>{renderCondition(customField)}</div>
                 </>
               ) : (customField?.type_id === 10) ? (
-                // for case customField.type_id === 10
                 <>
                   <span>
                     <b className="card-text">VALUE</b>
@@ -916,6 +941,54 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           className='icon'
                           icon={icon({ name: 'square', style: 'solid' })}
                           style={{ color: `${task?.status?.color}` }} />{task.name}</div>
+                      );
+                    })}
+                  </span>
+                </>
+              ) : (customField.type_id === 16) ? (
+                <>
+                  <span>
+                    <b className="card-text">VALUE</b>
+                  </span>
+                  <span className='task-card-container'>
+                    {attachments.map((attachment, i) => {
+                      return (
+                        <span key={i}>
+                          {attachment?.extension === 'csv' ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <span
+                                data-tooltip-id={`${attachment?.id}`}
+                                data-tooltip-content={`${attachment?.url}`}
+                                data-tooltip-place="top">
+                                <FontAwesomeIcon
+                                  icon={icon({ name: 'file-csv' })} />
+                              </span>
+                            </>
+                          ) : attachment?.extnesion === 'png' ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <span
+                                data-tooltip-id={`${attachment?.id}`}
+                                data-tooltip-content={`${attachment?.url}`}
+                                data-tooltip-place="top">
+                                <FontAwesomeIcon
+                                  icon={icon({ name: 'file-image' })} />
+                              </span>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+
+
+                          {/* <div className='task-card' key={i}><FontAwesomeIcon
+                            className='icon'
+                            icon={icon({ name: 'square', style: 'solid' })}
+                            style={{ color: `${task?.status?.color}` }} />{task.name}</div> */}
+
+                        </span>
+
+
                       );
                     })}
                   </span>

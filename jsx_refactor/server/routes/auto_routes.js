@@ -43,15 +43,16 @@ router.route("/trigger").post(
 );
 
 // get attachment endpoint:
+// https://t42085025.p.clickup-attachments.com/t42085025/e8eb6edf-91f9-4904-a4d7-340b0cb8675f/example-import%20(2).csv?view=open
 // https://prod-us-west-2-2.clickup.com/v1/attachments?attachment_ids[]=020660aa-ab53-4e9b-8eb4-eb9ced543fa1.png
 router.route("/getAttachment").post(
     async (req, res) => {
         const shard = req.body.shard;
-        const attachmentId = req.body.attachmentId;
+        const query = req.body.attachmentIds;
         const token = req.body.bearer;
         try {
             const response = await fetch(
-                `https://prod-us-west-2-2.clickup.com/v1/attachments?attachment_ids[]=${attachmentId}`,
+                `https://prod-us-west-2-2.clickup.com/v1/attachments?${query}`,
                 {
                     method: "GET",
                     headers: {
