@@ -65,22 +65,22 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
     console.log(query);
 
-    // try {
-    //   const res = await axios.post(
-    //     'http://localhost:8080/automation/getAttachment',
-    //     {
-    //       shard: cardDetails.shard,
-    //       attachmentIds: query,
-    //       bearer: JWT
-    //     }
-    //   );
-    //   if (res?.data) {
-    //     console.log('attachment received via API', res?.data)
-    //     setAttachments(res?.data);
-    //   };
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/automation/getAttachment',
+        {
+          shard: cardDetails.shard,
+          attachmentIds: query,
+          bearer: JWT
+        }
+      );
+      if (res?.data) {
+        console.log('attachment received via API', res?.data)
+        setAttachments(res?.data?.attachments);
+      };
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const getWsTasks = async (taskArray) => {
@@ -960,24 +960,28 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           {attachment?.extension === 'csv' ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <span
-                                data-tooltip-id={`${attachment?.id}`}
-                                data-tooltip-content={`${attachment?.url}`}
-                                data-tooltip-place="top">
-                                <FontAwesomeIcon
-                                  icon={icon({ name: 'file-csv' })} />
-                              </span>
+                              <a href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-csv' })} />
+                                </span>
+                              </a>
                             </>
-                          ) : attachment?.extnesion === 'png' ? (
+                          ) : attachment?.extension === 'png' ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <span
-                                data-tooltip-id={`${attachment?.id}`}
-                                data-tooltip-content={`${attachment?.url}`}
-                                data-tooltip-place="top">
-                                <FontAwesomeIcon
-                                  icon={icon({ name: 'file-image' })} />
-                              </span>
+                              <a href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-image' })} />
+                                </span>
+                              </a>
                             </>
                           ) : (
                             <></>
