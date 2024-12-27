@@ -983,6 +983,45 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </span>
                               </a>
                             </>
+                          ) : attachment?.extension === 'pdf' ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-pdf' })} />
+                                </span>
+                              </a>
+                            </>
+                          ) : attachment?.extension === 'xlxs' ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-excel' })} />
+                                </span>
+                              </a>
+                            </>
+                          ) : attachment?.extension === 'docx' ? (
+                            <>
+                            <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-word' })} />
+                                </span>
+                              </a>
+                            </>
                           ) : (
                             <></>
                           )}
