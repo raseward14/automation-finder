@@ -1010,7 +1010,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </span>
                               </a>
                             </>
-                          ) : ['docx', 'doc', 'rtf', 'wpd'].includes(attachment?.extension) ? (
+                          ) : ['docx', 'doc', 'rtf', 'wpd', 'txt'].includes(attachment?.extension) ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
                               <a className='attachment' href={`${attachment?.url}`}>
