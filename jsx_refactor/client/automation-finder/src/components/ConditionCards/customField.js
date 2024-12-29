@@ -960,7 +960,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           {attachment?.extension === 'csv' ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <a href={`${attachment?.url}`}>
+                              <a className='attachment' href={`${attachment?.url}`}>
                                 <span
                                   data-tooltip-id={`${attachment?.id}`}
                                   data-tooltip-content={`${attachment?.title}`}
@@ -970,10 +970,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </span>
                               </a>
                             </>
-                          ) : attachment?.extension === 'png' ? (
+                          ) : ['png', 'gif', 'svg'].includes(attachment?.extension) ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <a href={`${attachment?.url}`}>
+                              <a className='attachment' href={`${attachment?.url}`}>
                                 <span
                                   data-tooltip-id={`${attachment?.id}`}
                                   data-tooltip-content={`${attachment?.title}`}
@@ -986,20 +986,21 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                           ) : attachment?.extension === 'pdf' ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <a href={`${attachment?.url}`}>
+                              <a className='attachment' href={`${attachment?.url}`}>
                                 <span
                                   data-tooltip-id={`${attachment?.id}`}
                                   data-tooltip-content={`${attachment?.title}`}
                                   data-tooltip-place="top">
                                   <FontAwesomeIcon
+                                    className='attachment-icon'
                                     icon={icon({ name: 'file-pdf' })} />
                                 </span>
                               </a>
                             </>
-                          ) : attachment?.extension === 'xlxs' ? (
+                          ) : attachment?.extension === 'xlsx' ? (
                             <>
                               <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <a href={`${attachment?.url}`}>
+                              <a className='attachment' href={`${attachment?.url}`}>
                                 <span
                                   data-tooltip-id={`${attachment?.id}`}
                                   data-tooltip-content={`${attachment?.title}`}
@@ -1009,10 +1010,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </span>
                               </a>
                             </>
-                          ) : attachment?.extension === 'docx' ? (
+                          ) : ['docx', 'doc', 'rtf', 'wpd'].includes(attachment?.extension) ? (
                             <>
-                            <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
-                              <a href={`${attachment?.url}`}>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a className='attachment' href={`${attachment?.url}`}>
                                 <span
                                   data-tooltip-id={`${attachment?.id}`}
                                   data-tooltip-content={`${attachment?.title}`}
@@ -1022,8 +1023,71 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                 </span>
                               </a>
                             </>
+                          ) : attachment?.extension === 'jpeg' ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a className='attachment' href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-image' })} />
+                                </span>
+                              </a>
+                            </>
+                          ) : attachment?.extension === 'zip' ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a className='attachment' href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-zipper' })} />
+                                </span>
+                              </a>
+                            </>
+                          ) : ['py', 'css', 'html', 'js', 'jsx', 'ts', 'tsx', 'json', 'md', 'c', 'java', 'asp'].includes(attachment?.extension) ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a className='attachment' href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-code' })} />
+                                </span>
+                              </a>
+                            </>
+                          ) : ['mp4', 'webm', 'mov', 'avi', 'flv', 'avi', 'mkv', 'wmv', 'avchd'].includes(attachment?.extension) ? (
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a className='attachment' href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file-video' })} />
+                                </span>
+                              </a>
+                            </>
                           ) : (
-                            <></>
+                            <>
+                              <Tooltip className='dynamic-tooltip' id={`${attachment?.id}`} />
+                              <a className='attachment' href={`${attachment?.url}`}>
+                                <span
+                                  data-tooltip-id={`${attachment?.id}`}
+                                  data-tooltip-content={`${attachment?.title}`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    icon={icon({ name: 'file' })} />
+                                </span>
+                              </a>
+                            </>
                           )}
 
 
