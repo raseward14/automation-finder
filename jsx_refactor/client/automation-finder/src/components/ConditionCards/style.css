@@ -78,6 +78,7 @@ img, svg {
     font-size: 25px;
     border: 1px solid black !important;
     border-radius: 4px;
+    color: unset;
 
 }
 
