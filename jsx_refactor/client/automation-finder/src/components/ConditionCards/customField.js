@@ -443,6 +443,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       //   console.log(condition.type_id, '9 task relationship')
       //   handled in useEffect, and end values rendered with state var 
       default:
+        console.log('value case needed for', condition?.type_id)
         return (<></>)
     }
 
@@ -656,8 +657,19 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               <>{customField?.name}</>
             </div>
           );
-        default:
-          console.log('case needed for', action.type_id, action)
+        case 22:
+          // signature
+          return(
+            <div className="condition-icon">
+              <FontAwesomeIcon
+                className="icon"
+                icon={icon({ name: 'pen-fancy' })}
+              />
+              <>{customField?.name}</>
+            </div>
+          );
+          default:
+          console.log('icon case needed for', action.type_id, action)
       }
     }
   };
@@ -710,9 +722,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               className='icon fa-regular'
               icon={icon({ name: 'pen-to-square', style: 'regular' })} />
             {`Custom Field`}</Card.Title>
-          <span>
+          {/* <span>
             <b className="card-text">CUSTON FIELD</b>
-          </span>
+          </span> */}
           {customField ? (
             <>
               <Card className="value label-container">{renderIcon(customField)}</Card><br />
