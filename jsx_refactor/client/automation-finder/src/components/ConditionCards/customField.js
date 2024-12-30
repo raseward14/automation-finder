@@ -425,9 +425,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           </>
         );
       case 22:
-      // 22 signature 
-      console.log(condition.type_id, '22 signature')
-      console.log(cardDetails?.value)
+        // 22 signature 
+        console.log(condition.type_id, '22 signature')
+        console.log(cardDetails?.value)
 
       // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
@@ -659,7 +659,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           );
         case 22:
           // signature
-          return(
+          return (
             <div className="condition-icon">
               <FontAwesomeIcon
                 className="icon"
@@ -668,7 +668,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               <>{customField?.name}</>
             </div>
           );
-          default:
+        default:
           console.log('icon case needed for', action.type_id, action)
       }
     }
@@ -727,8 +727,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           </span> */}
           {customField ? (
             <>
-              <Card className="value label-container">{renderIcon(customField)}</Card><br />
-              <Card className="value label-container">{cardDetails.op}</Card>
+              <Card className="value label-container">{renderIcon(customField)}</Card>
+              <Card className="label-container">{cardDetails.op}</Card>
               {(customField.type_id === 14) ? (
                 <>
                   {/* <span>
@@ -928,8 +928,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   </div>
                 </>
               ) : (customField.type_id === 5) ? (
-                <>
-                </>
+                // available operators are is set, is not set - never has a value
+                <></>
+              ) : (customField?.type_id === 22) ? (
+                // available operators are is set, is not set - never has a value
+                <></>
               ) : (customField.type_id === 18) ? (
                 <>
                   {/* <span>
