@@ -43,6 +43,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   let extraArray = '';
   let count = 0;
 
+  // axios requests
   const getAttachment = async (valueArray) => {
     // getAttachment
     console.log('getAttachment', valueArray);
@@ -220,6 +221,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     };
   };
 
+  // render functions
   const renderCondition = (condition) => {
     switch (condition.type_id) {
       case 5:
@@ -399,12 +401,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           </>
         );
       case 16:
-        // 16 files - looks like its been removed
+        // 16 files
         // console.log(condition.type_id, '16 files')
         // console.log(cardDetails?.value)
-
-
-
         let attachmentString = '';
         return (
           <>
@@ -425,7 +424,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             })}
           </>
         );
-
+      case 22:
+      // 22 signature 
 
       // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
@@ -661,8 +661,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
   };
 
   useEffect(() => {
-    // console.log('custom field', customField)
-    // console.log('card details', cardDetails)
+    console.log('custom field', customField)
+    console.log('card details', cardDetails)
     if (customField?.type_id === 10) {
       setAssigneeArray(cardDetails.value)
     } else if (customField?.type_id === 9 && tFWs === false) {
@@ -717,16 +717,16 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               <Card className="value label-container">{cardDetails.op}</Card>
               {(customField.type_id === 14) ? (
                 <>
-                  <span>
+                  {/* <span>
                     <b className="card-text">VALUE</b>
-                  </span>
+                  </span> */}
                   <div>{renderCondition(customField)}</div>
                 </>
               ) : (customField?.type_id === 10) ? (
                 <>
-                  <span>
+                  {/* <span>
                     <b className="card-text">VALUE</b>
-                  </span>
+                  </span> */}
 
                   <div className='change-assignee-field'>
                     {workspaceAssignees.map((assignee, i) => {
@@ -918,9 +918,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 </>
               ) : (customField.type_id === 18) ? (
                 <>
-                  <span>
+                  {/* <span>
                     <b className="card-text">VALUE</b>
-                  </span>
+                  </span> */}
                   <span className='task-card-container'>
                     {listTasks.map((task, i) => {
                       return (
@@ -934,9 +934,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 </>
               ) : (customField.type_id === 9) ? (
                 <>
-                  <span>
+                  {/* <span>
                     <b className="card-text">VALUE</b>
-                  </span>
+                  </span> */}
                   <span className='task-card-container'>
                     {wSTasks.map((task, i) => {
                       return (
@@ -950,9 +950,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 </>
               ) : (customField.type_id === 16) ? (
                 <>
-                  <span>
+                  {/* <span>
                     <b className="card-text">VALUE</b>
-                  </span>
+                  </span> */}
                   <span className='task-card-container'>
                     {attachments.map((attachment, i) => {
                       return (
@@ -1105,9 +1105,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 </>
               ) : (
                 <>
-                  <span>
+                  {/* <span>
                     <b className="card-text">VALUE</b>
-                  </span>
+                  </span> */}
                   <Card className="value label-container">{renderCondition(customField)}</Card>
                 </>
               )}
