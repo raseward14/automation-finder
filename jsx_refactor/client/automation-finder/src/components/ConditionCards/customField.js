@@ -426,6 +426,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         );
       case 22:
       // 22 signature 
+      console.log(condition.type_id, '22 signature')
+      console.log(cardDetails?.value)
 
       // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
