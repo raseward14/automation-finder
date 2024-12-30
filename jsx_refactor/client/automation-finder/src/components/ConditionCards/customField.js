@@ -426,8 +426,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         );
       case 22:
         // 22 signature 
-        console.log(condition.type_id, '22 signature')
-        console.log(cardDetails?.value)
+        // console.log(condition.type_id, '22 signature')
+        // console.log(cardDetails?.value);
 
       // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
@@ -444,9 +444,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       //   handled in useEffect, and end values rendered with state var 
       default:
         console.log('value case needed for', condition?.type_id)
-        return (<></>)
-    }
-
+        return (<></>);
+    };
   };
 
   const renderIcon = (action) => {
@@ -670,13 +669,13 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           );
         default:
           console.log('icon case needed for', action.type_id, action)
-      }
-    }
+      };
+    };
   };
 
   useEffect(() => {
-    console.log('custom field', customField)
-    console.log('card details', cardDetails)
+    // console.log('custom field', customField)
+    // console.log('card details', cardDetails)
     if (customField?.type_id === 10) {
       setAssigneeArray(cardDetails.value)
     } else if (customField?.type_id === 9 && tFWs === false) {
@@ -688,7 +687,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     } else if (customField?.type_id === 16 && tfAttachments === false) {
       setTfAttachments(true);
       getAttachment(cardDetails?.value);
-    }
+    };
   }, [customField])
 
   useEffect(() => {
