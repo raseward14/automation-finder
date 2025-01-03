@@ -236,11 +236,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 15:
         // 15 short text 
         // console.log(condition.type_id, '15 short text')
-          return (
-            <>
-              <Card>{cardDetails.value}</Card>
-            </>
-          );
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        );
       case 2:
         // 2 email
         // console.log(condition.type_id, '2 email')
@@ -426,9 +426,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           </>
         );
       case 22:
-        // 22 signature 
-        // console.log(condition.type_id, '22 signature')
-        // console.log(cardDetails?.value);
+      // 22 signature 
+      // console.log(condition.type_id, '22 signature')
+      // console.log(cardDetails?.value);
 
       // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
       // case 10:
@@ -730,11 +730,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               <Card className="value label-container">{renderIcon(customField)}</Card>
 
               {(['is set', 'is not set'].includes(cardDetails.op)) ? (
-
                 <Card className="label-container">{cardDetails.op}</Card>
               ) : (
-
-              <Card className="value label-container">{cardDetails.op}</Card>
+                <Card className="value label-container">{cardDetails.op}</Card>
               )}
 
               {(customField.type_id === 14) ? (
@@ -1133,7 +1131,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                   {/* <span>
                     <b className="card-text">VALUE</b>
                   </span> */}
-                  <Card className="value label-container">{renderCondition(customField)}</Card>
+                  <Card className="label-container">{renderCondition(customField)}</Card>
                 </>
               )}
             </>
