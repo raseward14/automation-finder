@@ -223,6 +223,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
 
   // render functions
   const renderCondition = (condition) => {
+    console.log(condition, cardDetails)
     switch (condition.type_id) {
       case 5:
         // 5 text area, ai progress update, ai summary
@@ -235,11 +236,11 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
       case 15:
         // 15 short text 
         // console.log(condition.type_id, '15 short text')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+          return (
+            <>
+              <Card>{cardDetails.value}</Card>
+            </>
+          );
       case 2:
         // 2 email
         // console.log(condition.type_id, '2 email')
@@ -926,8 +927,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                     ) : (<></>)}
                   </div>
                 </>
-              ) : (customField.type_id === 5) ? (
-                // available operators are is set, is not set - never has a value
+              ) : ([5, 15].includes(customField.type_id) && ['is set', 'is not set'].includes(cardDetails.op)) ? (
+                // TA or Text field - operators are is set, is not set - no value
                 <></>
               ) : (customField?.type_id === 22) ? (
                 // available operators are is set, is not set - never has a value
