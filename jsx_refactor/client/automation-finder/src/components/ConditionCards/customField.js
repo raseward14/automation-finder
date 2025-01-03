@@ -728,7 +728,15 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
           {customField ? (
             <>
               <Card className="value label-container">{renderIcon(customField)}</Card>
-              <Card className="label-container">{cardDetails.op}</Card>
+
+              {(['is set', 'is not set'].includes(cardDetails.op)) ? (
+
+                <Card className="label-container">{cardDetails.op}</Card>
+              ) : (
+
+              <Card className="value label-container">{cardDetails.op}</Card>
+              )}
+
               {(customField.type_id === 14) ? (
                 <>
                   {/* <span>

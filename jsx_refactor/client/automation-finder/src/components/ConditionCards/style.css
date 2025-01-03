@@ -29,6 +29,10 @@
     margin-bottom: 0.5rem !important;
 }
 
+/* .value {
+    margin-bottom: 0.5rem !important;
+} */
+
 .label-container {
     display: flex;
     flex-direction: row;
