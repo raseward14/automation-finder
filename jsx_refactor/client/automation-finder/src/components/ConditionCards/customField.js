@@ -936,7 +936,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               ) : (([5, 15].includes(customField.type_id) && ['is equal to', 'is not equal to'].includes(cardDetails.op)) && (customField?.type_config.hasOwnProperty('ai'))) ? (
                 // TA or Text field - operators are is set, is not set - no value
                 // also no value if its an AI field meaning that customField.type_id.ai.source is not null
-                <Card style={{marginTop: "0.5rem", backgroundColor: "rgb(48, 53, 60)"}} className='label-container'>{`This action will regenerate the text for the AI Custom Field.`}</Card>
+                <Card style={{ marginTop: "0.5rem", backgroundColor: "rgb(48, 53, 60)" }} className='label-container'>{`This action will regenerate the text for the AI Custom Field.`}</Card>
               ) : (([5, 15].includes(customField.type_id) && ['is set', 'is not set'].includes(cardDetails.op))) ? (
                 // TA or Text field - operators are is set, is not set - no value
                 // also no value if its an AI field meaning that customField.type_id.ai.source is not null
