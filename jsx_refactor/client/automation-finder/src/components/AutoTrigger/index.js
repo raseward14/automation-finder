@@ -172,7 +172,7 @@ const Trigger = ({ automationObject, shard, teamId }) => {
             return (
               <>
                 <hr className='modal-line' />
-                <CustomFieldCard triggerName={triggerName} cardDetails={triggerObject} />
+                <CustomFieldCard triggerName={triggerName} cardDetails={triggerObject} shard={shard} teamId={teamId} />
               </>
             )
 
