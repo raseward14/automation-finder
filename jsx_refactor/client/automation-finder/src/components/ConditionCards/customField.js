@@ -425,6 +425,14 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             })}
           </>
         );
+      case 21:
+        // 21 voting
+        // console.log(condition.type_id, '21 voting')
+        return (
+          <>
+            <Card>{cardDetails.value}</Card>
+          </>
+        );
       case 22:
       // 22 signature 
       // console.log(condition.type_id, '22 signature')
@@ -653,6 +661,17 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               <FontAwesomeIcon
                 className="icon"
                 icon={icon({ name: 'square-caret-down' })}
+              />
+              <>{customField?.name}</>
+            </div>
+          );
+        case 21:
+          // voting
+          return (
+            <div className="condition-icon">
+              <FontAwesomeIcon
+                className="icon"
+                icon={icon({ name: 'chart-column' })}
               />
               <>{customField?.name}</>
             </div>
