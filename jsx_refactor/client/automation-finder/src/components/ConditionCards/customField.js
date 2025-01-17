@@ -49,8 +49,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     console.log('getAttachment', valueArray);
     // get an array of object values
     // let valueArray = Object.values(valueArray);
-
-
     let query = '';
     if (valueArray.length > 0) {
       await valueArray.map((item, i) => {
