@@ -261,7 +261,7 @@ const Actions = ({ automationObject, shard, teamId, parentType, parentId }) => {
                   return (
                     <>
                       <hr className='modal-line' />
-                      <AssigneeCard cardDetails={card} shard={shard} teamId={teamId} />
+                      <AssigneeCard cardDetails={card} shard={shard} teamId={teamId} key={`${i}`} />
                     </>
                   )
                   break;

@@ -28,16 +28,22 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
     // the field
     const [customField, setCustomField] = useState();
     // before value
-    const [beforeValue, setBeforeValue] = useState(cardDetails?.trigger?.conditions[0]?.before[0])
+    // const [beforeValue, setBeforeValue] = useState(cardDetails?.trigger?.conditions[0]?.after[0])
     // after value
-    const [afterValue, setAfterValue] = useState(cardDetails?.trigger?.conditions[1]?.after[0])
+    // const [afterValue, setAfterValue] = useState(cardDetails?.trigger?.conditions[1]?.before[0])
 
 
     // type 10
     const [assigneeArray, setAssigneeArray] = useState();
-    const [workspaceAssignees, setWorkspaceAssignees] = useState([]);
-    let extraArray = '';
-    let count = 0;
+    const [beforeWorkspaceAssignees, setBeforeWorkspaceAssignees] = useState([]);
+    const [afterWorkspaceAssignees, setAfterWorkspaceAssignees] = useState([]);
+
+    let beforeExtraArray = '';
+    let beforeCount = 0;
+
+    let afterExtraArray = '';
+    let afterCount = 0;
+
 
     // type 9
     const [wSTasks, setWSTasks] = useState([]);
@@ -130,7 +136,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         };
     };
 
-    const getWorkspaceTeams = async (teamIdArr, newArr) => {
+    const getWorkspaceTeams = async (teamIdArr, newArr, beforeAfter) => {
         console.log('getWorkspaceTeams')
         const res = await axios.post(
             'http://localhost:8080/automation/userTeams',
@@ -150,11 +156,15 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 }
             })
             let totalArr = foundArr.concat(newArr);
-            setWorkspaceAssignees(totalArr);
+            if (beforeAfter === 'before') {
+                setBeforeWorkspaceAssignees(totalArr);
+            } else if (beforeAfter === 'after') {
+                setAfterWorkspaceAssignees(totalArr)
+            }
         };
     };
 
-    const getAssignees = (assigneeArr, workspaceUsers) => {
+    const getAssignees = (assigneeArr, workspaceUsers, beforeAfter) => {
         console.log('getAssignees')
         let newArr = [];
         assigneeArr.forEach((id) => {
@@ -177,7 +187,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                     break;
             }
         })
-        // check for teams in the original array
+        // check for teams in the original before/after arrays
         // remove dynamic assignees, and userIds from the assignee array
         let teamIdArr = assigneeArray.filter(item => {
             const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
@@ -185,17 +195,20 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 return item;
             };
         });
+
         // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
         // else, just set state now 
         if (teamIdArr?.length > 0) {
             // console.log('team id array', teamIdArr);
-            getWorkspaceTeams(teamIdArr, newArr);
-        } else {
-            setWorkspaceAssignees(newArr);
+            getWorkspaceTeams(teamIdArr, newArr, beforeAfter);
+        } else if (beforeAfter === 'before') {
+            setBeforeWorkspaceAssignees(newArr);
+        } else if (beforeAfter === 'after') {
+            setAfterWorkspaceAssignees(newArr);
         };
     };
 
-    const getWorkspaceMembers = async (assigneeArr) => {
+    const getWorkspaceMembers = async (assigneeArr, beforeAfter) => {
         console.log('getWorkspaceMembers')
         // needs shard, Workspace_id, and bearer token
         const res = await axios.post(
@@ -207,7 +220,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             }
         );
         if (res?.data) {
-            getAssignees(assigneeArr, res.data.members);
+            getAssignees(assigneeArr, res.data.members, beforeAfter);
         };
     };
 
@@ -711,8 +724,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         console.log('card details', cardDetails.value)
         if (customField?.type_id === 10) {
             setAssigneeArray({
-                before: cardDetails?.trigger?.conditions[0]?.before[0],
-                after: cardDetails?.trigger?.conditions[1]?.after[0]
+                before: cardDetails?.trigger?.conditions[0]?.after,
+                after: cardDetails?.trigger?.conditions[1]?.before
             })
         } else if (customField?.type_id === 9 && tFWs === false) {
             setFWs(true);
@@ -727,19 +740,33 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
     }, [customField]);
 
     useEffect(() => {
-        console.log(assigneeArray);
-        //need to process this twice - once for before, once for after
-        if (assigneeArray?.length > 0) {
-          //remove teamIds from the user array
-          let userArr = assigneeArray.filter(item => {
-            const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
-            if ((typeof item === "number") || (dynamicOptions.includes(item))) {
-              return item;
-            };
-          });
-          getWorkspaceMembers(userArr);
+        console.log(assigneeArray?.before, typeof assigneeArray?.before);
+        console.log(assigneeArray?.after);
+
+        // process this before, once for after
+        if (assigneeArray?.before?.length > 0) {
+            //remove teamIds from the user array
+            let beforeUserArr = assigneeArray?.before?.filter(item => {
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+                if ((typeof item === "number") || (dynamicOptions.includes(item))) {
+                    return item;
+                };
+            });
+            getWorkspaceMembers(beforeUserArr, 'before');
         }
-      }, [assigneeArray]);
+
+        if (assigneeArray?.after?.length > 0) {
+            //remove teamIds from the user array
+            let afterUserArr = assigneeArray.after.filter(item => {
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+                if ((typeof item === "number") || (dynamicOptions.includes(item))) {
+                    return item;
+                };
+            });
+            getWorkspaceMembers(afterUserArr, 'after');
+        }
+    }, [assigneeArray]);
+
 
     useEffect(() => {
         console.log('card details: ', cardDetails)
@@ -772,16 +799,16 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                             ) : (customField.type_id === 10) ? (
                                 <>
                                     <div className='change-assignee-field'>
-                                        {workspaceAssignees.map((assignee, i) => {
-                                            if ((i < 3) || ((i === 3) && (workspaceAssignees.length === 4))) {
+                                        {beforeWorkspaceAssignees.map((assignee, i) => {
+                                            if ((i < 3) || ((i === 3) && (beforeWorkspaceAssignees.length === 4))) {
                                                 return (
                                                     <span key={i}>
                                                         {assignee?.user ? (
                                                             <>
-                                                                <Tooltip className="dynamic-tooltip" id={`c-${assignee?.user?.username}`} />
+                                                                <Tooltip className="dynamic-tooltip" id={`t-b-${assignee?.user?.username}`} />
                                                                 <span
                                                                     className="fa-layers person-icon"
-                                                                    data-tooltip-id={`c-${assignee?.user?.username}`}
+                                                                    data-tooltip-id={`t-b-${assignee?.user?.username}`}
                                                                     data-tooltip-content={`${assignee?.user?.username}`}
                                                                     data-tooltip-place="top">
                                                                     <FontAwesomeIcon
@@ -794,10 +821,10 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                             </>
                                                         ) : assignee === 'unassigned' ? (
                                                             <>
-                                                                <Tooltip className="dynamic-tooltip" id={`c-unassigned`} />
+                                                                <Tooltip className="dynamic-tooltip" id={`t-b-unassigned`} />
                                                                 <span
                                                                     className="fa-layers person-icon"
-                                                                    data-tooltip-id={`c-unassigned`}
+                                                                    data-tooltip-id={`t-b-unassigned`}
                                                                     data-tooltip-content={`None`}
                                                                     data-tooltip-place="top">
                                                                     <FontAwesomeIcon
@@ -813,10 +840,10 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                             </>
                                                         ) : assignee === "watchers" ? (
                                                             <>
-                                                                <Tooltip className="dynamic-tooltip" id={`c-watchers`} />
+                                                                <Tooltip className="dynamic-tooltip" id={`t-b-watchers`} />
                                                                 <span
                                                                     className="fa-layers person-icon"
-                                                                    data-tooltip-id={`c-watchers`}
+                                                                    data-tooltip-id={`t-b-watchers`}
                                                                     data-tooltip-content={`Watchers`}
                                                                     data-tooltip-place="top">
                                                                     <FontAwesomeIcon
@@ -831,10 +858,10 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                             </>
                                                         ) : assignee === "creator" ? (
                                                             <>
-                                                                <Tooltip className="dynamic-tooltip" id={`c-creator`} />
+                                                                <Tooltip className="dynamic-tooltip" id={`t-b-creator`} />
                                                                 <span
                                                                     className="fa-layers person-icon"
-                                                                    data-tooltip-id={`c-creator`}
+                                                                    data-tooltip-id={`t-b-creator`}
                                                                     data-tooltip-content={`Task creator`}
                                                                     data-tooltip-place="top">
                                                                     <FontAwesomeIcon
@@ -849,10 +876,10 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                             </>
                                                         ) : assignee === "triggered_by" ? (
                                                             <>
-                                                                <Tooltip className="dynamic-tooltip" id={`c-triggered_by`} />
+                                                                <Tooltip className="dynamic-tooltip" id={`t-b-triggered_by`} />
                                                                 <span
                                                                     className="fa-layers person-icon"
-                                                                    data-tooltip-id={`c-triggered_by`}
+                                                                    data-tooltip-id={`t-b-triggered_by`}
                                                                     data-tooltip-content={`Person who Triggered`}
                                                                     data-tooltip-place="top">
                                                                     <FontAwesomeIcon
@@ -867,10 +894,10 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <Tooltip className="dynamic-tooltip" id={`c-${assignee.initials}`} />
+                                                                <Tooltip className="dynamic-tooltip" id={`t-b-${assignee.initials}`} />
                                                                 <span
                                                                     className="fa-layers person-icon"
-                                                                    data-tooltip-id={`c-${assignee.initials}`}
+                                                                    data-tooltip-id={`t-b-${assignee.initials}`}
                                                                     data-tooltip-content={`${assignee.name}`}
                                                                     data-tooltip-place="top">
                                                                     <FontAwesomeIcon
@@ -888,73 +915,261 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                     </span>
                                                 )
 
-                                            } else if (i === (workspaceAssignees.length - 1)) {
+                                            } else if (i === (beforeWorkspaceAssignees.length - 1)) {
                                                 // last one, tack onto end of array
                                                 if (assignee?.user?.username) {
                                                     // its a user
-                                                    let newText = extraArray.concat(assignee?.user?.username);
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat(assignee?.user?.username);
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 } else if (assignee?.name) {
                                                     // its a team
-                                                    let newText = extraArray.concat(assignee?.name);
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat(assignee?.name);
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 } else if (assignee === 'unassigned') {
                                                     // its unassigned - push string 'None' to overflow array to match ClickUp UI
-                                                    let newText = extraArray.concat('None');
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat('None');
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 } else {
                                                     // its dynamic and not 'unassigned'
-                                                    let newText = extraArray.concat(assignee);
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat(assignee);
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 };
                                             } else {
                                                 // add a comma and a Space
                                                 if (assignee?.user?.username) {
                                                     // its a user
-                                                    let newText = extraArray.concat(assignee?.user?.username + ',' + ' ');
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat(assignee?.user?.username + ',' + ' ');
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 } else if (assignee?.name) {
                                                     // its a team
-                                                    let newText = extraArray.concat(assignee?.name + ',' + ' ');
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat(assignee?.name + ',' + ' ');
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 } else if (assignee === 'unassigned') {
                                                     // its unassigned - push string 'None' to overflow array to match ClickUp UI
-                                                    let newText = extraArray.concat('None' + ',' + ' ');
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat('None' + ',' + ' ');
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 } else {
                                                     // its dynamic and not 'unassigned'
-                                                    let newText = extraArray.concat(assignee + ',' + ' ');
-                                                    extraArray = newText;
-                                                    count++;
+                                                    let newText = beforeExtraArray.concat(assignee + ',' + ' ');
+                                                    beforeExtraArray = newText;
+                                                    beforeCount++;
                                                 };
                                             }
                                         })}
-                                        {workspaceAssignees.length > 4 ? (
+                                        {beforeWorkspaceAssignees.length > 4 ? (
                                             <span>
                                                 <Tooltip
                                                     className="extras-tip"
-                                                    id={'c-extras'} />
+                                                    id={'t-b-extras'} />
                                                 <span
                                                     className="fa-layers person-icon"
-                                                    data-tooltip-id={'c-extras'}
-                                                    data-tooltip-content={extraArray}
+                                                    data-tooltip-id={'t-b-extras'}
+                                                    data-tooltip-content={beforeExtraArray}
                                                     data-tooltip-place="top">
                                                     <FontAwesomeIcon
                                                         transform="grow-12"
                                                         className="icon-circle"
                                                         icon={icon({ name: 'circle' })} />
-                                                    <span className='fa-layers-text overflow-text'>+{count}</span>
+                                                    <span className='fa-layers-text overflow-text'>+{beforeCount}</span>
                                                 </span><span className='space'></span>
                                             </span>
                                         ) : (<></>)}
                                     </div>
+
+
+                                    <div className='change-assignee-field'>
+                                        {afterWorkspaceAssignees.map((assignee, i) => {
+                                            if ((i < 3) || ((i === 3) && (afterWorkspaceAssignees.length === 4))) {
+                                                return (
+                                                    <span key={i}>
+                                                        {assignee?.user ? (
+                                                            <>
+                                                                <Tooltip className="dynamic-tooltip" id={`t-a-${assignee?.user?.username}`} />
+                                                                <span
+                                                                    className="fa-layers person-icon"
+                                                                    data-tooltip-id={`t-a-${assignee?.user?.username}`}
+                                                                    data-tooltip-content={`${assignee?.user?.username}`}
+                                                                    data-tooltip-place="top">
+                                                                    <FontAwesomeIcon
+                                                                        transform="grow-12"
+                                                                        className="icon-circle"
+                                                                        style={{ color: `${assignee?.user?.color}` || '#8cdb00' }}
+                                                                        icon={icon({ name: 'circle' })} />
+                                                                    <span className='fa-layers-text initials'>{assignee?.user?.initials}</span>
+                                                                </span><span className='space'></span>
+                                                            </>
+                                                        ) : assignee === 'unassigned' ? (
+                                                            <>
+                                                                <Tooltip className="dynamic-tooltip" id={`t-a-unassigned`} />
+                                                                <span
+                                                                    className="fa-layers person-icon"
+                                                                    data-tooltip-id={`t-a-unassigned`}
+                                                                    data-tooltip-content={`None`}
+                                                                    data-tooltip-place="top">
+                                                                    <FontAwesomeIcon
+                                                                        transform="grow-12"
+                                                                        className="icon-circle"
+                                                                        style={{ color: `grey` }}
+                                                                        icon={icon({ name: 'circle' })} />
+                                                                    <FontAwesomeIcon
+                                                                        className='dynamic-assignee-icon dynamic-none'
+                                                                        icon={icon({ name: 'users' })} />
+                                                                </span><span className='space'></span>
+
+                                                            </>
+                                                        ) : assignee === "watchers" ? (
+                                                            <>
+                                                                <Tooltip className="dynamic-tooltip" id={`t-a-watchers`} />
+                                                                <span
+                                                                    className="fa-layers person-icon"
+                                                                    data-tooltip-id={`t-a-watchers`}
+                                                                    data-tooltip-content={`Watchers`}
+                                                                    data-tooltip-place="top">
+                                                                    <FontAwesomeIcon
+                                                                        transform="grow-12"
+                                                                        className="icon-circle"
+                                                                        style={{ color: `grey` }}
+                                                                        icon={icon({ name: 'circle' })} />
+                                                                    <FontAwesomeIcon
+                                                                        className='dynamic-assignee-icon'
+                                                                        icon={icon({ name: 'bell' })} />
+                                                                </span><span className='space'></span>
+                                                            </>
+                                                        ) : assignee === "creator" ? (
+                                                            <>
+                                                                <Tooltip className="dynamic-tooltip" id={`t-a-creator`} />
+                                                                <span
+                                                                    className="fa-layers person-icon"
+                                                                    data-tooltip-id={`t-a-creator`}
+                                                                    data-tooltip-content={`Task creator`}
+                                                                    data-tooltip-place="top">
+                                                                    <FontAwesomeIcon
+                                                                        transform="grow-12"
+                                                                        className="icon-circle"
+                                                                        style={{ color: `grey` }}
+                                                                        icon={icon({ name: 'circle' })} />
+                                                                    <FontAwesomeIcon
+                                                                        className='dynamic-assignee-icon'
+                                                                        icon={icon({ name: 'check' })} />
+                                                                </span><span className='space'></span>
+                                                            </>
+                                                        ) : assignee === "triggered_by" ? (
+                                                            <>
+                                                                <Tooltip className="dynamic-tooltip" id={`t-a-triggered_by`} />
+                                                                <span
+                                                                    className="fa-layers person-icon"
+                                                                    data-tooltip-id={`t-a-triggered_by`}
+                                                                    data-tooltip-content={`Person who Triggered`}
+                                                                    data-tooltip-place="top">
+                                                                    <FontAwesomeIcon
+                                                                        transform="grow-12"
+                                                                        className="icon-circle"
+                                                                        style={{ color: `grey` }}
+                                                                        icon={icon({ name: 'circle' })} />
+                                                                    <FontAwesomeIcon
+                                                                        className='dynamic-assignee-icon triggered-icon'
+                                                                        icon={icon({ name: 'robot' })} />
+                                                                </span><span className='space'></span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Tooltip className="dynamic-tooltip" id={`t-a-${assignee.initials}`} />
+                                                                <span
+                                                                    className="fa-layers person-icon"
+                                                                    data-tooltip-id={`t-a-${assignee.initials}`}
+                                                                    data-tooltip-content={`${assignee.name}`}
+                                                                    data-tooltip-place="top">
+                                                                    <FontAwesomeIcon
+                                                                        transform="grow-12"
+                                                                        className="icon-circle"
+                                                                        style={{ color: `grey` }}
+                                                                        icon={icon({ name: 'circle' })} />
+                                                                    <span className='fa-layers-text initials'>{assignee.initials}</span>
+                                                                    <FontAwesomeIcon
+                                                                        className='team'
+                                                                        icon={icon({ name: 'people-group' })} />
+                                                                </span><span className='space'></span>
+                                                            </>
+                                                        )}
+                                                    </span>
+                                                )
+
+                                            } else if (i === (afterWorkspaceAssignees.length - 1)) {
+                                                // last one, tack onto end of array
+                                                if (assignee?.user?.username) {
+                                                    // its a user
+                                                    let newText = afterExtraArray.concat(assignee?.user?.username);
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                } else if (assignee?.name) {
+                                                    // its a team
+                                                    let newText = afterExtraArray.concat(assignee?.name);
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                } else if (assignee === 'unassigned') {
+                                                    // its unassigned - push string 'None' to overflow array to match ClickUp UI
+                                                    let newText = afterExtraArray.concat('None');
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                } else {
+                                                    // its dynamic and not 'unassigned'
+                                                    let newText = afterExtraArray.concat(assignee);
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                };
+                                            } else {
+                                                // add a comma and a Space
+                                                if (assignee?.user?.username) {
+                                                    // its a user
+                                                    let newText = afterExtraArray.concat(assignee?.user?.username + ',' + ' ');
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                } else if (assignee?.name) {
+                                                    // its a team
+                                                    let newText = afterExtraArray.concat(assignee?.name + ',' + ' ');
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                } else if (assignee === 'unassigned') {
+                                                    // its unassigned - push string 'None' to overflow array to match ClickUp UI
+                                                    let newText = afterExtraArray.concat('None' + ',' + ' ');
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                } else {
+                                                    // its dynamic and not 'unassigned'
+                                                    let newText = afterExtraArray.concat(assignee + ',' + ' ');
+                                                    afterExtraArray = newText;
+                                                    afterCount++;
+                                                };
+                                            }
+                                        })}
+                                        {afterWorkspaceAssignees.length > 4 ? (
+                                            <span>
+                                                <Tooltip
+                                                    className="extras-tip"
+                                                    id={'t-a-extras'} />
+                                                <span
+                                                    className="fa-layers person-icon"
+                                                    data-tooltip-id={'t-a-extras'}
+                                                    data-tooltip-content={afterExtraArray}
+                                                    data-tooltip-place="top">
+                                                    <FontAwesomeIcon
+                                                        transform="grow-12"
+                                                        className="icon-circle"
+                                                        icon={icon({ name: 'circle' })} />
+                                                    <span className='fa-layers-text overflow-text'>+{afterCount}</span>
+                                                </span><span className='space'></span>
+                                            </span>
+                                        ) : (<></>)}
+                                    </div>
+
+
                                 </>
                             ) : (
                                 <></>
