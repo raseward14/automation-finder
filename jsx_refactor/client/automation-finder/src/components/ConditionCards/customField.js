@@ -179,6 +179,9 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         case 'triggered_by':
           newArr.unshift('triggered_by')
           break;
+        case 'assignees':
+          newArr.unshift('assignees')
+          break;
         default:
           let foundObject = workspaceUsers.find((object) => object.user.id === id)
           newArr.push(foundObject)
@@ -188,7 +191,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     // check for teams in the original array
     // remove dynamic assignees, and userIds from the assignee array
     let teamIdArr = assigneeArray.filter(item => {
-      const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+      const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned', 'assignees'];
       if (typeof item !== "number" && !dynamicOptions.includes(item)) {
         return item;
       };
@@ -718,7 +721,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     if (assigneeArray?.length > 0) {
       //remove teamIds from the user array
       let userArr = assigneeArray.filter(item => {
-        const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+        const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned', 'assignees'];
         if ((typeof item === "number") || (dynamicOptions.includes(item))) {
           return item;
         };
@@ -858,6 +861,24 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                                   <FontAwesomeIcon
                                     className='dynamic-assignee-icon triggered-icon'
                                     icon={icon({ name: 'robot' })} />
+                                </span><span className='space'></span>
+                              </>
+                            ) : assignee === "assignees" ? (
+                              <>
+                                <Tooltip className="dynamic-tooltip" id={`c-assignees`} />
+                                <span
+                                  className="fa-layers person-icon"
+                                  data-tooltip-id={`c-assignees`}
+                                  data-tooltip-content={`Assignees`}
+                                  data-tooltip-place="top">
+                                  <FontAwesomeIcon
+                                    transform="grow-12"
+                                    className="icon-circle"
+                                    style={{ color: `grey` }}
+                                    icon={icon({ name: 'circle' })} />
+                                  <FontAwesomeIcon
+                                    className='dynamic-assignee-icon triggered-icon'
+                                    icon={icon({ name: 'circle-user' })} />
                                 </span><span className='space'></span>
                               </>
                             ) : (

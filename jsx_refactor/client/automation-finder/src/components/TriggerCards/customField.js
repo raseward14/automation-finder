@@ -181,31 +181,54 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 case 'triggered_by':
                     newArr.unshift('triggered_by')
                     break;
+                case 'assignees':
+                    newArr.unshift('assignees')
+                    break;
                 default:
                     let foundObject = workspaceUsers.find((object) => object.user.id === id)
                     newArr.push(foundObject)
                     break;
             }
         })
-        // check for teams in the original before/after arrays
-        // remove dynamic assignees, and userIds from the assignee array
-        let teamIdArr = assigneeArray.filter(item => {
-            const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
-            if (typeof item !== "number" && !dynamicOptions.includes(item)) {
-                return item;
-            };
-        });
 
-        // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
-        // else, just set state now 
-        if (teamIdArr?.length > 0) {
-            // console.log('team id array', teamIdArr);
-            getWorkspaceTeams(teamIdArr, newArr, beforeAfter);
-        } else if (beforeAfter === 'before') {
-            setBeforeWorkspaceAssignees(newArr);
+        if(beforeAfter === 'before') {
+            // check for teams in the original before array
+            // remove dynamic assignees, and userIds from the assignee array
+            let teamIdArr = assigneeArray.before.filter(item => {
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned', 'assignees'];
+                if (typeof item !== "number" && !dynamicOptions.includes(item)) {
+                    return item;
+                };
+            });
+            // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
+            // else, just set state now 
+            if (teamIdArr?.length > 0) {
+                // console.log('team id array', teamIdArr);
+                getWorkspaceTeams(teamIdArr, newArr, beforeAfter);
+            } else {
+                setBeforeWorkspaceAssignees(newArr);
+            };
+
         } else if (beforeAfter === 'after') {
-            setAfterWorkspaceAssignees(newArr);
-        };
+            // check for teams in the original after array
+            // remove dynamic assignees, and userIds from the assignee array
+            let teamIdArr = assigneeArray.after.filter(item => {
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+                if (typeof item !== "number" && !dynamicOptions.includes(item)) {
+                    return item;
+                };
+            });
+            // if there is a teamArr, send it, along with our user object arr's to our team function to combine the two, and set state
+            // else, just set state now 
+            if (teamIdArr?.length > 0) {
+                // console.log('team id array', teamIdArr);
+                getWorkspaceTeams(teamIdArr, newArr, beforeAfter);
+            } else {
+                setAfterWorkspaceAssignees(newArr);
+            };
+        }
+
+
     };
 
     const getWorkspaceMembers = async (assigneeArr, beforeAfter) => {
@@ -723,9 +746,12 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         console.log('custom field', customField)
         console.log('card details', cardDetails.value)
         if (customField?.type_id === 10) {
+            let valueObjectArrays = cardDetails?.trigger?.conditions
+            const foundBeforeObject = valueObjectArrays.find(ob => ob['before']);
+            const foundAfterObject = valueObjectArrays.find(ob => ob['after']);
             setAssigneeArray({
-                before: cardDetails?.trigger?.conditions[0]?.after,
-                after: cardDetails?.trigger?.conditions[1]?.before
+                before: foundBeforeObject.before,
+                after: foundAfterObject.after
             })
         } else if (customField?.type_id === 9 && tFWs === false) {
             setFWs(true);
@@ -747,7 +773,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         if (assigneeArray?.before?.length > 0) {
             //remove teamIds from the user array
             let beforeUserArr = assigneeArray?.before?.filter(item => {
-                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned', 'assignees'];
                 if ((typeof item === "number") || (dynamicOptions.includes(item))) {
                     return item;
                 };
@@ -758,7 +784,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         if (assigneeArray?.after?.length > 0) {
             //remove teamIds from the user array
             let afterUserArr = assigneeArray.after.filter(item => {
-                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned'];
+                const dynamicOptions = ['watchers', 'creator', 'triggered_by', 'unassigned', 'assignees'];
                 if ((typeof item === "number") || (dynamicOptions.includes(item))) {
                     return item;
                 };
@@ -771,8 +797,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
     useEffect(() => {
         console.log('card details: ', cardDetails)
         console.log('the field id is: ', cardDetails?.trigger?.type)
-        console.log('before value is: ', cardDetails?.trigger?.conditions[0]?.before[0])
-        console.log('after value is: ', cardDetails?.trigger?.conditions[1]?.after[0])
+        // console.log('before value is: ', cardDetails?.trigger?.conditions[0]?.before[0])
+        // console.log('after value is: ', cardDetails?.trigger?.conditions[1]?.after[0])
         console.log('trigger shard', shard)
         console.log('trigger team id', teamId)
     }, []);
@@ -892,7 +918,25 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                                         icon={icon({ name: 'robot' })} />
                                                                 </span><span className='space'></span>
                                                             </>
-                                                        ) : (
+                                                        ) : assignee === "assignees" ? (
+                                                            <>
+                                                              <Tooltip className="dynamic-tooltip" id={`t-b-assignees`} />
+                                                              <span
+                                                                className="fa-layers person-icon"
+                                                                data-tooltip-id={`t-b-assignees`}
+                                                                data-tooltip-content={`Assignees`}
+                                                                data-tooltip-place="top">
+                                                                <FontAwesomeIcon
+                                                                  transform="grow-12"
+                                                                  className="icon-circle"
+                                                                  style={{ color: `grey` }}
+                                                                  icon={icon({ name: 'circle' })} />
+                                                                <FontAwesomeIcon
+                                                                  className='dynamic-assignee-icon triggered-icon'
+                                                                  icon={icon({ name: 'circle-user' })} />
+                                                              </span><span className='space'></span>
+                                                            </>
+                                                          ) : (
                                                             <>
                                                                 <Tooltip className="dynamic-tooltip" id={`t-b-${assignee.initials}`} />
                                                                 <span
@@ -1078,7 +1122,25 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                                                         icon={icon({ name: 'robot' })} />
                                                                 </span><span className='space'></span>
                                                             </>
-                                                        ) : (
+                                                        ) : assignee === "assignees" ? (
+                                                            <>
+                                                              <Tooltip className="dynamic-tooltip" id={`t-a-assignees`} />
+                                                              <span
+                                                                className="fa-layers person-icon"
+                                                                data-tooltip-id={`t-a-assignees`}
+                                                                data-tooltip-content={`Assignees`}
+                                                                data-tooltip-place="top">
+                                                                <FontAwesomeIcon
+                                                                  transform="grow-12"
+                                                                  className="icon-circle"
+                                                                  style={{ color: `grey` }}
+                                                                  icon={icon({ name: 'circle' })} />
+                                                                <FontAwesomeIcon
+                                                                  className='dynamic-assignee-icon triggered-icon'
+                                                                  icon={icon({ name: 'circle-user' })} />
+                                                              </span><span className='space'></span>
+                                                            </>
+                                                          ) : (
                                                             <>
                                                                 <Tooltip className="dynamic-tooltip" id={`t-a-${assignee.initials}`} />
                                                                 <span
