@@ -250,6 +250,12 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
     const renderTrigger = (trigger) => {
         console.log('cardDetails: ', cardDetails)
         console.log('trigger: ', trigger)
+        let valueObjectArrays = cardDetails?.trigger?.conditions;
+        const foundBeforeObject = valueObjectArrays.find(ob => ob['before']);
+        const foundAfterObject = valueObjectArrays.find(ob => ob['after']);
+        let beforeValue = foundBeforeObject.before;
+        let afterValue = foundAfterObject.after;
+
         switch (trigger.type_id) {
             case 5:
                 // 5 text area, ai progress update, ai summary
@@ -397,13 +403,27 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             case 14:
                 // 14 manual progress
                 // console.log(condition.type_id, '14 manual progress')
+                console.log(beforeValue.current)
+                console.log(afterValue.current)
                 return (
                     <>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span>
                         <ProgressBar
                             className='manual-progress'
                             variant="success"
-                            now={cardDetails?.value?.current}
-                            label={`${cardDetails?.value?.current}`}
+                            now={beforeValue.current}
+                            label={`${beforeValue.current}`}
+                        />
+                        <span>
+                            <b className="card-text">To</b>
+                        </span>
+                        <ProgressBar
+                            className='manual-progress'
+                            variant="success"
+                            now={afterValue.current}
+                            label={`${afterValue.current}`}
                         />
                     </>
                 );
@@ -799,6 +819,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         console.log('the field id is: ', cardDetails?.trigger?.type)
         // console.log('before value is: ', cardDetails?.trigger?.conditions[0]?.before[0])
         // console.log('after value is: ', cardDetails?.trigger?.conditions[1]?.after[0])
+        console.log('the field id is: ', cardDetails?.trigger?.conditions)
         console.log('trigger shard', shard)
         console.log('trigger team id', teamId)
     }, []);
