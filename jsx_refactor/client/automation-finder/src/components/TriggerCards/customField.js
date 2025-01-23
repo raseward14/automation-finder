@@ -268,8 +268,6 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             case 15:
                 // 15 short text 
                 // console.log(condition.type_id, '15 short text')
-                console.log(beforeValue)
-                console.log(afterValue)
                 return (
                     <>
                         <span>
