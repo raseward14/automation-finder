@@ -268,9 +268,18 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             case 15:
                 // 15 short text 
                 // console.log(condition.type_id, '15 short text')
+                console.log(beforeValue)
+                console.log(afterValue)
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div/>
+                        <Card className="label-container-trigger">{beforeValue}</Card>
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        <Card className="label-container-trigger">{afterValue}</Card>
                     </>
                 );
             case 2:
@@ -403,8 +412,6 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             case 14:
                 // 14 manual progress
                 // console.log(condition.type_id, '14 manual progress')
-                console.log(beforeValue.current)
-                console.log(afterValue.current)
                 return (
                     <>
                         <span>
@@ -1258,7 +1265,9 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     </div>
                                 </>
                             ) : (
-                                <></>
+                                <>
+                                    <Card >{renderTrigger(customField)}</Card>
+                                </>
                             )}
                         </>
                     ) : (
