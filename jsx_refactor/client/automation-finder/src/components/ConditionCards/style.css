@@ -95,3 +95,7 @@ img, svg {
 .attachment:hover {
     border: 1px solid lime !important;
 }
+
+.any {
+    color: grey;
+}

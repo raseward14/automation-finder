@@ -253,8 +253,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
         let valueObjectArrays = cardDetails?.trigger?.conditions;
         const foundBeforeObject = valueObjectArrays.find(ob => ob['before']);
         const foundAfterObject = valueObjectArrays.find(ob => ob['after']);
-        let beforeValue = foundBeforeObject.before;
-        let afterValue = foundAfterObject.after;
+        let beforeValue = foundBeforeObject?.before;
+        let afterValue = foundAfterObject?.after;
 
         switch (trigger.type_id) {
             case 5:
@@ -262,7 +262,30 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 // console.log(condition.type_id, '5 text area, ai progress update, ai summary')
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 15:
@@ -272,20 +295,60 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                     <>
                         <span>
                             <b className="card-text">From</b>
-                        </span><div/>
-                        <Card className="label-container-trigger">{beforeValue}</Card>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                         <span>
                             <b className="card-text">To</b>
                         </span><div />
-                        <Card className="label-container-trigger">{afterValue}</Card>
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 2:
                 // 2 email
                 // console.log(condition.type_id, '2 email')
+                console.log(beforeValue, afterValue);
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 7:
@@ -293,7 +356,30 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 // console.log(condition.type_id, '7 number')
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 0:
@@ -301,7 +387,30 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 // console.log(condition.type_id, action, '0 ??')
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 3:
@@ -309,7 +418,30 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 // console.log(condition.type_id, '3 website')
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 8:
@@ -317,7 +449,30 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 // console.log(action.type_id, '8 phone')
                 return (
                     <>
-                        <Card>{cardDetails.value}</Card>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{beforeValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{afterValue}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Any'}</Card>
+                            </>
+                        )}
                     </>
                 );
             case 6:
@@ -336,6 +491,17 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                 icon={icon({ name: 'square-check' })}
                             /></span>
                         )}
+
+                        {/* <>
+                            <span>
+                                <b className="card-text">From</b>
+                            </span><div />
+                            <Card className="label-container-trigger">{beforeValue}</Card>
+                            <span>
+                                <b className="card-text">To</b>
+                            </span><div />
+                            <Card className="label-container-trigger">{afterValue}</Card>
+                        </> */}
                     </>
                 );
             case 4:
