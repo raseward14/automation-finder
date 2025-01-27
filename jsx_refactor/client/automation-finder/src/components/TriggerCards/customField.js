@@ -20,6 +20,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
     // checkbox
     // voting
     // files does not have a border
+
     // token
     const [JWT, setJWT] = useState(localStorage.getItem('jwt'));
 
@@ -248,8 +249,6 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
     };
 
     const renderTrigger = (trigger) => {
-        console.log('cardDetails: ', cardDetails)
-        console.log('trigger: ', trigger)
         let valueObjectArrays = cardDetails?.trigger?.conditions;
         const foundBeforeObject = valueObjectArrays.find(ob => ob['before']);
         const foundAfterObject = valueObjectArrays.find(ob => ob['after']);
@@ -258,164 +257,33 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
 
         switch (trigger.type_id) {
             case 5:
-                // 5 text area, ai progress update, ai summary
-                // console.log(condition.type_id, '5 text area, ai progress update, ai summary')
-                return (
-                    <>
-                        <span>
-                            <b className="card-text">From</b>
-                        </span><div />
-                        {beforeValue ? (
-                            <>
-                                <Card className="label-container-trigger">{beforeValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                        <span>
-                            <b className="card-text">To</b>
-                        </span><div />
-                        {afterValue ? (
-                            <>
-                                <Card className="label-container-trigger">{afterValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                    </>
-                );
+            // 5 text area, ai progress update, ai summary
+            // console.log(trigger.type_id, '5 text area, ai progress update, ai summary')
             case 15:
-                // 15 short text 
-                // console.log(condition.type_id, '15 short text')
-                return (
-                    <>
-                        <span>
-                            <b className="card-text">From</b>
-                        </span><div />
-                        {beforeValue ? (
-                            <>
-                                <Card className="label-container-trigger">{beforeValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                        <span>
-                            <b className="card-text">To</b>
-                        </span><div />
-                        {afterValue ? (
-                            <>
-                                <Card className="label-container-trigger">{afterValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                    </>
-                );
+            // 15 short text 
+            // console.log(trigger.type_id, '15 short text')
             case 2:
-                // 2 email
-                // console.log(condition.type_id, '2 email')
-                console.log(beforeValue, afterValue);
-                return (
-                    <>
-                        <span>
-                            <b className="card-text">From</b>
-                        </span><div />
-                        {beforeValue ? (
-                            <>
-                                <Card className="label-container-trigger">{beforeValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                        <span>
-                            <b className="card-text">To</b>
-                        </span><div />
-                        {afterValue ? (
-                            <>
-                                <Card className="label-container-trigger">{afterValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                    </>
-                );
+            // 2 email
+            // console.log(trigger.type_id, '2 email')
             case 7:
-                // 7 number
-                // console.log(condition.type_id, '7 number')
-                return (
-                    <>
-                        <span>
-                            <b className="card-text">From</b>
-                        </span><div />
-                        {beforeValue ? (
-                            <>
-                                <Card className="label-container-trigger">{beforeValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                        <span>
-                            <b className="card-text">To</b>
-                        </span><div />
-                        {afterValue ? (
-                            <>
-                                <Card className="label-container-trigger">{afterValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                    </>
-                );
+            // 7 number
+            // console.log(trigger.type_id, '7 number')
             case 0:
-                // 0 website
-                // console.log(condition.type_id, action, '0 ??')
-                return (
-                    <>
-                        <span>
-                            <b className="card-text">From</b>
-                        </span><div />
-                        {beforeValue ? (
-                            <>
-                                <Card className="label-container-trigger">{beforeValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                        <span>
-                            <b className="card-text">To</b>
-                        </span><div />
-                        {afterValue ? (
-                            <>
-                                <Card className="label-container-trigger">{afterValue}</Card>
-                            </>
-                        ) : (
-                            <>
-                                <Card className="label-container-trigger any">{'Any'}</Card>
-                            </>
-                        )}
-                    </>
-                );
+            // 0 website
+            // console.log(trigger.type_id, '0 website')
             case 3:
-                // 3 website
-                // console.log(condition.type_id, '3 website')
+            // 3 phone
+            // console.log(trigger.type_id, '3 phone')
+            case 17:
+            // 17 formula 
+            // console.log(trigger.type_id, '17 formula')
+            case 21:
+            // 21 voting
+            // console.log(trigger.type_id, '21 voting')
+            case 8:
+                // 8 money
+                // console.log(action.type_id, '8 money')
+                // console.log(beforeValue, afterValue);
                 return (
                     <>
                         <span>
@@ -444,17 +312,19 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         )}
                     </>
                 );
-            case 8:
-                // 8 phone
-                // console.log(action.type_id, '8 phone')
+            case 19:
+                // 19 address
+                // console.log(trigger.type_id, '19 address')
+                const beforeAddress = foundBeforeObject?.before?.formatted_address
+                const afterAddress = foundAfterObject?.after?.formatted_address
                 return (
                     <>
                         <span>
                             <b className="card-text">From</b>
                         </span><div />
-                        {beforeValue ? (
+                        {beforeAddress ? (
                             <>
-                                <Card className="label-container-trigger">{beforeValue}</Card>
+                                <Card className="label-container-trigger">{beforeAddress}</Card>
                             </>
                         ) : (
                             <>
@@ -464,9 +334,9 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         <span>
                             <b className="card-text">To</b>
                         </span><div />
-                        {afterValue ? (
+                        {afterAddress ? (
                             <>
-                                <Card className="label-container-trigger">{afterValue}</Card>
+                                <Card className="label-container-trigger">{afterAddress}</Card>
                             </>
                         ) : (
                             <>
@@ -477,36 +347,32 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 );
             case 6:
                 // 6 checkbox
-                // console.log(condition.type_id, '6 checkbox')
+                // console.log(trigger.type_id, '6 checkbox')
+                console.log(trigger, beforeValue, afterValue)
                 return (
                     <>
-                        {cardDetails.value === false ? (
-                            <span><FontAwesomeIcon
-                                className="icon"
-                                icon={icon({ name: 'square', style: 'regular' })}
-                            /></span>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <>
+                                <Card className="label-container-trigger">{'Unchecked'}</Card>
+                            </>
+                        ) : afterValue ? (
+                            <>
+                                <Card className="label-container-trigger">{'Checked'}</Card>
+                            </>
                         ) : (
-                            <span><FontAwesomeIcon
-                                className="icon"
-                                icon={icon({ name: 'square-check' })}
-                            /></span>
+                            <>
+                                <Card className="label-container-trigger">{'Any Change'}</Card>
+                            </>
                         )}
-
-                        {/* <>
-                            <span>
-                                <b className="card-text">From</b>
-                            </span><div />
-                            <Card className="label-container-trigger">{beforeValue}</Card>
-                            <span>
-                                <b className="card-text">To</b>
-                            </span><div />
-                            <Card className="label-container-trigger">{afterValue}</Card>
-                        </> */}
                     </>
                 );
+
             case 4:
             // 4 date
-            // console.log(action.type_id, '4 date')
+            // console.ltrigger.type_id, '4 date')
             // add a function to convert 1713520800000 to a date
             // const myUnixTimestamp = fieldValue;
             // const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
@@ -518,7 +384,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             // );
             case 12:
             // 12 label
-            // console.log(condition.type_id, '12 label')
+            // console.log(trigger.type_id, '12 label')
             // const labelValueArray = customField?.type_config?.options;
             // let foundLabelArray = fieldValue.map((value) => {
             //     let found = labelValueArray.find((label) => value === label.id);
@@ -544,14 +410,6 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             //         })}
             //     </>
             // );
-            case 19:
-                // 19 address
-                // console.log(condition.type_id, '19 address')
-                return (
-                    <>
-                        <Card>{cardDetails?.value?.formatted_address}</Card>
-                    </>
-                );
             case 11:
                 // 11 rating
                 let total = trigger?.type_config?.count;
@@ -561,7 +419,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 const emjoiFromHexCodePoint = String.fromCodePoint(parseInt(hexCodePoint, 16));
                 // console.log(cardDetails.value)
                 // console.log(customField?.type_config?.code_point)
-                // console.log(condition.type_id, '11 rating')
+                // console.log(trigger.type_id, '11 rating')
                 return (
                     <>
                         {
@@ -575,7 +433,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 );
             case 14:
                 // 14 manual progress
-                // console.log(condition.type_id, '14 manual progress')
+                // console.log(trigger.type_id, '14 manual progress')
                 return (
                     <>
                         <span>
@@ -598,17 +456,10 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                         />
                     </>
                 );
-            case 17:
-                // 17 formula 
-                // console.log(condition.type_id, '17 formula')
-                return (
-                    <>
-                        <Card>{cardDetails.value}</Card>
-                    </>
-                );
+
             case 1:
             // 1 dropdown
-            // console.log(condition.type_id, '1 dropdown')
+            // console.log(trigger.type_id, '1 dropdown')
             // let valueArray = customField?.type_config?.options;
             // let result = valueArray?.find((item) => item.id === fieldValue);
             // let valueName = result?.name
@@ -620,7 +471,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             // );
             case 16:
             // 16 files
-            // console.log(condition.type_id, '16 files')
+            // console.log(trigger.type_id, '16 files')
             // console.log(cardDetails?.value)
             // let attachmentString = '';
             // return (
@@ -642,32 +493,24 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             //         })}
             //     </>
             // );
-            case 21:
-                // 21 voting
-                // console.log(condition.type_id, '21 voting')
-                return (
-                    <>
-                        <Card>{cardDetails.value}</Card>
-                    </>
-                );
             case 22:
             // 22 signature 
-            // console.log(condition.type_id, '22 signature')
+            // console.log(trigger.type_id, '22 signature')
             // console.log(cardDetails?.value);
             // will never have a value - only operators available 'are is set' 'is not set'
 
             // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
             // case 10:
             //  10 people
-            //  console.log(condition.type_id, '10 people')
+            //  console.log(trigger.type_id, '10 people')
             //  handled in useEffect, and end values rendered with state var
             // case 18:
             //  18 list relationship
-            //  console.log(condition.type_id, '18 list relationship')
+            //  console.log(trigger.type_id, '18 list relationship')
             //  handled in useEffect, and end values rendered with state var
             // case 9:
             //   9 task relationship
-            //   console.log(condition.type_id, '9 task relationship')
+            //   console.log(trigger.type_id, '9 task relationship')
             //   handled in useEffect, and end values rendered with state var 
             default:
                 console.log('value case needed for', trigger?.type_id)

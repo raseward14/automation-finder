@@ -227,57 +227,38 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
     console.log(condition, cardDetails)
     switch (condition.type_id) {
       case 5:
-        // 5 text area, ai progress update, ai summary
-        // console.log(condition.type_id, '5 text area, ai progress update, ai summary')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+      // 5 text area, ai progress update, ai summary
+      // console.log(condition.type_id, '5 text area, ai progress update, ai summary')
       case 15:
-        // 15 short text 
-        // console.log(condition.type_id, '15 short text')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+      // 15 short text 
+      // console.log(condition.type_id, '15 short text')
       case 2:
-        // 2 email
-        // console.log(condition.type_id, '2 email')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+      // 2 email
+      // console.log(condition.type_id, '2 email')
       case 7:
-        // 7 number
-        // console.log(condition.type_id, '7 number')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+      // 7 number
+      // console.log(condition.type_id, '7 number')
       case 0:
-        // 0 website
-        // console.log(condition.type_id, action, '0 ??')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+      // 0 website
+      // console.log(condition.type_id, '0 website')
       case 3:
-        // 3 website
-        // console.log(condition.type_id, '3 website')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
-          </>
-        );
+      // 3 phone
+      // console.log(condition.type_id, '3 phone')
+      case 17:
+      // 17 formula 
+      // console.log(condition.type_id, '17 formula')
+      case 19:
+      // address
+      // console.log(condition.type_id, '19 address')
+      case 21:
+      // 21 voting
+      // console.log(condition.type_id, '21 voting')
       case 8:
-        // 8 phone
-        // console.log(action.type_id, '8 phone')
+        // 8 money
+        // console.log(action.type_id, '8 money')
         return (
+          // 19 address
+          // console.log(condition.type_id, '19 address')
           <>
             <Card>{cardDetails.value}</Card>
           </>
@@ -340,14 +321,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             })}
           </>
         );
-      case 19:
-        // 19 address
-        // console.log(condition.type_id, '19 address')
-        return (
-          <>
-            <Card>{cardDetails?.value?.formatted_address}</Card>
-          </>
-        );
       case 11:
         // 11 rating
         let total = condition?.type_config?.count;
@@ -380,14 +353,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
               now={cardDetails?.value?.current}
               label={`${cardDetails?.value?.current}`}
             />
-          </>
-        );
-      case 17:
-        // 17 formula 
-        // console.log(condition.type_id, '17 formula')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
           </>
         );
       case 1:
@@ -424,14 +389,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 attachmentString = newString;
               }
             })}
-          </>
-        );
-      case 21:
-        // 21 voting
-        // console.log(condition.type_id, '21 voting')
-        return (
-          <>
-            <Card>{cardDetails.value}</Card>
           </>
         );
       case 22:
