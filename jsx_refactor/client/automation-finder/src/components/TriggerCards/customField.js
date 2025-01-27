@@ -499,22 +499,22 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             // console.log(cardDetails?.value);
             // will never have a value - only operators available 'are is set' 'is not set'
 
-            // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
-            // case 10:
-            //  10 people
-            //  console.log(trigger.type_id, '10 people')
-            //  handled in useEffect, and end values rendered with state var
-            // case 18:
-            //  18 list relationship
-            //  console.log(trigger.type_id, '18 list relationship')
-            //  handled in useEffect, and end values rendered with state var
-            // case 9:
-            //   9 task relationship
-            //   console.log(trigger.type_id, '9 task relationship')
-            //   handled in useEffect, and end values rendered with state var 
             default:
                 console.log('value case needed for', trigger?.type_id)
                 return (<></>);
+                // the below cases are handled in the jsx - by setting state vars - rendering them here causes re-render errors due to their complexity
+                // case 10:
+                //  10 people
+                //  console.log(trigger.type_id, '10 people')
+                //  handled in useEffect, and end values rendered with state var
+                // case 18:
+                //  18 list relationship
+                //  console.log(trigger.type_id, '18 list relationship')
+                //  handled in useEffect, and end values rendered with state var
+                // case 9:
+                //   9 task relationship
+                //   console.log(trigger.type_id, '9 task relationship')
+                //   handled in useEffect, and end values rendered with state var 
         };
 
     }
