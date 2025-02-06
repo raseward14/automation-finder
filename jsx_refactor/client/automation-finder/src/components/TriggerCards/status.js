@@ -6,7 +6,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import "./style.css";
 
 
-// status changes
+// status changes 8651cc40-e1e0-43a6-81f9-233398e11dc6
 const StatusCard = ({ triggerName, beforeAfter, parentType, parentId, shard }) => {
     const [statusBefore, setStatusBefore] = useState([]);
     const [beforeStatusObjects, setBeforeStatusObjects] = useState([]);
@@ -94,31 +94,32 @@ const StatusCard = ({ triggerName, beforeAfter, parentType, parentId, shard }) =
                         {triggerName}
                     </Card.Title>
 
-                    <Card className='from-to'><span className='status-label'>From: </span>
+                    <span className='status-label'>From: </span>
+                    <Card className='from-to'>
                         {beforeStatusObjects.length ? (
-                            <Card className='status status-trigger'>
+                            <span className='status status-trigger'>
                                 {beforeStatusObjects?.map((status, i) => (
                                     <div key={i} className='status-row'>
                                         <FontAwesomeIcon style={{ color: `${status?.color}` }} icon={icon({ name: 'square' })} />{status?.status}
                                     </div>
                                 ))}
-                            </Card>
+                            </span>
                         ) : (
-                            <span>Any Status</span>
+                            <span className='status status-trigger'>Any Status</span>
                         )}
-                    </Card>
-
-                    <Card className='from-to'><span className='status-label'>To: </span>
+                    </Card><div style={{ 'margin-top': '10px' }} />
+                    <span className='status-label'>To: </span>
+                    <Card className='from-to'>
                         {afterStatusObjects.length ? (
-                            <Card className='status status-trigger'>
+                            <span className='status status-trigger'>
                                 {afterStatusObjects?.map((status, i) => (
                                     <div key={i} className='status-row'>
                                         <FontAwesomeIcon style={{ color: `${status?.color}` }} icon={icon({ name: 'square' })} />{status?.status}
                                     </div>
                                 ))}
-                            </Card>
+                            </span>
                         ) : (
-                            <span>Any Status</span>
+                            <span className='status status-trigger'>Any Status</span>
                         )}
                     </Card>
 
