@@ -372,10 +372,9 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
 
             case 4:
             // 4 date
-            console.log(trigger.type_id, '4 date')
-            console.log(beforeValue, afterValue)
-            // if no value is selected, beforeValue/afterValue will be undefined
-            // either way, we need to convert timestamp to a date
+            // console.log(trigger.type_id, '4 date')
+            // if no value is selected, beforeValue/afterValue will be undefined, and reads as Select a date
+            // either way, we need to convert timestamp (1713520800000) to a date
             let formattedBefore;
             let formattedAfter;
             if (beforeValue) {
@@ -386,15 +385,6 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 let afterMilliseconds = new Date(JSON.parse(afterValue)); // converts to milliseconds
                 formattedBefore = afterMilliseconds.toDateString();
             }
-            // add a function to convert 1713520800000 to a date
-            // const myUnixTimestamp = fieldValue;
-            // const myDate = new Date(JSON.parse(myUnixTimestamp)); // converts to milliseconds
-            // console.log(myDate);
-            // return (
-            //     <>
-            //         <Card>{myDate.toDateString()}</Card>
-            //     </>
-            // );
             return (
                 <>
                     <span>
