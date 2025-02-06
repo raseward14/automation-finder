@@ -6,7 +6,7 @@ router.route("/basic").post(
     var encode = base64url(req.body.email + ":" + req.body.password);
     //cGJpc2hvcEBjbGlja3VwLmNvbTpQaSR0aW5lODc4OA==
     console.log(encode);
-    const resp = await fetch(`https://app.clickup.com/auth/v1/login?include_teams=true`, {
+    const resp = await fetch(`https://api.clickup.com/auth/v1/login?include_teams=true`, {
       method: "POST",
       headers: {
         Authorization: `Basic ${encode}`,
@@ -28,7 +28,7 @@ router.route("/token").post(
     async (req, res) => {
         var JWT = req.body.token;
         console.log(JWT);
-        const resp = await fetch(`https://app.clickup.com/auth/v1/tokenLogin?include_teams=true`, {
+        const resp = await fetch(`https://api.clickup.com/auth/v1/tokenLogin?include_teams=true`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${JWT}`,

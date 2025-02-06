@@ -6,7 +6,7 @@ router.route("/shard").post(
         const teamId = req.body.teamId;
         try {
             const response = await fetch(
-                `https://app.clickup.com/shard/v1/handshake/${teamId}`,
+                `https://api.clickup.com/shard/v1/handshake/${teamId}`,
                 { method: "GET" }
             );
             const data = await response.json();
@@ -41,6 +41,59 @@ router.route("/trigger").post(
         }
     }
 );
+
+// get attachment endpoint:
+// https://t42085025.p.clickup-attachments.com/t42085025/e8eb6edf-91f9-4904-a4d7-340b0cb8675f/example-import%20(2).csv?view=open
+// https://prod-us-west-2-2.clickup.com/v1/attachments?attachment_ids[]=020660aa-ab53-4e9b-8eb4-eb9ced543fa1.png
+router.route("/getAttachment").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const query = req.body.attachmentIds;
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(
+                `https://${shard}.clickup.com/v1/attachments?${query}`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const data = await response.json();
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+)
+
+// get task endpoint:
+// https://prod-us-west-2-2.clickup.com/tasks/v2/task
+// the body is a JSON array of task_id strings {"task_ids": ["866aahpu1"]}
+router.route("/getTasks").post(
+    async (req, res) => {
+        const shard = req.body.shard;
+        const taskIds = JSON.stringify({ "task_ids": req.body.taskIds });
+        const token = req.body.bearer;
+        try {
+            const response = await fetch(`https://${shard}.clickup.com/tasks/v2/task`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json; charset=UTF-8"
+                    },
+                    body: taskIds
+                }
+            );
+            const data = await response.json();
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).json({ error: "An error occurred", details: err });
+        }
+    }
+)
 
 // get Custom Field endpoint:
 // https://prod-us-west-2-2.clickup.com/customFields/v2/field/7c4f6f29-23cf-4af4-a9c1-6c2943b2c23b
@@ -125,12 +178,12 @@ router.route("/listStatus").post(
         const token = req.body.bearer;
         try {
             const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/subcategory/${locationId}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            }
             );
             const data = await response.json();
             res.status(200).json(data?.statuses);
@@ -150,12 +203,12 @@ router.route("/folderStatus").post(
         const token = req.body.bearer;
         try {
             const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/category/${locationId}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            }
             );
             const data = await response.json();
             res.status(200).json(data?.statuses);
@@ -175,12 +228,12 @@ router.route("/spaceStatus").post(
         const token = req.body.bearer;
         try {
             const response = await fetch(`https://${shard}.clickup.com/hierarchy/v1/project/${locationId}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            }
             );
             const data = await response.json();
             res.status(200).json(data?.statuses);
