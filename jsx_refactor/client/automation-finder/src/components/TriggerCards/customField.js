@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -371,76 +371,126 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 );
 
             case 4:
-            // 4 date
-            // console.log(trigger.type_id, '4 date')
-            // if no value is selected, beforeValue/afterValue will be undefined, and reads as Select a date
-            // either way, we need to convert timestamp (1713520800000) to a date
-            let formattedBefore;
-            let formattedAfter;
-            if (beforeValue) {
-                let beforeMilliseconds = new Date(JSON.parse(beforeValue)); // converts to milliseconds
-                formattedBefore = beforeMilliseconds.toDateString();
-            }
-            if (afterValue) {
-                let afterMilliseconds = new Date(JSON.parse(afterValue)); // converts to milliseconds
-                formattedBefore = afterMilliseconds.toDateString();
-            }
-            return (
-                <>
-                    <span>
-                        <b className="card-text">From</b>
-                    </span><div />
-                    {formattedBefore ? (
-                        <>
-                            <Card className="label-container-trigger">{formattedBefore}</Card>
-                        </>
-                    ) : (
-                        <>
-                            <Card className="label-container-trigger any">{'Select a date'}</Card>
-                        </>
-                    )}
-                    <span>
-                        <b className="card-text">To</b>
-                    </span><div />
-                    {formattedAfter ? (
-                        <>
-                            <Card className="label-container-trigger">{formattedAfter}</Card>
-                        </>
-                    ) : (
-                        <>
-                            <Card className="label-container-trigger any">{'Select a date'}</Card>
-                        </>
-                    )}
-                </>
-            );
+                // 4 date
+                // console.log(trigger.type_id, '4 date')
+                // if no value is selected, beforeValue/afterValue will be undefined, and reads as Select a date
+                // either way, we need to convert timestamp (1713520800000) to a date
+                let formattedBefore;
+                let formattedAfter;
+                if (beforeValue) {
+                    let beforeMilliseconds = new Date(JSON.parse(beforeValue)); // converts to milliseconds
+                    formattedBefore = beforeMilliseconds.toDateString();
+                }
+                if (afterValue) {
+                    let afterMilliseconds = new Date(JSON.parse(afterValue)); // converts to milliseconds
+                    formattedBefore = afterMilliseconds.toDateString();
+                }
+                return (
+                    <>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {formattedBefore ? (
+                            <>
+                                <Card className="label-container-trigger">{formattedBefore}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Select a date'}</Card>
+                            </>
+                        )}
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {formattedAfter ? (
+                            <>
+                                <Card className="label-container-trigger">{formattedAfter}</Card>
+                            </>
+                        ) : (
+                            <>
+                                <Card className="label-container-trigger any">{'Select a date'}</Card>
+                            </>
+                        )}
+                    </>
+                );
             case 12:
-            // 12 label
-            // console.log(trigger.type_id, '12 label')
-            // const labelValueArray = customField?.type_config?.options;
-            // let foundLabelArray = fieldValue.map((value) => {
-            //     let found = labelValueArray.find((label) => value === label.id);
-            //     return found;
-            // });
-            // return (
-            //     <>
-            //         {foundLabelArray.map((label, i) => {
-            //             const styles = {
-            //                 backgroundColor: label?.color ? `${label?.color}` : 'inherit',
-            //             };
-            //             const parentStyles = {
-            //                 border: label?.color ? '' : '1px solid #abaeb0',
-            //                 borderRadius: '5px',
-            //                 width: 'fit-content',
-            //                 margin: '4px 2px 4px 2px'
-            //             }
-            //             return (
-            //                 <div style={parentStyles}>
-            //                     <Card className='label' style={styles}>{label?.label}</Card>
-            //                 </div>
-            //             )
-            //         })}
-            //     </>
-            // );
+                // 12 label
+                // console.log(trigger.type_id, '12 label');
+                // beforeValue/afterValue is array of ids - undefined = Any option blank = the - option
+                const labelOptionArray = trigger?.type_config?.options;
+                console.log(foundAfterObject?.after);
+
+                const beforeLabelArray = [];
+                if (beforeValue) {
+                    if (beforeValue === 'blank') {
+                        beforeLabelArray.push({
+                            color: 'unset',
+                            label: '-'
+                        });
+                    };
+
+                    beforeValue.forEach((id) => {
+                        let foundLabel = labelOptionArray.find((label) => id === label.id);
+                        beforeLabelArray.push(foundLabel);
+                    });
+                } else {
+                    beforeLabelArray.push({
+                        color: 'unset',
+                        label: 'Any'
+                    });
+                };
+
+                const afterLabelArray = [];
+                if (afterValue || 'blank') {
+                    if (afterValue === 'blank') {
+                        afterLabelArray.push({
+                            color: 'unset',
+                            label: '-'
+                        });
+                    };
+
+                    afterValue.forEach((id) => {
+                        let foundLabel = labelOptionArray.find((label) => id === label.id);
+                        afterLabelArray.push(foundLabel);
+                    });
+                } else {
+                    afterLabelArray.push({
+                        color: 'unset',
+                        label: 'Any'
+                    });
+                };
+
+
+                console.log('before labels: ', beforeLabelArray);
+                console.log('after labels: ', afterLabelArray);
+
+                // console.log(trigger?.type_config?.options);
+                // const labelValueArray = customField?.type_config?.options;
+                // let foundLabelArray = fieldValue.map((value) => {
+                //     let found = labelValueArray.find((label) => value === label.id);
+                //     return found;
+                // });
+                // return (
+                //     <>
+                //         {foundLabelArray.map((label, i) => {
+                //             const styles = {
+                //                 backgroundColor: label?.color ? `${label?.color}` : 'inherit',
+                //             };
+                //             const parentStyles = {
+                //                 border: label?.color ? '' : '1px solid #abaeb0',
+                //                 borderRadius: '5px',
+                //                 width: 'fit-content',
+                //                 margin: '4px 2px 4px 2px'
+                //             }
+                //             return (
+                //                 <div style={parentStyles}>
+                //                     <Card className='label' style={styles}>{label?.label}</Card>
+                //                 </div>
+                //             )
+                //         })}
+                //     </>
+                // );
+                break;
             case 11:
                 // 11 rating
                 let total = trigger?.type_config?.count;
