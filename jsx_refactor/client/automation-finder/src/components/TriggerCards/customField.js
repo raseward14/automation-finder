@@ -441,7 +441,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 };
 
                 const afterLabelArray = [];
-                if (afterValue || 'blank') {
+                if (afterValue) {
                     if (afterValue === 'blank') {
                         afterLabelArray.push({
                             color: 'unset',
