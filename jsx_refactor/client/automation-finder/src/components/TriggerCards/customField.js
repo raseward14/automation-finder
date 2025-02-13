@@ -11,7 +11,7 @@ import "./style.css";
 
 // 8651cc40-e1e0-43a6-81f9-233398e11dc6 - all
 // 268ac10f-187c-4eab-9960-b7d012711457 - building
-// d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - single condition work
+// d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - single condition work - autotr
 
 // Custom Field changes
 const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
@@ -418,22 +418,23 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 // console.log(trigger.type_id, '12 label');
                 // beforeValue/afterValue is array of ids - undefined = Any option blank = the - option
                 const labelOptionArray = trigger?.type_config?.options;
-                console.log(foundAfterObject?.after);
 
                 const beforeLabelArray = [];
                 if (beforeValue) {
-                    if (beforeValue === 'blank') {
+                    if (beforeValue[0] === 'blank') {
+                        // blank option
                         beforeLabelArray.push({
                             color: 'unset',
                             label: '-'
                         });
+                    } else {
+                        beforeValue.forEach((id) => {
+                            let foundLabel = labelOptionArray.find((label) => id === label.id);
+                            beforeLabelArray.push(foundLabel);
+                        });
                     };
-
-                    beforeValue.forEach((id) => {
-                        let foundLabel = labelOptionArray.find((label) => id === label.id);
-                        beforeLabelArray.push(foundLabel);
-                    });
                 } else {
+                    // no before property on cardDetails?.trigger?.conditions - so its undefined
                     beforeLabelArray.push({
                         color: 'unset',
                         label: 'Any'
@@ -442,18 +443,20 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
 
                 const afterLabelArray = [];
                 if (afterValue) {
-                    if (afterValue === 'blank') {
+                    if (afterValue[0] === 'blank') {
+                        // blank option
                         afterLabelArray.push({
                             color: 'unset',
                             label: '-'
                         });
-                    };
-
-                    afterValue.forEach((id) => {
-                        let foundLabel = labelOptionArray.find((label) => id === label.id);
-                        afterLabelArray.push(foundLabel);
-                    });
+                    } else {
+                        afterValue.forEach((id) => {
+                            let foundLabel = labelOptionArray.find((label) => id === label.id);
+                            afterLabelArray.push(foundLabel);
+                        });
+                    }
                 } else {
+                    // no after property on cardDetails?.trigger?.conditions - so its undefined
                     afterLabelArray.push({
                         color: 'unset',
                         label: 'Any'
