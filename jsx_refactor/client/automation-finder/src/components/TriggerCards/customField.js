@@ -436,7 +436,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 } else {
                     // no before property on cardDetails?.trigger?.conditions - so its undefined
                     beforeLabelArray.push({
-                        color: 'unset',
+                        // color: 'unset',
                         label: 'Any'
                     });
                 };
@@ -446,7 +446,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                     if (afterValue[0] === 'blank') {
                         // blank option
                         afterLabelArray.push({
-                            color: 'unset',
+                            // color: null,
                             label: '-'
                         });
                     } else {
@@ -458,7 +458,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 } else {
                     // no after property on cardDetails?.trigger?.conditions - so its undefined
                     afterLabelArray.push({
-                        color: 'unset',
+                        color: null,
                         label: 'Any'
                     });
                 };
@@ -467,33 +467,55 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 console.log('before labels: ', beforeLabelArray);
                 console.log('after labels: ', afterLabelArray);
 
-                // console.log(trigger?.type_config?.options);
-                // const labelValueArray = customField?.type_config?.options;
-                // let foundLabelArray = fieldValue.map((value) => {
-                //     let found = labelValueArray.find((label) => value === label.id);
-                //     return found;
-                // });
-                // return (
-                //     <>
-                //         {foundLabelArray.map((label, i) => {
-                //             const styles = {
-                //                 backgroundColor: label?.color ? `${label?.color}` : 'inherit',
-                //             };
-                //             const parentStyles = {
-                //                 border: label?.color ? '' : '1px solid #abaeb0',
-                //                 borderRadius: '5px',
-                //                 width: 'fit-content',
-                //                 margin: '4px 2px 4px 2px'
-                //             }
-                //             return (
-                //                 <div style={parentStyles}>
-                //                     <Card className='label' style={styles}>{label?.label}</Card>
-                //                 </div>
-                //             )
-                //         })}
-                //     </>
-                // );
-                break;
+                return (
+                    <>
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        <Card className="label-container">
+                            {beforeLabelArray.map((label, i) => {
+                                const styles = {
+                                    backgroundColor: label?.color ? `${label?.color}` : 'inherit',
+                                };
+                                const parentStyles = {
+                                    border: label?.color ? '' : '1px solid #abaeb0',
+                                    borderRadius: '5px',
+                                    width: 'fit-content',
+                                    margin: '4px 2px 4px 2px'
+                                }
+                                return (
+                                    <div style={parentStyles}>
+                                        <Card className='label' style={styles}>{label?.label}</Card>
+                                    </div>
+                                )
+                            })}
+                        </Card>
+
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        <Card className="label-container">
+                            {afterLabelArray.map((label, i) => {
+                                const styles = {
+                                    backgroundColor: label?.color ? `${label?.color}` : 'inherit',
+                                };
+                                const parentStyles = {
+                                    border: label?.color ? '' : '1px solid #abaeb0',
+                                    borderRadius: '5px',
+                                    width: 'fit-content',
+                                    margin: '4px 2px 4px 2px'
+                                }
+                                return (
+                                    <div style={parentStyles}>
+                                        <Card className='label' style={styles}>{label?.label}</Card>
+                                    </div>
+                                )
+                            })}
+                        </Card>
+
+                    </>
+                );
+            // break;
             case 11:
                 // 11 rating
                 let total = trigger?.type_config?.count;
