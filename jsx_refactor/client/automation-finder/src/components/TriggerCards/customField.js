@@ -481,7 +481,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     border: label?.color ? '' : '1px solid #abaeb0',
                                     borderRadius: '5px',
                                     width: 'fit-content',
-                                    margin: '4px 2px 4px 2px'
+                                    fontSize: '10px',
+                                    margin: '2px'
                                 }
                                 return (
                                     <div style={parentStyles}>
@@ -503,7 +504,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                                     border: label?.color ? '' : '1px solid #abaeb0',
                                     borderRadius: '5px',
                                     width: 'fit-content',
-                                    margin: '4px 2px 4px 2px'
+                                    fontSize: '10px',
+                                    margin: '2px'
                                 }
                                 return (
                                     <div style={parentStyles}>

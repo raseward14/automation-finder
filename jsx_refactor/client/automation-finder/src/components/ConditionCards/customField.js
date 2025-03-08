@@ -297,10 +297,38 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         // 12 label
         // console.log(condition.type_id, '12 label')
         const labelValueArray = customField?.type_config?.options;
-        let foundLabelArray = fieldValue.map((value) => {
-          let found = labelValueArray.find((label) => value === label.id);
-          return found;
-        });
+        console.log(fieldValue);
+        let foundLabelArray =[];
+        // no value is undefined
+        // the no option ready 'blank'
+
+
+        // let foundLabelArray = fieldValue.map((value) => {
+        //   let found = labelValueArray.find((label) => value === label.id);
+        //   return found;
+        // });
+
+        if (fieldValue) {
+          if (fieldValue[0] === 'blank') {
+            // blank option
+            foundLabelArray.push({
+              color: 'unset',
+              label: '-'
+            })
+          } else {
+            fieldValue.forEach((id) => {
+              let foundLabel = labelValueArray.find((label) => id === label.id);
+              foundLabelArray.push(foundLabel)
+            });
+          };
+        } else {
+          foundLabelArray.push({
+            // color: unset
+            label: 'Any'
+          })
+        }
+
+        console.log('condition labels: ', labelValueArray)
         return (
           <>
             {foundLabelArray.map((label, i) => {
@@ -311,7 +339,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 border: label?.color ? '' : '1px solid #abaeb0',
                 borderRadius: '5px',
                 width: 'fit-content',
-                margin: '4px 2px 4px 2px'
+                fontSize: '10px',
+                margin: '2px'
               }
               return (
                 <div style={parentStyles}>
