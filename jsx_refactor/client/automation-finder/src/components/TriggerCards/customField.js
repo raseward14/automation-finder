@@ -464,8 +464,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 };
 
 
-                console.log('before labels: ', beforeLabelArray);
-                console.log('after labels: ', afterLabelArray);
+                // console.log('before labels: ', beforeLabelArray);
+                // console.log('after labels: ', afterLabelArray);
 
                 return (
                     <>
@@ -520,22 +520,65 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             // break;
             case 11:
                 // 11 rating
+                // console.log(trigger.type_id, '11 rating')
                 let total = trigger?.type_config?.count;
-                let value = cardDetails.value;
-                let remaining = total - value;
+                let beforeRemaining;
+                let afterRemaining;
+                // console.log(customField?.type_config?.code_point)
                 const hexCodePoint = customField?.type_config?.code_point;
                 const emjoiFromHexCodePoint = String.fromCodePoint(parseInt(hexCodePoint, 16));
-                // console.log(cardDetails.value)
-                // console.log(customField?.type_config?.code_point)
-                // console.log(trigger.type_id, '11 rating')
+
+                console.log('before value', beforeValue, total);
+                console.log('after value', afterValue, total);
+
+                if (beforeValue) {
+                    beforeRemaining = total - beforeValue;
+                } else {
+                    // no before selection - undefined - reads Any with 5 grey emojis
+                };
+
+                if (afterValue) {
+                    afterRemaining = total - afterValue;
+                } else {
+                    // no after selection - undefined - reads Any with 5 grey emojis
+                };
+
                 return (
                     <>
-                        {
+                        <span>
+                            <b className="card-text">From</b>
+                        </span><div />
+                        {beforeValue ? (
+                            <div>
+                                <span>{emjoiFromHexCodePoint.repeat(beforeValue)}</span>
+                                <span style={{ opacity: "0.35" }}>{emjoiFromHexCodePoint.repeat(beforeRemaining)}</span>
+                            </div>
+                        ) : (
+                            <>
+                                <span style={{ opacity: "0.35" }}>{'Any '}{emjoiFromHexCodePoint.repeat(total)}</span>
+                            </>
+                        )}
+
+                        <span>
+                            <b className="card-text">To</b>
+                        </span><div />
+                        {afterValue ? (
+                            <div>
+                                <span>{emjoiFromHexCodePoint.repeat(afterValue)}</span>
+                                <span style={{ opacity: "0.35" }}>{emjoiFromHexCodePoint.repeat(afterRemaining)}</span>
+                            </div>
+                        ) : (
+                            <>
+                                <span style={{ opacity: "0.35" }}>{'Any '}{emjoiFromHexCodePoint.repeat(total)}</span>
+                            </>
+                        )}
+
+                        {/* {
                             <>
                                 <span>{emjoiFromHexCodePoint.repeat(value)}</span>
                                 <span style={{ opacity: "0.35" }}>{emjoiFromHexCodePoint.repeat(remaining)}</span>
                             </>
-                        }
+                        } */}
 
                     </>
                 );

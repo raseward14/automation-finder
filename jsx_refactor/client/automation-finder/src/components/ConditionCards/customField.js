@@ -297,17 +297,8 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         // 12 label
         // console.log(condition.type_id, '12 label')
         const labelValueArray = customField?.type_config?.options;
-        console.log(fieldValue);
+
         let foundLabelArray =[];
-        // no value is undefined
-        // the no option ready 'blank'
-
-
-        // let foundLabelArray = fieldValue.map((value) => {
-        //   let found = labelValueArray.find((label) => value === label.id);
-        //   return found;
-        // });
-
         if (fieldValue) {
           if (fieldValue[0] === 'blank') {
             // blank option
@@ -322,6 +313,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
             });
           };
         } else {
+          // no value - undefined
           foundLabelArray.push({
             // color: unset
             label: 'Any'
