@@ -734,8 +734,10 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 <Card className="value label-container">{cardDetails.op}</Card>
               )}
 
-              {(['is set', 'is not set'].includes(cardDetails.op)) ? (
+              {(['is set', 'is not set'].includes(cardDetails.op) || (([5, 15, 22].includes(customField.type_id)))) ? (
                 // if the operator is 'is set' or 'is not set' no value needed
+                // 5, 15 TA or Text field - operators are is set, is not set - no value ever
+                // 22 available operators are is set, is not set - never has a value
                 <></>
               ) : (
                 // otherwise, render the value
@@ -964,13 +966,6 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                       <Card style={{ backgroundColor: "unset" }}>{`This action will regenerate the text for the AI Custom Field.`}</Card>
                     </div>
                     // <Card style={{ marginTop: "0.5rem", backgroundColor: "rgb(48, 53, 60)" }} className='label-container'>{`This action will regenerate the text for the AI Custom Field.`}</Card>
-                  ) : (([5, 15].includes(customField.type_id) && ['is set', 'is not set'].includes(cardDetails.op))) ? (
-                    // TA or Text field - operators are is set, is not set - no value
-                    // also no value if its an AI field meaning that customField.type_id.ai.source is not null
-                    <></>
-                  ) : (customField?.type_id === 22) ? (
-                    // available operators are is set, is not set - never has a value
-                    <></>
                   ) : (customField.type_id === 18) ? (
                     <>
                       {/* <span>
