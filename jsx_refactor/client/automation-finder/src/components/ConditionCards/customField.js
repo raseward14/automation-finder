@@ -734,7 +734,7 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
                 <Card className="value label-container">{cardDetails.op}</Card>
               )}
 
-              {(['is set', 'is not set'].includes(cardDetails.op) || (([5, 15, 22].includes(customField.type_id)))) ? (
+              {(['is set', 'is not set'].includes(cardDetails.op) || (([22].includes(customField.type_id)))) ? (
                 // if the operator is 'is set' or 'is not set' no value needed
                 // 5, 15 TA or Text field - operators are is set, is not set - no value ever
                 // 22 available operators are is set, is not set - never has a value
