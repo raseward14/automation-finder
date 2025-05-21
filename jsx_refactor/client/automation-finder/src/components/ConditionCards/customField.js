@@ -380,14 +380,24 @@ const CustomFieldCard = ({ cardDetails, key, shard, teamId }) => {
         // 1 dropdown
         // console.log(condition.type_id, '1 dropdown')
         let valueArray = customField?.type_config?.options;
-        let result = valueArray?.find((item) => item.id === fieldValue);
+        let result = valueArray?.find((item) => item.id === fieldValue[0]);
         let valueName = result?.name
         let valueColor = result?.color
-        return (
-          <>
-            <Card className='value' style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueName}</Card>
-          </>
-        );
+        if (fieldValue.length > 1) {
+          console.log('multiple values')
+          return (
+            <>
+              <Card  style={{ backgroundColor: 'inherit' }}>{'Multiple values'}</Card>
+            </>
+          );
+        } else {
+          console.log('single value')
+          return (
+            <>
+              <Card  style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit', padding: '0px 5px 0px 5px' }}>{valueName}</Card>
+            </>
+          );
+        }
       case 16:
         // 16 files
         // console.log(condition.type_id, '16 files')
