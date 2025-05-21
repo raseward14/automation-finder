@@ -547,7 +547,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                     <>
                         <span>
                             <b className="card-text">From</b>
-                        </span><div />
+                        </span>
                         {beforeValue ? (
                             <div>
                                 <span>{emjoiFromHexCodePoint.repeat(beforeValue)}</span>
@@ -561,7 +561,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
 
                         <span>
                             <b className="card-text">To</b>
-                        </span><div />
+                        </span>
                         {afterValue ? (
                             <div>
                                 <span>{emjoiFromHexCodePoint.repeat(afterValue)}</span>
@@ -611,15 +611,89 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
             case 1:
             // 1 dropdown
             // console.log(trigger.type_id, '1 dropdown')
-            // let valueArray = customField?.type_config?.options;
-            // let result = valueArray?.find((item) => item.id === fieldValue);
-            // let valueName = result?.name
-            // let valueColor = result?.color
-            // return (
-            //     <>
-            //         <Card className='value' style={{ backgroundColor: valueColor ? `${valueColor}` : 'inherit' }}>{valueName}</Card>
-            //     </>
-            // );
+            let valueArray = customField?.type_config?.options;
+
+            // beforeValue/afterValue is array of ids - undefined = Any option blank = the - option
+            let beforeDropdown;
+            if (beforeValue) {
+                if (beforeValue[0] === 'blank' && beforeValue.length === 1) {
+                    beforeDropdown = {
+                        color: 'unset',
+                        label: '-'
+                    };
+                } else if (beforeValue.length > 1) {
+                    // multiple values
+                    beforeDropdown = {
+                        color: 'unset',
+                        label: 'Multiple values'
+                    };
+                } else {
+                    let result = valueArray?.find((item) => item.id === beforeValue[0]);
+                    let valueName = result?.name
+                    let valueColor = result?.color
+                    // single value
+                    beforeDropdown = {
+                        color: valueColor,
+                        label: valueName
+                    };
+                }
+            } else {
+                // no before property on cardDetails?.trigger?.conditions - so its undefined = Any
+                beforeDropdown = {
+                    color: 'unset',
+                    label: 'Any'
+                };
+            }
+
+            let afterDropdown;
+            if (afterValue) {
+                if (afterValue[0] === 'blank' && afterValue.length === 1) {
+                    afterDropdown = {
+                        color: 'unset',
+                        label: '-'
+                    };
+                } else if (afterValue.length > 1) {
+                    // could be multiple values
+                    afterDropdown = {
+                        color: 'unset',
+                        label: 'Multiple values'
+                    };
+                } else {
+                    let result = valueArray?.find((item) => item.id === afterValue[0]);
+                    let valueName = result?.name
+                    let valueColor = result?.color
+                    // single value
+                    afterDropdown = {
+                        color: valueColor,
+                        label: valueName
+                    };
+                };
+            } else {
+                // no after property on cardDetails?.trigger?.conditions - so its undefined = Any
+                afterDropdown = {
+                    color: 'unset',
+                    label: 'Any'
+                };
+            };
+            
+            return (
+                <>
+                    <span>
+                        <b className="card-text">From</b>
+                    </span>
+                    <>                    
+                    <Card className='value' style={{ backgroundColor: beforeDropdown?.color ? `${beforeDropdown?.color}` : 'inherit' }}>{beforeDropdown?.label}</Card>
+                    </>
+
+                    <span>
+                        <b className="card-text">To</b>
+                    </span>
+                    <Card className='value' style={{ backgroundColor: afterDropdown?.color ? `${afterDropdown?.color}` : 'inherit' }}>{afterDropdown?.label}</Card>
+
+                </>
+            );
+
+            
             case 16:
             // 16 files
             // console.log(trigger.type_id, '16 files')
