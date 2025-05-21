@@ -32,7 +32,7 @@
 .label-container {
     display: flex;
     flex-direction: row;
-    margin: auto;
+    /* margin: auto; */
     padding: 4px 0px 4px 8px;
 
     background-color: unset;
