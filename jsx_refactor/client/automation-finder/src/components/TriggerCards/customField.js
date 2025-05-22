@@ -681,9 +681,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                     <span>
                         <b className="card-text">From</b>
                     </span>
-                    <>                    
                     <Card className='value' style={{ backgroundColor: beforeDropdown?.color ? `${beforeDropdown?.color}` : 'inherit' }}>{beforeDropdown?.label}</Card>
-                    </>
 
                     <span>
                         <b className="card-text">To</b>

@@ -13,14 +13,13 @@ export default function Home({ socket }) {
     const GetToken = async () => {
         socket.emit("message", {message: "Trying to login with bypass..."});
         var loginURLTrimmed = loginURL.replace('&ngsw-bypass=1', '');
-        var extractedToken = loginURLTrimmed.replace('https://app.clickup.com/?login_token=', '');
+        var extractedToken = loginURLTrimmed.replace('https://app.clickup.com?login_token=', '');
         await axios
         .post(`http://localhost:8080/auth/token`, {
           token: extractedToken
         })
         .then((resp) => {
           setJWT(resp.data.token);
-
         })
         .catch((error) => {
           console.log(error);
