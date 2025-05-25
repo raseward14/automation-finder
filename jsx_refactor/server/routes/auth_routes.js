@@ -28,7 +28,7 @@ router.route("/token").post(
     async (req, res) => {
         var JWT = req.body.token;
         console.log(JWT);
-        const resp = await fetch(`https://api.clickup.com/auth/v1/tokenLogin?include_teams=true`, {
+        const resp = await fetch(`https://id.app.clickup.com/auth/v1/tokenLogin?include_teams=true`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${JWT}`,
