@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -475,6 +476,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                             {beforeLabelArray.map((label, i) => {
                                 const styles = {
                                     backgroundColor: label?.color ? `${label?.color}` : 'inherit',
+                                    minWidth: '40px'
                                 };
                                 const parentStyles = {
                                     border: label?.color ? '' : '1px solid #abaeb0',
@@ -498,6 +500,8 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                             {afterLabelArray.map((label, i) => {
                                 const styles = {
                                     backgroundColor: label?.color ? `${label?.color}` : 'inherit',
+                                    minWidth: '40px',
+                                    alignSelf: 'left'
                                 };
                                 const parentStyles = {
                                     border: label?.color ? '' : '1px solid #abaeb0',
