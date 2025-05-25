@@ -10,7 +10,6 @@ import Card from 'react-bootstrap/Card';
 import "./style.css";
 
 // 8651cc40-e1e0-43a6-81f9-233398e11dc6 - all
-// 268ac10f-187c-4eab-9960-b7d012711457 - building
 // d4cdc1cd-6fba-49d6-89f9-d79abfbab812 - single condition work - autotr
 
 // Custom Field changes
@@ -383,7 +382,7 @@ const CustomFieldCard = ({ triggerName, cardDetails, shard, teamId }) => {
                 }
                 if (afterValue) {
                     let afterMilliseconds = new Date(JSON.parse(afterValue)); // converts to milliseconds
-                    formattedBefore = afterMilliseconds.toDateString();
+                    formattedAfter = afterMilliseconds.toDateString();
                 }
                 return (
                     <>
